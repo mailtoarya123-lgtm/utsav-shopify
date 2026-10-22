@@ -1,6 +1,5 @@
-import { shopifyApp } from "@shopify/shopify-app-remix/server";
+import { shopifyApp, AppDistribution } from "@shopify/shopify-app-remix/server";
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
-import { AppDistribution } from "@shopify/shopify-api";
 import prisma from "./db.server.js";
 
 const shopify = shopifyApp({
