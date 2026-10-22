@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+model Session {
+  id          String    @id
+  shop        String
+  state       String
+  isOnline    Boolean   @default(false)
+  scope       String?
+  expires     DateTime?
+  accessToken String
+  userId      BigInt?
+  firstName   String?
+  lastName    String?
+  email       String?
+  accountOwner Boolean  @default(false)
+  locale      String?
+  collaborator Boolean? @default(false)
+  emailVerified Boolean? @default(false)
+}
+
+model FestivalConfig {
+  id            String   @id @default(cuid())
+  shop          String
+  festivalId    String
+  isActive      Boolean  @default(false)
+  scheduledStart DateTime?
+  scheduledEnd  DateTime?
+  autoRecurring Boolean  @default(false)
+  customColors  String?  // JSON string of custom color overrides
+  enableBanner  Boolean  @default(true)
+  enableEffects Boolean  @default(true)
+  enableCountdown Boolean @default(true)
+  enableColorSwap Boolean @default(true)
+  enableAudio   Boolean  @default(true)
+  enableWheel   Boolean  @default(true)
+  language      String   @default("en")
+  diyaSize      String   @default("medium")       // small | medium | large
+  diyaPosition  String   @default("bottom_corners") // bottom_corners | bottom_left | bottom_right | top_corners
+  fireworksFrequency String @default("subtle")    // off | subtle | moderate | celebratory
+  kiteCount     Int      @default(2)              // 1 | 2 | 4
+  kiteSpeed     String   @default("gentle")       // gentle | moderate
+  moonPosition  String   @default("top_right")    // top_right | top_left
+  bannerText    String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([shop, festivalId])
+}
+
+model SubscriptionPlan {
+  id        String   @id @default(cuid())
+  shop      String   @unique
+  plan      String   @default("free") // "free" | "premium"
+  chargeId  String?
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

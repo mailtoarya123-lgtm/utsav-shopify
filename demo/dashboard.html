@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopify Admin — Utsav (उत्सव) Merchant Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --p-surface: #ffffff;
+      --p-surface-secondary: #f7f7f8;
+      --p-surface-tertiary: #f1f2f4;
+      --p-surface-hover: #ebeef1;
+      --p-border: #e1e3e5;
+      --p-border-subdued: #ebeef0;
+      --p-text: #202223;
+      --p-text-secondary: #6d7175;
+      --p-primary: #008060;
+      --p-primary-hover: #006e52;
+      --p-interactive: #2c6ecb;
+      --p-banner-info-bg: #ebf5fa;
+      --p-banner-info-border: #b4e1fa;
+      --p-banner-info-text: #005bd3;
+      --p-accent-gold: #b98900;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-ui: 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--p-surface-secondary);
+      color: var(--p-text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ─── Shopify Admin Left Sidebar ─── */
+    .shopify-sidebar {
+      width: 240px;
+      background: #ebebeb;
+      border-right: 1px solid #dcdcdc;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .store-header {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .store-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #202223;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .store-info {
+      overflow: hidden;
+    }
+
+    .store-name {
+      font-weight: 600;
+      font-size: 13px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .store-domain {
+      font-size: 11px;
+      color: #6d7175;
+    }
+
+    .nav-list {
+      list-style: none;
+      padding: 8px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      padding: 7px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #4a4d50;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 2px;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .nav-item:hover {
+      background: rgba(0,0,0,0.05);
+      color: #202223;
+    }
+
+    .nav-item.active {
+      background: #ffffff;
+      color: #202223;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .nav-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.08);
+      margin: 8px 0;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #8c9196;
+      padding: 6px 10px 4px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Main Admin Workspace ─── */
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #f1f2f4;
+    }
+
+    .admin-topbar {
+      height: 52px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--p-border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .search-mock {
+      background: #f1f2f4;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 6px 14px;
+      width: 380px;
+      font-size: 13px;
+      color: #6d7175;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-preview-store {
+      background: #202223;
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-preview-store:hover {
+      background: #303336;
+    }
+
+    /* ─── Embedded App Canvas ─── */
+    .app-workspace {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px 64px;
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .app-title-group h1 {
+      font-family: var(--font-ui);
+      font-size: 22px;
+      font-weight: 700;
+      color: #202223;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .app-title-group p {
+      color: #6d7175;
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .tabs-nav {
+      display: flex;
+      gap: 4px;
+      border-bottom: 1px solid var(--p-border);
+      margin-bottom: 24px;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6d7175;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover {
+      color: #202223;
+    }
+
+    .tab-btn.active {
+      color: #202223;
+      border-bottom-color: #202223;
+    }
+
+    /* ─── Polaris Cards & Layout ─── */
+    .polaris-card {
+      background: #ffffff;
+      border: 1px solid var(--p-border);
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #202223;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .polaris-banner {
+      background: #ebf5fa;
+      border: 1px solid #b4e1fa;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .banner-text h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #005bd3;
+      margin-bottom: 2px;
+    }
+
+    .banner-text p {
+      font-size: 13px;
+      color: #2c6ecb;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      background: #ffffff;
+      border: 1px solid var(--p-border);
+      border-radius: 10px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .stat-emoji {
+      font-size: 28px;
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: #f7f7f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: #202223;
+    }
+
+    .stat-lbl {
+      font-size: 12px;
+      color: #6d7175;
+    }
+
+    /* ─── Form Controls ─── */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #202223;
+      margin-bottom: 6px;
+    }
+
+    .form-help {
+      font-size: 12px;
+      color: #6d7175;
+      margin-top: 4px;
+    }
+
+    .form-select, .form-input, .form-textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #c9cccf;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      background: #ffffff;
+      color: #202223;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .form-select:focus, .form-input:focus, .form-textarea:focus {
+      border-color: #008060;
+      box-shadow: 0 0 0 1px #008060;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .btn-save {
+      background: #008060;
+      color: #ffffff;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-save:hover {
+      background: #006e52;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      background: #cbf4c9;
+      color: #0e6251;
+    }
+
+    .toast-alert {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #202223;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      font-size: 13px;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── 1. Left Shopify Admin Navigation ─── -->
+  <aside class="shopify-sidebar">
+    <div class="store-header">
+      <div class="store-avatar">RC</div>
+      <div class="store-info">
+        <div class="store-name">Rajesh Crafts India</div>
+        <div class="store-domain">rajesh-crafts.myshopify.com</div>
+      </div>
+    </div>
+
+    <ul class="nav-list">
+      <li class="nav-item">🏠 Home</li>
+      <li class="nav-item">📦 Orders</li>
+      <li class="nav-item">🏷️ Products</li>
+      <li class="nav-item">👥 Customers</li>
+      <li class="nav-item">📊 Analytics</li>
+      <li class="nav-item">📢 Marketing</li>
+      <li class="nav-item">🎨 Online Store</li>
+
+      <div class="nav-divider"></div>
+      <div class="nav-section-title">Installed Apps</div>
+      <li class="nav-item active">🪔 Utsav (उत्सव)</li>
+      <li class="nav-item">🚚 Shiprocket</li>
+      <li class="nav-item">💬 WhatsApp Chat</li>
+      <li class="nav-item">⚙️ Settings</li>
+    </ul>
+  </aside>
+
+  <!-- ─── 2. Main Admin Workspace ─── -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="search-mock">
+        <span>🔍</span>
+        <span>Search apps, products, or orders (Ctrl + K)</span>
+      </div>
+
+      <div class="topbar-right">
+        <span style="font-size: 13px; color: #6d7175;">Partner Dev Mode</span>
+        <a href="preview.html" target="_blank" class="btn-preview-store">
+          🌐 View Storefront Demo ↗
+        </a>
+      </div>
+    </header>
+
+    <!-- Embedded App View (Utsav) -->
+    <div class="app-workspace">
+      <div class="app-header">
+        <div class="app-title-group">
+          <h1>🪔 Utsav — Indian Festival Themes <span class="badge-pill">Theme Active</span></h1>
+          <p>Curate authentic festive aesthetics for your Indian storefront with editorial restraint.</p>
+        </div>
+        <button class="btn-save" onclick="saveSettings()">Save & Update Storefront</button>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('customizer', this)">🎨 Cultural Customizer</button>
+        <button class="tab-btn" onclick="switchTab('overview', this)">📊 Festival Overview</button>
+        <button class="tab-btn" onclick="switchTab('schedule', this)">📅 Auto-Scheduler</button>
+        <button class="tab-btn" onclick="switchTab('billing', this)">💳 Plan & Billing</button>
+      </nav>
+
+      <!-- TAB 1: CULTURAL CUSTOMIZER -->
+      <div id="tabCustomizer">
+        <div class="grid-2">
+          <!-- Left Column: Settings -->
+          <div>
+            <!-- Active Festival Selection -->
+            <div class="polaris-card">
+              <div class="card-title">
+                <span>Select Festival to Customize</span>
+                <span style="font-size: 12px; color: #6d7175;">20+ Indian Festivals</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Active Festival</label>
+                <select id="activeFestivalSelect" class="form-select" onchange="changeFestival(this.value)">
+                  <option value="diwali" selected>🪔 Diwali (Deepavali) — Festival of Lights</option>
+                  <option value="sankranti">🪁 Makar Sankranti & Pongal — Harvest Festival</option>
+                  <option value="eid">🌙 Eid ul-Fitr — Celestial Moon & Joy</option>
+                  <option value="holi">🎨 Holi — Festival of Colors</option>
+                  <option value="navratri">🌺 Navratri & Dussehra — 9 Divine Nights</option>
+                  <option value="onam">🌼 Onam — Grand Harvest of Kerala</option>
+                  <option value="independence">🇮🇳 Independence Day — Swatantrata Diwas</option>
+                </select>
+                <div class="form-help">Selecting a festival updates the available cultural visual controls below.</div>
+              </div>
+            </div>
+
+            <!-- DIWALI CUSTOMIZER CARD -->
+            <div id="diwaliSettingsCard" class="polaris-card">
+              <div class="card-title">
+                <span>🪔 Diwali Stationary Diyas & Fireworks Settings</span>
+                <span class="badge-pill">Conversion-First</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Diya Dimensions</label>
+                  <select id="cfgDiyaSize" class="form-select">
+                    <option value="small">Small (60px — Subtle)</option>
+                    <option value="medium" selected>Medium (85px — Standard)</option>
+                    <option value="large">Large (110px — Prominent)</option>
+                  </select>
+                  <div class="form-help">Stationary brass diyas with realistic flame flicker.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Diya Placement</label>
+                  <select id="cfgDiyaPos" class="form-select">
+                    <option value="bottom_corners" selected>Both Bottom Corners (Classic)</option>
+                    <option value="bottom_left">Bottom-Left Only</option>
+                    <option value="bottom_right">Bottom-Right Only</option>
+                    <option value="top_corners">Top Corners (Under Header)</option>
+                  </select>
+                  <div class="form-help">Where the diyas remain peacefully lit on your store.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Subtle Aerial Willow Fireworks</label>
+                <select id="cfgFireworks" class="form-select">
+                  <option value="subtle" selected>Subtle Willow (1 burst every 7.5s — Recommended)</option>
+                  <option value="moderate">Moderate (Burst every 4.2s)</option>
+                  <option value="celebratory">Celebratory (Burst every 2.2s)</option>
+                  <option value="off">Off (Quiet Candlelight Only)</option>
+                </select>
+                <div class="form-help">Confined strictly to upper 40% margins; never blocks product cards or buy buttons.</div>
+              </div>
+            </div>
+
+            <!-- SANKRANTI CUSTOMIZER CARD -->
+            <div id="sankrantiSettingsCard" class="polaris-card" style="display: none;">
+              <div class="card-title">
+                <span>🪁 Makar Sankranti / Pongal Soaring Kites Settings</span>
+                <span class="badge-pill" style="background:#fef3c7; color:#92400e;">Harvest Sky</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Kites in Flight</label>
+                  <select id="cfgKiteCount" class="form-select">
+                    <option value="1">1 Kite (Minimalist & Clean)</option>
+                    <option value="2" selected>2 Kites (Balanced Sky)</option>
+                    <option value="4">4 Kites (Festive Celebration)</option>
+                  </select>
+                  <div class="form-help">Traditional fighter kites (Patang) with authentic bow spine & string.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Wind Flight Pace</label>
+                  <select id="cfgKiteSpeed" class="form-select">
+                    <option value="gentle" selected>Gentle Breeze (Slow & Peaceful)</option>
+                    <option value="moderate">Active Breeze (Moderate Traversal)</option>
+                  </select>
+                  <div class="form-help">Controls sway physics across the upper sky.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- EID CUSTOMIZER CARD -->
+            <div id="eidSettingsCard" class="polaris-card" style="display: none;">
+              <div class="card-title">
+                <span>🌙 Eid Celestial Crescent Moon Settings</span>
+                <span class="badge-pill" style="background:#dcfce7; color:#166534;">Hilal Night</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Crescent Moon Position</label>
+                <select id="cfgMoonPos" class="form-select">
+                  <option value="top_right" selected>Top-Right Corner (Traditional)</option>
+                  <option value="top_left">Top-Left Corner</option>
+                </select>
+                <div class="form-help">Luminous golden Hilal with solitary star and soft emerald ambient glow.</div>
+              </div>
+            </div>
+
+            <!-- ANNOUNCEMENT BANNER & REGIONAL LANGUAGES -->
+            <div class="polaris-card">
+              <div class="card-title">
+                <span>🎌 Announcement Message & Regional Language</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Language Greeting</label>
+                  <select id="cfgLanguage" class="form-select" onchange="autoTranslate(this.value)">
+                    <option value="en" selected>🌐 English</option>
+                    <option value="hi">🇮🇳 हिन्दी (Hindi)</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                    <option value="te">తెలుగు (Telugu)</option>
+                    <option value="bn">বাংলা (Bengali)</option>
+                    <option value="mr">मराठी (Marathi)</option>
+                    <option value="gu">ગુજરાતી (Gujarati)</option>
+                  </select>
+                  <div class="form-help">Auto-populates authentic regional festive greetings.</div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Discount Coupon Code</label>
+                  <input type="text" id="cfgCoupon" class="form-input" value="DIWALI25" />
+                  <div class="form-help">Displayed in one-click copy pill in announcement bar.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Banner Copy</label>
+                <textarea id="cfgBannerText" rows="2" class="form-textarea">🪔 Shubh Deepavali! Illuminate your home with our Festive Collection • Flat 25% Off</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Quick Status & Theme Embed Check -->
+          <div>
+            <div class="polaris-card">
+              <div class="card-title">
+                <span>Storefront Integration</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                <span style="color: #008060; font-size: 18px;">●</span>
+                <span style="font-weight: 600; font-size: 13px;">App Embed Block Enabled</span>
+              </div>
+              <p style="font-size: 12px; color: #6d7175; line-height: 1.5; margin-bottom: 16px;">
+                The Utsav App Block is active on your <strong>Dawn (Live)</strong> theme via Shopify Online Store 2.0.
+              </p>
+              <a href="preview.html" target="_blank" style="display: block; text-align: center; background: #f1f2f4; border: 1px solid #dcdcdc; padding: 8px; border-radius: 6px; font-weight: 600; font-size: 12px; color: #202223; text-decoration: none;">
+                Open Storefront Preview
+              </a>
+            </div>
+
+            <div class="polaris-card">
+              <div class="card-title">
+                <span>Festival Schedule</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Auto-Activate Date</label>
+                <input type="date" class="form-input" value="2026-11-01" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Auto-Deactivate Date</label>
+                <input type="date" class="form-input" value="2026-11-06" />
+                <div class="form-help">Automatically reverts store theme to normal after celebrations.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: OVERVIEW STATS -->
+      <div id="tabOverview" style="display: none;">
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-emoji">🪔</div>
+            <div>
+              <div class="stat-num">Diwali</div>
+              <div class="stat-lbl">Active Store Theme</div>
+            </div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-emoji">⏳</div>
+            <div>
+              <div class="stat-num">4 Days Left</div>
+              <div class="stat-lbl">Until Festival Ends</div>
+            </div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-emoji">📈</div>
+            <div>
+              <div class="stat-num">+18.4%</div>
+              <div class="stat-lbl">Festive Conversion Lift</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="polaris-card">
+          <div class="card-title">
+            <span>Upcoming Indian Festivals (Next 45 Days)</span>
+          </div>
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            <thead>
+              <tr style="border-bottom: 1px solid #e1e3e5; text-align: left; color: #6d7175;">
+                <th style="padding: 10px 0;">Festival</th>
+                <th>Region</th>
+                <th>Days Until</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid #f1f2f4;">
+                <td style="padding: 12px 0; font-weight: 600;">🪔 Diwali (Deepavali)</td>
+                <td>Pan-India</td>
+                <td><span class="badge-pill">Active Now</span></td>
+                <td><button class="btn-save" style="padding: 4px 10px; font-size: 12px;" onclick="switchTab('customizer', document.querySelectorAll('.tab-btn')[0])">Customize</button></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f2f4;">
+                <td style="padding: 12px 0; font-weight: 600;">🪁 Makar Sankranti / Pongal</td>
+                <td>North & South India</td>
+                <td>82 days</td>
+                <td><button style="background: none; border: 1px solid #dcdcdc; padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer;" onclick="changeFestival('sankranti'); switchTab('customizer', document.querySelectorAll('.tab-btn')[0]);">Schedule</button></td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f1f2f4;">
+                <td style="padding: 12px 0; font-weight: 600;">🌙 Eid ul-Fitr</td>
+                <td>Pan-India</td>
+                <td>145 days</td>
+                <td><button style="background: none; border: 1px solid #dcdcdc; padding: 4px 10px; border-radius: 6px; font-size: 12px; cursor: pointer;" onclick="changeFestival('eid'); switchTab('customizer', document.querySelectorAll('.tab-btn')[0]);">Schedule</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB 3: SCHEDULE -->
+      <div id="tabSchedule" style="display: none;">
+        <div class="polaris-card">
+          <div class="card-title">
+            <span>📅 Automated Indian Festive Calendar</span>
+          </div>
+          <p style="color: #6d7175; font-size: 13px; margin-bottom: 20px;">
+            Set your store to automatically activate authentic visuals when the auspicious festival begins, and gracefully restore your default brand theme when celebrations finish.
+          </p>
+          <div style="background: #f7f7f8; border: 1px dashed #dcdcdc; border-radius: 8px; padding: 24px; text-align: center; color: #6d7175;">
+            🗓️ Auto-Activation Calendar Active: Next automated trigger set for <strong>Diwali Eve (Nov 1, 2026)</strong>.
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: BILLING -->
+      <div id="tabBilling" style="display: none;">
+        <div class="polaris-card">
+          <div class="card-title">
+            <span>💳 Subscription Plan</span>
+            <span class="badge-pill">Active Plan</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <h3 style="font-size: 16px; font-weight: 700; color: #202223;">Festive Pro Annual</h3>
+              <p style="font-size: 13px; color: #6d7175;">₹9,999 / year (Includes all 20+ Indian festivals, auto-scheduler, and customizer)</p>
+            </div>
+            <button style="background: #202223; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer;">Manage Subscription</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Saved Toast Notification -->
+  <div id="toastAlert" class="toast-alert">
+    <span>✓</span>
+    <span id="toastMsg">Changes saved! Storefront updated successfully.</span>
+  </div>
+
+  <script>
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.getElementById('tabCustomizer').style.display = tabId === 'customizer' ? 'block' : 'none';
+      document.getElementById('tabOverview').style.display = tabId === 'overview' ? 'block' : 'none';
+      document.getElementById('tabSchedule').style.display = tabId === 'schedule' ? 'block' : 'none';
+      document.getElementById('tabBilling').style.display = tabId === 'billing' ? 'block' : 'none';
+    }
+
+    function changeFestival(val) {
+      document.getElementById('activeFestivalSelect').value = val;
+      document.getElementById('diwaliSettingsCard').style.display = val === 'diwali' ? 'block' : 'none';
+      document.getElementById('sankrantiSettingsCard').style.display = val === 'sankranti' ? 'block' : 'none';
+      document.getElementById('eidSettingsCard').style.display = val === 'eid' ? 'block' : 'none';
+
+      // Auto update sample banner copy
+      if (val === 'diwali') {
+        document.getElementById('cfgBannerText').value = "🪔 Shubh Deepavali! Illuminate your home with our Festive Collection • Flat 25% Off";
+        document.getElementById('cfgCoupon').value = "DIWALI25";
+      } else if (val === 'sankranti') {
+        document.getElementById('cfgBannerText').value = "🪁 Happy Makar Sankranti & Pongal! Soar high with festive harvest discounts";
+        document.getElementById('cfgCoupon').value = "PONGAL20";
+      } else if (val === 'eid') {
+        document.getElementById('cfgBannerText').value = "🌙 Eid Mubarak! Celebrate joy and togetherness with exclusive festive offers";
+        document.getElementById('cfgCoupon').value = "EID2026";
+      }
+    }
+
+    function autoTranslate(lang) {
+      const greetings = {
+        en: "🪔 Shubh Deepavali! Illuminate your home with our Festive Collection • Flat 25% Off",
+        hi: "🪔 शुभ दीपावली! आपके और आपके परिवार के लिए समृद्धि और खुशहाली • 25% छूट",
+        ta: "🪔 இனிய தீபாவளி நல்வாழ்த்துகள்! உங்கள் இல்லம் பிரகாசிக்க சிறப்பு தள்ளுபடி",
+        te: "🪔 శుభ దీపావళి శుభాకాంక్షలు! పండుగ కాంతులతో మీ ఇల్లు వెలిగిపోవాలి",
+        bn: "🪔 শুভ দীপাবলির প্রীতি ও শুভেচ্ছা! দীপাবলীর বিশেষ কালেকশনে আকর্ষণীয় ছাড়",
+        mr: "🪔 शुभ दीपावली! यंदाची दिवाळी आनंद आणि भरभराटीची जावो",
+        gu: "🪔 દિવાળીની હાર્દિક શુભકામનાઓ! તમારા ઘરમાં સુખ અને શાંતિ રહે"
+      };
+      if (greetings[lang]) {
+        document.getElementById('cfgBannerText').value = greetings[lang];
+      }
+    }
+
+    function saveSettings() {
+      const toast = document.getElementById('toastAlert');
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

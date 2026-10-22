@@ -1,0 +1,283 @@
+{% comment %}
+  Utsav (उत्सव) — Indian Festival Themes
+  Direct Theme Snippet (Diwali Diyas & Fireworks, Sankranti Kites, Eid Moon)
+  Zero local servers, zero tunnels. Runs directly on Shopify CDN.
+{% endcomment %}
+
+<!-- 1. Luxury Indian Festive Styles -->
+<style>
+  :root {
+    --utsav-primary: #D4AF37;
+    --utsav-secondary: #FF6B35;
+    --utsav-accent: #8B0000;
+    --utsav-glow: rgba(212, 175, 55, 0.4);
+  }
+
+  /* Stationary Corner Accents (Never obstructs buy buttons or product cards) */
+  #utsav-corner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9990;
+    overflow: hidden;
+  }
+
+  .utsav-corner-decor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9991;
+    transition: transform 0.3s ease;
+  }
+
+  .utsav-corner-bottom-left {
+    bottom: 14px;
+    left: 18px;
+  }
+
+  .utsav-corner-bottom-right {
+    bottom: 14px;
+    right: 18px;
+  }
+
+  .utsav-corner-top-left {
+    top: 75px;
+    left: 18px;
+  }
+
+  .utsav-corner-top-right {
+    top: 75px;
+    right: 18px;
+  }
+
+  /* Diya Flame Flicker */
+  @keyframes utsavFlameFlicker {
+    0%, 100% {
+      transform: scale(1) rotate(0deg);
+      filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.8));
+    }
+    25% {
+      transform: scale(1.04, 0.96) rotate(-1.5deg);
+      filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.9));
+    }
+    50% {
+      transform: scale(0.97, 1.03) rotate(1deg);
+      filter: drop-shadow(0 0 7px rgba(255, 215, 0, 0.7));
+    }
+    75% {
+      transform: scale(1.02, 0.98) rotate(-0.5deg);
+      filter: drop-shadow(0 0 14px rgba(255, 100, 0, 0.95));
+    }
+  }
+
+  .utsav-diya-flame {
+    transform-origin: 60px 48px;
+    animation: utsavFlameFlicker 1.8s ease-in-out infinite alternate;
+  }
+
+  /* Atmospheric Corner Vignette */
+  .utsav-ambient-vignette {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9988;
+    background:
+      radial-gradient(circle at 4% 96%, rgba(255, 170, 0, 0.12) 0%, transparent 28%),
+      radial-gradient(circle at 96% 96%, rgba(255, 170, 0, 0.12) 0%, transparent 28%);
+  }
+
+  /* Fireworks Canvas (Upper Margins Only) */
+  #utsav-fireworks-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9989;
+  }
+
+  /* Minimal Announcement Banner */
+  .utsav-store-banner {
+    background: linear-gradient(90deg, #1A0A00 0%, #2A1502 50%, #1A0A00 100%);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    color: #FFF8DC;
+    padding: 9px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .utsav-pill-code {
+    background: rgba(212, 175, 55, 0.18);
+    border: 1px solid #D4AF37;
+    color: #FFD700;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+</style>
+
+<!-- 2. Announcement Banner -->
+<div class="utsav-store-banner" id="utsavBanner">
+  <span>🪔 Shubh Deepavali! Illuminate your home with our Festive Collection</span>
+  <button class="utsav-pill-code" onclick="navigator.clipboard.writeText('DIWALI25'); this.textContent='✓ Copied!';">
+    Code: <strong>DIWALI25</strong>
+  </button>
+  <button onclick="document.getElementById('utsavBanner').remove()" style="position:absolute; right:16px; background:none; border:none; color:#888; font-size:16px; cursor:pointer;" aria-label="Close">×</button>
+</div>
+
+<!-- 3. Ambient Lighting Vignette -->
+<div class="utsav-ambient-vignette"></div>
+
+<!-- 4. Corner Brass Diyas Container -->
+<div id="utsav-corner-container">
+  <!-- Left Bottom Brass Diya -->
+  <div class="utsav-corner-decor utsav-corner-bottom-left">
+    <svg viewBox="0 0 120 100" width="80" height="66" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="diyaGlowL" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
+          <stop offset="50%" stop-color="#FF6B35" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#FF6B35" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="diyaFlameL" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#FF4500"/>
+          <stop offset="40%" stop-color="#FFA500"/>
+          <stop offset="80%" stop-color="#FFD700"/>
+          <stop offset="100%" stop-color="#FFFFFF"/>
+        </linearGradient>
+        <linearGradient id="diyaBrassL" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#E5C158"/>
+          <stop offset="50%" stop-color="#B8860B"/>
+          <stop offset="100%" stop-color="#7B5604"/>
+        </linearGradient>
+      </defs>
+      <circle cx="60" cy="38" r="30" fill="url(#diyaGlowL)"/>
+      <g class="utsav-diya-flame">
+        <path d="M 60 12 C 54 26 50 36 50 44 C 50 52 54 56 60 56 C 66 56 70 52 70 44 C 70 36 66 26 60 12 Z" fill="url(#diyaFlameL)"/>
+        <path d="M 60 22 C 56 30 54 38 54 44 C 54 49 56 52 60 52 C 64 52 66 49 66 44 C 66 38 64 30 60 22 Z" fill="#FFFBE6"/>
+        <line x1="60" y1="48" x2="60" y2="58" stroke="#3E2723" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <ellipse cx="60" cy="58" rx="40" ry="10" fill="#D4AF37"/>
+      <path d="M 20 58 Q 22 82 60 84 Q 98 82 100 58 Z" fill="url(#diyaBrassL)"/>
+      <ellipse cx="60" cy="85" rx="20" ry="4" fill="#7B5604"/>
+    </svg>
+  </div>
+
+  <!-- Right Bottom Brass Diya -->
+  <div class="utsav-corner-decor utsav-corner-bottom-right">
+    <svg viewBox="0 0 120 100" width="80" height="66" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="diyaGlowR" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
+          <stop offset="50%" stop-color="#FF6B35" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#FF6B35" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="diyaFlameR" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stop-color="#FF4500"/>
+          <stop offset="40%" stop-color="#FFA500"/>
+          <stop offset="80%" stop-color="#FFD700"/>
+          <stop offset="100%" stop-color="#FFFFFF"/>
+        </linearGradient>
+        <linearGradient id="diyaBrassR" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#E5C158"/>
+          <stop offset="50%" stop-color="#B8860B"/>
+          <stop offset="100%" stop-color="#7B5604"/>
+        </linearGradient>
+      </defs>
+      <circle cx="60" cy="38" r="30" fill="url(#diyaGlowR)"/>
+      <g class="utsav-diya-flame">
+        <path d="M 60 12 C 54 26 50 36 50 44 C 50 52 54 56 60 56 C 66 56 70 52 70 44 C 70 36 66 26 60 12 Z" fill="url(#diyaFlameR)"/>
+        <path d="M 60 22 C 56 30 54 38 54 44 C 54 49 56 52 60 52 C 64 52 66 49 66 44 C 66 38 64 30 60 22 Z" fill="#FFFBE6"/>
+        <line x1="60" y1="48" x2="60" y2="58" stroke="#3E2723" stroke-width="2" stroke-linecap="round"/>
+      </g>
+      <ellipse cx="60" cy="58" rx="40" ry="10" fill="#D4AF37"/>
+      <path d="M 20 58 Q 22 82 60 84 Q 98 82 100 58 Z" fill="url(#diyaBrassR)"/>
+      <ellipse cx="60" cy="85" rx="20" ry="4" fill="#7B5604"/>
+    </svg>
+  </div>
+</div>
+
+<!-- 5. Subtle Aerial Willow Fireworks Engine -->
+<canvas id="utsav-fireworks-canvas"></canvas>
+<script>
+  (function() {
+    const canvas = document.getElementById('utsav-fireworks-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let sparks = [];
+    const colors = ["#FFD700", "#FFDF73", "#FFA500", "#FFF8DC", "#FF8C00"];
+
+    function launchSubtleFirework() {
+      // Upper 35% margins only to protect product catalog!
+      const burstX = Math.random() < 0.5 
+        ? 60 + Math.random() * (window.innerWidth * 0.28) 
+        : window.innerWidth * 0.68 + Math.random() * (window.innerWidth * 0.26);
+      const burstY = 70 + Math.random() * (window.innerHeight * 0.26);
+      const count = 28 + Math.floor(Math.random() * 12);
+
+      for (let i = 0; i < count; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 1.0 + Math.random() * 2.2;
+        sparks.push({
+          x: burstX, y: burstY,
+          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: 1.2 + Math.random() * 1.5,
+          alpha: 1.0,
+          decay: 0.012 + Math.random() * 0.01
+        });
+      }
+    }
+
+    setTimeout(launchSubtleFirework, 1200);
+    setInterval(launchSubtleFirework, 7500); // Gentle 7.5s interval
+
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const s = sparks[i];
+        s.x += s.vx; s.y += s.vy;
+        s.vx *= 0.96; s.vy *= 0.96; s.vy += 0.035;
+        s.alpha -= s.decay;
+        if (s.alpha > 0) {
+          ctx.save();
+          ctx.globalAlpha = s.alpha;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fillStyle = s.color;
+          ctx.shadowColor = s.color;
+          ctx.shadowBlur = 5;
+          ctx.fill();
+          ctx.restore();
+        } else {
+          sparks.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(render);
+    }
+    render();
+  })();
+</script>

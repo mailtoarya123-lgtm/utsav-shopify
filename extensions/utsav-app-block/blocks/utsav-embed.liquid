@@ -1,0 +1,138 @@
+{% comment %}
+  Utsav — Indian Festival Themes
+  App Embed Block (Target: body)
+  Appears directly in the Theme Customizer 'App embeds' tab!
+{% endcomment %}
+
+{% if block.settings.enable_decor %}
+  {{ 'festival-themes.css' | asset_url | stylesheet_tag }}
+
+  <script>
+    window.__UTSAV_CONFIG__ = {
+      festivalId: {{ block.settings.festival_id | default: "diwali" | json }},
+      festivalName: {{ block.settings.festival_name | default: "Diwali" | json }},
+      festivalEmoji: "🪔",
+      enableEffects: true,
+      enableBanner: false,
+      enableCountdown: false,
+      enableColorSwap: true,
+      diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
+      diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
+      fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
+      kiteCount: {{ block.settings.kite_count | default: 2 | json }},
+      kiteSpeed: {{ block.settings.kite_speed | default: "gentle" | json }},
+      moonPosition: {{ block.settings.moon_position | default: "top_right" | json }},
+      palette: {
+        primary: "#D4AF37",
+        secondary: "#FF6B35",
+        background: "#1A0A00",
+        glow: "rgba(212, 175, 55, 0.35)"
+      }
+    };
+  </script>
+  <script src="{{ 'festive-effects.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "🪔 Utsav Festival Decor",
+  "target": "body",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_decor",
+      "label": "Enable Festive Visuals",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "festival_id",
+      "label": "Festival Theme",
+      "options": [
+        { "value": "diwali", "label": "🪔 Diwali (Deepavali)" },
+        { "value": "sankranti", "label": "🪁 Makar Sankranti / Pongal" },
+        { "value": "eid", "label": "🌙 Eid ul-Fitr" }
+      ],
+      "default": "diwali"
+    },
+    {
+      "type": "header",
+      "content": "🪔 Diwali Customizations"
+    },
+    {
+      "type": "select",
+      "id": "diya_size",
+      "label": "Diya Dimensions",
+      "options": [
+        { "value": "small", "label": "Small (60px — Subtle)" },
+        { "value": "medium", "label": "Medium (85px — Standard)" },
+        { "value": "large", "label": "Large (110px — Prominent)" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "diya_position",
+      "label": "Diya Placement",
+      "options": [
+        { "value": "bottom_corners", "label": "Both Bottom Corners" },
+        { "value": "bottom_left", "label": "Bottom-Left Corner Only" },
+        { "value": "bottom_right", "label": "Bottom-Right Corner Only" },
+        { "value": "top_corners", "label": "Top Corners" }
+      ],
+      "default": "bottom_corners"
+    },
+    {
+      "type": "select",
+      "id": "fireworks_frequency",
+      "label": "Fireworks Frequency",
+      "options": [
+        { "value": "subtle", "label": "Subtle Willow (7.5s)" },
+        { "value": "moderate", "label": "Moderate (4.2s)" },
+        { "value": "celebratory", "label": "Celebratory (2.2s)" },
+        { "value": "off", "label": "Off (No Fireworks)" }
+      ],
+      "default": "subtle"
+    },
+    {
+      "type": "header",
+      "content": "🪁 Sankranti / Pongal Customizations"
+    },
+    {
+      "type": "select",
+      "id": "kite_count",
+      "label": "Kites in Flight",
+      "options": [
+        { "value": "1", "label": "1 Kite (Minimalist)" },
+        { "value": "2", "label": "2 Kites (Balanced)" },
+        { "value": "4", "label": "4 Kites (Festive)" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "kite_speed",
+      "label": "Flight Pace",
+      "options": [
+        { "value": "gentle", "label": "Gentle Breeze (Slow)" },
+        { "value": "moderate", "label": "Active Breeze" }
+      ],
+      "default": "gentle"
+    },
+    {
+      "type": "header",
+      "content": "🌙 Eid Customizations"
+    },
+    {
+      "type": "select",
+      "id": "moon_position",
+      "label": "Crescent Moon Placement",
+      "options": [
+        { "value": "top_right", "label": "Top-Right Corner" },
+        { "value": "top_left", "label": "Top-Left Corner" }
+      ],
+      "default": "top_right"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,293 @@
+{% comment %}
+  Utsav — Indian Festival Themes
+  Festival Banner App Block
+  Add this block to the header section of your theme.
+{% endcomment %}
+
+{% if block.settings.is_active %}
+  <div
+    id="utsav-banner-block"
+    class="utsav-festival-banner"
+    style="
+      background: linear-gradient(90deg,
+        {{ block.settings.bg_color }} 0%,
+        {{ block.settings.primary_color }}cc 50%,
+        {{ block.settings.secondary_color }}cc 100%
+      );
+      color: {{ block.settings.text_color }};
+      padding: {{ block.settings.banner_padding }}px 40px {{ block.settings.banner_padding }}px 16px;
+      font-family: {{ block.settings.font_family }}, -apple-system, sans-serif;
+      font-size: {{ block.settings.font_size }}px;
+      font-weight: 600;
+      text-align: center;
+      position: relative;
+      z-index: 100;
+      box-shadow: 0 2px 16px {{ block.settings.glow_color }};
+    "
+    {{ block.shopify_attributes }}
+  >
+    <div style="display:flex; align-items:center; justify-content:center; gap:12px; max-width:1200px; margin:0 auto;">
+      <span style="font-size:1.4em; animation: utsavPulse 2s infinite;">{{ block.settings.festival_emoji }}</span>
+      <span>{{ block.settings.banner_text }}</span>
+      {% if block.settings.show_cta %}
+        <a
+          href="{{ block.settings.cta_url }}"
+          style="
+            background: {{ block.settings.primary_color }};
+            color: #fff;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+          "
+        >
+          {{ block.settings.cta_text }}
+        </a>
+      {% endif %}
+      <span style="font-size:1.4em; animation: utsavPulse 2s infinite 0.5s;">{{ block.settings.festival_emoji }}</span>
+    </div>
+
+    {% if block.settings.show_close_button %}
+      <button
+        onclick="document.getElementById('utsav-banner-block').style.display='none'"
+        style="
+          position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+          background: rgba(255,255,255,0.2); border: none; color: #fff;
+          width: 24px; height: 24px; border-radius: 50%; cursor: pointer;
+          font-size: 16px; line-height: 1;
+        "
+        aria-label="Close festival banner"
+      >
+        ×
+      </button>
+    {% endif %}
+  </div>
+
+  {{ 'festival-themes.css' | asset_url | stylesheet_tag }}
+
+  <script>
+    window.__UTSAV_CONFIG__ = {
+      festivalId: {{ block.settings.festival_id | default: "diwali" | json }},
+      festivalName: {{ block.settings.festival_name | default: "Diwali" | json }},
+      festivalEmoji: {{ block.settings.festival_emoji | json }},
+      bannerText: {{ block.settings.banner_text | json }},
+      enableEffects: {{ block.settings.enable_corner_decor | default: true | json }},
+      enableBanner: false,
+      enableCountdown: false,
+      enableColorSwap: true,
+      diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
+      diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
+      fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
+      kiteCount: {{ block.settings.kite_count | default: 2 | json }},
+      kiteSpeed: {{ block.settings.kite_speed | default: "gentle" | json }},
+      moonPosition: {{ block.settings.moon_position | default: "top_right" | json }},
+      palette: {
+        primary: {{ block.settings.primary_color | json }},
+        secondary: {{ block.settings.secondary_color | json }},
+        background: {{ block.settings.bg_color | json }},
+        glow: {{ block.settings.glow_color | json }}
+      }
+    };
+  </script>
+  <script src="{{ 'festive-effects.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "🪔 Utsav Festival Banner",
+  "target": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Festival Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_active",
+      "label": "Enable Festival Banner",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "festival_emoji",
+      "label": "Festival Emoji",
+      "default": "🪔",
+      "info": "The emoji representing the festival (e.g., 🪔 for Diwali)"
+    },
+    {
+      "type": "textarea",
+      "id": "banner_text",
+      "label": "Banner Message",
+      "default": "✨ Happy Diwali! Light up your celebrations with our Diwali Sale! 🪔"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cta",
+      "label": "Show CTA Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#1A0A00"
+    },
+    {
+      "type": "color",
+      "id": "primary_color",
+      "label": "Primary Color",
+      "default": "#FFD700"
+    },
+    {
+      "type": "color",
+      "id": "secondary_color",
+      "label": "Secondary Color",
+      "default": "#FF6B35"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "glow_color",
+      "label": "Glow Color",
+      "default": "#FFD70066"
+    },
+    {
+      "type": "header",
+      "content": "Cultural Visual Customizer"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_corner_decor",
+      "label": "Enable Minimal Corner Visuals",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "diya_size",
+      "label": "Diya Dimensions",
+      "options": [
+        { "value": "small", "label": "Small (60px — Subtle)" },
+        { "value": "medium", "label": "Medium (85px — Standard)" },
+        { "value": "large", "label": "Large (110px — Prominent)" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "diya_position",
+      "label": "Diya Placement",
+      "options": [
+        { "value": "bottom_corners", "label": "Both Bottom Corners" },
+        { "value": "bottom_left", "label": "Bottom-Left Corner Only" },
+        { "value": "bottom_right", "label": "Bottom-Right Corner Only" },
+        { "value": "top_corners", "label": "Top Corners" }
+      ],
+      "default": "bottom_corners"
+    },
+    {
+      "type": "select",
+      "id": "fireworks_frequency",
+      "label": "Fireworks Burst Frequency",
+      "options": [
+        { "value": "off", "label": "Off (No Fireworks)" },
+        { "value": "subtle", "label": "Subtle Willow (Burst every 7.5s)" },
+        { "value": "moderate", "label": "Moderate (Burst every 4.2s)" },
+        { "value": "celebratory", "label": "Celebratory (Burst every 2.2s)" }
+      ],
+      "default": "subtle"
+    },
+    {
+      "type": "select",
+      "id": "kite_count",
+      "label": "Sankranti Kites in Flight",
+      "options": [
+        { "value": "1", "label": "1 Kite (Minimalist)" },
+        { "value": "2", "label": "2 Kites (Balanced)" },
+        { "value": "4", "label": "4 Kites (Festive)" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "kite_speed",
+      "label": "Kite Flight Pace",
+      "options": [
+        { "value": "gentle", "label": "Gentle Breeze (Slow)" },
+        { "value": "moderate", "label": "Active Breeze" }
+      ],
+      "default": "gentle"
+    },
+    {
+      "type": "select",
+      "id": "moon_position",
+      "label": "Eid Crescent Moon Placement",
+      "options": [
+        { "value": "top_right", "label": "Top-Right Corner" },
+        { "value": "top_left", "label": "Top-Left Corner" }
+      ],
+      "default": "top_right"
+    },
+    {
+      "type": "header",
+      "content": "Typography & Layout"
+    },
+    {
+      "type": "text",
+      "id": "font_family",
+      "label": "Font Family",
+      "default": "Inter"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font Size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "banner_padding",
+      "label": "Banner Padding (px)",
+      "min": 6,
+      "max": 24,
+      "step": 2,
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close_button",
+      "label": "Show Close Button",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,269 @@
+/**
+ * Utsav — Indian Festival Themes
+ * High-End Minimalist Festival Aesthetics & Architectural Accents
+ * Cultural authenticity with luxury brand restraint
+ */
+
+:root {
+  --utsav-primary: #D4AF37;
+  --utsav-secondary: #FF6B35;
+  --utsav-accent: #8B0000;
+  --utsav-bg: #1A0A00;
+  --utsav-text: #FFFFFF;
+  --utsav-glow: rgba(212, 175, 55, 0.35);
+  --utsav-gold-gradient: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA771C 100%);
+}
+
+/* ─── 1. Ambient Corner Vignette ─────────────────────────────────────────── */
+.utsav-ambient-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9988;
+  transition: opacity 0.8s ease;
+}
+
+/* ─── 2. Stationary Architectural Corner Accents ─────────────────────────── */
+.utsav-corner-decor {
+  position: fixed;
+  z-index: 9990;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 4px 16px var(--utsav-glow));
+}
+
+.utsav-corner-bottom-left {
+  bottom: 16px;
+  left: 20px;
+}
+
+.utsav-corner-bottom-right {
+  bottom: 16px;
+  right: 20px;
+}
+
+.utsav-corner-top-right {
+  top: 48px;
+  right: 20px;
+}
+
+.utsav-corner-top-left {
+  top: 48px;
+  left: 20px;
+}
+
+/* ─── 3. Realistic Diya Flame Flicker ────────────────────────────────────── */
+.utsav-diya-flame {
+  transform-origin: 60px 52px;
+  animation: utsavFlameFlicker 3s infinite ease-in-out;
+}
+
+.utsav-diya-glow {
+  animation: utsavGlowPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes utsavFlameFlicker {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  20% {
+    transform: scale(1.05, 0.95) rotate(-1.5deg);
+  }
+  40% {
+    transform: scale(0.97, 1.03) rotate(1deg);
+  }
+  60% {
+    transform: scale(1.03, 0.97) rotate(-0.8deg);
+  }
+  80% {
+    transform: scale(0.98, 1.02) rotate(1.2deg);
+  }
+}
+
+@keyframes utsavGlowPulse {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.12);
+  }
+}
+
+/* ─── 4. Minimalist Luxury Announcement Banner ────────────────────────────── */
+#utsav-festival-banner {
+  width: 100%;
+  position: relative;
+  z-index: 9999;
+  background: #111318;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  color: #F8FAFC;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 8px 36px 8px 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.utsav-banner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.utsav-banner-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #D4AF37;
+}
+
+.utsav-banner-text {
+  font-size: 13px;
+  color: #F1F5F9;
+}
+
+.utsav-coupon-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px dashed rgba(212, 175, 55, 0.6);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #D4AF37;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.utsav-coupon-pill:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #D4AF37;
+}
+
+.utsav-banner-close {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.utsav-banner-close:hover {
+  color: #FFFFFF;
+}
+
+/* ─── 5. Minimal Slim Countdown Pill ──────────────────────────────────────── */
+#utsav-countdown {
+  position: fixed;
+  bottom: 20px;
+  right: 110px;
+  z-index: 9995;
+  background: rgba(17, 19, 24, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 999px;
+  padding: 8px 16px;
+  color: #FFFFFF;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+#utsav-countdown .cd-label {
+  color: #94A3B8;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+#utsav-countdown .cd-timer {
+  font-family: "Courier New", monospace;
+  font-weight: 800;
+  color: #D4AF37;
+  letter-spacing: 0.05em;
+  font-size: 13px;
+}
+
+#utsav-countdown .cd-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0 0 0 4px;
+}
+
+/* ─── 6. Top Toran / Ribbon Border Accent ─────────────────────────────────── */
+.utsav-toran-border {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  background-repeat: repeat-x;
+  background-size: 40px 10px;
+}
+
+.utsav-tiranga-ribbon {
+  width: 100%;
+  height: 2.5px;
+  background: linear-gradient(90deg, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #128807 66.6%);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* ─── 7. Micro Embers Canvas (Whispering heat, not falling snow) ──────────── */
+#utsav-effects-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9989;
+}
+
+/* Mobile responsiveness: gracefully scale corner decor down */
+@media (max-width: 640px) {
+  .utsav-corner-decor {
+    transform: scale(0.75);
+    transform-origin: bottom right;
+  }
+  .utsav-corner-bottom-left {
+    display: none; /* Keep single corner on mobile for clean screen real estate */
+  }
+  #utsav-countdown {
+    right: 16px;
+    bottom: 16px;
+  }
+}
