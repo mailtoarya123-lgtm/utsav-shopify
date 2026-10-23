@@ -368,3 +368,58 @@
   }
 }
 
+/* ─── 8. Interactive Tap-To-Bless & Accessibility ────────────────────────── */
+.utsav-corner-decor {
+  pointer-events: auto !important;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.utsav-corner-decor:hover {
+  transform: scale(1.08) translateY(-4px);
+}
+
+.utsav-blessing-toast {
+  position: fixed;
+  background: rgba(26, 10, 0, 0.92);
+  border: 1px solid #D4AF37;
+  color: #FFF8DC;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+  pointer-events: none;
+  z-index: 99999;
+  animation: utsavBlessingFloat 2.6s ease-out forwards;
+  white-space: nowrap;
+}
+
+@keyframes utsavBlessingFloat {
+  0% { opacity: 0; transform: translate(-50%, 0) scale(0.85); }
+  15% { opacity: 1; transform: translate(-50%, -18px) scale(1); }
+  80% { opacity: 1; transform: translate(-50%, -36px) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50px) scale(0.95); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .utsav-diya-flame,
+  .utsav-diya-glow,
+  #utsav-garland-left,
+  #utsav-garland-right,
+  .utsav-bulb-twinkle-1,
+  .utsav-bulb-twinkle-2,
+  .utsav-bulb-twinkle-3,
+  .utsav-bulb-chase-1,
+  .utsav-bulb-chase-2,
+  .utsav-bulb-chase-3,
+  .utsav-bulb-chase-4,
+  .utsav-bulb-chase-5,
+  .utsav-bulb-chase-6 {
+    animation: none !important;
+    transform: none !important;
+  }
+  #utsav-fireworks-canvas {
+    display: none !important;
+  }
+}

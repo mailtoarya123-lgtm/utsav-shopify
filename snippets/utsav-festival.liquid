@@ -269,6 +269,28 @@
     80% { opacity: 1; transform: translate(-50%, -36px) scale(1); }
     100% { opacity: 0; transform: translate(-50%, -50px) scale(0.95); }
   }
+
+  /* Accessibility: Respect Reduced Motion Preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .utsav-diya-flame,
+    #utsav-garland-left,
+    #utsav-garland-right,
+    .utsav-bulb-twinkle-1,
+    .utsav-bulb-twinkle-2,
+    .utsav-bulb-twinkle-3,
+    .utsav-bulb-chase-1,
+    .utsav-bulb-chase-2,
+    .utsav-bulb-chase-3,
+    .utsav-bulb-chase-4,
+    .utsav-bulb-chase-5,
+    .utsav-bulb-chase-6 {
+      animation: none !important;
+      transform: none !important;
+    }
+    #utsav-fireworks-canvas {
+      display: none !important;
+    }
+  }
 </style>
 
 <!-- 2. Announcement Banner (Hidden until activated) -->
@@ -567,44 +589,57 @@
     }
 
     // ─── 4. Diya SVG Templates for Artisanal Styles (Diwali Only) ────────────
+    // ─── 4. Realistic Diya SVG Templates (5 Artisanal Styles — Diwali Only) ────
     function getDiyaSVG(style, sizePx, flameGlow) {
       const glowFilter = flameGlow === 'divine_aura' 
-        ? 'drop-shadow(0 0 18px rgba(255, 170, 0, 0.95))' 
+        ? 'drop-shadow(0 0 20px rgba(255, 170, 0, 0.95))' 
         : flameGlow === 'sparkling_wick' 
         ? 'drop-shadow(0 0 14px rgba(255, 230, 90, 0.9))' 
-        : 'drop-shadow(0 0 9px rgba(255, 140, 0, 0.8))';
+        : 'drop-shadow(0 0 10px rgba(255, 140, 0, 0.82))';
 
       const width = sizePx;
       const height = Math.round(sizePx * 0.82);
 
       let bodyMarkup = '';
       if (style === 'terracotta_clay') {
+        // 🧱 Traditional Terracotta: rustic warm clay with handmade pinched rim
         bodyMarkup = `
           <ellipse cx="60" cy="58" rx="42" ry="11" fill="#E07A5F"/>
           <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavClayGrad)"/>
-          <path d="M 28 58 Q 60 63 92 58" stroke="#8D3B16" stroke-width="1.5" fill="none"/>
+          <path d="M 28 58 Q 60 63 92 58" stroke="#8D3B16" stroke-width="1.6" fill="none"/>
           <ellipse cx="60" cy="86" rx="22" ry="4" fill="#541F09"/>
         `;
-      } else if (style === 'silver_filigree') {
+      } else if (style === 'antique_copper') {
+        // 🪓 Antique Copper: hammered warm metal with rich patina shadows
         bodyMarkup = `
-          <ellipse cx="60" cy="58" rx="41" ry="10" fill="#ECEFF1"/>
-          <path d="M 19 58 Q 21 83 60 85 Q 99 83 101 58 Z" fill="url(#utsavSilverGrad)"/>
-          <path d="M 26 62 Q 40 74 60 62 Q 80 74 94 62" stroke="#FFFFFF" stroke-width="1.2" fill="none" opacity="0.8"/>
-          <ellipse cx="60" cy="85" rx="20" ry="4" fill="#37474F"/>
+          <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FF8A65"/>
+          <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavCopperGrad)"/>
+          <path d="M 22 60 Q 32 66 42 60 Q 52 66 62 60 Q 72 66 82 60 Q 92 66 98 60" stroke="#BF360C" stroke-width="1.3" fill="none" opacity="0.85"/>
+          <ellipse cx="60" cy="86" rx="22" ry="4" fill="#3E2723"/>
         `;
-      } else if (style === 'marigold_urli') {
+      } else if (style === 'minimal_contemporary') {
+        // 📐 Minimal Contemporary: sleek architectural satin bronze & matte black bowl
+        bodyMarkup = `
+          <ellipse cx="60" cy="58" rx="40" ry="8" fill="#424242"/>
+          <path d="M 20 58 Q 22 83 60 85 Q 98 83 100 58 Z" fill="url(#utsavMinimalGrad)"/>
+          <path d="M 20 58 Q 60 62 100 58" stroke="#D4AF37" stroke-width="1.2" fill="none"/>
+          <ellipse cx="60" cy="85" rx="16" ry="3" fill="#111111"/>
+        `;
+      } else if (style === 'marigold_urli' || style === 'festive_ornamental') {
+        // 🌸 Festive Ornamental: Traditional Marigold Urli with floating petals
         bodyMarkup = `
           <ellipse cx="60" cy="62" rx="48" ry="14" fill="#E5C158"/>
           <ellipse cx="60" cy="62" rx="44" ry="12" fill="#2E1B0E"/>
-          <circle cx="28" cy="62" r="7" fill="#FF9800"/>
-          <circle cx="38" cy="69" r="6" fill="#FFC107"/>
-          <circle cx="82" cy="69" r="6" fill="#FFC107"/>
-          <circle cx="92" cy="62" r="7" fill="#FF9800"/>
-          <circle cx="60" cy="71" r="6" fill="#FF5722"/>
+          <circle cx="26" cy="62" r="7" fill="#FF9800"/>
+          <circle cx="36" cy="69" r="6" fill="#FFC107"/>
+          <circle cx="84" cy="69" r="6" fill="#FFC107"/>
+          <circle cx="94" cy="62" r="7" fill="#FF9800"/>
+          <circle cx="60" cy="71" r="6.5" fill="#FF5722"/>
           <path d="M 40 60 Q 42 78 60 80 Q 78 78 80 60 Z" fill="url(#utsavBrassGrad)"/>
           <ellipse cx="60" cy="81" rx="18" ry="3.5" fill="#5D4037"/>
         `;
       } else {
+        // 🏺 Royal Brass: carved scalloped rim & molten golden highlights (Default)
         bodyMarkup = `
           <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FFE082"/>
           <path d="M 18 58 Q 20 83 60 85 Q 100 83 102 58 Z" fill="url(#utsavBrassGrad)"/>
@@ -612,8 +647,6 @@
           <ellipse cx="60" cy="85" rx="22" ry="4" fill="#5D4037"/>
         `;
       }
-
-      const flameFill = style === 'silver_filigree' ? 'url(#utsavSilverFlame)' : 'url(#utsavFlameGrad)';
 
       return `
         <svg viewBox="0 0 120 100" width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="filter: ${glowFilter};">
@@ -625,40 +658,44 @@
             </radialGradient>
             <linearGradient id="utsavFlameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
               <stop offset="0%" stop-color="#FF3D00"/>
-              <stop offset="40%" stop-color="#FFA500"/>
-              <stop offset="80%" stop-color="#FFD700"/>
-              <stop offset="100%" stop-color="#FFFFFF"/>
-            </linearGradient>
-            <linearGradient id="utsavSilverFlame" x1="0%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stop-color="#00BCD4"/>
-              <stop offset="40%" stop-color="#80DEEA"/>
-              <stop offset="80%" stop-color="#FFF59D"/>
+              <stop offset="35%" stop-color="#FF9100"/>
+              <stop offset="75%" stop-color="#FFD700"/>
               <stop offset="100%" stop-color="#FFFFFF"/>
             </linearGradient>
             <linearGradient id="utsavBrassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#FFE082"/>
-              <stop offset="40%" stop-color="#D4AF37"/>
-              <stop offset="80%" stop-color="#996515"/>
-              <stop offset="100%" stop-color="#5D4037"/>
+              <stop offset="0%" stop-color="#FFF59D"/>
+              <stop offset="35%" stop-color="#D4AF37"/>
+              <stop offset="75%" stop-color="#996515"/>
+              <stop offset="100%" stop-color="#4E342E"/>
             </linearGradient>
             <linearGradient id="utsavClayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="#E07A5F"/>
               <stop offset="40%" stop-color="#C85A27"/>
               <stop offset="80%" stop-color="#8D3B16"/>
-              <stop offset="100%" stop-color="#541F09"/>
+              <stop offset="100%" stop-color="#4E2310"/>
             </linearGradient>
-            <linearGradient id="utsavSilverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#FFFFFF"/>
-              <stop offset="30%" stop-color="#ECEFF1"/>
-              <stop offset="70%" stop-color="#B0BEC5"/>
-              <stop offset="100%" stop-color="#546E7A"/>
+            <linearGradient id="utsavCopperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#FFAB91"/>
+              <stop offset="35%" stop-color="#D84315"/>
+              <stop offset="75%" stop-color="#872900"/>
+              <stop offset="100%" stop-color="#3E2723"/>
+            </linearGradient>
+            <linearGradient id="utsavMinimalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#D4AF37"/>
+              <stop offset="25%" stop-color="#2C2C2C"/>
+              <stop offset="85%" stop-color="#1A1A1A"/>
+              <stop offset="100%" stop-color="#0A0A0A"/>
             </linearGradient>
           </defs>
           <circle cx="60" cy="36" r="${flameGlow === 'divine_aura' ? 44 : 32}" fill="url(#utsavAura)"/>
           <g class="utsav-diya-flame">
-            <path d="M 60 10 C 53 25 48 36 48 44 C 48 53 53 57 60 57 C 67 57 72 53 72 44 C 72 36 67 25 60 10 Z" fill="${flameFill}"/>
-            <path d="M 60 20 C 55 29 53 37 53 44 C 53 49 55 53 60 53 C 65 53 67 49 67 44 C 67 37 65 29 60 20 Z" fill="#FFFDE7"/>
-            <line x1="60" y1="46" x2="60" y2="58" stroke="#3E2723" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- Living Outer Flame Body -->
+            <path d="M 60 8 C 52 24 47 36 47 45 C 47 54 53 58 60 58 C 67 58 73 54 73 45 C 73 36 68 24 60 8 Z" fill="url(#utsavFlameGrad)"/>
+            <!-- White-Hot Luminous Flame Core -->
+            <path d="M 60 18 C 55 28 52 37 52 44 C 52 50 55 54 60 54 C 65 54 68 50 68 44 C 68 37 65 28 60 18 Z" fill="#FFFDE7" opacity="0.95"/>
+            <!-- Pure Cotton Wick with Glowing Ember Tip -->
+            <line x1="60" y1="45" x2="60" y2="58" stroke="#3E2723" stroke-width="2.6" stroke-linecap="round"/>
+            <circle cx="60" cy="45" r="1.5" fill="#FF5252"/>
           </g>
           ${bodyMarkup}
         </svg>
@@ -871,13 +908,38 @@
       launchSparks(x, y, 16, ['#FFD700', '#FFA500', '#FFF8DC']);
     }
 
+    // Tap-to-bless interaction (Click & Keyboard Accessible)
     ['utsavDiyaBL', 'utsavDiyaBR', 'utsavDiyaTL', 'utsavDiyaTR'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
-        el.addEventListener('click', (e) => {
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('aria-label', 'Tap Diya for Festive Blessing');
+        const trigger = () => {
           const rect = el.getBoundingClientRect();
           showBlessing(rect.left + rect.width / 2, rect.top);
+        };
+        el.addEventListener('click', trigger);
+        el.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            trigger();
+          }
         });
+      }
+    });
+
+    // Suspend fireworks rendering loop when browser tab is inactive to protect CPU
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (animFrameId) {
+          cancelAnimationFrame(animFrameId);
+          animFrameId = null;
+        }
+      } else {
+        if (canvas && canvas.style.display === 'block' && !animFrameId) {
+          renderFireworks();
+        }
       }
     });
 

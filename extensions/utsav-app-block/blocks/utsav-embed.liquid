@@ -16,6 +16,7 @@
       enableBanner: false,
       enableCountdown: false,
       enableColorSwap: true,
+      diyaStyle: {{ block.settings.diya_style | default: "royal_brass" | json }},
       diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
       diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
       fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
@@ -91,6 +92,19 @@
     {
       "type": "header",
       "content": "🪔 Diwali Customizations"
+    },
+    {
+      "type": "select",
+      "id": "diya_style",
+      "label": "Diya Material & Style",
+      "options": [
+        { "value": "royal_brass", "label": "🏺 Royal Brass (Molten Gold)" },
+        { "value": "terracotta_clay", "label": "🧱 Traditional Terracotta (Rustic Clay)" },
+        { "value": "antique_copper", "label": "🪓 Antique Copper (Warm Hammered)" },
+        { "value": "minimal_contemporary", "label": "📐 Minimal Contemporary (Satin Bronze)" },
+        { "value": "marigold_urli", "label": "🌸 Festive Ornamental (Marigold Urli)" }
+      ],
+      "default": "royal_brass"
     },
     {
       "type": "select",

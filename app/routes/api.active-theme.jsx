@@ -17,15 +17,45 @@ export const loader = async ({ request }) => {
   }
 
   try {
-    const activeConfigs = await prisma.festivalConfig.findMany({
+    const now = new Date();
+
+    // 1. Check for manually active configuration
+    let activeConfig = await prisma.festivalConfig.findFirst({
       where: { shop, isActive: true },
     });
 
-    if (!activeConfigs || activeConfigs.length === 0) {
+    // 2. If no manual active theme, check scheduled window
+    if (!activeConfig) {
+      const scheduledConfig = await prisma.festivalConfig.findFirst({
+        where: {
+          shop,
+          scheduledStart: { lte: now },
+          OR: [
+            { scheduledEnd: null },
+            { scheduledEnd: { gte: now } },
+          ],
+        },
+      });
+
+      if (scheduledConfig) {
+        activeConfig = scheduledConfig;
+      }
+    }
+
+    // 3. Auto-deactivate any config whose schedule has expired
+    await prisma.festivalConfig.updateMany({
+      where: {
+        shop,
+        isActive: true,
+        scheduledEnd: { lt: now },
+      },
+      data: { isActive: false },
+    });
+
+    if (!activeConfig) {
       return json({ active: false }, { headers: corsHeaders });
     }
 
-    const activeConfig = activeConfigs[0];
     const festival = getFestivalById(activeConfig.festivalId);
 
     return json({

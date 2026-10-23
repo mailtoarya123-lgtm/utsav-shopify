@@ -29,6 +29,8 @@
     festivalName = "Festival",
     festivalEmoji = "🪔",
     // 🪔 Diya Customizations
+    diyaStyle = "royal_brass", // royal_brass | terracotta_clay | antique_copper | minimal_contemporary | marigold_urli
+    flameGlow = "warm_radiance", // warm_radiance | divine_aura | sparkling_wick
     diyaSize = "medium", // small | medium | large
     diyaPosition = "bottom_corners", // bottom_corners | bottom_left | bottom_right | top_corners
     // 🎆 Fireworks Customizations
@@ -277,80 +279,179 @@
     const decorContainer = document.createElement("div");
     decorContainer.id = "utsav-corner-container";
 
-    // ─── A. DIWALI: Handcrafted Brass Diya (Size & Position Customizable) ───
+    // ─── A. DIWALI: Realistic Multi-Material Diya with Tap-to-Bless ────────
     if (festivalId.includes("diwali")) {
       const sizeMap = {
-        small: { width: 60, height: 50 },
-        medium: { width: 85, height: 70 },
-        large: { width: 110, height: 90 },
+        small: { width: 64, height: 52 },
+        medium: { width: 90, height: 74 },
+        large: { width: 116, height: 95 },
       };
       const dims = sizeMap[diyaSize] || sizeMap.medium;
 
-      const diyaSVG = `
-        <svg class="utsav-diya-svg" viewBox="0 0 120 100" width="${dims.width}" height="${dims.height}" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="utsavFlameGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#FFD700" stop-opacity="0.8"/>
-              <stop offset="50%" stop-color="#FF6B35" stop-opacity="0.3"/>
-              <stop offset="100%" stop-color="#FF6B35" stop-opacity="0"/>
-            </radialGradient>
-            <linearGradient id="utsavFlameCore" x1="0%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stop-color="#FF4500"/>
-              <stop offset="40%" stop-color="#FFA500"/>
-              <stop offset="80%" stop-color="#FFD700"/>
-              <stop offset="100%" stop-color="#FFFFFF"/>
-            </linearGradient>
-            <linearGradient id="utsavDiyaBody" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#E5C158"/>
-              <stop offset="50%" stop-color="#B8860B"/>
-              <stop offset="100%" stop-color="#7B5604"/>
-            </linearGradient>
-          </defs>
+      function getDiyaMarkup(style) {
+        let body = "";
+        if (style === "terracotta_clay") {
+          body = `
+            <ellipse cx="60" cy="58" rx="42" ry="11" fill="#E07A5F"/>
+            <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavClayGrad)"/>
+            <path d="M 28 58 Q 60 63 92 58" stroke="#8D3B16" stroke-width="1.6" fill="none"/>
+            <ellipse cx="60" cy="86" rx="22" ry="4" fill="#541F09"/>
+          `;
+        } else if (style === "antique_copper") {
+          body = `
+            <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FF8A65"/>
+            <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavCopperGrad)"/>
+            <path d="M 22 60 Q 32 66 42 60 Q 52 66 62 60 Q 72 66 82 60 Q 92 66 98 60" stroke="#BF360C" stroke-width="1.3" fill="none" opacity="0.85"/>
+            <ellipse cx="60" cy="86" rx="22" ry="4" fill="#3E2723"/>
+          `;
+        } else if (style === "minimal_contemporary") {
+          body = `
+            <ellipse cx="60" cy="58" rx="40" ry="8" fill="#424242"/>
+            <path d="M 20 58 Q 22 83 60 85 Q 98 83 100 58 Z" fill="url(#utsavMinimalGrad)"/>
+            <path d="M 20 58 Q 60 62 100 58" stroke="#D4AF37" stroke-width="1.2" fill="none"/>
+            <ellipse cx="60" cy="85" rx="16" ry="3" fill="#111111"/>
+          `;
+        } else if (style === "marigold_urli" || style === "festive_ornamental") {
+          body = `
+            <ellipse cx="60" cy="62" rx="48" ry="14" fill="#E5C158"/>
+            <ellipse cx="60" cy="62" rx="44" ry="12" fill="#2E1B0E"/>
+            <circle cx="26" cy="62" r="7" fill="#FF9800"/>
+            <circle cx="36" cy="69" r="6" fill="#FFC107"/>
+            <circle cx="84" cy="69" r="6" fill="#FFC107"/>
+            <circle cx="94" cy="62" r="7" fill="#FF9800"/>
+            <circle cx="60" cy="71" r="6.5" fill="#FF5722"/>
+            <path d="M 40 60 Q 42 78 60 80 Q 78 78 80 60 Z" fill="url(#utsavBrassGrad)"/>
+            <ellipse cx="60" cy="81" rx="18" ry="3.5" fill="#5D4037"/>
+          `;
+        } else {
+          // Royal Brass Default
+          body = `
+            <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FFE082"/>
+            <path d="M 18 58 Q 20 83 60 85 Q 100 83 102 58 Z" fill="url(#utsavBrassGrad)"/>
+            <path d="M 24 61 Q 33 67 42 61 Q 51 67 60 61 Q 69 67 78 61 Q 87 67 96 61" stroke="#FFE082" stroke-width="1.2" fill="none" opacity="0.75"/>
+            <ellipse cx="60" cy="85" rx="22" ry="4" fill="#5D4037"/>
+          `;
+        }
 
-          <!-- Ambient Flame Glow -->
-          <circle cx="60" cy="38" r="32" fill="url(#utsavFlameGlow)" class="utsav-diya-glow"/>
+        const glowFilter = flameGlow === "divine_aura" 
+          ? "drop-shadow(0 0 20px rgba(255, 170, 0, 0.95))" 
+          : "drop-shadow(0 0 10px rgba(255, 140, 0, 0.82))";
 
-          <!-- Flickering Flame -->
-          <g class="utsav-diya-flame">
-            <path d="M 60 12 C 54 26 50 36 50 44 C 50 52 54 56 60 56 C 66 56 70 52 70 44 C 70 36 66 26 60 12 Z" fill="url(#utsavFlameCore)"/>
-            <path d="M 60 22 C 56 30 54 38 54 44 C 54 49 56 52 60 52 C 64 52 66 49 66 44 C 66 38 64 30 60 22 Z" fill="#FFFBE6"/>
-            <ellipse cx="60" cy="50" rx="3" ry="3.5" fill="#4FC3F7" opacity="0.85"/>
-            <line x1="60" y1="48" x2="60" y2="58" stroke="#3E2723" stroke-width="2.2" stroke-linecap="round"/>
-          </g>
+        return `
+          <svg class="utsav-diya-svg" viewBox="0 0 120 100" width="${dims.width}" height="${dims.height}" xmlns="http://www.w3.org/2000/svg" style="filter: ${glowFilter};">
+            <defs>
+              <radialGradient id="utsavAura" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFD700" stop-opacity="0.9"/>
+                <stop offset="60%" stop-color="#FF6B35" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#FF6B35" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="utsavFlameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#FF3D00"/>
+                <stop offset="35%" stop-color="#FF9100"/>
+                <stop offset="75%" stop-color="#FFD700"/>
+                <stop offset="100%" stop-color="#FFFFFF"/>
+              </linearGradient>
+              <linearGradient id="utsavBrassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFF59D"/>
+                <stop offset="35%" stop-color="#D4AF37"/>
+                <stop offset="75%" stop-color="#996515"/>
+                <stop offset="100%" stop-color="#4E342E"/>
+              </linearGradient>
+              <linearGradient id="utsavClayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#E07A5F"/>
+                <stop offset="40%" stop-color="#C85A27"/>
+                <stop offset="80%" stop-color="#8D3B16"/>
+                <stop offset="100%" stop-color="#4E2310"/>
+              </linearGradient>
+              <linearGradient id="utsavCopperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFAB91"/>
+                <stop offset="35%" stop-color="#D84315"/>
+                <stop offset="75%" stop-color="#872900"/>
+                <stop offset="100%" stop-color="#3E2723"/>
+              </linearGradient>
+              <linearGradient id="utsavMinimalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#D4AF37"/>
+                <stop offset="25%" stop-color="#2C2C2C"/>
+                <stop offset="85%" stop-color="#1A1A1A"/>
+                <stop offset="100%" stop-color="#0A0A0A"/>
+              </linearGradient>
+            </defs>
+            <circle cx="60" cy="36" r="${flameGlow === 'divine_aura' ? 44 : 32}" fill="url(#utsavAura)"/>
+            <g class="utsav-diya-flame">
+              <path d="M 60 8 C 52 24 47 36 47 45 C 47 54 53 58 60 58 C 67 58 73 54 73 45 C 73 36 68 24 60 8 Z" fill="url(#utsavFlameGrad)"/>
+              <path d="M 60 18 C 55 28 52 37 52 44 C 52 50 55 54 60 54 C 65 54 68 50 68 44 C 68 37 65 28 60 18 Z" fill="#FFFDE7" opacity="0.95"/>
+              <line x1="60" y1="45" x2="60" y2="58" stroke="#3E2723" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="60" cy="45" r="1.5" fill="#FF5252"/>
+            </g>
+            ${body}
+          </svg>
+        `;
+      }
 
-          <!-- Diya Bowl -->
-          <ellipse cx="60" cy="58" rx="42" ry="11" fill="#D4AF37"/>
-          <ellipse cx="60" cy="58" rx="36" ry="8" fill="#8C6D1F"/>
-          <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavDiyaBody)"/>
-          <path d="M 26 65 Q 60 76 94 65" stroke="#FFE082" stroke-width="1.5" fill="none" opacity="0.6"/>
-          <ellipse cx="60" cy="87" rx="22" ry="5" fill="#7B5604"/>
-        </svg>
-      `;
+      function playTempleBell() {
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          const ctx = new AudioCtx();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(880, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 1.2);
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 1.2);
+        } catch (e) {}
+      }
+
+      function triggerBlessing(e) {
+        const blessings = [
+          "✨ Shubh Deepavali! May Lakshmi bless your home with prosperity.",
+          "🪔 Sacred Light ignited! May joy and good fortune illuminate your year.",
+          "🌟 Auspicious Blessings from Utsav! Happy Diwali!",
+          "🕉️ Om Shanti: May the divine light bring wellness and peace."
+        ];
+        const toast = document.createElement("div");
+        toast.className = "utsav-blessing-toast";
+        toast.textContent = blessings[Math.floor(Math.random() * blessings.length)];
+        const rect = (e.currentTarget || e.target).getBoundingClientRect();
+        toast.style.left = (rect.left + rect.width / 2) + "px";
+        toast.style.top = (rect.top - 24) + "px";
+        document.body.appendChild(toast);
+        playTempleBell();
+        setTimeout(() => toast.remove(), 2700);
+      }
+
+      function attachDiya(className) {
+        const diya = document.createElement("div");
+        diya.className = "utsav-corner-decor " + className;
+        diya.setAttribute("role", "button");
+        diya.setAttribute("tabindex", "0");
+        diya.setAttribute("aria-label", "Light and receive blessing from Diwali Diya");
+        diya.title = "Tap for Festive Blessing ✨";
+        diya.innerHTML = getDiyaMarkup(diyaStyle);
+        diya.addEventListener("click", triggerBlessing);
+        diya.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            triggerBlessing(e);
+          }
+        });
+        decorContainer.appendChild(diya);
+      }
 
       if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_left") {
-        const leftDiya = document.createElement("div");
-        leftDiya.className = "utsav-corner-decor utsav-corner-bottom-left";
-        leftDiya.innerHTML = diyaSVG;
-        decorContainer.appendChild(leftDiya);
+        attachDiya("utsav-corner-bottom-left");
       }
-
       if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_right") {
-        const rightDiya = document.createElement("div");
-        rightDiya.className = "utsav-corner-decor utsav-corner-bottom-right";
-        rightDiya.innerHTML = diyaSVG;
-        decorContainer.appendChild(rightDiya);
+        attachDiya("utsav-corner-bottom-right");
       }
-
       if (diyaPosition === "top_corners") {
-        const topLeft = document.createElement("div");
-        topLeft.className = "utsav-corner-decor utsav-corner-top-left";
-        topLeft.innerHTML = diyaSVG;
-        decorContainer.appendChild(topLeft);
-
-        const topRight = document.createElement("div");
-        topRight.className = "utsav-corner-decor utsav-corner-top-right";
-        topRight.innerHTML = diyaSVG;
-        decorContainer.appendChild(topRight);
+        attachDiya("utsav-corner-top-left");
+        attachDiya("utsav-corner-top-right");
       }
     }
 
