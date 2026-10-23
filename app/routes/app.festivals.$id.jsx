@@ -168,7 +168,7 @@ export const action = async ({ request, params }) => {
 };
 
 // ─── Toran Preview Component ────────────────────────────────────────────────
-function ToranPreviewWidget({ festivalId, garlandStyle, withLights, lightsTheme, lightsMode }) {
+function ToranPreviewWidget({ festivalId, garlandStyle, withLights, lightsTheme, lightsMode, height = 42 }) {
   const isDiwali = (festivalId || "").includes("diwali");
   const showLights = isDiwali && withLights && lightsTheme !== "off";
 
@@ -189,7 +189,7 @@ function ToranPreviewWidget({ festivalId, garlandStyle, withLights, lightsTheme,
     : "rgba(255, 215, 0, 0.95)";
 
   return (
-    <svg width="100%" height="58" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+    <svg width="100%" height={height} viewBox="0 0 560 58" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
       <defs>
         <linearGradient id="widgetKalawa" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#D32F2F" />
@@ -290,10 +290,10 @@ function ToranPreviewWidget({ festivalId, garlandStyle, withLights, lightsTheme,
 }
 
 // ─── Side Garland Preview Widget ────────────────────────────────────────────
-function SideGarlandPreviewWidget({ withLights, lightsTheme }) {
+function SideGarlandPreviewWidget({ withLights, lightsTheme, height = 130, width = 20 }) {
   const showLights = withLights && lightsTheme !== "off";
   return (
-    <svg width="34" height="260" viewBox="0 0 34 260" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width} height={height} viewBox="0 0 34 260" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <line x1="17" y1="0" x2="17" y2="245" stroke="#D32F2F" strokeWidth="2" />
       <circle cx="17" cy="14" r="7" fill="#FF8F00" />
       <circle cx="17" cy="36" r="7" fill="#E65100" />
@@ -324,9 +324,18 @@ function SideGarlandPreviewWidget({ withLights, lightsTheme }) {
   );
 }
 
-// ─── Realistic Diya Preview Widget ──────────────────────────────────────────
 function DiyaPreviewWidget({ style, flameGlow, size }) {
-  const sizePx = size === "small" ? 56 : size === "large" ? 95 : size === "xlarge" ? 116 : 74;
+  const sizePx = typeof size === "number"
+    ? size
+    : size === "micro"
+    ? 22
+    : size === "small"
+    ? 26
+    : size === "large"
+    ? 44
+    : size === "xlarge"
+    ? 52
+    : 34;
   const isUrli = style === "marigold_urli" || style === "festive_ornamental";
   const isCopper = style === "antique_copper";
   const isMinimal = style === "minimal_contemporary";
@@ -578,12 +587,37 @@ function DeviceStorefrontMock({
   const isTablet = deviceType === "tablet";
   const isMobile = deviceType === "mobile";
 
-  const flexRatio = isDesktop ? "1.45" : isTablet ? "1.05" : "0.78";
+  const flexRatio = isDesktop ? "1.4" : isTablet ? "0.95" : "0.65";
+  const maxW = isDesktop ? "380px" : isTablet ? "240px" : "165px";
+  const minW = isDesktop ? "260px" : isTablet ? "170px" : "120px";
+  const aspectRatio = isDesktop ? "16 / 10" : isTablet ? "3 / 4" : "9 / 19.5";
   const titleLabel = isDesktop ? "Desktop" : isTablet ? "Tablet" : "Mobile";
-  const resLabel = isDesktop ? "1440 × 900" : isTablet ? "768 × 1024" : "375 × 812";
+  const resLabel = isDesktop ? "16:10 • 1440×900" : isTablet ? "3:4 • 768×1024" : "9:19.5 • 375×812";
+
+  // Dynamic Diya Sizing & Viewport Positioning
+  const diyaMultiplier =
+    diyaSize === "small"
+      ? 0.75
+      : diyaSize === "large"
+      ? 1.25
+      : diyaSize === "xlarge"
+      ? 1.5
+      : 1.0;
+  const baseDiyaPx = isMobile ? 18 : isTablet ? 21 : 24;
+  const effectiveDiyaPx = Math.round(baseDiyaPx * diyaMultiplier);
+  const scaledMarginX = Math.round((diyaMarginX || 0) * 0.25) + (isMobile ? 3 : 5);
+  const scaledMarginY = Math.round((diyaMarginY || 0) * 0.25) + (isMobile ? 3 : 5);
 
   return (
-    <div style={{ flex: `${flexRatio} 1 0px`, minWidth: 0, display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        flex: `${flexRatio} 1 0px`,
+        maxWidth: maxW,
+        minWidth: minW,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* Device Viewport Header Pill */}
       <div
         style={{
@@ -592,26 +626,29 @@ function DeviceStorefrontMock({
           alignItems: "center",
           padding: "0 4px 8px 4px",
           color: "#5C5F62",
-          fontSize: "11px",
-          fontWeight: 600,
-          letterSpacing: "0.4px",
+          fontSize: "10px",
+          fontWeight: 700,
+          letterSpacing: "0.3px",
           textTransform: "uppercase",
         }}
       >
         <span>{titleLabel}</span>
-        <span style={{ fontSize: "10px", color: "#8C9196", fontWeight: 500 }}>{resLabel}</span>
+        <span style={{ fontSize: "9px", color: "#8C9196", fontWeight: 500 }}>{resLabel}</span>
       </div>
 
-      {/* Frame Container */}
+      {/* Frame Container with Fixed Hardware Aspect Ratio */}
       <div
         style={{
           width: "100%",
+          aspectRatio: aspectRatio,
           background: "#FFFFFF",
-          borderRadius: isMobile ? "28px" : isTablet ? "16px" : "8px",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+          borderRadius: isMobile ? "24px" : isTablet ? "14px" : "8px",
+          boxShadow: "0 6px 20px rgba(0,0,0,0.10)",
           position: "relative",
           overflow: "hidden",
-          border: isMobile ? "7px solid #1A1C1E" : isTablet ? "7px solid #2B2D42" : "1px solid #DCE0E5",
+          border: isMobile ? "6px solid #1A1C1E" : isTablet ? "6px solid #2B2D42" : "1px solid #DCE0E5",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {/* Safari Browser Chrome (Desktop) */}
@@ -619,60 +656,62 @@ function DeviceStorefrontMock({
           <div
             style={{
               background: "#F1F2F4",
-              padding: "7px 12px",
+              padding: "5px 10px",
               display: "flex",
               alignItems: "center",
-              gap: "10px",
+              gap: "8px",
               borderBottom: "1px solid #DCE0E5",
+              flexShrink: 0,
             }}
           >
-            <div style={{ display: "flex", gap: "5px" }}>
-              <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#FF5F56", display: "inline-block" }} />
-              <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#FFBD2E", display: "inline-block" }} />
-              <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#27C93F", display: "inline-block" }} />
+            <div style={{ display: "flex", gap: "4px" }}>
+              <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#FF5F56", display: "inline-block" }} />
+              <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#FFBD2E", display: "inline-block" }} />
+              <span style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#27C93F", display: "inline-block" }} />
             </div>
             <div
               style={{
                 flex: 1,
                 background: "#FFFFFF",
-                borderRadius: "5px",
-                padding: "2px 10px",
-                fontSize: "10px",
+                borderRadius: "4px",
+                padding: "2px 8px",
+                fontSize: "9px",
                 color: "#555",
                 display: "flex",
                 alignItems: "center",
                 gap: "5px",
                 border: "1px solid #E1E3E6",
+                minWidth: 0,
               }}
             >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6D7175" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-              <span style={{ fontWeight: 500 }}>luxestore.myshopify.com</span>
+              <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#6D7175" strokeWidth="2" style={{ flexShrink: 0 }}><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <span style={{ fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>luxestore.myshopify.com</span>
             </div>
           </div>
         )}
 
         {/* Tablet Sensor Bezel */}
         {isTablet && (
-          <div style={{ background: "#2B2D42", height: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#4A4D68", display: "inline-block" }} />
+          <div style={{ background: "#2B2D42", height: "8px", display: "flex", justifyContent: "center", alignItems: "center", flexShrink: 0 }}>
+            <span style={{ width: "3.5px", height: "3.5px", borderRadius: "50%", background: "#4A4D68", display: "inline-block" }} />
           </div>
         )}
 
         {/* Mobile Dynamic Island & Status Bar */}
         {isMobile && (
-          <div style={{ background: "#000000", color: "#FFFFFF", padding: "4px 14px 4px" }}>
+          <div style={{ background: "#000000", color: "#FFFFFF", padding: "3px 10px 2px", flexShrink: 0 }}>
             <div
               style={{
-                width: "64px",
-                height: "14px",
+                width: "42px",
+                height: "9px",
                 background: "#1E1E1E",
-                borderRadius: "8px",
-                margin: "0 auto 3px",
+                borderRadius: "5px",
+                margin: "0 auto 2px",
               }}
             />
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "10px", fontWeight: 600 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "8px", fontWeight: 600 }}>
               <span>9:41</span>
-              <span style={{ fontSize: "9px", opacity: 0.8 }}>LTE 100%</span>
+              <span style={{ fontSize: "7px", opacity: 0.8 }}>LTE 100%</span>
             </div>
           </div>
         )}
@@ -683,29 +722,32 @@ function DeviceStorefrontMock({
             style={{
               background: "linear-gradient(90deg, #1A0A00 0%, #2A1502 50%, #1A0A00 100%)",
               color: "#FFF8DC",
-              padding: isMobile ? "5px 10px" : "7px 14px",
-              fontSize: isMobile ? "10px" : "11px",
+              padding: isMobile ? "2px 6px" : "4px 8px",
+              fontSize: isMobile ? "7.5px" : "8.5px",
               textAlign: "center",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              gap: "6px",
+              gap: "5px",
               borderBottom: "1px solid rgba(212, 175, 55, 0.3)",
+              flexShrink: 0,
+              overflow: "hidden",
             }}
           >
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {bannerText || "Happy Diwali! Celebrate with artisanal pooja decor."}
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: 1 }}>
+              {bannerText || "Happy Diwali! Celebrate with artisanal decor."}
             </span>
             <span
               style={{
                 background: "rgba(212, 175, 55, 0.2)",
                 border: "1px solid #D4AF37",
                 color: "#FFD700",
-                borderRadius: "8px",
-                padding: "1px 6px",
-                fontSize: "9px",
+                borderRadius: "4px",
+                padding: "0 4px",
+                fontSize: "7px",
                 fontWeight: 700,
                 whiteSpace: "nowrap",
+                flexShrink: 0,
               }}
             >
               UTSAV25
@@ -715,13 +757,14 @@ function DeviceStorefrontMock({
 
         {/* Top Toran (if top_fixed) */}
         {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
-          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "46px" : "54px" }}>
+          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "20px" : isTablet ? "26px" : "30px", flexShrink: 0 }}>
             <ToranPreviewWidget
               festivalId={festival.id}
               garlandStyle={garlandStyle}
               withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
               lightsTheme={seriesLightsTheme}
               lightsMode={seriesLightsMode}
+              height={isMobile ? 20 : isTablet ? 26 : 30}
             />
           </div>
         )}
@@ -729,7 +772,7 @@ function DeviceStorefrontMock({
         {/* Store Navigation Bar */}
         <div
           style={{
-            padding: isMobile ? "10px 12px" : "12px 18px",
+            padding: isMobile ? "4px 8px" : "6px 10px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -737,47 +780,48 @@ function DeviceStorefrontMock({
             position: "relative",
             zIndex: 10,
             background: "#FFFFFF",
+            gap: "6px",
+            flexShrink: 0,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "5px", minWidth: 0, flexShrink: 0 }}>
             {isMobile && (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2" style={{ flexShrink: 0 }}>
                 <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
               </svg>
             )}
-            <div style={{ fontWeight: 800, fontSize: isMobile ? "13px" : "15px", color: "#111", letterSpacing: "0.5px" }}>
+            <div style={{ fontWeight: 800, fontSize: isMobile ? "9px" : isTablet ? "10px" : "10.5px", color: "#111", letterSpacing: "0.2px", whiteSpace: "nowrap" }}>
               LUXE STORE
             </div>
           </div>
 
           {/* Desktop Navigation Links */}
           {isDesktop && (
-            <div style={{ display: "flex", gap: "14px", fontSize: "11px", color: "#555", fontWeight: 500 }}>
-              <span style={{ color: "#000", fontWeight: 700, borderBottom: "2px solid #D4AF37", paddingBottom: "2px" }}>Home</span>
-              <span style={{ cursor: "pointer" }}>Festive Edit</span>
-              <span style={{ cursor: "pointer" }}>Diwali Specials</span>
-              <span style={{ cursor: "pointer" }}>Pooja Sets</span>
-              <span style={{ cursor: "pointer" }}>Contact</span>
+            <div style={{ display: "flex", gap: "8px", fontSize: "8px", color: "#555", fontWeight: 500, overflow: "hidden", whiteSpace: "nowrap" }}>
+              <span style={{ color: "#000", fontWeight: 700 }}>Home</span>
+              <span>Festive</span>
+              <span>Diwali</span>
+              <span>Decor</span>
             </div>
           )}
 
           {/* Tablet Compact Nav */}
           {isTablet && (
-            <div style={{ display: "flex", gap: "10px", fontSize: "10px", color: "#555", fontWeight: 500 }}>
+            <div style={{ display: "flex", gap: "6px", fontSize: "7.5px", color: "#555", fontWeight: 500, overflow: "hidden", whiteSpace: "nowrap" }}>
               <span style={{ color: "#000", fontWeight: 700 }}>Home</span>
               <span>Festive</span>
-              <span>Diwali</span>
-              <span>Contact</span>
             </div>
           )}
 
           {/* Search + Cart */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "#333" }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-            </svg>
-            <div style={{ display: "flex", alignItems: "center", gap: "3px", fontWeight: 600 }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <div style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "8.5px", color: "#333", flexShrink: 0 }}>
+            {isDesktop && (
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            )}
+            <div style={{ display: "flex", alignItems: "center", gap: "2px", fontWeight: 600 }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
               </svg>
               <span>(2)</span>
@@ -785,199 +829,206 @@ function DeviceStorefrontMock({
           </div>
         </div>
 
-        {/* Top Toran (if below_header) */}
-        {!showOriginal && enableEffects && garlandPlacement === "below_header" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
-          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "46px" : "54px", marginTop: `${garlandOffset}px` }}>
-            <ToranPreviewWidget
-              festivalId={festival.id}
-              garlandStyle={garlandStyle}
-              withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
-              lightsTheme={seriesLightsTheme}
-              lightsMode={seriesLightsMode}
-            />
-          </div>
-        )}
+        {/* Viewport Storefront Body Container */}
+        <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+          {/* Scrollable Storefront Content */}
+          <div style={{ flex: 1, overflowY: "auto", position: "relative", scrollbarWidth: "none" }}>
+            {/* Below-header Toran */}
+            {!showOriginal && enableEffects && garlandPlacement === "below_header" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
+              <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "20px" : isTablet ? "26px" : "30px", marginTop: `${Math.round(garlandOffset * 0.5)}px` }}>
+                <ToranPreviewWidget
+                  festivalId={festival.id}
+                  garlandStyle={garlandStyle}
+                  withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
+                  lightsTheme={seriesLightsTheme}
+                  lightsMode={seriesLightsMode}
+                  height={isMobile ? 20 : isTablet ? 26 : 30}
+                />
+              </div>
+            )}
 
-        {/* Side Garlands & Corner Diyas */}
-        {!showOriginal && enableEffects && (
-          <>
-            {!isMobile && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
+            {/* Side Garlands */}
+            {!showOriginal && enableEffects && !isMobile && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
               <>
-                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "106px" : "54px", left: "4px", zIndex: 11, pointerEvents: "none" }}>
-                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
+                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "24px" : "2px", left: "2px", zIndex: 11, pointerEvents: "none" }}>
+                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} height={isTablet ? 90 : 100} width={isTablet ? 12 : 14} />
                 </div>
-                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "106px" : "54px", right: "4px", zIndex: 11, pointerEvents: "none" }}>
-                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
+                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "24px" : "2px", right: "2px", zIndex: 11, pointerEvents: "none" }}>
+                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} height={isTablet ? 90 : 100} width={isTablet ? 12 : 14} />
                 </div>
               </>
             )}
 
-            {isDiwali && (!isMobile || !diyaHideOnMobile) && (
-              <>
-                {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four") && (
-                  <div style={{ position: "absolute", bottom: `${diyaMarginY}px`, left: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
-                  </div>
-                )}
-                {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four") && (
-                  <div style={{ position: "absolute", bottom: `${diyaMarginY}px`, right: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
-                  </div>
-                )}
-                {(diyaPosition === "top_corners" || diyaPosition === "top_left" || diyaPosition === "all_four") && (
-                  <div style={{ position: "absolute", top: `${diyaMarginY + 50}px`, left: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
-                  </div>
-                )}
-                {(diyaPosition === "top_corners" || diyaPosition === "top_right" || diyaPosition === "all_four") && (
-                  <div style={{ position: "absolute", top: `${diyaMarginY + 50}px`, right: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
-                  </div>
-                )}
-              </>
-            )}
-          </>
-        )}
-
-        {/* Hero Section */}
-        <div
-          style={{
-            padding: isMobile ? "24px 14px" : "36px 20px",
-            textAlign: "center",
-            background: "linear-gradient(180deg, #FAFAFA 0%, #F5F5F7 100%)",
-          }}
-        >
-          <div
-            style={{
-              display: "inline-block",
-              padding: "3px 10px",
-              background: "#E8F5E9",
-              color: "#2E7D32",
-              borderRadius: "10px",
-              fontSize: "10px",
-              fontWeight: 700,
-              marginBottom: "8px",
-            }}
-          >
-            FESTIVE SEASON EXCLUSIVE
-          </div>
-          <div
-            style={{
-              fontSize: isMobile ? "18px" : isTablet ? "22px" : "26px",
-              fontWeight: 800,
-              color: "#111",
-              marginBottom: "6px",
-              letterSpacing: "-0.5px",
-            }}
-          >
-            {festival.name} Collection
-          </div>
-          <div
-            style={{
-              fontSize: isMobile ? "11px" : "12px",
-              color: "#666",
-              maxWidth: "340px",
-              margin: "0 auto 16px",
-              lineHeight: "1.4",
-            }}
-          >
-            Celebrate auspicious traditions with handcrafted artisanal decor.
-          </div>
-          <button
-            style={{
-              background: "#111",
-              color: "#FFF",
-              padding: isMobile ? "9px 18px" : "8px 22px",
-              borderRadius: "5px",
-              border: "none",
-              fontSize: "12px",
-              fontWeight: 600,
-              cursor: "pointer",
-              width: isMobile ? "100%" : "auto",
-            }}
-          >
-            Shop Collection
-          </button>
-        </div>
-
-        {/* Product Catalog Grid with Vector Silhouettes */}
-        <div
-          style={{
-            padding: isMobile ? "8px" : "12px 10px",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: isMobile ? "6px" : "8px",
-          }}
-        >
-          {[
-            {
-              title: "Brass Akhand Diya",
-              price: "₹1,499",
-              tag: "Bestseller",
-              icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3c-1.5 3-3.5 5.5-3.5 8 0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5c0-2.5-2-5-3.5-8z" fill="#D4AF37"/>
-                  <path d="M4 14c0 4 3.5 6 8 6s8-2 8-6H4z" fill="#996515"/>
-                </svg>
-              ),
-            },
-            {
-              title: "Marigold Toran",
-              price: "₹899",
-              tag: "Handmade",
-              icon: (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M3 6q9 12 18 0" stroke="#C62828" strokeWidth="2" fill="none"/>
-                  <circle cx="6" cy="10" r="2.5" fill="#E65100"/>
-                  <circle cx="12" cy="12" r="3" fill="#FF8F00"/>
-                  <circle cx="18" cy="10" r="2.5" fill="#E65100"/>
-                </svg>
-              ),
-            },
-          ]
-            .slice(0, 2)
-            .map((prod, i) => (
+            {/* Hero Section */}
+            <div
+              style={{
+                padding: isMobile ? "8px 6px 6px" : isTablet ? "12px 8px 8px" : "14px 10px 10px",
+                textAlign: "center",
+                background: "linear-gradient(180deg, #FAFAFA 0%, #F5F5F7 100%)",
+              }}
+            >
               <div
-                key={i}
                 style={{
-                  border: "1px solid #E8ECEF",
-                  borderRadius: "6px",
-                  padding: "10px",
-                  background: "#FFFFFF",
+                  display: "inline-block",
+                  padding: "1px 5px",
+                  background: "#E8F5E9",
+                  color: "#2E7D32",
+                  borderRadius: "5px",
+                  fontSize: "7px",
+                  fontWeight: 700,
+                  marginBottom: "2px",
                 }}
               >
+                FESTIVE EXCLUSIVE
+              </div>
+              <div
+                style={{
+                  fontSize: isMobile ? "10px" : isTablet ? "11.5px" : "12.5px",
+                  fontWeight: 800,
+                  color: "#111",
+                  marginBottom: "2px",
+                  letterSpacing: "-0.2px",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {festival.name} Collection
+              </div>
+              <div
+                style={{
+                  fontSize: "8px",
+                  color: "#666",
+                  maxWidth: "240px",
+                  margin: "0 auto 5px",
+                  lineHeight: "1.2",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Handcrafted auspicious artisanal decor
+              </div>
+              <button
+                style={{
+                  background: "#111",
+                  color: "#FFF",
+                  padding: "3px 9px",
+                  borderRadius: "4px",
+                  border: "none",
+                  fontSize: "8px",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                Shop Collection
+              </button>
+            </div>
+
+            {/* Product Catalog Grid (Includes 36px bottom padding so products are never blocked by corner diyas) */}
+            <div
+              style={{
+                padding: "5px 6px 36px",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "4px",
+              }}
+            >
+              {[
+                {
+                  title: "Akhand Diya",
+                  price: "₹1,499",
+                  tag: "Bestseller",
+                  icon: (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 3c-1.5 3-3.5 5.5-3.5 8 0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5c0-2.5-2-5-3.5-8z" fill="#D4AF37"/>
+                      <path d="M4 14c0 4 3.5 6 8 6s8-2 8-6H4z" fill="#996515"/>
+                    </svg>
+                  ),
+                },
+                {
+                  title: "Marigold Toran",
+                  price: "₹899",
+                  tag: "Handmade",
+                  icon: (
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                      <path d="M3 6q9 12 18 0" stroke="#C62828" strokeWidth="2" fill="none"/>
+                      <circle cx="6" cy="10" r="2.5" fill="#E65100"/>
+                      <circle cx="12" cy="12" r="3" fill="#FF8F00"/>
+                      <circle cx="18" cy="10" r="2.5" fill="#E65100"/>
+                    </svg>
+                  ),
+                },
+              ].map((prod, i) => (
                 <div
+                  key={i}
                   style={{
-                    height: isMobile ? "68px" : "80px",
-                    background: "linear-gradient(135deg, #F9F9FB 0%, #ECEFF1 100%)",
-                    borderRadius: "4px",
-                    marginBottom: "8px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    border: "1px solid #E8ECEF",
+                    borderRadius: "5px",
+                    padding: "4px",
+                    background: "#FFFFFF",
                   }}
                 >
-                  {prod.icon}
+                  <div
+                    style={{
+                      height: "34px",
+                      background: "linear-gradient(135deg, #F9F9FB 0%, #ECEFF1 100%)",
+                      borderRadius: "3px",
+                      marginBottom: "3px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {prod.icon}
+                  </div>
+                  <div style={{ fontSize: "6px", color: "#D4AF37", fontWeight: 700, textTransform: "uppercase", marginBottom: "1px" }}>
+                    {prod.tag}
+                  </div>
+                  <div style={{ fontSize: "8px", fontWeight: 600, color: "#222", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {prod.title}
+                  </div>
+                  <div style={{ fontSize: "7.5px", color: "#777", marginTop: "1px", fontWeight: 500 }}>
+                    {prod.price}
+                  </div>
                 </div>
-                <div style={{ fontSize: "9px", color: "#D4AF37", fontWeight: 700, textTransform: "uppercase", marginBottom: "2px" }}>
-                  {prod.tag}
-                </div>
-                <div style={{ fontSize: "11px", fontWeight: 600, color: "#222", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  {prod.title}
-                </div>
-                <div style={{ fontSize: "11px", color: "#777", marginTop: "2px", fontWeight: 500 }}>
-                  {prod.price}
-                </div>
-              </div>
-            ))}
-        </div>
+              ))}
+            </div>
 
-        {/* Mobile Home Swipe Bar */}
-        {isMobile && (
-          <div style={{ padding: "8px 0 6px", display: "flex", justifyContent: "center" }}>
-            <div style={{ width: "90px", height: "3px", background: "#333", borderRadius: "2px" }} />
+            {/* Mobile Home Swipe Bar */}
+            {isMobile && (
+              <div style={{ padding: "2px 0 4px", display: "flex", justifyContent: "center" }}>
+                <div style={{ width: "42px", height: "3px", background: "#333", borderRadius: "2px" }} />
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Viewport-Anchored Corner Diyas (Fixed to device screen corners like live storefront) */}
+          {!showOriginal && enableEffects && isDiwali && (!isMobile || !diyaHideOnMobile) && (
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 25 }}>
+              {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four") && (
+                <div style={{ position: "absolute", bottom: `${scaledMarginY}px`, left: `${scaledMarginX}px` }}>
+                  <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={effectiveDiyaPx} />
+                </div>
+              )}
+              {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four") && (
+                <div style={{ position: "absolute", bottom: `${scaledMarginY}px`, right: `${scaledMarginX}px` }}>
+                  <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={effectiveDiyaPx} />
+                </div>
+              )}
+              {(diyaPosition === "top_corners" || diyaPosition === "top_left" || diyaPosition === "all_four") && (
+                <div style={{ position: "absolute", top: `${scaledMarginY + 2}px`, left: `${scaledMarginX}px` }}>
+                  <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={effectiveDiyaPx} />
+                </div>
+              )}
+              {(diyaPosition === "top_corners" || diyaPosition === "top_right" || diyaPosition === "all_four") && (
+                <div style={{ position: "absolute", top: `${scaledMarginY + 2}px`, right: `${scaledMarginX}px` }}>
+                  <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={effectiveDiyaPx} />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -1341,10 +1392,11 @@ export default function FestivalConfig() {
                 <div
                   style={{
                     display: "flex",
-                    gap: "12px",
-                    padding: "16px 12px",
-                    background: "#F1F2F4",
+                    justifyContent: "center",
                     alignItems: "flex-start",
+                    gap: "16px",
+                    padding: "18px 14px",
+                    background: "#F1F2F4",
                     width: "100%",
                     boxSizing: "border-box",
                   }}
