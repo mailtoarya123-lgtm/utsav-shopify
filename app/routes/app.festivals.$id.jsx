@@ -162,9 +162,23 @@ export default function FestivalConfig() {
   const [enableAudio, setEnableAudio] = useState(config.enableAudio ?? true);
   const [enableWheel, setEnableWheel] = useState(config.enableWheel ?? true);
   const [language, setLanguage] = useState(config.language || "en");
+
+  const customSettings = (() => {
+    try {
+      return config.customColors ? JSON.parse(config.customColors) : {};
+    } catch (e) {
+      return {};
+    }
+  })();
+
+  const [diyaStyle, setDiyaStyle] = useState(customSettings.diyaStyle || "royal_brass");
+  const [flameGlow, setFlameGlow] = useState(customSettings.flameGlow || "sacred_flicker");
   const [diyaSize, setDiyaSize] = useState(config.diyaSize || "medium");
   const [diyaPosition, setDiyaPosition] = useState(config.diyaPosition || "bottom_corners");
+  const [fireworksStyle, setFireworksStyle] = useState(customSettings.fireworksStyle || "kamuro_willow");
   const [fireworksFrequency, setFireworksFrequency] = useState(config.fireworksFrequency || "subtle");
+  const [fireworksSound, setFireworksSound] = useState(customSettings.fireworksSound || "muted");
+  const [interactiveBlessing, setInteractiveBlessing] = useState(customSettings.interactiveBlessing ?? true);
   const [kiteCount, setKiteCount] = useState(String(config.kiteCount || 2));
   const [kiteSpeed, setKiteSpeed] = useState(config.kiteSpeed || "gentle");
   const [moonPosition, setMoonPosition] = useState(config.moonPosition || "top_right");
@@ -208,9 +222,19 @@ export default function FestivalConfig() {
     fd.append("bannerText", bannerText);
     fd.append("scheduledStart", scheduledStart);
     fd.append("scheduledEnd", scheduledEnd);
+
+    const customPayload = JSON.stringify({
+      diyaStyle,
+      flameGlow,
+      fireworksStyle,
+      fireworksSound,
+      interactiveBlessing,
+    });
+    fd.append("customColors", customPayload);
+
     fetcher.submit(fd, { method: "post" });
     if (activate !== null) setIsActive(activate);
-  }, [isActive, enableBanner, enableEffects, enableCountdown, enableColorSwap, enableAudio, enableWheel, language, diyaSize, diyaPosition, fireworksFrequency, kiteCount, kiteSpeed, moonPosition, bannerText, scheduledStart, scheduledEnd]);
+  }, [isActive, enableBanner, enableEffects, enableCountdown, enableColorSwap, enableAudio, enableWheel, language, diyaSize, diyaPosition, fireworksFrequency, kiteCount, kiteSpeed, moonPosition, bannerText, scheduledStart, scheduledEnd, diyaStyle, flameGlow, fireworksStyle, fireworksSound, interactiveBlessing]);
 
   const { primary, secondary, accent, background, text } = festival.palette;
 
@@ -400,46 +424,139 @@ export default function FestivalConfig() {
 
                       {/* Diwali Customizations */}
                       {festival.id.includes("diwali") && (
-                        <BlockStack gap="400">
-                          <Text variant="bodyMd" fontWeight="semibold">🪔 Stationary Diya Settings</Text>
+                        <BlockStack gap="500">
+                          {/* Live Visual Sandbox Preview */}
+                          <Box padding="300" background="bg-surface-secondary" borderRadius="300">
+                            <BlockStack gap="200">
+                              <InlineStack align="space-between">
+                                <Text variant="bodySm" fontWeight="bold">✨ Real-Time Diya & Flame Preview</Text>
+                                <Badge tone="info">Conversion-Safe Stationary</Badge>
+                              </InlineStack>
+                              <div
+                                style={{
+                                  height: "125px",
+                                  borderRadius: "8px",
+                                  background: "radial-gradient(ellipse at 50% 90%, #2A1502 0%, #100600 70%, #080300 100%)",
+                                  position: "relative",
+                                  overflow: "hidden",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  border: "1px solid rgba(212, 175, 55, 0.3)",
+                                }}
+                              >
+                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={diyaSize} />
+                              </div>
+                            </BlockStack>
+                          </Box>
+
+                          {/* 1. Diya Craftsmanship & Material */}
+                          <BlockStack gap="300">
+                            <Text variant="bodyMd" fontWeight="semibold">🏺 Diya Craftsmanship & Material</Text>
+                            <Select
+                              label="Diya Art Style"
+                              options={[
+                                { label: "🏺 Royal Brass (राजसी पीतल) — Molten gold reflections & carved scalloped rim", value: "royal_brass" },
+                                { label: "🧱 Earthen Terracotta (मिट्टी का दीया) — Rustic warm red clay & handmade edge", value: "terracotta_clay" },
+                                { label: "🪙 Shimmering Silver (चांदी का दीया) — Moonlit silver with diamond jewel flame", value: "silver_filigree" },
+                                { label: "🌸 Floral Marigold Urli (गेंदा फूल अर्ली) — Floating brass bowl with fresh petals", value: "marigold_urli" },
+                              ]}
+                              value={diyaStyle}
+                              onChange={setDiyaStyle}
+                              helpText="Select authentic artisanal material and texture for storefront diyas"
+                            />
+                          </BlockStack>
+
+                          {/* 2. Diya Placement & Size */}
                           <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
                             <Select
                               label="Diya Dimensions"
                               options={[
-                                { label: "Small (60px — Subtle)", value: "small" },
-                                { label: "Medium (85px — Standard)", value: "medium" },
-                                { label: "Large (110px — Prominent)", value: "large" },
+                                { label: "Small (60px — Subtle & Minimal)", value: "small" },
+                                { label: "Medium (85px — Standard Balanced Luxury)", value: "medium" },
+                                { label: "Large (115px — Grand Majestic Presence)", value: "large" },
                               ]}
                               value={diyaSize}
                               onChange={setDiyaSize}
-                              helpText="Fixed dimensions of stationary brass diyas"
+                              helpText="Fixed dimensions of stationary diyas"
                             />
                             <Select
                               label="Diya Placement"
                               options={[
                                 { label: "Both Bottom Corners (Classic)", value: "bottom_corners" },
+                                { label: "Bottom-Right Corner Only (Chat Widget Safe)", value: "bottom_right" },
                                 { label: "Bottom-Left Corner Only", value: "bottom_left" },
-                                { label: "Bottom-Right Corner Only", value: "bottom_right" },
                                 { label: "Top Corners (Under Header)", value: "top_corners" },
+                                { label: "All 4 Corners (Majestic Quad Lighting)", value: "all_four" },
                               ]}
                               value={diyaPosition}
                               onChange={setDiyaPosition}
                               helpText="Positions where diyas remain peacefully lit"
                             />
                           </InlineGrid>
-                          <Divider />
-                          <Text variant="bodyMd" fontWeight="semibold">🎆 Aerial Fireworks Sparkles</Text>
+
+                          {/* 3. Flame Glow Aura */}
                           <Select
-                            label="Fireworks Burst Frequency"
+                            label="Flame Glow & Atmosphere"
                             options={[
-                              { label: "Off (Pure Quiet Candlelight - No Fireworks)", value: "off" },
-                              { label: "Subtle (1 Willow Burst every 7.5s - Recommended)", value: "subtle" },
-                              { label: "Moderate (Burst every 4.2s)", value: "moderate" },
-                              { label: "Celebratory (Burst every 2.2s)", value: "celebratory" },
+                              { label: "🕯️ Sacred Temple Warmth — Gentle living flame with breathing golden halo", value: "sacred_flicker" },
+                              { label: "🌟 Divine Radiance — Broad warm ambient glow illuminating screen corners", value: "divine_aura" },
+                              { label: "✨ Akhand Jyoti (Sparkling Wick) — Micro-sparks rising from pure cotton wick", value: "sparkling_wick" },
                             ]}
-                            value={fireworksFrequency}
-                            onChange={setFireworksFrequency}
-                            helpText="Subtle golden aerial willow sparklers bursting gently in the upper margins"
+                            value={flameGlow}
+                            onChange={setFlameGlow}
+                            helpText="Illumination atmosphere and halo warmth generated by the diyas"
+                          />
+
+                          {/* 4. Interactive Shopper Blessing */}
+                          <Checkbox
+                            label="Enable Tap-to-Bless (Shopper Diya Blessing)"
+                            helpText="When shoppers click or tap any diya, a gentle burst of golden sparkles floats up with an auspicious Diwali greeting"
+                            checked={interactiveBlessing}
+                            onChange={setInteractiveBlessing}
+                          />
+
+                          <Divider />
+
+                          {/* 5. Fireworks Options */}
+                          <Text variant="bodyMd" fontWeight="semibold">🎆 Aerial Fireworks Sparkles (आतिशबाज़ी)</Text>
+                          <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
+                            <Select
+                              label="Fireworks Visual Style"
+                              options={[
+                                { label: "🎋 Golden Kamuro Willow — Cascading golden glitter waterfall trails (Luxury)", value: "kamuro_willow" },
+                                { label: "🌸 Rangoli Multi-Color Peony — Festive bursts in saffron, magenta & emerald", value: "peony_multicolor" },
+                                { label: "✨ Corner Anar Sparkle Fountain — Soft fountains rising above corner diyas", value: "anar_fountain" },
+                                { label: "🌀 Golden Chakri Whirl — Soft spinning rings of golden spark spirals", value: "chakri_whirl" },
+                                { label: "⭐ Starlight Twinkle — Subtle gentle twinkling stars in upper margins", value: "starlight_twinkle" },
+                              ]}
+                              value={fireworksStyle}
+                              onChange={setFireworksStyle}
+                              helpText="Visual artistic style of aerial festival fireworks"
+                            />
+                            <Select
+                              label="Fireworks Burst Frequency"
+                              options={[
+                                { label: "Off (Quiet Candlelight Only — No Fireworks)", value: "off" },
+                                { label: "Subtle (1 Burst every 8.5s — Recommended for E-commerce)", value: "subtle" },
+                                { label: "Moderate (Burst every 4.5s — Balanced Celebration)", value: "moderate" },
+                                { label: "Celebratory (Burst every 2.2s — Full Grand Night)", value: "celebratory" },
+                              ]}
+                              value={fireworksFrequency}
+                              onChange={setFireworksFrequency}
+                              helpText="Controls time between aerial spark bursts in the upper sky margins"
+                            />
+                          </InlineGrid>
+
+                          <Select
+                            label="Festive Soundscape (Opt-in Web Audio)"
+                            options={[
+                              { label: "🔇 Silent & Respectful (100% Muted — Default)", value: "muted" },
+                              { label: "🔔 Auspicious Temple Bells on Burst (Gentle meditative chime)", value: "temple_bells" },
+                            ]}
+                            value={fireworksSound}
+                            onChange={setFireworksSound}
+                            helpText="Audio accompaniment. Zero external MP3 downloads; synthesized via Web Audio."
                           />
                         </BlockStack>
                       )}
@@ -828,3 +945,148 @@ function StorefrontPreview({ festival, config }) {
     </div>
   );
 }
+
+function DiyaPreviewWidget({ style = "royal_brass", flameGlow = "sacred_flicker", size = "medium" }) {
+  const pixelSize = size === "small" ? 55 : size === "large" ? 95 : 75;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", position: "relative" }}>
+      <svg
+        viewBox="0 0 120 100"
+        width={pixelSize}
+        height={Math.round(pixelSize * 0.82)}
+        style={{
+          filter:
+            flameGlow === "divine_aura"
+              ? "drop-shadow(0 0 20px rgba(255, 180, 0, 0.95))"
+              : flameGlow === "sparkling_wick"
+              ? "drop-shadow(0 0 14px rgba(255, 230, 100, 0.9))"
+              : "drop-shadow(0 0 10px rgba(255, 140, 0, 0.8))",
+        }}
+      >
+        <defs>
+          <radialGradient id="prevGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#FFD700" stopOpacity="0.9" />
+            <stop offset="60%" stopColor="#FF6B35" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#FF6B35" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="prevFlame" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stopColor={style === "silver_filigree" ? "#00BCD4" : "#FF3D00"} />
+            <stop offset="40%" stopColor={style === "silver_filigree" ? "#80DEEA" : "#FF9800"} />
+            <stop offset="80%" stopColor="#FFF59D" />
+            <stop offset="100%" stopColor="#FFFFFF" />
+          </linearGradient>
+
+          {/* Brass Gradients */}
+          <linearGradient id="prevBrass" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFE082" />
+            <stop offset="40%" stopColor="#D4AF37" />
+            <stop offset="80%" stopColor="#996515" />
+            <stop offset="100%" stopColor="#5D4037" />
+          </linearGradient>
+
+          {/* Terracotta Clay Gradients */}
+          <linearGradient id="prevClay" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#E07A5F" />
+            <stop offset="40%" stopColor="#C85A27" />
+            <stop offset="80%" stopColor="#8D3B16" />
+            <stop offset="100%" stopColor="#541F09" />
+          </linearGradient>
+
+          {/* Silver Filigree Gradients */}
+          <linearGradient id="prevSilver" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="30%" stopColor="#ECEFF1" />
+            <stop offset="70%" stopColor="#B0BEC5" />
+            <stop offset="100%" stopColor="#546E7A" />
+          </linearGradient>
+        </defs>
+
+        {/* Aura glow */}
+        <circle cx="60" cy="36" r={flameGlow === "divine_aura" ? 44 : 32} fill="url(#prevGlow)" />
+
+        {/* Flame with dynamic flicker */}
+        <g style={{ animation: "utsavFlameFlicker 1.6s ease-in-out infinite alternate", transformOrigin: "60px 48px" }}>
+          <path
+            d="M 60 10 C 53 25 48 36 48 44 C 48 53 53 57 60 57 C 67 57 72 53 72 44 C 72 36 67 25 60 10 Z"
+            fill="url(#prevFlame)"
+          />
+          <path
+            d="M 60 20 C 55 29 53 37 53 44 C 53 49 55 53 60 53 C 65 53 67 49 67 44 C 67 37 65 29 60 20 Z"
+            fill="#FFFDE7"
+          />
+          <line x1="60" y1="46" x2="60" y2="58" stroke="#3E2723" strokeWidth="2.5" strokeLinecap="round" />
+        </g>
+
+        {/* Body based on Style */}
+        {style === "terracotta_clay" ? (
+          <>
+            <ellipse cx="60" cy="58" rx="42" ry="11" fill="#E07A5F" />
+            <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#prevClay)" />
+            {/* Clay artisanal rim notches */}
+            <path d="M 28 58 Q 60 63 92 58" stroke="#8D3B16" strokeWidth="1.5" fill="none" />
+            <ellipse cx="60" cy="86" rx="22" ry="4" fill="#541F09" />
+          </>
+        ) : style === "silver_filigree" ? (
+          <>
+            <ellipse cx="60" cy="58" rx="41" ry="10" fill="#ECEFF1" />
+            <path d="M 19 58 Q 21 83 60 85 Q 99 83 101 58 Z" fill="url(#prevSilver)" />
+            {/* Filigree ornamental pattern */}
+            <path d="M 26 62 Q 40 74 60 62 Q 80 74 94 62" stroke="#FFFFFF" strokeWidth="1" fill="none" opacity="0.8" />
+            <path d="M 35 70 Q 60 79 85 70" stroke="#FFFFFF" strokeWidth="1" fill="none" opacity="0.6" />
+            <ellipse cx="60" cy="85" rx="20" ry="4" fill="#37474F" />
+          </>
+        ) : style === "marigold_urli" ? (
+          <>
+            {/* Urli Shallow Bowl */}
+            <ellipse cx="60" cy="62" rx="48" ry="14" fill="#E5C158" />
+            <ellipse cx="60" cy="62" rx="44" ry="12" fill="#3E2723" />
+            {/* Marigold Petals */}
+            <circle cx="28" cy="62" r="7" fill="#FF9800" />
+            <circle cx="38" cy="69" r="6" fill="#FFC107" />
+            <circle cx="82" cy="69" r="6" fill="#FFC107" />
+            <circle cx="92" cy="62" r="7" fill="#FF9800" />
+            <circle cx="60" cy="71" r="6" fill="#FF5722" />
+            {/* Center brass lamp */}
+            <path d="M 40 60 Q 42 78 60 80 Q 78 78 80 60 Z" fill="url(#prevBrass)" />
+            <ellipse cx="60" cy="81" rx="18" ry="3.5" fill="#5D4037" />
+          </>
+        ) : (
+          /* Royal Brass (Default) */
+          <>
+            <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FFE082" />
+            <path d="M 18 58 Q 20 83 60 85 Q 100 83 102 58 Z" fill="url(#prevBrass)" />
+            {/* Scalloped decorative rim */}
+            <path
+              d="M 24 61 Q 33 67 42 61 Q 51 67 60 61 Q 69 67 78 61 Q 87 67 96 61"
+              stroke="#FFE082"
+              strokeWidth="1.2"
+              fill="none"
+              opacity="0.75"
+            />
+            <ellipse cx="60" cy="85" rx="22" ry="4" fill="#5D4037" />
+          </>
+        )}
+      </svg>
+      <div
+        style={{
+          marginTop: "6px",
+          fontSize: "11px",
+          color: "#FFD700",
+          fontWeight: 700,
+          letterSpacing: "0.5px",
+          textTransform: "uppercase",
+        }}
+      >
+        {style === "terracotta_clay"
+          ? "🧱 Earthen Mitti Clay"
+          : style === "silver_filigree"
+          ? "🪙 Silver Filigree"
+          : style === "marigold_urli"
+          ? "🌸 Floral Marigold Urli"
+          : "🏺 Royal Brass"}
+      </div>
+    </div>
+  );
+}
+
