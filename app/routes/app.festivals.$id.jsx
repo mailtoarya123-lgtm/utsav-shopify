@@ -425,7 +425,7 @@ export function getFestivalTerminology(festivalId = "") {
       dockingPositionLabel: "Lantern Docking Position",
       dockingHelp: "Prevents lanterns from obstructing your logo or navigation menu.",
       offsetLabel: "Vertical Alignment Fine-Tuning",
-      cornerName: "Red Lantern",
+      cornerName: "Red Silk Lantern",
       cornerSizeLabel: "Corner Red Lantern Size",
       cornerPlacementLabel: "Corner Red Lantern Placement",
       secondaryToggleLabel: "Enable Golden Sparkles & Coin Drift",
@@ -458,7 +458,7 @@ export function getFestivalTerminology(festivalId = "") {
       dockingPositionLabel: "Lantern Docking Position",
       dockingHelp: "Prevents lanterns from obstructing your logo or navigation menu.",
       offsetLabel: "Vertical Alignment Fine-Tuning",
-      cornerName: "Fanoos Lantern",
+      cornerName: "Damascus Fanoos",
       cornerSizeLabel: "Corner Fanoos Lantern Size",
       cornerPlacementLabel: "Corner Fanoos Lantern Placement",
       secondaryToggleLabel: "Enable Moonlit Illumination",
@@ -492,7 +492,7 @@ export function getFestivalTerminology(festivalId = "") {
       dockingPositionLabel: "Blossom Docking Position",
       dockingHelp: "Prevents blossoms from obstructing your logo or navigation menu.",
       offsetLabel: "Vertical Alignment Fine-Tuning",
-      cornerName: "Nilavilakku",
+      cornerName: "Nilavilakku Lamp",
       cornerSizeLabel: "Corner Nilavilakku Size",
       cornerPlacementLabel: "Corner Nilavilakku Placement",
       secondaryToggleLabel: "Enable Vishu Kani Glow",
@@ -576,7 +576,436 @@ export function getFestivalTerminology(festivalId = "") {
     };
   }
 
-  // Default: Indian Celebrations (Diwali, Dussehra, Ganesh Chaturthi, Pongal, Navratri, Holi, etc.)
+  // 9. Holi
+  if (fest.includes("holi")) {
+    return {
+      headerCategory: "Festive Bunting",
+      headerBadge: "Color Swags",
+      headerArchitectureLabel: "Color Swag Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Color Bunting & Side Pom-Poms", value: "top_and_sides" },
+        { label: "Top Bunting Only", value: "top_only" },
+        { label: "Side Swags Only", value: "sides_only" },
+        { label: "Off (No Bunting)", value: "off" },
+      ],
+      dockingPositionLabel: "Bunting Docking Position",
+      dockingHelp: "Prevents colorful swags from obstructing your store header.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Pichkari & Gulal Bowl",
+      cornerSizeLabel: "Corner Pichkari / Bowl Size",
+      cornerPlacementLabel: "Corner Pichkari Placement",
+      secondaryToggleLabel: "Enable Organic Gulal Powder Bloom",
+      secondaryToggleHelp: "Vibrant organic powder blooms and cheerful colorful celebratory splatters.",
+      lightsThemeLabel: "Gulal Palette Theme",
+      lightsThemeOptions: [
+        { label: "Vibrant Gulal Multi-Color", value: "festive_multicolor" },
+        { label: "Kesari Saffron Glow", value: "amber_radiance" },
+      ],
+      particleLabel: "Powder Particle Budget",
+      particleHelp: "Controls drifting colored powder puffs at smooth 60 FPS.",
+      audioLabel: "Festive Dhol & Chime (Audio)",
+      audioHelp: "Joyful celebratory percussion chime on shopper interaction.",
+      safeZoneHelp: "Prevents corner pichkari bowl from colliding with mobile navigation.",
+    };
+  }
+
+  // 10. Navratri
+  if (fest.includes("navratri")) {
+    return {
+      headerCategory: "Mirrored Bandhanwar",
+      headerBadge: "Garba Mirrors",
+      headerArchitectureLabel: "Bandhanwar Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Mirrored Bandhanwar & Side Tassels", value: "top_and_sides" },
+        { label: "Top Bandhanwar Only", value: "top_only" },
+        { label: "Side Tassels Only", value: "sides_only" },
+        { label: "Off (No Bandhanwar)", value: "off" },
+      ],
+      dockingPositionLabel: "Bandhanwar Docking Position",
+      dockingHelp: "Prevents bandhanwar from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Carved Dandiya Sticks",
+      cornerSizeLabel: "Corner Dandiya Sticks Size",
+      cornerPlacementLabel: "Corner Dandiya Placement",
+      secondaryToggleLabel: "Enable Warm Festive Garba Lights",
+      secondaryToggleHelp: "Twinkling garba catenary lights and celebratory rhythmic aura.",
+      lightsThemeLabel: "Garba Lights Theme",
+      lightsThemeOptions: [
+        { label: "Warm Royal Gold (2700K)", value: "warm_gold" },
+        { label: "Navratri Jewel Multi-Color", value: "festive_multicolor" },
+      ],
+      particleLabel: "Rhythmic Spark Budget",
+      particleHelp: "Controls energetic Garba celebration sparks at 60 FPS.",
+      audioLabel: "Dandiya Strike Chime (Audio)",
+      audioHelp: "Rhythmic wooden dandiya tap sound on shopper interaction.",
+      safeZoneHelp: "Prevents corner dandiya sticks from colliding with mobile navigation.",
+    };
+  }
+
+  // 11. Pongal
+  if (fest.includes("pongal")) {
+    return {
+      headerCategory: "Sugarcane & Turmeric Arch",
+      headerBadge: "Sugarcane",
+      headerArchitectureLabel: "Harvest Arch Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Sugarcane & Side Stalks", value: "top_and_sides" },
+        { label: "Top Sugarcane Arch Only", value: "top_only" },
+        { label: "Side Stalks Only", value: "sides_only" },
+        { label: "Off (No Arch)", value: "off" },
+      ],
+      dockingPositionLabel: "Arch Docking Position",
+      dockingHelp: "Prevents sugarcane arch from obstructing your header.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Clay Pongal Pot",
+      cornerSizeLabel: "Corner Pongal Pot Size",
+      cornerPlacementLabel: "Corner Pongal Pot Placement",
+      secondaryToggleLabel: "Enable Kolam Reveal & Harvest Grains",
+      secondaryToggleHelp: "Sacred white rice flour Kolam geometric reveal and golden grains.",
+      lightsThemeLabel: "Harvest Glow Theme",
+      lightsThemeOptions: [
+        { label: "Golden Sunlight Glow", value: "warm_gold" },
+        { label: "Jaggery Amber Radiance", value: "amber_radiance" },
+      ],
+      particleLabel: "Kolam Particle Budget",
+      particleHelp: "Controls geometric rice kolam sparkle count at 60 FPS.",
+      audioLabel: "Traditional Nadaswaram Chime (Audio)",
+      audioHelp: "Celebratory festive nadaswaram chime on interaction.",
+      safeZoneHelp: "Prevents corner Pongal pots from colliding with mobile navigation.",
+    };
+  }
+
+  // 12. Onam
+  if (fest.includes("onam")) {
+    return {
+      headerCategory: "Palm Thoranam",
+      headerBadge: "Kuruthola",
+      headerArchitectureLabel: "Thoranam Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Palm Thoranam & Side Garlands", value: "top_and_sides" },
+        { label: "Top Thoranam Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Thoranam)", value: "off" },
+      ],
+      dockingPositionLabel: "Thoranam Docking Position",
+      dockingHelp: "Prevents palm thoranam from obstructing your header.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Pookalam Floral Carpet",
+      cornerSizeLabel: "Corner Pookalam Size",
+      cornerPlacementLabel: "Corner Pookalam Placement",
+      secondaryToggleLabel: "Enable Pookalam Petal Reveal",
+      secondaryToggleHelp: "Drifting marigold and jasmine flower petals with sacred center glow.",
+      lightsThemeLabel: "Floral Glow Theme",
+      lightsThemeOptions: [
+        { label: "Marigold Gold (2700K)", value: "warm_gold" },
+        { label: "Saffron Radiance", value: "amber_radiance" },
+      ],
+      particleLabel: "Petal Particle Budget",
+      particleHelp: "Controls falling marigold and jasmine petal density at 60 FPS.",
+      audioLabel: "Chenda Melam Rhythm Chime (Audio)",
+      audioHelp: "Festive Kerala percussion greeting chime.",
+      safeZoneHelp: "Prevents corner Pookalam carpets from colliding with mobile navigation.",
+    };
+  }
+
+  // 13. Raksha Bandhan
+  if (fest.includes("raksha") || fest.includes("rakhi")) {
+    return {
+      headerCategory: "Silk Kalawa Threads",
+      headerBadge: "Mauli Ribbon",
+      headerArchitectureLabel: "Kalawa Ribbon Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Kalawa & Side Streamers", value: "top_and_sides" },
+        { label: "Top Kalawa Threads Only", value: "top_only" },
+        { label: "Side Streamers Only", value: "sides_only" },
+        { label: "Off (No Ribbons)", value: "off" },
+      ],
+      dockingPositionLabel: "Ribbon Docking Position",
+      dockingHelp: "Prevents ribbons from obstructing navigation.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Royal Rakhi Rosette",
+      cornerSizeLabel: "Corner Rakhi Size",
+      cornerPlacementLabel: "Corner Rakhi Placement",
+      secondaryToggleLabel: "Enable Ribbon Reveal & Gift Sparkles",
+      secondaryToggleHelp: "Auspicious silk ribbon unfold animation and golden gift sparkles.",
+      lightsThemeLabel: "Sacred Thread Palette",
+      lightsThemeOptions: [
+        { label: "Sacred Saffron & Crimson", value: "amber_radiance" },
+        { label: "Royal Gold Sparkle", value: "warm_gold" },
+      ],
+      particleLabel: "Ribbon Sparkle Budget",
+      particleHelp: "Controls shimmering silk thread sparkles at 60 FPS.",
+      audioLabel: "Gentle Sitar Chord (Audio)",
+      audioHelp: "Acoustic sitar chord on first interaction.",
+      safeZoneHelp: "Prevents corner Rakhi rosettes from colliding with mobile navigation.",
+    };
+  }
+
+  // 14. Ganesh Chaturthi
+  if (fest.includes("ganesh")) {
+    return {
+      headerCategory: "Hibiscus & Durva Garland",
+      headerBadge: "Floral Garland",
+      headerArchitectureLabel: "Floral Garland Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Hibiscus Garland & Side Cascades", value: "top_and_sides" },
+        { label: "Top Hibiscus Garland Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Garland)", value: "off" },
+      ],
+      dockingPositionLabel: "Garland Docking Position",
+      dockingHelp: "Prevents floral garland from obstructing header.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Clay Ganesha & Modak",
+      cornerSizeLabel: "Corner Ganesha Motif Size",
+      cornerPlacementLabel: "Corner Ganesha Placement",
+      secondaryToggleLabel: "Enable Gentle Golden Glow & Blessings",
+      secondaryToggleHelp: "Divine golden aura, sacred modak radiance, and falling hibiscus petals.",
+      lightsThemeLabel: "Divine Aura Theme",
+      lightsThemeOptions: [
+        { label: "Saffron & Royal Gold", value: "warm_gold" },
+        { label: "Deep Amber Radiance", value: "amber_radiance" },
+      ],
+      particleLabel: "Blessing Particle Budget",
+      particleHelp: "Controls falling red hibiscus petals and golden blessings at 60 FPS.",
+      audioLabel: "Shankh & Aarti Bell (Audio)",
+      audioHelp: "Gentle auspicious shankh resonance chime on interaction.",
+      safeZoneHelp: "Prevents corner Ganesha emblems from colliding with mobile navigation.",
+    };
+  }
+
+  // 15. Easter
+  if (fest.includes("easter")) {
+    return {
+      headerCategory: "Spring Floral Vines",
+      headerBadge: "Pastel Vines",
+      headerArchitectureLabel: "Floral Vine Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Pastel Vine & Side Floral Swags", value: "top_and_sides" },
+        { label: "Top Floral Vine Only", value: "top_only" },
+        { label: "Side Swags Only", value: "sides_only" },
+        { label: "Off (No Vines)", value: "off" },
+      ],
+      dockingPositionLabel: "Vine Docking Position",
+      dockingHelp: "Prevents spring vines from obstructing your header.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Decorated Easter Egg",
+      cornerSizeLabel: "Corner Easter Egg Size",
+      cornerPlacementLabel: "Corner Easter Egg Placement",
+      secondaryToggleLabel: "Enable Spring Petals & Butterflies",
+      secondaryToggleHelp: "Drifting pastel flower petals and soft spring garden luminescence.",
+      lightsThemeLabel: "Pastel Spring Palette",
+      lightsThemeOptions: [
+        { label: "Pastel Meadow Multi-Color", value: "festive_multicolor" },
+        { label: "Morning Jasmine White", value: "pearl_white" },
+      ],
+      particleLabel: "Spring Petal Budget",
+      particleHelp: "Controls drifting pastel flower petals at 60 FPS.",
+      audioLabel: "Spring Birdsong & Chime (Audio)",
+      audioHelp: "Gentle acoustic spring tone on customer interaction.",
+      safeZoneHelp: "Prevents corner Easter eggs from colliding with mobile navigation.",
+    };
+  }
+
+  // 16. New Year
+  if (fest.includes("new-year") || fest.includes("newyear")) {
+    return {
+      headerCategory: "Champagne Bunting",
+      headerBadge: "Gold Streamers",
+      headerArchitectureLabel: "Bunting Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Metallic Bunting & Side Streamers", value: "top_and_sides" },
+        { label: "Top Bunting Only", value: "top_only" },
+        { label: "Side Streamers Only", value: "sides_only" },
+        { label: "Off (No Bunting)", value: "off" },
+      ],
+      dockingPositionLabel: "Bunting Docking Position",
+      dockingHelp: "Prevents metallic bunting from obstructing navigation.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Champagne Flutes & Clock",
+      cornerSizeLabel: "Corner Celebration Motif Size",
+      cornerPlacementLabel: "Corner Celebration Placement",
+      secondaryToggleLabel: "Enable Micro Fireworks & Confetti",
+      secondaryToggleHelp: "Celebratory micro fireworks bursts, champagne sparkle, and gold confetti.",
+      lightsThemeLabel: "Countdown Glow Palette",
+      lightsThemeOptions: [
+        { label: "Champagne Gold (2700K)", value: "warm_gold" },
+        { label: "Times Square Multi-Color", value: "festive_multicolor" },
+      ],
+      particleLabel: "Confetti & Spark Budget",
+      particleHelp: "Controls micro celebratory sparks and gold confetti at 60 FPS.",
+      audioLabel: "Celebratory Chime / Chimes of Midnight",
+      audioHelp: "Plays subtle celebratory chime on interaction.",
+      safeZoneHelp: "Prevents corner champagne flutes from colliding with mobile navigation.",
+    };
+  }
+
+  // 17. Mid-Autumn Festival
+  if (fest.includes("mid-autumn") || fest.includes("mooncake")) {
+    return {
+      headerCategory: "Bamboo Lantern Strings",
+      headerBadge: "Sky Lanterns",
+      headerArchitectureLabel: "Lantern String Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Lantern String & Side Tassels", value: "top_and_sides" },
+        { label: "Top Lantern String Only", value: "top_only" },
+        { label: "Side Tassels Only", value: "sides_only" },
+        { label: "Off (No Lanterns)", value: "off" },
+      ],
+      dockingPositionLabel: "Lantern Docking Position",
+      dockingHelp: "Prevents bamboo lanterns from obstructing navigation.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Harvest Moon & Mooncake",
+      cornerSizeLabel: "Corner Harvest Moon Size",
+      cornerPlacementLabel: "Corner Harvest Moon Placement",
+      secondaryToggleLabel: "Enable Floating Sky Lanterns & Moon Radiance",
+      secondaryToggleHelp: "Luminous harvest full moon glow and soft upward floating paper lanterns.",
+      lightsThemeLabel: "Moonlight Theme",
+      lightsThemeOptions: [
+        { label: "Harvest Moonlit Gold", value: "warm_gold" },
+        { label: "Silver Moonlight Glow", value: "pearl_white" },
+      ],
+      particleLabel: "Sky Lantern Particle Budget",
+      particleHelp: "Controls floating miniature paper lanterns at 60 FPS.",
+      audioLabel: "Guzheng Melodic Chime (Audio)",
+      audioHelp: "Plays serene acoustic guzheng tone on interaction.",
+      safeZoneHelp: "Prevents corner harvest moon motifs from colliding with mobile navigation.",
+    };
+  }
+
+  // 18. Vesak
+  if (fest.includes("vesak") || fest.includes("buddha")) {
+    return {
+      headerCategory: "Bodhi & Jasmine Garland",
+      headerBadge: "Sacred Vines",
+      headerArchitectureLabel: "Sacred Garland Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Bodhi Garland & Side Cascades", value: "top_and_sides" },
+        { label: "Top Bodhi Garland Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Garland)", value: "off" },
+      ],
+      dockingPositionLabel: "Garland Docking Position",
+      dockingHelp: "Prevents garland from obstructing header.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Blooming Sacred Lotus",
+      cornerSizeLabel: "Corner Lotus Motif Size",
+      cornerPlacementLabel: "Corner Lotus Placement",
+      secondaryToggleLabel: "Enable Gentle Illumination & Bodhi Radiance",
+      secondaryToggleHelp: "Peaceful golden Dhamma light aura and floating sacred white lotus petals.",
+      lightsThemeLabel: "Enlightenment Glow Theme",
+      lightsThemeOptions: [
+        { label: "Golden Saffron Ochre", value: "warm_gold" },
+        { label: "Jasmine White Glow", value: "pearl_white" },
+      ],
+      particleLabel: "Lotus Petal Budget",
+      particleHelp: "Controls peaceful lotus petal and soft light drift at 60 FPS.",
+      audioLabel: "Singing Bowl Meditation Chime (Audio)",
+      audioHelp: "Peaceful Tibetan singing bowl resonance on interaction.",
+      safeZoneHelp: "Prevents corner blooming lotus from colliding with mobile navigation.",
+    };
+  }
+
+  // 19. Durga Puja
+  if (fest.includes("durga")) {
+    return {
+      headerCategory: "Alpana & Kash Garland",
+      headerBadge: "Sharad Garland",
+      headerArchitectureLabel: "Pujo Garland Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Alpana Garland & Side Kash Reeds", value: "top_and_sides" },
+        { label: "Top Alpana Garland Only", value: "top_only" },
+        { label: "Side Kash Reeds Only", value: "sides_only" },
+        { label: "Off (No Garland)", value: "off" },
+      ],
+      dockingPositionLabel: "Garland Docking Position",
+      dockingHelp: "Prevents pujo garland from obstructing navigation.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Clay Dhunachi Burner",
+      cornerSizeLabel: "Corner Dhunachi Size",
+      cornerPlacementLabel: "Corner Dhunachi Placement",
+      secondaryToggleLabel: "Enable Dhunachi Holy Incense & Smoke",
+      secondaryToggleHelp: "Aromatic holy Dhuno incense smoke tendrils and swaying autumn Kash reeds.",
+      lightsThemeLabel: "Pujo Aarti Glow Theme",
+      lightsThemeOptions: [
+        { label: "Sindoor Crimson & Gold", value: "amber_radiance" },
+        { label: "Divine Aarti Warm Gold", value: "warm_gold" },
+      ],
+      particleLabel: "Smoke Tendril Particle Budget",
+      particleHelp: "Controls holy incense smoke swirls and kash petals at 60 FPS.",
+      audioLabel: "Dhak Drum & Kanshi Beat (Audio)",
+      audioHelp: "Rhythmic festive Dhak drumbeat greeting on interaction.",
+      safeZoneHelp: "Prevents corner Dhunachi burners from colliding with mobile navigation.",
+    };
+  }
+
+  // 20. Makar Sankranti
+  if (fest.includes("sankranti") || fest.includes("uttarayan")) {
+    return {
+      headerCategory: "Kite Streamers",
+      headerBadge: "Uttarayan Kites",
+      headerArchitectureLabel: "Kite Streamer Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Kite Streamer & Side Manja Spools", value: "top_and_sides" },
+        { label: "Top Kite Streamer Only", value: "top_only" },
+        { label: "Side Kites Only", value: "sides_only" },
+        { label: "Off (No Streamers)", value: "off" },
+      ],
+      dockingPositionLabel: "Streamer Docking Position",
+      dockingHelp: "Prevents kite streamers from obstructing navigation.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Diamond Fighter Kite",
+      cornerSizeLabel: "Corner Fighter Kite Size",
+      cornerPlacementLabel: "Corner Fighter Kite Placement",
+      secondaryToggleLabel: "Enable Soaring Kites & Golden Sunshine",
+      secondaryToggleHelp: "Vibrant diamond fighter kites soaring in clear winter skies with golden rays.",
+      lightsThemeLabel: "Winter Sunshine Theme",
+      lightsThemeOptions: [
+        { label: "Kite Saffron & Sky Gold", value: "warm_gold" },
+        { label: "Clear Winter Sky Multi-Color", value: "festive_multicolor" },
+      ],
+      particleLabel: "Soaring Kite Dust Budget",
+      particleHelp: "Controls soaring kite silhouettes and sunbeam sparkles at 60 FPS.",
+      audioLabel: "Joyful Kai Po Che! Chime (Audio)",
+      audioHelp: "Celebratory festival greeting chime on interaction.",
+      safeZoneHelp: "Prevents corner fighter kites from colliding with mobile navigation.",
+    };
+  }
+
+  // 21. Dussehra
+  if (fest.includes("dussehra") || fest.includes("vijayadashami")) {
+    return {
+      headerCategory: "Shami Leaf Garland",
+      headerBadge: "Victory Toran",
+      headerArchitectureLabel: "Victory Toran Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Shami Toran & Side Marigolds", value: "top_and_sides" },
+        { label: "Top Shami Toran Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Toran)", value: "off" },
+      ],
+      dockingPositionLabel: "Toran Docking Position",
+      dockingHelp: "Prevents victory toran from obstructing navigation.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Golden Bow & Arrow",
+      cornerSizeLabel: "Corner Bow & Arrow Size",
+      cornerPlacementLabel: "Corner Bow & Arrow Placement",
+      secondaryToggleLabel: "Enable Triumphant Victory Glow",
+      secondaryToggleHelp: "Radiant golden victory embers and auspicious Shami leaves honoring Lord Rama.",
+      lightsThemeLabel: "Victory Aura Theme",
+      lightsThemeOptions: [
+        { label: "Flame Amber Radiance", value: "amber_radiance" },
+        { label: "Royal Victory Gold", value: "warm_gold" },
+      ],
+      particleLabel: "Victory Ember Budget",
+      particleHelp: "Controls triumphant golden embers and falling Shami leaves at 60 FPS.",
+      audioLabel: "Triumphant Conch & Bell (Audio)",
+      audioHelp: "Auspicious victory conch resonance on customer interaction.",
+      safeZoneHelp: "Prevents corner bow and arrow emblem from colliding with mobile navigation.",
+    };
+  }
+
+  // Default: Diwali & Classical Indian Celebrations
   return {
     headerCategory: "Garlands & Docking",
     headerBadge: "Toran",
@@ -590,7 +1019,7 @@ export function getFestivalTerminology(festivalId = "") {
     dockingPositionLabel: "Toran Docking Position",
     dockingHelp: "Prevents garland from obstructing your logo, navigation menu, or cart.",
     offsetLabel: "Vertical Alignment Fine-Tuning",
-    cornerName: "Living Diya",
+    cornerName: "Living Brass Diya",
     cornerSizeLabel: "Corner Diya / Motif Size",
     cornerPlacementLabel: "Corner Diya / Motif Placement",
     secondaryToggleLabel: "Enable Series Fairy Lights & Sparkles",
@@ -619,7 +1048,6 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
   if (festId.includes("halloween")) {
     return (
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
-        {/* Floating Ghost Silhouettes with gentle wave motion */}
         {[
           { left: "14%", top: "32%", size: 22, delay: "0s", duration: "7s", opacity: 0.8 },
           { left: "74%", top: "48%", size: 19, delay: "2.5s", duration: "8.5s", opacity: 0.65 },
@@ -651,8 +1079,6 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
             </svg>
           </div>
         ))}
-
-        {/* Ambient Amber Sparks & Embers */}
         {[...Array(count)].map((_, i) => (
           <div
             key={`ember-${i}`}
@@ -697,7 +1123,7 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
     );
   }
 
-  // 3. Valentine's Day: Soft Floating Heart Bokeh
+  // 3. Valentine's Day: Soft Floating Heart Bokeh & Rose Petals
   if (festId.includes("valentines")) {
     return (
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
@@ -744,7 +1170,105 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
     );
   }
 
-  // 5. Default (Diwali, Holi, Pongal, Eid, etc.): Radiant Festive Sparkles
+  // 5. Holi: Drifting Multi-Color Organic Gulal Powder Clouds
+  if (festId.includes("holi")) {
+    const holiColors = ["#E91E63", "#FF9800", "#00E5FF", "#FFEB3B", "#76FF03", "#9C27B0"];
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`gulal-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 19 + 4) % 88 + 6}%`,
+              top: `${(i * 23 + 9) % 84 + 8}%`,
+              width: `${(i % 4) * 4 + 7}px`,
+              height: `${(i % 4) * 4 + 7}px`,
+              borderRadius: "50%",
+              background: holiColors[i % holiColors.length],
+              opacity: 0.55,
+              filter: "blur(2.5px)",
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // 6. Onam: Floating Marigold and Jasmine Petals
+  if (festId.includes("onam")) {
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`petal-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 21 + 5) % 90 + 5}%`,
+              top: `${(i * 17 + 8) % 86 + 6}%`,
+              width: `${(i % 3) + 4}px`,
+              height: `${(i % 3) + 6}px`,
+              borderRadius: "50% 0 50% 50%",
+              background: i % 3 === 0 ? "#FFF8E1" : i % 3 === 1 ? "#FFB300" : "#FF6F00",
+              opacity: 0.8,
+              transform: `rotate(${(i * 37) % 360}deg)`,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // 7. Lunar New Year: Golden Fortune Coins & Sparkles
+  if (festId.includes("lunar") || festId.includes("chinese")) {
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`coin-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 19 + 5) % 90 + 5}%`,
+              top: `${(i * 27 + 6) % 85 + 7}%`,
+              width: i % 2 === 0 ? "8px" : "4px",
+              height: i % 2 === 0 ? "8px" : "4px",
+              borderRadius: "50%",
+              border: i % 2 === 0 ? "1px solid #FFD700" : "none",
+              background: i % 2 === 0 ? "rgba(255, 215, 0, 0.4)" : "#FFD700",
+              boxShadow: "0 0 5px rgba(255, 215, 0, 0.7)",
+              opacity: 0.85,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // 8. New Year: Celebratory Confetti & Micro Sparkles
+  if (festId.includes("new-year") || festId.includes("newyear")) {
+    const nyColors = ["#FFD700", "#E0E0E0", "#FF4081", "#00E5FF", "#76FF03"];
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`confetti-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 17 + 8) % 92 + 4}%`,
+              top: `${(i * 23 + 4) % 86 + 6}%`,
+              width: `${(i % 2) * 2 + 3}px`,
+              height: `${(i % 3) * 3 + 5}px`,
+              background: nyColors[i % nyColors.length],
+              opacity: 0.8,
+              transform: `rotate(${(i * 55) % 360}deg)`,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // Default: Radiant Festive Sparkles (Diwali, Navratri, Ganesh Chaturthi, Pongal, Vishu, etc.)
   return (
     <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100 }}>
       {[...Array(count)].map((_, i) => (
@@ -778,14 +1302,12 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
           <line x1="0" y1="2" x2="560" y2="2" stroke="#FF7518" strokeWidth="1.2" opacity="0.6" />
           {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
             <g key={i} transform={`translate(${x}, 0)`}>
-              {/* Scalloped spiderweb lace */}
               <path d="M 0 2 Q 40 30 80 2" stroke="#6D5D8A" strokeWidth="1.4" fill="none" opacity="0.8" />
               <path d="M 12 2 Q 40 22 68 2" stroke="#8E7CAE" strokeWidth="1" fill="none" opacity="0.6" />
               <path d="M 24 2 Q 40 14 56 2" stroke="#AEA1C7" strokeWidth="0.8" fill="none" opacity="0.5" />
               <line x1="40" y1="2" x2="15" y2="22" stroke="#8E7CAE" strokeWidth="0.8" opacity="0.5" />
               <line x1="40" y1="2" x2="40" y2="30" stroke="#8E7CAE" strokeWidth="0.9" opacity="0.6" />
               <line x1="40" y1="2" x2="65" y2="22" stroke="#8E7CAE" strokeWidth="0.8" opacity="0.5" />
-              {/* Hanging thread with miniature spider */}
               <line x1="40" y1="30" x2="40" y2="38" stroke="#AEA1C7" strokeWidth="0.6" strokeDasharray="1,1" />
               <ellipse cx="40" cy="40" rx="2.4" ry="3.2" fill="#1A1528" stroke="#FF7518" strokeWidth="0.5" />
               <path d="M 37 38 Q 34 36 33 39 M 43 38 Q 46 36 47 39 M 37 42 Q 34 44 33 42 M 43 42 Q 46 44 47 42" stroke="#FF7518" strokeWidth="0.6" fill="none" />
@@ -838,9 +1360,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
               <path d="M 0 2 Q 40 26 80 2" stroke="#C2185B" strokeWidth="2.5" fill="none" />
               <path d="M 8 2 Q 40 22 72 2" stroke="#FF80AB" strokeWidth="1.2" fill="none" />
               <circle cx="40" cy="27" r="2.5" fill="#E91E63" />
-              {withLights && (
-                <circle cx="40" cy="16" r="2.5" fill="#FFF8E1" />
-              )}
+              {withLights && <circle cx="40" cy="16" r="2.5" fill="#FFF8E1" />}
             </g>
           ))}
         </svg>
@@ -867,7 +1387,61 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // 5. Vishu Golden Kanikonna
+  // 5. Holi Color Bunting & Pom-Poms
+  if (festId.includes("holi")) {
+    const pomColors = ["#E91E63", "#FF9800", "#FFEB3B", "#00E5FF", "#76FF03"];
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(20, 5, 20, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <path d="M 0 4 Q 280 20 560 4" stroke="#FF4081" strokeWidth="1.8" fill="none" />
+          {[20, 80, 140, 200, 260, 320, 380, 440, 500].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <line x1="0" y1="4" x2="0" y2="18" stroke="#E0E0E0" strokeWidth="0.8" />
+              <circle cx="0" cy="22" r="5.5" fill={pomColors[i % pomColors.length]} />
+              <circle cx="0" cy="22" r="2.5" fill="#FFFFFF" opacity="0.6" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 6. Pongal Sugarcane & Turmeric Foliage
+  if (festId.includes("pongal")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(12, 24, 8, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="3" x2="560" y2="3" stroke="#2E7D32" strokeWidth="3" />
+          {[30, 110, 190, 270, 350, 430, 510].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <path d="M -12 3 Q 0 24 12 3" stroke="#1B5E20" strokeWidth="2.2" fill="none" />
+              <circle cx="0" cy="18" r="3.2" fill="#FBC02D" />
+              <line x1="0" y1="3" x2="0" y2="32" stroke="#388E3C" strokeWidth="1.5" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 7. Onam Palm Thoranam (Kuruthola)
+  if (festId.includes("onam")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(10, 22, 10, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#558B2F" strokeWidth="2" />
+          {[20, 60, 100, 140, 180, 220, 260, 300, 340, 380, 420, 460, 500, 540].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <polygon points="-4,2 0,26 4,2" fill="#7CB342" />
+              {i % 2 === 0 && <circle cx="0" cy="29" r="3" fill="#FFB300" />}
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 8. Vishu Golden Kanikonna
   if (festId === "vishu") {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(10, 26, 10, 0.85) 0%, transparent 100%)" }}>
@@ -887,7 +1461,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // 6. Eid Damascus Fanoos
+  // 9. Eid Damascus Fanoos
   if (festId.includes("eid")) {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(3, 20, 18, 0.9) 0%, transparent 100%)" }}>
@@ -905,7 +1479,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // 7. Thanksgiving Autumn Foliage
+  // 10. Thanksgiving Autumn Foliage
   if (festId.includes("thanksgiving")) {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(30, 15, 5, 0.9) 0%, transparent 100%)" }}>
@@ -924,7 +1498,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // 8. Hanukkah Star of David Bunting
+  // 11. Hanukkah Star of David Bunting
   if (festId.includes("hanukkah")) {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(8, 20, 38, 0.9) 0%, transparent 100%)" }}>
@@ -943,7 +1517,174 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // Default: Diwali / Indian Traditional Toran + Fairy Lights
+  // 12. New Year Champagne Streamers
+  if (festId.includes("new-year") || festId.includes("newyear")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(20, 18, 10, 0.92) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#FFD700" strokeWidth="1.8" />
+          {[30, 90, 150, 210, 270, 330, 390, 450, 510].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <path d={`M 0 2 Q ${i % 2 === 0 ? 8 : -8} 16 0 32`} stroke="#FFE082" strokeWidth="1.2" fill="none" />
+              <polygon points="0,32 -3,24 3,24" fill="#FFD700" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 14. Easter Spring Floral Vines & Pastel Eggs
+  if (festId.includes("easter")) {
+    const eggColors = ["#F8BBD0", "#B2EBF2", "#FFF9C4", "#D1C4E9", "#C8E6C9"];
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(20, 28, 18, 0.88) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <path d="M 0 6 Q 280 22 560 6" stroke="#81C784" strokeWidth="2.2" fill="none" />
+          {[35, 105, 175, 245, 315, 385, 455, 525].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 10)`}>
+              <line x1="0" y1="0" x2="0" y2="10" stroke="#A5D6A7" strokeWidth="1" />
+              <ellipse cx="0" cy="16" rx="5" ry="7" fill={eggColors[i % eggColors.length]} stroke="#81C784" strokeWidth="0.8" />
+              <circle cx="-5" cy="5" r="2.2" fill="#F48FB1" />
+              <circle cx="5" cy="5" r="2.2" fill="#FFF59D" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 15. Mid-Autumn Bamboo & Paper Lantern Strings
+  if (festId.includes("mid-autumn") || festId.includes("mooncake")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(8, 12, 32, 0.92) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="3" x2="560" y2="3" stroke="#8D6E63" strokeWidth="2" />
+          {[40, 120, 200, 280, 360, 440, 520].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <line x1="0" y1="3" x2="0" y2="12" stroke="#FFD54F" strokeWidth="1" />
+              <circle cx="0" cy="20" r="7.5" fill="#FFB74D" stroke="#E65100" strokeWidth="0.8" />
+              <line x1="0" y1="27.5" x2="0" y2="36" stroke="#D81B60" strokeWidth="1.2" />
+              {withLights && <circle cx="0" cy="20" r="2.2" fill="#FFFDE7" />}
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 16. Vesak Sacred Bodhi Leaf & Jasmine Garland
+  if (festId.includes("vesak") || festId.includes("buddha")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(22, 14, 6, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <path d="M 0 4 Q 280 20 560 4" stroke="#FB8C00" strokeWidth="1.8" fill="none" />
+          {[30, 90, 150, 210, 270, 330, 390, 450, 510].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 4)`}>
+              <path d="M 0 0 C -6 8 -7 18 0 26 C 7 18 6 8 0 0 Z" fill="#43A047" />
+              <circle cx="0" cy="28" r="3" fill="#FFFFFF" />
+              <circle cx="0" cy="28" r="1.5" fill="#FFE082" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 17. Durga Puja Kash Reeds & Alpana Border
+  if (festId.includes("durga")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(24, 6, 8, 0.92) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <rect x="0" y="0" width="100%" height="3.5" fill="#C62828" />
+          {[20, 60, 100, 140, 180, 220, 260, 300, 340, 380, 420, 460, 500, 540].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 3.5)`}>
+              <polygon points="0,0 -8,14 8,14" fill="#B71C1C" />
+              <circle cx="0" cy="8" r="2.5" fill="#FFFDE7" />
+              <line x1="0" y1="14" x2="0" y2="28" stroke="#ECEFF1" strokeWidth="1.2" opacity="0.85" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 18. Raksha Bandhan Silk Kalawa & Mauli Thread Swags
+  if (festId.includes("raksha") || festId.includes("rakhi")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(28, 8, 8, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#D32F2F" strokeWidth="2.5" />
+          {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <path d="M 0 2 Q 40 24 80 2" stroke="#FFC107" strokeWidth="1.6" fill="none" />
+              <path d="M 10 2 Q 40 18 70 2" stroke="#D32F2F" strokeWidth="1.2" fill="none" />
+              <circle cx="40" cy="24" r="3.5" fill="#FFD700" />
+              <circle cx="40" cy="24" r="1.8" fill="#D32F2F" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 19. Navratri Mirrored Bandhanwar & Gold Gota
+  if (festId.includes("navratri")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(28, 5, 25, 0.92) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <rect x="0" y="0" width="100%" height="4" fill="#FF4500" />
+          {[0, 70, 140, 210, 280, 350, 420, 490].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 4)`}>
+              <polygon points="0,0 35,26 70,0" fill={i % 2 === 0 ? "#C2185B" : "#FF6F00"} />
+              <circle cx="35" cy="13" r="4.5" fill="#E0E0E0" stroke="#FFD700" strokeWidth="0.8" />
+              <circle cx="35" cy="27" r="2.2" fill="#FFD700" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 20. Ganesh Chaturthi Hibiscus & Durva Grass Arch
+  if (festId.includes("ganesh")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(25, 10, 5, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <path d="M 0 5 Q 280 22 560 5" stroke="#2E7D32" strokeWidth="3" fill="none" />
+          {[35, 105, 175, 245, 315, 385, 455, 525].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 8)`}>
+              <circle cx="0" cy="8" r="6" fill="#D32F2F" />
+              <circle cx="0" cy="8" r="2.5" fill="#FFEB3B" />
+              <path d="M -8 14 Q 0 4 8 14" stroke="#43A047" strokeWidth="2" fill="none" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 21. Dussehra Shami Leaves & Marigold Victory Toran
+  if (festId.includes("dussehra") || festId.includes("vijayadashami")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(24, 10, 0, 0.92) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <rect x="0" y="0" width="100%" height="3.5" fill="#1B5E20" />
+          {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 3.5)`}>
+              <path d="M 0 0 Q 40 22 80 0" stroke="#FF8F00" strokeWidth="2" fill="none" />
+              <circle cx="40" cy="22" r="5" fill="#E65100" />
+              <circle cx="40" cy="22" r="2.5" fill="#FFD700" />
+              <ellipse cx="20" cy="10" rx="3" ry="7" fill="#2E7D32" transform="rotate(-20 20 10)" />
+              <ellipse cx="60" cy="10" rx="3" ry="7" fill="#2E7D32" transform="rotate(20 60 10)" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 22. Diwali Master Toran: Authentic Mango Leaves + Marigolds + Golden Series Lights
   return (
     <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden" }}>
       <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
@@ -979,11 +1720,11 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   );
 }
 
-// ─── Dynamic Corner Widget (Jack-o'-Lantern vs Star vs Diya) ─────────────────
+// ─── Dynamic Corner Widget (22 Culturally Authentic Motifs) ──────────────────
 function DynamicCornerWidget({ festival, size = 32 }) {
   const festId = (festival.id || "").toLowerCase();
 
-  // 1. Halloween Jack-o'-Lantern (Glowing Carved Pumpkin with Candlelight Halo)
+  // 1. Halloween Jack-o'-Lantern
   if (festId.includes("halloween")) {
     return (
       <svg width={size} height={Math.round(size * 0.92)} viewBox="0 0 70 65">
@@ -1040,7 +1781,98 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 5. Thanksgiving Harvest Pumpkin
+  // 5. Holi Brass Pichkari & Gulal Bowl
+  if (festId.includes("holi")) {
+    return (
+      <svg width={size} height={Math.round(size * 0.9)} viewBox="0 0 70 65">
+        <circle cx="35" cy="35" r="20" fill="rgba(233, 30, 99, 0.3)" />
+        <ellipse cx="35" cy="46" rx="22" ry="8" fill="#D4AF37" />
+        <circle cx="28" cy="44" r="6" fill="#E91E63" />
+        <circle cx="42" cy="44" r="6" fill="#00E5FF" />
+        <circle cx="35" cy="41" r="5" fill="#FFEB3B" />
+        <line x1="14" y1="46" x2="48" y2="12" stroke="#B78103" strokeWidth="4" strokeLinecap="round" />
+        <line x1="48" y1="12" x2="56" y2="6" stroke="#D4AF37" strokeWidth="2.5" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  // 6. Navratri Crossed Wooden Dandiya Sticks
+  if (festId.includes("navratri")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="18" fill="rgba(255, 111, 0, 0.3)" />
+        <line x1="10" y1="50" x2="50" y2="10" stroke="#FF8F00" strokeWidth="4" strokeLinecap="round" />
+        <line x1="10" y1="10" x2="50" y2="50" stroke="#D81B60" strokeWidth="4" strokeLinecap="round" />
+        <circle cx="30" cy="30" r="4" fill="#FFD700" />
+      </svg>
+    );
+  }
+
+  // 7. Pongal Clay Pot & Sugarcane
+  if (festId.includes("pongal")) {
+    return (
+      <svg width={size} height={Math.round(size * 1.05)} viewBox="0 0 60 65">
+        <circle cx="30" cy="36" r="20" fill="rgba(251, 192, 45, 0.3)" />
+        <ellipse cx="30" cy="42" rx="18" ry="14" fill="#8D4925" />
+        <ellipse cx="30" cy="28" rx="14" ry="5" fill="#FFF8E1" />
+        <path d="M 22 26 Q 30 14 38 26" fill="#FFFFFF" />
+        <line x1="44" y1="56" x2="54" y2="10" stroke="#2E7D32" strokeWidth="3" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  // 8. Onam Pookalam Floral Carpet
+  if (festId.includes("onam")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="26" fill="#E65100" />
+        <circle cx="30" cy="30" r="21" fill="#FFB300" />
+        <circle cx="30" cy="30" r="15" fill="#FFF8E1" />
+        <circle cx="30" cy="30" r="9" fill="#2E7D32" />
+        <circle cx="30" cy="30" r="4" fill="#D84315" />
+      </svg>
+    );
+  }
+
+  // 9. Raksha Bandhan Royal Golden Rakhi
+  if (festId.includes("raksha") || festId.includes("rakhi")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <line x1="6" y1="30" x2="54" y2="30" stroke="#D32F2F" strokeWidth="3" />
+        <circle cx="30" cy="30" r="15" fill="#FFD700" />
+        <circle cx="30" cy="30" r="10" fill="#D32F2F" />
+        <circle cx="30" cy="30" r="5" fill="#FFF8E1" />
+      </svg>
+    );
+  }
+
+  // 10. Ganesh Chaturthi Clay Ganesha & Modak
+  if (festId.includes("ganesh")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="20" fill="rgba(255, 140, 0, 0.3)" />
+        <path d="M 30 14 Q 38 14 38 26 Q 38 42 30 46 Q 22 42 22 26 Z" fill="#E65100" />
+        <circle cx="28" cy="22" r="2.5" fill="#FFFDE7" />
+        <path d="M 30 26 Q 34 34 40 34" stroke="#FFD700" strokeWidth="2.5" fill="none" />
+      </svg>
+    );
+  }
+
+  // 11. Eid Damascus Brass Fanoos
+  if (festId.includes("eid")) {
+    return (
+      <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 60 75">
+        <circle cx="30" cy="36" r="18" fill="rgba(212, 175, 55, 0.35)" />
+        <line x1="30" y1="4" x2="30" y2="14" stroke="#B78103" strokeWidth="1.5" />
+        <polygon points="30,14 20,24 40,24" fill="#D4AF37" />
+        <rect x="22" y="24" width="16" height="24" fill="#D4AF37" stroke="#996515" strokeWidth="0.8" />
+        <circle cx="30" cy="36" r="3.5" fill="#FFD700" />
+        <polygon points="22,48 38,48 30,58" fill="#B78103" />
+      </svg>
+    );
+  }
+
+  // 12. Thanksgiving Harvest Pumpkin
   if (festId.includes("thanksgiving")) {
     return (
       <svg width={size} height={Math.round(size * 0.9)} viewBox="0 0 70 65">
@@ -1054,7 +1886,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 6. Hanukkah Menorah
+  // 13. Hanukkah Menorah
   if (festId.includes("hanukkah")) {
     return (
       <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 70 75">
@@ -1069,7 +1901,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 7. Vishu Kerala Nilavilakku
+  // 14. Vishu Kerala Nilavilakku
   if (festId === "vishu") {
     return (
       <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 60 80">
@@ -1082,7 +1914,98 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 8. Classical Living Brass Diya (Diwali, Dussehra, Ganesh Chaturthi, Pongal, Navratri, etc.)
+  // 15. New Year Champagne Flutes
+  if (festId.includes("new-year") || festId.includes("newyear")) {
+    return (
+      <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 60 65">
+        <circle cx="30" cy="32" r="18" fill="rgba(255, 215, 0, 0.3)" />
+        <path d="M 22 16 L 26 34 L 26 48 L 20 50 L 32 50 L 26 48 L 26 34 Z" fill="#FFD700" opacity="0.8" />
+        <path d="M 38 16 L 34 34 L 34 48 L 28 50 L 40 50 L 34 48 L 34 34 Z" fill="#FFE082" opacity="0.8" />
+        <circle cx="30" cy="22" r="3" fill="#FFFFFF" />
+      </svg>
+    );
+  }
+
+  // 16. Makar Sankranti Diamond Fighter Kite
+  if (festId.includes("sankranti") || festId.includes("uttarayan")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="18" fill="rgba(0, 176, 255, 0.3)" />
+        <polygon points="30,8 50,30 30,52 10,30" fill="#FF6D00" />
+        <line x1="30" y1="8" x2="30" y2="52" stroke="#FFFFFF" strokeWidth="1.5" />
+        <path d="M 10 30 Q 30 18 50 30" stroke="#FFFFFF" strokeWidth="1.5" fill="none" />
+      </svg>
+    );
+  }
+
+  // 17. Dussehra Golden Bow & Arrow
+  if (festId.includes("dussehra") || festId.includes("vijayadashami")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="18" fill="rgba(255, 140, 0, 0.35)" />
+        <path d="M 16 12 Q 38 30 16 48" stroke="#FFD700" strokeWidth="3" fill="none" />
+        <line x1="16" y1="12" x2="16" y2="48" stroke="#FFE082" strokeWidth="1.2" />
+        <line x1="12" y1="30" x2="48" y2="30" stroke="#FF6D00" strokeWidth="2.5" />
+        <polygon points="48,30 40,26 40,34" fill="#FFD700" />
+      </svg>
+    );
+  }
+
+  // 18. Easter Decorated Pastel Egg
+  if (festId.includes("easter")) {
+    return (
+      <svg width={size} height={Math.round(size * 1.15)} viewBox="0 0 60 70">
+        <circle cx="30" cy="38" r="18" fill="rgba(248, 187, 208, 0.35)" />
+        <ellipse cx="30" cy="38" rx="20" ry="26" fill="#F8BBD0" stroke="#F48FB1" strokeWidth="1.5" />
+        <path d="M 12 36 Q 30 46 48 36" stroke="#80DEEA" strokeWidth="2.5" fill="none" />
+        <path d="M 14 26 Q 30 36 46 26" stroke="#FFF59D" strokeWidth="2.5" fill="none" />
+        <circle cx="30" cy="46" r="3" fill="#CE93D8" />
+        <circle cx="22" cy="42" r="2.5" fill="#C8E6C9" />
+        <circle cx="38" cy="42" r="2.5" fill="#C8E6C9" />
+      </svg>
+    );
+  }
+
+  // 19. Mid-Autumn Harvest Moon & Mooncake
+  if (festId.includes("mid-autumn") || festId.includes("mooncake")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="24" fill="rgba(255, 213, 79, 0.35)" />
+        <circle cx="30" cy="30" r="18" fill="#FFD54F" />
+        <circle cx="30" cy="30" r="14" fill="#FFA000" stroke="#FFD54F" strokeWidth="1" />
+        <path d="M 24 24 Q 30 20 36 24 Q 40 30 36 36 Q 30 40 24 36 Q 20 30 24 24 Z" fill="#FF8F00" opacity="0.6" />
+      </svg>
+    );
+  }
+
+  // 20. Vesak Blooming Sacred Lotus
+  if (festId.includes("vesak") || festId.includes("buddha")) {
+    return (
+      <svg width={size} height={Math.round(size * 0.95)} viewBox="0 0 60 55">
+        <circle cx="30" cy="30" r="18" fill="rgba(248, 187, 208, 0.35)" />
+        <path d="M 30 10 C 24 22 22 36 30 44 C 38 36 36 22 30 10 Z" fill="#F48FB1" />
+        <path d="M 22 22 C 14 28 14 38 24 44 C 28 38 26 28 22 22 Z" fill="#F8BBD0" />
+        <path d="M 38 22 C 46 28 46 38 36 44 C 32 38 34 28 38 22 Z" fill="#F8BBD0" />
+        <circle cx="30" cy="44" r="3" fill="#FFD54F" />
+      </svg>
+    );
+  }
+
+  // 21. Durga Puja Clay Dhunachi Incense Burner
+  if (festId.includes("durga")) {
+    return (
+      <svg width={size} height={Math.round(size * 1.2)} viewBox="0 0 60 72">
+        <circle cx="30" cy="24" r="16" fill="rgba(198, 40, 40, 0.25)" />
+        <path d="M 28 8 Q 24 16 32 20 Q 28 24 30 30" stroke="#ECEFF1" strokeWidth="2" fill="none" opacity="0.75" />
+        <path d="M 32 10 Q 36 18 28 22 Q 32 26 30 30" stroke="#ECEFF1" strokeWidth="1.5" fill="none" opacity="0.6" />
+        <polygon points="16,30 44,30 38,48 22,48" fill="#C85A27" stroke="#8D3B16" strokeWidth="1" />
+        <rect x="27" y="48" width="6" height="14" fill="#8D3B16" />
+        <ellipse cx="30" cy="62" rx="14" ry="4" fill="#C85A27" />
+      </svg>
+    );
+  }
+
+  // 22. Classical Living Brass Diya (Diwali & Indian Festivals Default)
   return (
     <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85">
       <circle cx="50" cy="30" r="24" fill="rgba(255, 215, 0, 0.45)" />
