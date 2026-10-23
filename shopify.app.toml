@@ -1,6 +1,6 @@
 name = "utsav-india"
 client_id = "aba15c2b5828795eb89e10f73e91ff06"
-application_url = "https://localhost:3458"
+application_url = "https://utsav-shopify.onrender.com"
 embedded = true
 
 [access_scopes]
@@ -8,9 +8,9 @@ scopes = "read_themes,write_themes,read_script_tags,write_script_tags"
 
 [auth]
 redirect_urls = [
-  "https://localhost:3458/auth/callback",
-  "https://localhost:3458/auth/shopify/callback",
-  "https://localhost:3458/api/auth/callback",
+  "https://utsav-shopify.onrender.com/auth/callback",
+  "https://utsav-shopify.onrender.com/auth/shopify/callback",
+  "https://utsav-shopify.onrender.com/api/auth/callback",
 ]
 
 [webhooks]
