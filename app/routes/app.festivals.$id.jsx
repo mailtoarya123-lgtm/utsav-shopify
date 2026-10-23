@@ -179,6 +179,14 @@ export default function FestivalConfig() {
   const [fireworksFrequency, setFireworksFrequency] = useState(config.fireworksFrequency || "subtle");
   const [fireworksSound, setFireworksSound] = useState(customSettings.fireworksSound || "muted");
   const [interactiveBlessing, setInteractiveBlessing] = useState(customSettings.interactiveBlessing ?? true);
+
+  // Garland (Toran) & Series Lights settings
+  const [garlandLayout, setGarlandLayout] = useState(customSettings.garlandLayout || "top_and_sides");
+  const [garlandStyle, setGarlandStyle] = useState(customSettings.garlandStyle || "mango_marigold");
+  const [garlandDropLength, setGarlandDropLength] = useState(customSettings.garlandDropLength || "medium");
+  const [seriesLightsTheme, setSeriesLightsTheme] = useState(customSettings.seriesLightsTheme || "warm_gold");
+  const [seriesLightsMode, setSeriesLightsMode] = useState(customSettings.seriesLightsMode || "twinkle");
+
   const [kiteCount, setKiteCount] = useState(String(config.kiteCount || 2));
   const [kiteSpeed, setKiteSpeed] = useState(config.kiteSpeed || "gentle");
   const [moonPosition, setMoonPosition] = useState(config.moonPosition || "top_right");
@@ -229,12 +237,17 @@ export default function FestivalConfig() {
       fireworksStyle,
       fireworksSound,
       interactiveBlessing,
+      garlandLayout,
+      garlandStyle,
+      garlandDropLength,
+      seriesLightsTheme,
+      seriesLightsMode,
     });
     fd.append("customColors", customPayload);
 
     fetcher.submit(fd, { method: "post" });
     if (activate !== null) setIsActive(activate);
-  }, [isActive, enableBanner, enableEffects, enableCountdown, enableColorSwap, enableAudio, enableWheel, language, diyaSize, diyaPosition, fireworksFrequency, kiteCount, kiteSpeed, moonPosition, bannerText, scheduledStart, scheduledEnd, diyaStyle, flameGlow, fireworksStyle, fireworksSound, interactiveBlessing]);
+  }, [isActive, enableBanner, enableEffects, enableCountdown, enableColorSwap, enableAudio, enableWheel, language, diyaSize, diyaPosition, fireworksFrequency, kiteCount, kiteSpeed, moonPosition, bannerText, scheduledStart, scheduledEnd, diyaStyle, flameGlow, fireworksStyle, fireworksSound, interactiveBlessing, garlandLayout, garlandStyle, garlandDropLength, seriesLightsTheme, seriesLightsMode]);
 
   const { primary, secondary, accent, background, text } = festival.palette;
 
@@ -558,13 +571,191 @@ export default function FestivalConfig() {
                             onChange={setFireworksSound}
                             helpText="Audio accompaniment. Zero external MP3 downloads; synthesized via Web Audio."
                           />
+
+                          <Divider />
+
+                          {/* 6. Festive Garland & Twinkling Series Lights */}
+                          <Text variant="bodyMd" fontWeight="semibold">💡 Festive Toran Garland & Twinkling Series Lights (तोरण और लड़ी लाइट्स)</Text>
+                          <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
+                            <Select
+                              label="Garland & Lights Placement"
+                              options={[
+                                { label: "🏛️ Top Toran & Both Side Cascades with Series Lights (Royal Diwali)", value: "top_and_sides" },
+                                { label: "⬆️ Top Toran with Series Lights Only", value: "top_only" },
+                                { label: "↕️ Both Side Cascades with Series Lights Only", value: "sides_only" },
+                                { label: "🚫 No Garland (Corner Diyas & Fireworks Only)", value: "off" },
+                              ]}
+                              value={garlandLayout}
+                              onChange={setGarlandLayout}
+                              helpText="Positions where traditional mango & marigold Toran with LED series lights appears"
+                            />
+                            <Select
+                              label="Series Lights Glow Theme"
+                              options={[
+                                { label: "🌟 Royal Warm Gold (2700K Classic Diwali Glow)", value: "warm_gold" },
+                                { label: "🌈 Multi-Color Festive Jewels (Saffron, Ruby, Emerald, Amber)", value: "festive_multicolor" },
+                                { label: "🕯️ Deep Amber Sacred Warmth", value: "amber_radiance" },
+                                { label: "⚪ Moonlit Pearl Radiance", value: "pearl_white" },
+                                { label: "🌿 Floral Garland Only (No Electric Lights)", value: "off" },
+                              ]}
+                              value={seriesLightsTheme}
+                              onChange={setSeriesLightsTheme}
+                              helpText="Color aura of micro LED fairy lights strung along the garland scallops"
+                            />
+                          </InlineGrid>
+
+                          <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
+                            <Select
+                              label="Series Lights Animation"
+                              options={[
+                                { label: "✨ Gentle Twinkle & Shimmer (Soft living breathing glow)", value: "twinkle" },
+                                { label: "⚡ Playful Festive Chaser (Sequential light wave)", value: "chaser" },
+                                { label: "💡 Steady Luminous Radiance (Zero flicker)", value: "steady" },
+                              ]}
+                              value={seriesLightsMode}
+                              onChange={setSeriesLightsMode}
+                              helpText="Rhythm and pulsation of series lights"
+                            />
+                            <Select
+                              label="Garland Floral Craftsmanship"
+                              options={[
+                                { label: "🌿 Sacred Mango Leaves & Royal Genda Marigold", value: "mango_marigold" },
+                                { label: "🏵️ Double-Strand Golden Marigold Garland", value: "double_marigold" },
+                              ]}
+                              value={garlandStyle}
+                              onChange={setGarlandStyle}
+                              helpText="Artisanal flowers and foliage used in the Toran"
+                            />
+                          </InlineGrid>
+                        </BlockStack>
+                      )}
+
+                      {/* Dussehra Customizations */}
+                      {festival.id.includes("dussehra") && (
+                        <BlockStack gap="500">
+                          {/* Live Visual Sandbox Preview for Dussehra Toran */}
+                          <Box padding="300" background="bg-surface-secondary" borderRadius="300">
+                            <BlockStack gap="200">
+                              <InlineStack align="space-between">
+                                <Text variant="bodySm" fontWeight="bold">🌿 Real-Time Vijayadashami Toran Preview</Text>
+                                <Badge tone="success">Vijayadashami Shubh Entrance</Badge>
+                              </InlineStack>
+                              <div
+                                style={{
+                                  height: "100px",
+                                  borderRadius: "8px",
+                                  background: "radial-gradient(ellipse at 50% 50%, #1A2E05 0%, #0D1A00 100%)",
+                                  position: "relative",
+                                  overflow: "hidden",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  border: "1px solid rgba(255, 215, 0, 0.3)",
+                                }}
+                              >
+                                <ToranPreviewWidget festivalId="dussehra" garlandStyle={garlandStyle} withLights={false} />
+                              </div>
+                            </BlockStack>
+                          </Box>
+
+                          <Text variant="bodyMd" fontWeight="semibold">🏹 Vijayadashami Sacred Garland (तोरण और पार्श्व लड़ी)</Text>
+                          <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
+                            <Select
+                              label="Garland Craftsmanship"
+                              options={[
+                                { label: "🌿 Sacred Mango Leaves & Golden Marigold (पारंपरिक आम पत्ते और गेंदा तोरण)", value: "mango_marigold" },
+                                { label: "🏵️ Double-Layer Royal Genda Phool Garland (शाही गेंदा माला)", value: "double_marigold" },
+                                { label: "🍃 Auspicious Ashoka Leaves & Jasmine Mogra (अशोक पत्ते व मोगरा)", value: "ashoka_mogra" },
+                              ]}
+                              value={garlandStyle}
+                              onChange={setGarlandStyle}
+                              helpText="Traditional Vijayadashami entrance Toran welcoming victory & prosperity"
+                            />
+                            <Select
+                              label="Garland Layout Placement"
+                              options={[
+                                { label: "🏛️ Top Header Toran & Both Side Cascades (Full Grand Entrance)", value: "top_and_sides" },
+                                { label: "⬆️ Top Header Toran Only", value: "top_only" },
+                                { label: "↕️ Both Side Cascades Only", value: "sides_only" },
+                                { label: "🚫 Off", value: "off" },
+                              ]}
+                              value={garlandLayout}
+                              onChange={setGarlandLayout}
+                              helpText="Display garland along the header top and left/right side borders"
+                            />
+                          </InlineGrid>
+
+                          <Select
+                            label="Side Garland Cascade Length"
+                            options={[
+                              { label: "Medium Cascade (440px — Clean & Minimal)", value: "medium" },
+                              { label: "Full Viewport Frame", value: "full" },
+                            ]}
+                            value={garlandDropLength}
+                            onChange={setGarlandDropLength}
+                            helpText="Length of vertical marigold flower strings hanging on the left and right margins"
+                          />
                         </BlockStack>
                       )}
 
                       {/* Pongal & Makar Sankranti Customizations */}
                       {(festival.id.includes("pongal") || festival.id.includes("sankranti")) && (
-                        <BlockStack gap="400">
-                          <Text variant="bodyMd" fontWeight="semibold">🪁 Soaring Kites Settings</Text>
+                        <BlockStack gap="500">
+                          {/* Live Visual Sandbox Preview for Sankranti Toran */}
+                          <Box padding="300" background="bg-surface-secondary" borderRadius="300">
+                            <BlockStack gap="200">
+                              <InlineStack align="space-between">
+                                <Text variant="bodySm" fontWeight="bold">🌾 Real-Time Harvest Toran & Kites Preview</Text>
+                                <Badge tone="attention">Harvest Celebration</Badge>
+                              </InlineStack>
+                              <div
+                                style={{
+                                  height: "100px",
+                                  borderRadius: "8px",
+                                  background: "radial-gradient(ellipse at 50% 50%, #0A2540 0%, #001226 100%)",
+                                  position: "relative",
+                                  overflow: "hidden",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  border: "1px solid rgba(255, 140, 0, 0.3)",
+                                }}
+                              >
+                                <ToranPreviewWidget festivalId="sankranti" garlandStyle={garlandStyle} withLights={false} />
+                              </div>
+                            </BlockStack>
+                          </Box>
+
+                          <Text variant="bodyMd" fontWeight="semibold">🌾 Sankranti Harvest Garland (तोरण और पार्श्व माला)</Text>
+                          <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
+                            <Select
+                              label="Harvest Garland Style"
+                              options={[
+                                { label: "🌾 Sankranti Harvest Mango Leaves & Sunny Marigold (आम पत्ते व गेंदा तोरण)", value: "mango_marigold" },
+                                { label: "🏵️ Golden Marigold with Festive Kites Accent", value: "double_marigold" },
+                                { label: "🎋 Fresh Sugarcane & Paddy Sheaf Toran (गन्ना व धान की बाली)", value: "sugarcane_harvest" },
+                              ]}
+                              value={garlandStyle}
+                              onChange={setGarlandStyle}
+                              helpText="Traditional harvest entrance Toran celebrating sunshine & bounty"
+                            />
+                            <Select
+                              label="Garland Layout Placement"
+                              options={[
+                                { label: "🏛️ Top Header Toran & Both Side Cascades (Full Grand Entrance)", value: "top_and_sides" },
+                                { label: "⬆️ Top Header Toran Only", value: "top_only" },
+                                { label: "↕️ Both Side Cascades Only", value: "sides_only" },
+                                { label: "🚫 Off", value: "off" },
+                              ]}
+                              value={garlandLayout}
+                              onChange={setGarlandLayout}
+                              helpText="Display garland along header top and left/right side margins"
+                            />
+                          </InlineGrid>
+
+                          <Divider />
+
+                          <Text variant="bodyMd" fontWeight="semibold">🪁 Soaring Fighter Kites</Text>
                           <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
                             <Select
                               label="Kites in Flight"
@@ -694,6 +885,10 @@ export default function FestivalConfig() {
               fireworksFrequency,
               kiteCount,
               moonPosition,
+              garlandLayout,
+              garlandStyle,
+              seriesLightsTheme,
+              seriesLightsMode,
             }}
           />
         </Modal.Section>
@@ -775,6 +970,31 @@ function StorefrontPreview({ festival, config }) {
         </div>
       )}
 
+      {/* Top Toran Garland */}
+      {config.enableEffects && config.garlandLayout !== "off" && (config.garlandLayout === "top_and_sides" || config.garlandLayout === "top_only") && (
+        <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: "62px", marginBottom: "-18px" }}>
+          <ToranPreviewWidget
+            festivalId={festival.id}
+            garlandStyle={config.garlandStyle}
+            withLights={festival.id.includes("diwali") && config.seriesLightsTheme !== "off"}
+            lightsTheme={config.seriesLightsTheme}
+            lightsMode={config.seriesLightsMode}
+          />
+        </div>
+      )}
+
+      {/* Side Hanging Garlands */}
+      {config.enableEffects && config.garlandLayout !== "off" && (config.garlandLayout === "top_and_sides" || config.garlandLayout === "sides_only") && (
+        <>
+          <div style={{ position: "absolute", top: "75px", left: "6px", zIndex: 15, pointerEvents: "none" }}>
+            <SideGarlandPreviewWidget withLights={festival.id.includes("diwali") && config.seriesLightsTheme !== "off"} lightsTheme={config.seriesLightsTheme} />
+          </div>
+          <div style={{ position: "absolute", top: "75px", right: "6px", zIndex: 15, pointerEvents: "none" }}>
+            <SideGarlandPreviewWidget withLights={festival.id.includes("diwali") && config.seriesLightsTheme !== "off"} lightsTheme={config.seriesLightsTheme} />
+          </div>
+        </>
+      )}
+
       {/* Mock store header */}
       <div style={{
         background: background,
@@ -783,6 +1003,7 @@ function StorefrontPreview({ festival, config }) {
         alignItems: "center",
         justifyContent: "space-between",
         borderBottom: `2px solid ${primary}44`,
+        position: "relative",
       }}>
         <div style={{ color: primary, fontWeight: 800, fontSize: "22px", fontFamily: "Poppins, sans-serif" }}>
           {festival.emoji} MyStore
@@ -1089,4 +1310,153 @@ function DiyaPreviewWidget({ style = "royal_brass", flameGlow = "sacred_flicker"
     </div>
   );
 }
+
+function ToranPreviewWidget({ festivalId = "diwali", garlandStyle = "mango_marigold", withLights = true, lightsTheme = "warm_gold", lightsMode = "twinkle" }) {
+  const isDiwali = festivalId.includes("diwali");
+  const hasLights = withLights && isDiwali && lightsTheme !== "off";
+
+  const bulbColor = lightsTheme === "amber_radiance" ? "#FF8F00" : lightsTheme === "pearl_white" ? "#FFFFFF" : "#FFD700";
+  const glowColor = lightsTheme === "amber_radiance" ? "rgba(255, 140, 0, 0.9)" : lightsTheme === "pearl_white" ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 215, 0, 0.95)";
+  const multiColors = ["#FF9100", "#FF1744", "#00E676", "#FFD700", "#00E5FF", "#FF4081", "#FFD700"];
+
+  return (
+    <svg viewBox="0 0 480 75" width="100%" height="75" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <defs>
+        <g id="pvGendaOrange">
+          <circle cx="0" cy="0" r="9" fill="#E65100" />
+          <circle cx="-4" cy="-3" r="4.5" fill="#F57C00" />
+          <circle cx="4" cy="-3" r="4.5" fill="#FB8C00" />
+          <circle cx="-4" cy="3" r="4.5" fill="#E65100" />
+          <circle cx="4" cy="3" r="4.5" fill="#F57C00" />
+          <circle cx="0" cy="0" r="4.5" fill="#FFA726" />
+          <circle cx="0" cy="0" r="2.5" fill="#FFE082" />
+        </g>
+        <g id="pvGendaYellow">
+          <circle cx="0" cy="0" r="9" fill="#FF8F00" />
+          <circle cx="-4" cy="-3" r="4.5" fill="#FFA000" />
+          <circle cx="4" cy="-3" r="4.5" fill="#FFB300" />
+          <circle cx="-4" cy="3" r="4.5" fill="#FF8F00" />
+          <circle cx="4" cy="3" r="4.5" fill="#FFA000" />
+          <circle cx="0" cy="0" r="4.5" fill="#FFEB3B" />
+          <circle cx="0" cy="0" r="2.5" fill="#FFFDE7" />
+        </g>
+        <g id="pvMangoLeaf">
+          <path d="M 0 0 C -5 10 -6 22 0 34 C 6 22 5 10 0 0 Z" fill="#2E7D32" />
+          <path d="M 0 2 L 0 32" stroke="#81C784" strokeWidth="1" strokeLinecap="round" />
+        </g>
+        <g id="pvBell">
+          <path d="M -5 0 C -4 5 -7 9 -7 11 L 7 11 C 7 9 4 5 5 0 Z" fill="#D4AF37" />
+          <circle cx="0" cy="12" r="2" fill="#FFE082" />
+          <line x1="0" y1="13" x2="0" y2="18" stroke="#D32F2F" strokeWidth="1.2" />
+        </g>
+        <linearGradient id="pvKalawa" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#D32F2F" />
+          <stop offset="50%" stopColor="#FFC107" />
+          <stop offset="100%" stopColor="#D32F2F" />
+        </linearGradient>
+      </defs>
+
+      {/* Binding Kalawa Rope */}
+      <rect x="0" y="0" width="480" height="4" fill="url(#pvKalawa)" />
+
+      {/* 3 Scallops Across Width */}
+      {[0, 160, 320].map((baseX, sIdx) => (
+        <g key={sIdx}>
+          {/* Mango Leaves */}
+          <use href="#pvMangoLeaf" x={baseX + 16} y="2" transform={`rotate(-6 ${baseX + 16} 2)`} />
+          <use href="#pvMangoLeaf" x={baseX + 44} y="2" transform={`rotate(-3 ${baseX + 44} 2)`} />
+          <use href="#pvMangoLeaf" x={baseX + 72} y="2" transform={`rotate(0 ${baseX + 72} 2)`} />
+          <use href="#pvMangoLeaf" x={baseX + 100} y="2" transform={`rotate(0 ${baseX + 100} 2)`} />
+          <use href="#pvMangoLeaf" x={baseX + 124} y="2" transform={`rotate(3 ${baseX + 124} 2)`} />
+          <use href="#pvMangoLeaf" x={baseX + 146} y="2" transform={`rotate(6 ${baseX + 146} 2)`} />
+
+          {/* Scallop Garland Arc */}
+          <path d={`M ${baseX} 8 Q ${baseX + 80} 46 ${baseX + 160} 8`} stroke="#E65100" strokeWidth="2.5" fill="none" opacity="0.6" />
+
+          {/* Marigolds */}
+          <use href="#pvGendaYellow" x={baseX} y="14" />
+          <use href="#pvGendaOrange" x={baseX + 26} y="24" />
+          <use href="#pvGendaYellow" x={baseX + 52} y="37" />
+          <use href="#pvGendaOrange" x={baseX + 80} y="44" />
+          <use href="#pvGendaYellow" x={baseX + 108} y="37" />
+          <use href="#pvGendaOrange" x={baseX + 134} y="24" />
+          <use href="#pvGendaYellow" x={baseX + 160} y="14" />
+
+          {/* Junction Bells */}
+          <use href="#pvGendaOrange" x={baseX} y="24" />
+          <use href="#pvBell" x={baseX} y="34" />
+          {sIdx === 2 && (
+            <>
+              <use href="#pvGendaOrange" x={baseX + 160} y="24" />
+              <use href="#pvBell" x={baseX + 160} y="34" />
+            </>
+          )}
+
+          {/* Series Fairy Lights */}
+          {hasLights && (
+            <>
+              <path d={`M ${baseX} 10 Q ${baseX + 80} 48 ${baseX + 160} 10`} stroke="#FFE082" strokeWidth="1.2" fill="none" opacity="0.85" />
+              {[
+                { x: baseX + 14, y: 19 },
+                { x: baseX + 38, y: 31 },
+                { x: baseX + 64, y: 41 },
+                { x: baseX + 96, y: 41 },
+                { x: baseX + 122, y: 31 },
+                { x: baseX + 146, y: 19 },
+              ].map((b, bIdx) => {
+                const color = lightsTheme === "festive_multicolor" ? multiColors[bIdx % multiColors.length] : bulbColor;
+                return (
+                  <g key={bIdx} style={{ animation: `utsavFlameFlicker 1.8s ease-in-out infinite alternate`, animationDelay: `${bIdx * 0.3}s` }}>
+                    <circle cx={b.x} cy={b.y} r="2.8" fill={color} />
+                    <circle cx={b.x} cy={b.y} r="6" fill={color} opacity="0.35" style={{ filter: `drop-shadow(0 0 5px ${glowColor})` }} />
+                  </g>
+                );
+              })}
+            </>
+          )}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function SideGarlandPreviewWidget({ withLights = false, lightsTheme = "warm_gold" }) {
+  const bulbColor = lightsTheme === "amber_radiance" ? "#FF8F00" : lightsTheme === "pearl_white" ? "#FFFFFF" : "#FFD700";
+  const glowColor = lightsTheme === "amber_radiance" ? "rgba(255, 140, 0, 0.9)" : lightsTheme === "pearl_white" ? "rgba(255, 255, 255, 0.9)" : "rgba(255, 215, 0, 0.95)";
+  const multiColors = ["#FF9100", "#FF1744", "#00E676", "#FFD700", "#00E5FF", "#FF4081"];
+
+  return (
+    <svg viewBox="0 0 28 220" width="28" height="220" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <line x1="14" y1="0" x2="14" y2="200" stroke="#D32F2F" strokeWidth="1.8" />
+      {[14, 38, 62, 86, 110, 134, 158, 182].map((y, idx) => {
+        const isYellow = idx % 2 === 0;
+        const color = isYellow ? "#FF8F00" : "#E65100";
+        const innerColor = isYellow ? "#FFEB3B" : "#FFA726";
+        const lightCol = lightsTheme === "festive_multicolor" ? multiColors[idx % multiColors.length] : bulbColor;
+
+        return (
+          <g key={idx}>
+            {idx % 3 === 2 && (
+              <path d={`M 14 ${y} C 2 ${y - 4} 0 ${y + 8} 14 ${y + 6} C 28 ${y + 8} 26 ${y - 4} 14 ${y} Z`} fill="#2E7D32" />
+            )}
+            <circle cx="14" cy={y} r="7" fill={color} />
+            <circle cx="14" cy={y} r="3.5" fill={innerColor} />
+            {withLights && (
+              <circle
+                cx={idx % 2 === 0 ? 8 : 20}
+                cy={y}
+                r="2.2"
+                fill={lightCol}
+                style={{ filter: `drop-shadow(0 0 4px ${glowColor})`, animation: "utsavFlameFlicker 1.8s ease-in-out infinite alternate" }}
+              />
+            )}
+          </g>
+        );
+      })}
+      <path d="M 10 196 C 11 202 9 205 9 207 L 19 207 C 19 205 17 202 18 196 Z" fill="#D4AF37" />
+      <circle cx="14" cy="208" r="1.5" fill="#FFE082" />
+    </svg>
+  );
+}
+
 

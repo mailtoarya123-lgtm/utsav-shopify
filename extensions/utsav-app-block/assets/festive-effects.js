@@ -38,6 +38,11 @@
     kiteSpeed = "gentle", // gentle | moderate
     // 🌙 Moon Customizations
     moonPosition = "top_right", // top_right | top_left
+    // 🌿 Garland & Series Lights Customizations
+    garlandLayout = "top_and_sides", // top_and_sides | top_only | sides_only | off
+    garlandStyle = "mango_marigold",
+    seriesLightsTheme = "warm_gold", // warm_gold | festive_multicolor | amber_radiance | pearl_white | off
+    seriesLightsMode = "twinkle",    // twinkle | chaser | steady
   } = FESTIVAL_CONFIG;
 
   // ─── 1. Apply Subtle Luxury CSS Color Variables ──────────────────────────────
@@ -98,6 +103,173 @@
       `;
     }
     document.body.appendChild(vignette);
+  }
+
+  // ─── 3.5 Inject Top Toran & Side Garlands (Dussehra, Sankranti, Diwali) ─────
+  if (enableEffects && garlandLayout !== "off") {
+    const isDiwali = festivalId.includes("diwali");
+    const isDussehra = festivalId.includes("dussehra");
+    const isSankranti = festivalId.includes("sankranti") || festivalId.includes("pongal");
+
+    if (isDiwali || isDussehra || isSankranti) {
+      const getDefs = () => `
+        <defs>
+          <g id="utsavEfGendaOrange">
+            <circle cx="0" cy="0" r="11" fill="#E65100"/>
+            <circle cx="-5" cy="-4" r="5.5" fill="#F57C00"/>
+            <circle cx="5" cy="-4" r="5.5" fill="#FB8C00"/>
+            <circle cx="-5" cy="4" r="5.5" fill="#E65100"/>
+            <circle cx="5" cy="4" r="5.5" fill="#F57C00"/>
+            <circle cx="0" cy="-6" r="5" fill="#FFA726"/>
+            <circle cx="0" cy="6" r="5" fill="#FB8C00"/>
+            <circle cx="-6" cy="0" r="5" fill="#F57C00"/>
+            <circle cx="6" cy="0" r="5" fill="#FFA726"/>
+            <circle cx="0" cy="0" r="6" fill="#FFB74D"/>
+            <circle cx="0" cy="0" r="3" fill="#FFE082"/>
+          </g>
+          <g id="utsavEfGendaYellow">
+            <circle cx="0" cy="0" r="11" fill="#FF8F00"/>
+            <circle cx="-5" cy="-4" r="5.5" fill="#FFA000"/>
+            <circle cx="5" cy="-4" r="5.5" fill="#FFB300"/>
+            <circle cx="-5" cy="4" r="5.5" fill="#FF8F00"/>
+            <circle cx="5" cy="4" r="5.5" fill="#FFA000"/>
+            <circle cx="0" cy="-6" r="5" fill="#FFC107"/>
+            <circle cx="0" cy="6" r="5" fill="#FFB300"/>
+            <circle cx="-6" cy="0" r="5" fill="#FFA000"/>
+            <circle cx="6" cy="0" r="5" fill="#FFD54F"/>
+            <circle cx="0" cy="0" r="6" fill="#FFEB3B"/>
+            <circle cx="0" cy="0" r="3" fill="#FFFDE7"/>
+          </g>
+          <g id="utsavEfMangoLeaf">
+            <path d="M 0 0 C -6 14 -7 28 0 42 C 7 28 6 14 0 0 Z" fill="#2E7D32"/>
+            <path d="M 0 2 L 0 39" stroke="#81C784" stroke-width="1.2" stroke-linecap="round"/>
+          </g>
+          <g id="utsavEfMangoPair">
+            <path d="M 0 0 C -12 6 -24 16 -32 28 C -22 26 -12 18 0 8 Z" fill="#2E7D32"/>
+            <path d="M 0 0 C 12 6 24 16 32 28 C 22 26 12 18 0 8 Z" fill="#2E7D32"/>
+          </g>
+          <g id="utsavEfBrassBell">
+            <path d="M -6 0 C -5 6 -8 11 -8 13 L 8 13 C 8 11 5 6 6 0 Z" fill="#D4AF37"/>
+            <ellipse cx="0" cy="13" rx="8" ry="2" fill="#B78103"/>
+            <circle cx="0" cy="15" r="2.2" fill="#FFE082"/>
+            <line x1="0" y1="16" x2="0" y2="22" stroke="#D32F2F" stroke-width="1.5"/>
+          </g>
+          <linearGradient id="utsavEfKalawaRope" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D32F2F"/>
+            <stop offset="50%" stop-color="#FFC107"/>
+            <stop offset="100%" stop-color="#D32F2F"/>
+          </linearGradient>
+        </defs>
+      `;
+
+      if (garlandLayout === "top_and_sides" || garlandLayout === "top_only") {
+        const topGarland = document.createElement("div");
+        topGarland.id = "utsav-top-garland";
+
+        const hasLights = isDiwali && seriesLightsTheme !== "off";
+        let bulbMarkup = "";
+        if (hasLights) {
+          const bCol = seriesLightsTheme === "amber_radiance" ? "#FF8F00" : seriesLightsTheme === "pearl_white" ? "#FFFFFF" : "#FFD700";
+          const glow = seriesLightsTheme === "amber_radiance" ? "rgba(255, 120, 0, 0.95)" : "rgba(255, 215, 0, 0.95)";
+          bulbMarkup = `
+            <path d="M 0 10 Q 80 50 160 10" stroke="#FFE082" stroke-width="1.2" fill="none" opacity="0.85"/>
+            <g class="utsav-bulb-twinkle-1" style="--utsav-bulb-glow:${glow};">
+              <circle cx="14" cy="22" r="3.2" fill="${bCol}"/>
+              <circle cx="14" cy="22" r="7" fill="${bCol}" opacity="0.3"/>
+            </g>
+            <g class="utsav-bulb-twinkle-2" style="--utsav-bulb-glow:${glow};">
+              <circle cx="36" cy="35" r="3.2" fill="${bCol}"/>
+              <circle cx="36" cy="35" r="7" fill="${bCol}" opacity="0.3"/>
+            </g>
+            <g class="utsav-bulb-twinkle-3" style="--utsav-bulb-glow:${glow};">
+              <circle cx="64" cy="44" r="3.2" fill="${bCol}"/>
+              <circle cx="64" cy="44" r="7" fill="${bCol}" opacity="0.3"/>
+            </g>
+            <g class="utsav-bulb-twinkle-1" style="--utsav-bulb-glow:${glow};">
+              <circle cx="96" cy="44" r="3.2" fill="${bCol}"/>
+              <circle cx="96" cy="44" r="7" fill="${bCol}" opacity="0.3"/>
+            </g>
+            <g class="utsav-bulb-twinkle-2" style="--utsav-bulb-glow:${glow};">
+              <circle cx="124" cy="35" r="3.2" fill="${bCol}"/>
+              <circle cx="124" cy="35" r="7" fill="${bCol}" opacity="0.3"/>
+            </g>
+            <g class="utsav-bulb-twinkle-3" style="--utsav-bulb-glow:${glow};">
+              <circle cx="146" cy="22" r="3.2" fill="${bCol}"/>
+              <circle cx="146" cy="22" r="7" fill="${bCol}" opacity="0.3"/>
+            </g>
+          `;
+        }
+
+        topGarland.innerHTML = `
+          <svg width="100%" height="68" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            ${getDefs()}
+            <pattern id="utsavEfToranUnit" width="160" height="68" patternUnits="userSpaceOnUse">
+              <rect x="0" y="0" width="160" height="4" fill="url(#utsavEfKalawaRope)"/>
+              <use href="#utsavEfMangoLeaf" x="12" y="2" transform="rotate(-6 12 2)"/>
+              <use href="#utsavEfMangoLeaf" x="38" y="2" transform="rotate(-3 38 2)"/>
+              <use href="#utsavEfMangoLeaf" x="64" y="2" transform="rotate(0 64 2)"/>
+              <use href="#utsavEfMangoLeaf" x="96" y="2" transform="rotate(0 96 2)"/>
+              <use href="#utsavEfMangoLeaf" x="122" y="2" transform="rotate(3 122 2)"/>
+              <use href="#utsavEfMangoLeaf" x="148" y="2" transform="rotate(6 148 2)"/>
+              <path d="M 0 8 Q 80 48 160 8" stroke="#E65100" stroke-width="2.5" fill="none" opacity="0.6"/>
+              <use href="#utsavEfGendaYellow" x="0" y="14"/>
+              <use href="#utsavEfGendaOrange" x="24" y="26"/>
+              <use href="#utsavEfGendaYellow" x="50" y="40"/>
+              <use href="#utsavEfGendaOrange" x="80" y="47"/>
+              <use href="#utsavEfGendaYellow" x="110" y="40"/>
+              <use href="#utsavEfGendaOrange" x="136" y="26"/>
+              <use href="#utsavEfGendaYellow" x="160" y="14"/>
+              <use href="#utsavEfGendaOrange" x="0" y="26"/>
+              <use href="#utsavEfBrassBell" x="0" y="38"/>
+              <use href="#utsavEfGendaOrange" x="160" y="26"/>
+              <use href="#utsavEfBrassBell" x="160" y="38"/>
+              ${bulbMarkup}
+            </pattern>
+            <rect width="100%" height="68" fill="url(#utsavEfToranUnit)"/>
+          </svg>
+        `;
+        document.body.appendChild(topGarland);
+      }
+
+      if (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") {
+        const sideSVG = `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            ${getDefs()}
+            <line x1="22" y1="0" x2="22" y2="400" stroke="#D32F2F" stroke-width="2.5"/>
+            <use href="#utsavEfGendaYellow" x="22" y="16"/>
+            <use href="#utsavEfGendaOrange" x="22" y="46"/>
+            <use href="#utsavEfMangoPair" x="22" y="76"/>
+            <use href="#utsavEfGendaYellow" x="22" y="76"/>
+            <use href="#utsavEfGendaOrange" x="22" y="106"/>
+            <use href="#utsavEfGendaYellow" x="22" y="136"/>
+            <use href="#utsavEfMangoPair" x="22" y="166"/>
+            <use href="#utsavEfGendaOrange" x="22" y="166"/>
+            <use href="#utsavEfGendaYellow" x="22" y="196"/>
+            <use href="#utsavEfGendaOrange" x="22" y="226"/>
+            <use href="#utsavEfMangoPair" x="22" y="256"/>
+            <use href="#utsavEfGendaYellow" x="22" y="256"/>
+            <use href="#utsavEfGendaOrange" x="22" y="286"/>
+            <use href="#utsavEfGendaYellow" x="22" y="316"/>
+            <use href="#utsavEfGendaOrange" x="22" y="346"/>
+            <use href="#utsavEfGendaYellow" x="22" y="374"/>
+            <use href="#utsavEfGendaOrange" x="22" y="392"/>
+            <use href="#utsavEfBrassBell" x="22" y="406"/>
+          </svg>
+        `;
+
+        const leftGarland = document.createElement("div");
+        leftGarland.id = "utsav-garland-left";
+        leftGarland.className = "utsav-side-garland";
+        leftGarland.innerHTML = sideSVG;
+        document.body.appendChild(leftGarland);
+
+        const rightGarland = document.createElement("div");
+        rightGarland.id = "utsav-garland-right";
+        rightGarland.className = "utsav-side-garland";
+        rightGarland.innerHTML = sideSVG;
+        document.body.appendChild(rightGarland);
+      }
+    }
   }
 
   // ─── 4. Architectural Corner Accents (Diwali Diya, Eid Moon, Sankranti Kites) ───

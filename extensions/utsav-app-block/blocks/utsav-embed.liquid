@@ -19,6 +19,9 @@
       diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
       diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
       fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
+      garlandLayout: {{ block.settings.garland_layout | default: "top_and_sides" | json }},
+      garlandStyle: {{ block.settings.garland_style | default: "mango_marigold" | json }},
+      seriesLightsTheme: {{ block.settings.series_lights_theme | default: "warm_gold" | json }},
       kiteCount: {{ block.settings.kite_count | default: 2 | json }},
       kiteSpeed: {{ block.settings.kite_speed | default: "gentle" | json }},
       moonPosition: {{ block.settings.moon_position | default: "top_right" | json }},
@@ -50,10 +53,40 @@
       "label": "Festival Theme",
       "options": [
         { "value": "diwali", "label": "🪔 Diwali (Deepavali)" },
+        { "value": "dussehra", "label": "🏹 Dussehra (Vijayadashami)" },
         { "value": "sankranti", "label": "🪁 Makar Sankranti / Pongal" },
         { "value": "eid", "label": "🌙 Eid ul-Fitr" }
       ],
       "default": "diwali"
+    },
+    {
+      "type": "header",
+      "content": "🌿 Garland & Series Lights"
+    },
+    {
+      "type": "select",
+      "id": "garland_layout",
+      "label": "Garland Placement",
+      "options": [
+        { "value": "top_and_sides", "label": "Top Toran & Both Side Cascades" },
+        { "value": "top_only", "label": "Top Toran Only" },
+        { "value": "sides_only", "label": "Side Cascades Only" },
+        { "value": "off", "label": "Off (No Garland)" }
+      ],
+      "default": "top_and_sides"
+    },
+    {
+      "type": "select",
+      "id": "series_lights_theme",
+      "label": "Diwali Series Lights",
+      "options": [
+        { "value": "warm_gold", "label": "🌟 Warm Golden Fairy Lights" },
+        { "value": "festive_multicolor", "label": "🌈 Multi-Color Festive Jewels" },
+        { "value": "amber_radiance", "label": "🕯️ Deep Amber Sacred Warmth" },
+        { "value": "pearl_white", "label": "⚪ Moonlit Pearl Radiance" },
+        { "value": "off", "label": "🌿 Floral Garland Only (No Lights)" }
+      ],
+      "default": "warm_gold"
     },
     {
       "type": "header",

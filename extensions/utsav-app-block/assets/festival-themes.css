@@ -267,3 +267,104 @@
     bottom: 16px;
   }
 }
+
+/* ─── 8. Toran Garland & Micro LED Series Lights ─────────────────────────── */
+#utsav-top-garland {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 68px;
+  pointer-events: none;
+  z-index: 9993;
+  overflow: hidden;
+}
+
+.utsav-side-garland {
+  position: fixed;
+  top: 0;
+  width: 44px;
+  height: 440px;
+  pointer-events: none;
+  z-index: 9992;
+}
+
+#utsav-garland-left {
+  left: 10px;
+  transform-origin: 22px 0;
+  animation: utsavGarlandSwayLeft 5.5s ease-in-out infinite alternate;
+}
+
+#utsav-garland-right {
+  right: 10px;
+  transform-origin: 22px 0;
+  animation: utsavGarlandSwayRight 5.8s ease-in-out infinite alternate;
+  animation-delay: 1.4s;
+}
+
+@keyframes utsavGarlandSwayLeft {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(1.2deg); }
+  100% { transform: rotate(-0.8deg); }
+}
+
+@keyframes utsavGarlandSwayRight {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(-1.2deg); }
+  100% { transform: rotate(0.8deg); }
+}
+
+@keyframes utsavBulbTwinkleA {
+  0%, 100% { opacity: 0.96; filter: drop-shadow(0 0 6px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.95))); transform: scale(1); }
+  50% { opacity: 0.32; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.25))); transform: scale(0.85); }
+}
+
+@keyframes utsavBulbTwinkleB {
+  0%, 100% { opacity: 0.32; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.25))); transform: scale(0.85); }
+  50% { opacity: 1.0; filter: drop-shadow(0 0 8px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); transform: scale(1.1); }
+}
+
+@keyframes utsavBulbTwinkleC {
+  0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 4px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.7))); }
+  50% { opacity: 1.0; filter: drop-shadow(0 0 9px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
+}
+
+@keyframes utsavBulbChase {
+  0% { opacity: 0.3; transform: scale(0.85); }
+  25% { opacity: 1.0; transform: scale(1.15); filter: drop-shadow(0 0 9px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+  100% { opacity: 0.3; transform: scale(0.85); }
+}
+
+.utsav-bulb-twinkle-1 {
+  animation: utsavBulbTwinkleA 1.6s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.utsav-bulb-twinkle-2 {
+  animation: utsavBulbTwinkleB 1.6s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+
+.utsav-bulb-twinkle-3 {
+  animation: utsavBulbTwinkleC 2.2s ease-in-out infinite alternate;
+  animation-delay: 0.4s;
+  transform-origin: center;
+}
+
+.utsav-bulb-chase-1 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0s; transform-origin: center; }
+.utsav-bulb-chase-2 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0.3s; transform-origin: center; }
+.utsav-bulb-chase-3 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0.6s; transform-origin: center; }
+.utsav-bulb-chase-4 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0.9s; transform-origin: center; }
+.utsav-bulb-chase-5 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 1.2s; transform-origin: center; }
+.utsav-bulb-chase-6 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 1.5s; transform-origin: center; }
+
+@media (max-width: 640px) {
+  .utsav-side-garland {
+    display: none !important;
+  }
+  #utsav-top-garland {
+    height: 52px;
+  }
+}
+

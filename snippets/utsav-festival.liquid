@@ -1,6 +1,6 @@
 {% comment %}
   Utsav (उत्सव) — Indian Festival Themes
-  Direct Theme Snippet (Diwali Diyas & Fireworks, Sankranti Kites, Eid Moon)
+  Authentic Luxury Toran Garlands, Twinkling Series Lights, Artisanal Diyas & Fireworks
   Zero local servers, zero tunnels. Runs directly on Shopify CDN.
 {% endcomment %}
 
@@ -11,9 +11,111 @@
     --utsav-secondary: #FF6B35;
     --utsav-accent: #8B0000;
     --utsav-glow: rgba(212, 175, 55, 0.4);
+    --utsav-bulb-glow: rgba(255, 215, 0, 0.95);
   }
 
-  /* Stationary Corner Accents (Never obstructs buy buttons or product cards) */
+  /* ─── Top Toran Garland & Side Garlands (Never blocks clicks) ─────────────── */
+  #utsav-top-garland {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 68px;
+    pointer-events: none;
+    z-index: 9993;
+    overflow: hidden;
+  }
+
+  .utsav-side-garland {
+    position: fixed;
+    top: 0;
+    width: 44px;
+    height: 440px;
+    pointer-events: none;
+    z-index: 9992;
+  }
+
+  #utsav-garland-left {
+    left: 10px;
+    transform-origin: 22px 0;
+    animation: utsavGarlandSwayLeft 5.5s ease-in-out infinite alternate;
+  }
+
+  #utsav-garland-right {
+    right: 10px;
+    transform-origin: 22px 0;
+    animation: utsavGarlandSwayRight 5.8s ease-in-out infinite alternate;
+    animation-delay: 1.4s;
+  }
+
+  @keyframes utsavGarlandSwayLeft {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(1.2deg); }
+    100% { transform: rotate(-0.8deg); }
+  }
+
+  @keyframes utsavGarlandSwayRight {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(-1.2deg); }
+    100% { transform: rotate(0.8deg); }
+  }
+
+  /* Micro LED Series Lights Keyframes */
+  @keyframes utsavBulbTwinkleA {
+    0%, 100% { opacity: 0.96; filter: drop-shadow(0 0 6px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.95))); transform: scale(1); }
+    50% { opacity: 0.32; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.25))); transform: scale(0.85); }
+  }
+
+  @keyframes utsavBulbTwinkleB {
+    0%, 100% { opacity: 0.32; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.25))); transform: scale(0.85); }
+    50% { opacity: 1.0; filter: drop-shadow(0 0 8px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); transform: scale(1.1); }
+  }
+
+  @keyframes utsavBulbTwinkleC {
+    0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 4px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.7))); }
+    50% { opacity: 1.0; filter: drop-shadow(0 0 9px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
+  }
+
+  @keyframes utsavBulbChase {
+    0% { opacity: 0.3; transform: scale(0.85); }
+    25% { opacity: 1.0; transform: scale(1.15); filter: drop-shadow(0 0 9px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
+    50% { opacity: 0.4; transform: scale(0.9); }
+    100% { opacity: 0.3; transform: scale(0.85); }
+  }
+
+  .utsav-bulb-twinkle-1 {
+    animation: utsavBulbTwinkleA 1.6s ease-in-out infinite alternate;
+    transform-origin: center;
+  }
+
+  .utsav-bulb-twinkle-2 {
+    animation: utsavBulbTwinkleB 1.6s ease-in-out infinite alternate;
+    transform-origin: center;
+  }
+
+  .utsav-bulb-twinkle-3 {
+    animation: utsavBulbTwinkleC 2.2s ease-in-out infinite alternate;
+    animation-delay: 0.4s;
+    transform-origin: center;
+  }
+
+  .utsav-bulb-chase-1 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0s; transform-origin: center; }
+  .utsav-bulb-chase-2 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0.3s; transform-origin: center; }
+  .utsav-bulb-chase-3 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0.6s; transform-origin: center; }
+  .utsav-bulb-chase-4 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 0.9s; transform-origin: center; }
+  .utsav-bulb-chase-5 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 1.2s; transform-origin: center; }
+  .utsav-bulb-chase-6 { animation: utsavBulbChase 1.8s ease-in-out infinite; animation-delay: 1.5s; transform-origin: center; }
+
+  @media (max-width: 640px) {
+    .utsav-side-garland {
+      display: none !important;
+    }
+    #utsav-top-garland {
+      height: 52px;
+    }
+  }
+
+  /* ─── Stationary Corner Accents (Diwali Diyas) ─────────────────────────── */
   #utsav-corner-container {
     position: fixed;
     top: 0;
@@ -163,35 +265,294 @@
 
 <!-- 2. Announcement Banner -->
 <div class="utsav-store-banner" id="utsavBanner">
-  <span>🪔 Shubh Deepavali! Illuminate your home with our Festive Collection</span>
-  <button class="utsav-pill-code" onclick="navigator.clipboard.writeText('DIWALI25'); this.textContent='✓ Copied!';">
-    Code: <strong>DIWALI25</strong>
+  <span id="utsavBannerText">🪔 Shubh Deepavali! Illuminate your home with our Festive Collection ✨</span>
+  <button class="utsav-pill-code" id="utsavCouponBtn" onclick="navigator.clipboard.writeText('UTSAV25'); this.textContent='✓ Copied!';">
+    Code: <strong>UTSAV25</strong>
   </button>
   <button onclick="document.getElementById('utsavBanner').remove()" style="position:absolute; right:16px; background:none; border:none; color:#888; font-size:16px; cursor:pointer;" aria-label="Close">×</button>
 </div>
 
-<!-- 3. Ambient Lighting Vignette -->
+<!-- 3. Top Toran Garland Container -->
+<div id="utsav-top-garland"></div>
+
+<!-- 4. Left and Right Vertical Hanging Garlands -->
+<div id="utsav-garland-left" class="utsav-side-garland"></div>
+<div id="utsav-garland-right" class="utsav-side-garland"></div>
+
+<!-- 5. Ambient Lighting Vignette -->
 <div class="utsav-ambient-vignette" id="utsavVignette"></div>
 
-<!-- 4. Corner Diyas Container -->
+<!-- 6. Corner Diyas Container -->
 <div id="utsav-corner-container">
-  <!-- Left Bottom Diya -->
-  <div class="utsav-corner-decor utsav-corner-bottom-left" id="utsavDiyaBL" title="Tap for Diwali Blessing ✨"></div>
-
-  <!-- Right Bottom Diya -->
-  <div class="utsav-corner-decor utsav-corner-bottom-right" id="utsavDiyaBR" title="Tap for Diwali Blessing ✨"></div>
-
-  <!-- Top Corners (Optional based on configuration) -->
-  <div class="utsav-corner-decor utsav-corner-top-left" id="utsavDiyaTL" style="display:none;" title="Tap for Diwali Blessing ✨"></div>
-  <div class="utsav-corner-decor utsav-corner-top-right" id="utsavDiyaTR" style="display:none;" title="Tap for Diwali Blessing ✨"></div>
+  <div class="utsav-corner-decor utsav-corner-bottom-left" id="utsavDiyaBL" title="Tap for Festive Blessing ✨"></div>
+  <div class="utsav-corner-decor utsav-corner-bottom-right" id="utsavDiyaBR" title="Tap for Festive Blessing ✨"></div>
+  <div class="utsav-corner-decor utsav-corner-top-left" id="utsavDiyaTL" style="display:none;" title="Tap for Festive Blessing ✨"></div>
+  <div class="utsav-corner-decor utsav-corner-top-right" id="utsavDiyaTR" style="display:none;" title="Tap for Festive Blessing ✨"></div>
 </div>
 
-<!-- 5. Subtle Aerial Willow Fireworks Engine -->
+<!-- 7. Aerial Fireworks Engine -->
 <canvas id="utsav-fireworks-canvas"></canvas>
 
 <script>
   (function() {
-    // ─── 1. Diya SVG Templates for Artisanal Styles ──────────────────────────
+    // ─── 1. Shared Festive Master SVG Definitions ───────────────────────────
+    function getFestiveDefs() {
+      return `
+        <defs>
+          <!-- Deep Saffron Orange Marigold (Genda Phool) -->
+          <g id="utsavGendaOrange">
+            <circle cx="0" cy="0" r="11" fill="#E65100"/>
+            <circle cx="-5" cy="-4" r="5.5" fill="#F57C00"/>
+            <circle cx="5" cy="-4" r="5.5" fill="#FB8C00"/>
+            <circle cx="-5" cy="4" r="5.5" fill="#E65100"/>
+            <circle cx="5" cy="4" r="5.5" fill="#F57C00"/>
+            <circle cx="0" cy="-6" r="5" fill="#FFA726"/>
+            <circle cx="0" cy="6" r="5" fill="#FB8C00"/>
+            <circle cx="-6" cy="0" r="5" fill="#F57C00"/>
+            <circle cx="6" cy="0" r="5" fill="#FFA726"/>
+            <circle cx="0" cy="0" r="6" fill="#FFB74D"/>
+            <circle cx="0" cy="0" r="3" fill="#FFE082"/>
+          </g>
+
+          <!-- Golden Yellow Marigold (Peela Genda) -->
+          <g id="utsavGendaYellow">
+            <circle cx="0" cy="0" r="11" fill="#FF8F00"/>
+            <circle cx="-5" cy="-4" r="5.5" fill="#FFA000"/>
+            <circle cx="5" cy="-4" r="5.5" fill="#FFB300"/>
+            <circle cx="-5" cy="4" r="5.5" fill="#FF8F00"/>
+            <circle cx="5" cy="4" r="5.5" fill="#FFA000"/>
+            <circle cx="0" cy="-6" r="5" fill="#FFC107"/>
+            <circle cx="0" cy="6" r="5" fill="#FFB300"/>
+            <circle cx="-6" cy="0" r="5" fill="#FFA000"/>
+            <circle cx="6" cy="0" r="5" fill="#FFD54F"/>
+            <circle cx="0" cy="0" r="6" fill="#FFEB3B"/>
+            <circle cx="0" cy="0" r="3" fill="#FFFDE7"/>
+          </g>
+
+          <!-- Mango Leaf (Aam ka Patta) -->
+          <g id="utsavMangoLeaf">
+            <path d="M 0 0 C -6 14 -7 28 0 42 C 7 28 6 14 0 0 Z" fill="#2E7D32"/>
+            <path d="M 0 2 C -4 14 -5 26 0 40" fill="#1B5E20" opacity="0.4"/>
+            <path d="M 0 2 L 0 39" stroke="#81C784" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M 0 12 L -4 18 M 0 20 L -4 26 M 0 28 L -3 33" stroke="#81C784" stroke-width="0.8" opacity="0.7"/>
+            <path d="M 0 12 L 4 18 M 0 20 L 4 26 M 0 28 L 3 33" stroke="#81C784" stroke-width="0.8" opacity="0.7"/>
+          </g>
+
+          <!-- Paired Side Mango Leaves -->
+          <g id="utsavMangoPair">
+            <path d="M 0 0 C -12 6 -24 16 -32 28 C -22 26 -12 18 0 8 Z" fill="#2E7D32"/>
+            <path d="M 0 0 C 12 6 24 16 32 28 C 22 26 12 18 0 8 Z" fill="#2E7D32"/>
+            <path d="M 0 0 L -30 26" stroke="#81C784" stroke-width="0.9" opacity="0.8"/>
+            <path d="M 0 0 L 30 26" stroke="#81C784" stroke-width="0.9" opacity="0.8"/>
+          </g>
+
+          <!-- Golden Brass Temple Bell (Ghanti) -->
+          <g id="utsavBrassBell">
+            <path d="M -6 0 C -5 6 -8 11 -8 13 L 8 13 C 8 11 5 6 6 0 Z" fill="url(#utsavBellGold)"/>
+            <ellipse cx="0" cy="13" rx="8" ry="2" fill="#B78103"/>
+            <circle cx="0" cy="15" r="2.2" fill="#FFE082"/>
+            <line x1="0" y1="16" x2="0" y2="22" stroke="#D32F2F" stroke-width="1.5"/>
+          </g>
+
+          <linearGradient id="utsavBellGold" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D4AF37"/>
+            <stop offset="35%" stop-color="#FFF59D"/>
+            <stop offset="70%" stop-color="#D4AF37"/>
+            <stop offset="100%" stop-color="#996515"/>
+          </linearGradient>
+
+          <linearGradient id="utsavKalawaRope" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D32F2F"/>
+            <stop offset="50%" stop-color="#FFC107"/>
+            <stop offset="100%" stop-color="#D32F2F"/>
+          </linearGradient>
+        </defs>
+      `;
+    }
+
+    // ─── 2. Top Toran SVG Builder ───────────────────────────────────────────
+    function getTopToranSVG(festivalId, garlandStyle, seriesLightsTheme, seriesLightsMode) {
+      const isDiwali = (festivalId || '').includes('diwali');
+      const hasSeriesLights = isDiwali && seriesLightsTheme !== 'off';
+
+      let bulbColors = ['#FFD700', '#FFD700', '#FFD700', '#FFD700', '#FFD700', '#FFD700', '#FFD700'];
+      let glowColor = 'rgba(255, 215, 0, 0.95)';
+
+      if (seriesLightsTheme === 'festive_multicolor') {
+        bulbColors = ['#FF9100', '#FF1744', '#00E676', '#FFD700', '#00E5FF', '#FF4081', '#FFD700'];
+        glowColor = 'rgba(255, 145, 0, 0.95)';
+      } else if (seriesLightsTheme === 'amber_radiance') {
+        bulbColors = ['#FF8F00', '#FF6D00', '#FFA000', '#FF8F00', '#FF6D00', '#FFA000', '#FF8F00'];
+        glowColor = 'rgba(255, 120, 0, 0.95)';
+      } else if (seriesLightsTheme === 'pearl_white') {
+        bulbColors = ['#FFFFFF', '#FFFDE7', '#FFFFFF', '#FFFDE7', '#FFFFFF', '#FFFDE7', '#FFFFFF'];
+        glowColor = 'rgba(255, 255, 255, 0.95)';
+      }
+
+      const animClass1 = seriesLightsMode === 'chaser' ? 'utsav-bulb-chase-1' : seriesLightsMode === 'steady' ? '' : 'utsav-bulb-twinkle-1';
+      const animClass2 = seriesLightsMode === 'chaser' ? 'utsav-bulb-chase-2' : seriesLightsMode === 'steady' ? '' : 'utsav-bulb-twinkle-2';
+      const animClass3 = seriesLightsMode === 'chaser' ? 'utsav-bulb-chase-3' : seriesLightsMode === 'steady' ? '' : 'utsav-bulb-twinkle-3';
+      const animClass4 = seriesLightsMode === 'chaser' ? 'utsav-bulb-chase-4' : seriesLightsMode === 'steady' ? '' : 'utsav-bulb-twinkle-1';
+      const animClass5 = seriesLightsMode === 'chaser' ? 'utsav-bulb-chase-5' : seriesLightsMode === 'steady' ? '' : 'utsav-bulb-twinkle-2';
+      const animClass6 = seriesLightsMode === 'chaser' ? 'utsav-bulb-chase-6' : seriesLightsMode === 'steady' ? '' : 'utsav-bulb-twinkle-3';
+      const animClass7 = seriesLightsMode === 'chaser' ? 'utsav-bulb-chase-1' : seriesLightsMode === 'steady' ? '' : 'utsav-bulb-twinkle-1';
+
+      const seriesLightsMarkup = hasSeriesLights ? `
+        <!-- Twinkling Fairy Light Copper Wire -->
+        <path d="M 0 10 Q 80 50 160 10" stroke="#FFE082" stroke-width="1.2" fill="none" opacity="0.85"/>
+        <!-- Micro LED Bulbs -->
+        <g class="${animClass1}" style="--utsav-bulb-glow:${glowColor};">
+          <rect x="13" y="18" width="2" height="3" fill="#1B5E20"/>
+          <circle cx="14" cy="22" r="3.2" fill="${bulbColors[0]}"/>
+          <circle cx="14" cy="22" r="7" fill="${bulbColors[0]}" opacity="0.3"/>
+        </g>
+        <g class="${animClass2}" style="--utsav-bulb-glow:${glowColor};">
+          <rect x="35" y="31" width="2" height="3" fill="#1B5E20"/>
+          <circle cx="36" cy="35" r="3.2" fill="${bulbColors[1]}"/>
+          <circle cx="36" cy="35" r="7" fill="${bulbColors[1]}" opacity="0.3"/>
+        </g>
+        <g class="${animClass3}" style="--utsav-bulb-glow:${glowColor};">
+          <rect x="63" y="40" width="2" height="3" fill="#1B5E20"/>
+          <circle cx="64" cy="44" r="3.2" fill="${bulbColors[2]}"/>
+          <circle cx="64" cy="44" r="7" fill="${bulbColors[2]}" opacity="0.3"/>
+        </g>
+        <g class="${animClass4}" style="--utsav-bulb-glow:${glowColor};">
+          <rect x="95" y="40" width="2" height="3" fill="#1B5E20"/>
+          <circle cx="96" cy="44" r="3.2" fill="${bulbColors[3]}"/>
+          <circle cx="96" cy="44" r="7" fill="${bulbColors[3]}" opacity="0.3"/>
+        </g>
+        <g class="${animClass5}" style="--utsav-bulb-glow:${glowColor};">
+          <rect x="123" y="31" width="2" height="3" fill="#1B5E20"/>
+          <circle cx="124" cy="35" r="3.2" fill="${bulbColors[4]}"/>
+          <circle cx="124" cy="35" r="7" fill="${bulbColors[4]}" opacity="0.3"/>
+        </g>
+        <g class="${animClass6}" style="--utsav-bulb-glow:${glowColor};">
+          <rect x="145" y="18" width="2" height="3" fill="#1B5E20"/>
+          <circle cx="146" cy="22" r="3.2" fill="${bulbColors[5]}"/>
+          <circle cx="146" cy="22" r="7" fill="${bulbColors[5]}" opacity="0.3"/>
+        </g>
+        <g class="${animClass7}" style="--utsav-bulb-glow:${glowColor};">
+          <rect x="-1" y="6" width="2" height="3" fill="#1B5E20"/>
+          <circle cx="0" cy="10" r="3.5" fill="${bulbColors[6]}"/>
+          <circle cx="0" cy="10" r="8" fill="${bulbColors[6]}" opacity="0.35"/>
+        </g>
+      ` : '';
+
+      return `
+        <svg width="100%" height="68" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+          ${getFestiveDefs()}
+          <pattern id="utsavToranUnit" width="160" height="68" patternUnits="userSpaceOnUse">
+            <!-- Top Kalawa Binding Cord -->
+            <rect x="0" y="0" width="160" height="4" fill="url(#utsavKalawaRope)"/>
+
+            <!-- Hanging Mango Leaves (Aam ke Patte) -->
+            <use href="#utsavMangoLeaf" x="12" y="2" transform="rotate(-6 12 2)"/>
+            <use href="#utsavMangoLeaf" x="38" y="2" transform="rotate(-3 38 2)"/>
+            <use href="#utsavMangoLeaf" x="64" y="2" transform="rotate(0 64 2)"/>
+            <use href="#utsavMangoLeaf" x="96" y="2" transform="rotate(0 96 2)"/>
+            <use href="#utsavMangoLeaf" x="122" y="2" transform="rotate(3 122 2)"/>
+            <use href="#utsavMangoLeaf" x="148" y="2" transform="rotate(6 148 2)"/>
+
+            <!-- Scalloped Marigold Garland Curve -->
+            <path d="M 0 8 Q 80 48 160 8" stroke="#E65100" stroke-width="2.5" fill="none" opacity="0.6"/>
+
+            <!-- Marigold Blossoms (Genda Phool) along the Scallop -->
+            <use href="#utsavGendaYellow" x="0" y="14"/>
+            <use href="#utsavGendaOrange" x="24" y="26"/>
+            <use href="#utsavGendaYellow" x="50" y="40"/>
+            <use href="#utsavGendaOrange" x="80" y="47"/>
+            <use href="#utsavGendaYellow" x="110" y="40"/>
+            <use href="#utsavGendaOrange" x="136" y="26"/>
+            <use href="#utsavGendaYellow" x="160" y="14"/>
+
+            <!-- Junction Tassel with Bell -->
+            <use href="#utsavGendaOrange" x="0" y="26"/>
+            <use href="#utsavBrassBell" x="0" y="38"/>
+            <use href="#utsavGendaOrange" x="160" y="26"/>
+            <use href="#utsavBrassBell" x="160" y="38"/>
+
+            ${seriesLightsMarkup}
+          </pattern>
+          <rect width="100%" height="68" fill="url(#utsavToranUnit)"/>
+        </svg>
+      `;
+    }
+
+    // ─── 3. Side Vertical Garland SVG Builder ───────────────────────────────
+    function getSideGarlandSVG(festivalId, garlandStyle, seriesLightsTheme, seriesLightsMode, isLeft) {
+      const isDiwali = (festivalId || '').includes('diwali');
+      const hasSeriesLights = isDiwali && seriesLightsTheme !== 'off';
+
+      let bulbColor = '#FFD700';
+      let glowColor = 'rgba(255, 215, 0, 0.95)';
+      if (seriesLightsTheme === 'festive_multicolor') {
+        glowColor = 'rgba(255, 145, 0, 0.95)';
+      } else if (seriesLightsTheme === 'amber_radiance') {
+        bulbColor = '#FF8F00';
+        glowColor = 'rgba(255, 120, 0, 0.95)';
+      } else if (seriesLightsTheme === 'pearl_white') {
+        bulbColor = '#FFFFFF';
+        glowColor = 'rgba(255, 255, 255, 0.95)';
+      }
+
+      let sideBulbs = '';
+      if (hasSeriesLights) {
+        const yPositions = [32, 62, 92, 122, 152, 182, 212, 242, 272, 302, 332, 362];
+        const multiColors = ['#FF9100', '#FF1744', '#00E676', '#FFD700', '#00E5FF', '#FF4081'];
+
+        sideBulbs = yPositions.map((y, idx) => {
+          const color = seriesLightsTheme === 'festive_multicolor' ? multiColors[idx % multiColors.length] : bulbColor;
+          const animClass = (idx % 2 === 0) ? 'utsav-bulb-twinkle-1' : 'utsav-bulb-twinkle-2';
+          const xOffset = (idx % 2 === 0) ? 14 : 28;
+          return `
+            <g class="${animClass}" style="--utsav-bulb-glow:${glowColor};">
+              <circle cx="${xOffset}" cy="${y}" r="3" fill="${color}"/>
+              <circle cx="${xOffset}" cy="${y}" r="6.5" fill="${color}" opacity="0.3"/>
+            </g>
+          `;
+        }).join('');
+      }
+
+      return `
+        <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+          ${getFestiveDefs()}
+          <!-- Central Kalawa Cord -->
+          <line x1="22" y1="0" x2="22" y2="400" stroke="#D32F2F" stroke-width="2.5"/>
+
+          <!-- Cascading Flowers and Mango Leaves -->
+          <use href="#utsavGendaYellow" x="22" y="16"/>
+          <use href="#utsavGendaOrange" x="22" y="46"/>
+
+          <use href="#utsavMangoPair" x="22" y="76"/>
+          <use href="#utsavGendaYellow" x="22" y="76"/>
+
+          <use href="#utsavGendaOrange" x="22" y="106"/>
+          <use href="#utsavGendaYellow" x="22" y="136"/>
+
+          <use href="#utsavMangoPair" x="22" y="166"/>
+          <use href="#utsavGendaOrange" x="22" y="166"/>
+
+          <use href="#utsavGendaYellow" x="22" y="196"/>
+          <use href="#utsavGendaOrange" x="22" y="226"/>
+
+          <use href="#utsavMangoPair" x="22" y="256"/>
+          <use href="#utsavGendaYellow" x="22" y="256"/>
+
+          <use href="#utsavGendaOrange" x="22" y="286"/>
+          <use href="#utsavGendaYellow" x="22" y="316"/>
+          <use href="#utsavGendaOrange" x="22" y="346"/>
+
+          <!-- Base Cluster and Temple Bell -->
+          <use href="#utsavGendaYellow" x="22" y="374"/>
+          <use href="#utsavGendaOrange" x="22" y="392"/>
+          <use href="#utsavBrassBell" x="22" y="406"/>
+
+          ${sideBulbs}
+        </svg>
+      `;
+    }
+
+    // ─── 4. Diya SVG Templates for Artisanal Styles ──────────────────────────
     function getDiyaSVG(style, sizePx, flameGlow) {
       const glowFilter = flameGlow === 'divine_aura' 
         ? 'drop-shadow(0 0 18px rgba(255, 170, 0, 0.95))' 
@@ -204,7 +565,6 @@
 
       let bodyMarkup = '';
       if (style === 'terracotta_clay') {
-        // Earthen Mitti Clay Diya
         bodyMarkup = `
           <ellipse cx="60" cy="58" rx="42" ry="11" fill="#E07A5F"/>
           <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavClayGrad)"/>
@@ -212,7 +572,6 @@
           <ellipse cx="60" cy="86" rx="22" ry="4" fill="#541F09"/>
         `;
       } else if (style === 'silver_filigree') {
-        // Shimmering Silver Diya
         bodyMarkup = `
           <ellipse cx="60" cy="58" rx="41" ry="10" fill="#ECEFF1"/>
           <path d="M 19 58 Q 21 83 60 85 Q 99 83 101 58 Z" fill="url(#utsavSilverGrad)"/>
@@ -220,7 +579,6 @@
           <ellipse cx="60" cy="85" rx="20" ry="4" fill="#37474F"/>
         `;
       } else if (style === 'marigold_urli') {
-        // Floating Marigold Urli Bowl Diya
         bodyMarkup = `
           <ellipse cx="60" cy="62" rx="48" ry="14" fill="#E5C158"/>
           <ellipse cx="60" cy="62" rx="44" ry="12" fill="#2E1B0E"/>
@@ -233,7 +591,6 @@
           <ellipse cx="60" cy="81" rx="18" ry="3.5" fill="#5D4037"/>
         `;
       } else {
-        // Royal Brass Diya (Default)
         bodyMarkup = `
           <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FFE082"/>
           <path d="M 18 58 Q 20 83 60 85 Q 100 83 102 58 Z" fill="url(#utsavBrassGrad)"/>
@@ -294,9 +651,10 @@
       `;
     }
 
-    // ─── 2. Default Configuration ────────────────────────────────────────────
+    // ─── 5. Master Active State Configuration ───────────────────────────────
     let currentConfig = {
       active: true,
+      festivalId: 'diwali',
       diyaStyle: 'royal_brass',
       flameGlow: 'sacred_flicker',
       diyaSize: 'medium',
@@ -305,10 +663,78 @@
       fireworksFrequency: 'subtle',
       fireworksSound: 'muted',
       interactiveBlessing: true,
+      // Garland & Series Lights
+      garlandLayout: 'top_and_sides', // top_and_sides | top_only | sides_only | off
+      garlandStyle: 'mango_marigold',
+      seriesLightsTheme: 'warm_gold', // warm_gold | festive_multicolor | amber_radiance | pearl_white | off
+      seriesLightsMode: 'twinkle',    // twinkle | chaser | steady
       bannerText: null
     };
 
+    function applyGarlands() {
+      const topContainer = document.getElementById('utsav-top-garland');
+      const leftContainer = document.getElementById('utsav-garland-left');
+      const rightContainer = document.getElementById('utsav-garland-right');
+
+      const layout = currentConfig.garlandLayout || 'top_and_sides';
+      const showTop = (layout === 'top_and_sides' || layout === 'top_only');
+      const showSides = (layout === 'top_and_sides' || layout === 'sides_only');
+
+      if (topContainer) {
+        if (showTop) {
+          topContainer.innerHTML = getTopToranSVG(
+            currentConfig.festivalId,
+            currentConfig.garlandStyle,
+            currentConfig.seriesLightsTheme,
+            currentConfig.seriesLightsMode
+          );
+          topContainer.style.display = 'block';
+        } else {
+          topContainer.style.display = 'none';
+        }
+      }
+
+      if (leftContainer) {
+        if (showSides) {
+          leftContainer.innerHTML = getSideGarlandSVG(
+            currentConfig.festivalId,
+            currentConfig.garlandStyle,
+            currentConfig.seriesLightsTheme,
+            currentConfig.seriesLightsMode,
+            true
+          );
+          leftContainer.style.display = 'block';
+        } else {
+          leftContainer.style.display = 'none';
+        }
+      }
+
+      if (rightContainer) {
+        if (showSides) {
+          rightContainer.innerHTML = getSideGarlandSVG(
+            currentConfig.festivalId,
+            currentConfig.garlandStyle,
+            currentConfig.seriesLightsTheme,
+            currentConfig.seriesLightsMode,
+            false
+          );
+          rightContainer.style.display = 'block';
+        } else {
+          rightContainer.style.display = 'none';
+        }
+      }
+    }
+
     function applyDiyas() {
+      const isDiwali = (currentConfig.festivalId || '').includes('diwali');
+      const cc = document.getElementById('utsav-corner-container');
+
+      if (!isDiwali) {
+        if (cc) cc.style.display = 'none';
+        return;
+      }
+
+      if (cc) cc.style.display = 'block';
       const sizePx = currentConfig.diyaSize === 'small' ? 62 : currentConfig.diyaSize === 'large' ? 105 : 82;
       const svg = getDiyaSVG(currentConfig.diyaStyle, sizePx, currentConfig.flameGlow);
 
@@ -322,7 +748,6 @@
       if (tl) tl.innerHTML = svg;
       if (tr) tr.innerHTML = svg;
 
-      // Handle corner placement
       const pos = currentConfig.diyaPosition;
       if (bl) bl.style.display = (pos === 'bottom_corners' || pos === 'bottom_left' || pos === 'all_four') ? 'block' : 'none';
       if (br) br.style.display = (pos === 'bottom_corners' || pos === 'bottom_right' || pos === 'all_four') ? 'block' : 'none';
@@ -330,9 +755,11 @@
       if (tr) tr.style.display = (pos === 'top_corners' || pos === 'all_four') ? 'block' : 'none';
     }
 
+    // Initial render
+    applyGarlands();
     applyDiyas();
 
-    // ─── 3. Web Audio Bell Chime (Synthesized zero-download) ──────────────────
+    // ─── 6. Web Audio Auspicious Bell Synthesizer ───────────────────────────
     function playTempleBell() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -341,7 +768,7 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime); // Auspicious A5 tone
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 1.2);
         gain.gain.setValueAtTime(0.08, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
@@ -352,12 +779,14 @@
       } catch (e) {}
     }
 
-    // ─── 4. Interactive Shopper Diya Blessing ────────────────────────────────
+    // ─── 7. Interactive Shopper Blessing ────────────────────────────────────
     const blessings = [
       "✨ शुभ दीपावली! May light & prosperity bless your home ✨",
       "🪔 Shubh Deepavali! May your year shine bright ✨",
       "✨ शुभ लाभ! Wishing you boundless joy & abundance ✨",
-      "🪔 Happy Diwali! Warm festive blessings to you & your family ✨"
+      "🪔 Happy Diwali! Warm festive blessings to you & your family ✨",
+      "🏹 Shubh Dussehra! May victory, truth & goodness light your path ✨",
+      "🪁 Shubh Makar Sankranti! Wishing you soaring happiness & sweet til-gud moments 🌞"
     ];
 
     function showBlessing(x, y) {
@@ -372,7 +801,6 @@
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 2600);
 
-      // Mini golden sparkle burst at tap location
       launchSparks(x, y, 16, ['#FFD700', '#FFA500', '#FFF8DC']);
     }
 
@@ -386,7 +814,7 @@
       }
     });
 
-    // ─── 5. High-End Fireworks Engine ───────────────────────────────────────
+    // ─── 8. Fireworks Engine ────────────────────────────────────────────────
     const canvas = document.getElementById('utsav-fireworks-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -419,11 +847,12 @@
 
     function triggerFirework() {
       if (currentConfig.fireworksFrequency === 'off') return;
+      const isDiwali = (currentConfig.festivalId || '').includes('diwali');
+      if (!isDiwali) return;
 
       const style = currentConfig.fireworksStyle || 'kamuro_willow';
 
       if (style === 'anar_fountain') {
-        // Ground fountain rising upwards from corner diyas
         const isLeft = Math.random() < 0.5;
         const originX = isLeft ? 55 : window.innerWidth - 55;
         const originY = window.innerHeight - 35;
@@ -441,7 +870,6 @@
           });
         }
       } else if (style === 'peony_multicolor') {
-        // Rangoli Multi-Color Peony (Saffron, Magenta, Emerald, Gold)
         const burstX = Math.random() < 0.5 
           ? 60 + Math.random() * (window.innerWidth * 0.28) 
           : window.innerWidth * 0.68 + Math.random() * (window.innerWidth * 0.26);
@@ -449,7 +877,6 @@
         const palette = ['#FF5722', '#E91E63', '#00E676', '#FFD700', '#00BCD4', '#FFF'];
         launchSparks(burstX, burstY, 34, palette);
       } else if (style === 'chakri_whirl') {
-        // Golden Chakri Spinning Whirl
         const burstX = Math.random() < 0.5 
           ? 70 + Math.random() * (window.innerWidth * 0.26) 
           : window.innerWidth * 0.70 + Math.random() * (window.innerWidth * 0.24);
@@ -469,7 +896,6 @@
           });
         }
       } else {
-        // Golden Kamuro Willow (Default Luxury Waterfall Trails)
         const burstX = Math.random() < 0.5 
           ? 60 + Math.random() * (window.innerWidth * 0.28) 
           : window.innerWidth * 0.68 + Math.random() * (window.innerWidth * 0.26);
@@ -486,7 +912,7 @@
             color: willowColors[Math.floor(Math.random() * willowColors.length)],
             size: 1.3 + Math.random() * 1.5,
             alpha: 1.0,
-            decay: 0.009 + Math.random() * 0.007, // Long slow trailing decay
+            decay: 0.009 + Math.random() * 0.007,
             gravity: 0.028
           });
         }
@@ -537,13 +963,19 @@
     }
     render();
 
-    // ─── 6. Live Cloud Sync with Utsav App ───────────────────────────────────
+    // ─── 9. Live Cloud Sync with Utsav App ───────────────────────────────────
     try {
       const shopDomain = '{{ shop.permanent_domain }}' || window.location.hostname;
       fetch('https://utsav-shopify.onrender.com/api/active-theme?shop=' + encodeURIComponent(shopDomain))
         .then(r => r.json())
         .then(data => {
           if (data && data.active === false) {
+            const topG = document.getElementById('utsav-top-garland');
+            if (topG) topG.style.display = 'none';
+            const leftG = document.getElementById('utsav-garland-left');
+            if (leftG) leftG.style.display = 'none';
+            const rightG = document.getElementById('utsav-garland-right');
+            if (rightG) rightG.style.display = 'none';
             const cc = document.getElementById('utsav-corner-container');
             if (cc) cc.style.display = 'none';
             const fc = document.getElementById('utsav-fireworks-canvas');
@@ -554,6 +986,7 @@
             if (vn) vn.style.display = 'none';
           } else if (data && data.active === true && data.config) {
             const cfg = data.config;
+            currentConfig.festivalId = data.festivalId || 'diwali';
             currentConfig.diyaSize = cfg.diyaSize || 'medium';
             currentConfig.diyaPosition = cfg.diyaPosition || 'bottom_corners';
             currentConfig.fireworksFrequency = cfg.fireworksFrequency || 'subtle';
@@ -566,9 +999,25 @@
                 if (custom.fireworksStyle) currentConfig.fireworksStyle = custom.fireworksStyle;
                 if (custom.fireworksSound) currentConfig.fireworksSound = custom.fireworksSound;
                 if (custom.interactiveBlessing !== undefined) currentConfig.interactiveBlessing = custom.interactiveBlessing;
+                if (custom.garlandLayout) currentConfig.garlandLayout = custom.garlandLayout;
+                if (custom.garlandStyle) currentConfig.garlandStyle = custom.garlandStyle;
+                if (custom.seriesLightsTheme) currentConfig.seriesLightsTheme = custom.seriesLightsTheme;
+                if (custom.seriesLightsMode) currentConfig.seriesLightsMode = custom.seriesLightsMode;
               } catch (e) {}
             }
 
+            const bannerTextEl = document.getElementById('utsavBannerText');
+            if (bannerTextEl) {
+              if (cfg.bannerText) {
+                bannerTextEl.textContent = cfg.bannerText;
+              } else if (currentConfig.festivalId === 'dussehra') {
+                bannerTextEl.textContent = '🏹 Shubh Dussehra! Celebrate the victory of Good over Evil with our Festive Collection ✨';
+              } else if (currentConfig.festivalId === 'makar-sankranti' || currentConfig.festivalId === 'pongal') {
+                bannerTextEl.textContent = '🪁 Happy Makar Sankranti! Til gud ghya, god god bola! 🌞';
+              }
+            }
+
+            applyGarlands();
             applyDiyas();
             resetFireworkTimer();
           }
