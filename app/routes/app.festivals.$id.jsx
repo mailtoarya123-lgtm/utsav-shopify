@@ -303,11 +303,507 @@ const CATEGORY_ICONS = {
   ),
 };
 
+// ─── Dynamic Festival Terminology Adapter ───────────────────────────────────
+export function getFestivalTerminology(festivalId = "") {
+  const fest = (festivalId || "").toLowerCase();
+
+  // 1. Halloween
+  if (fest.includes("halloween")) {
+    return {
+      headerCategory: "Header Framing",
+      headerBadge: "Spiderweb Lace",
+      headerArchitectureLabel: "Spiderweb Lace Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Spiderweb & Side Web Cascades", value: "top_and_sides" },
+        { label: "Top Spiderweb Only (Header Arch)", value: "top_only" },
+        { label: "Side Cascades Only (Screen Margins)", value: "sides_only" },
+        { label: "Off (No Web Framing)", value: "off" },
+      ],
+      dockingPositionLabel: "Web Docking Position",
+      dockingHelp: "Prevents spiderwebs from obstructing your logo, navigation menu, or cart.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Jack-o'-Lantern",
+      cornerSizeLabel: "Corner Jack-o'-Lantern Size",
+      cornerPlacementLabel: "Corner Jack-o'-Lantern Placement",
+      secondaryToggleLabel: "Enable Soft Eerie Glow & Mist",
+      secondaryToggleHelp: "Atmospheric amber candlelight flicker and subtle misty twilight luminescence.",
+      lightsThemeLabel: "Eerie Lighting Palette",
+      lightsThemeOptions: [
+        { label: "Spooky Amber Candlelight (Warm)", value: "amber_radiance" },
+        { label: "Mystic Violet Glow", value: "mystic_purple" },
+        { label: "Phantom Emerald Slime", value: "phantom_green" },
+        { label: "Moonlit Silver Fog", value: "pearl_white" },
+      ],
+      particleLabel: "Spectral Particle Budget",
+      particleHelp: "Controls ghost silhouette and floating ember density at smooth 60 FPS.",
+      audioLabel: "Atmospheric Chime / Eerie Soundscape",
+      audioHelp: "Plays a gentle, subtle atmospheric chime on shopper interaction. Muted by default.",
+      safeZoneHelp: "Prevents corner Jack-o'-Lanterns from colliding with mobile bottom navigation bars or chat widgets.",
+    };
+  }
+
+  // 2. Christmas
+  if (fest.includes("christmas")) {
+    return {
+      headerCategory: "Holiday Garlands",
+      headerBadge: "Pine & Holly",
+      headerArchitectureLabel: "Evergreen Garland Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Pine Garland & Side Cascades", value: "top_and_sides" },
+        { label: "Top Pine Garland Only (Header Arch)", value: "top_only" },
+        { label: "Side Pine Swags Only", value: "sides_only" },
+        { label: "Off (No Garland)", value: "off" },
+      ],
+      dockingPositionLabel: "Garland Docking Position",
+      dockingHelp: "Prevents pine garland from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Holiday Star",
+      cornerSizeLabel: "Corner Star / Wreath Size",
+      cornerPlacementLabel: "Corner Star / Wreath Placement",
+      secondaryToggleLabel: "Enable Twinkling Holiday Lights",
+      secondaryToggleHelp: "Twinkling Christmas tree bulbs and gentle falling snowfall.",
+      lightsThemeLabel: "Holiday Lights Color Theme",
+      lightsThemeOptions: [
+        { label: "Festive Multi-Color Jewels", value: "festive_multicolor" },
+        { label: "Warm Gold Fairylight (2700K)", value: "warm_gold" },
+        { label: "Winter Snowflake White", value: "pearl_white" },
+      ],
+      particleLabel: "Snowfall Flake Budget",
+      particleHelp: "Maintains smooth 60 FPS performance while snowflakes drift.",
+      audioLabel: "Jingle Bell Greeting (Audio)",
+      audioHelp: "Gentle holiday chime on first customer interaction. Muted by default.",
+      safeZoneHelp: "Prevents holiday corner stars from colliding with mobile bottom navigation or chat widgets.",
+    };
+  }
+
+  // 3. Valentine's Day
+  if (fest.includes("valentines")) {
+    return {
+      headerCategory: "Header Ribbons",
+      headerBadge: "Satin Swag",
+      headerArchitectureLabel: "Ribbon Swag Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Ribbon Swags & Side Streamers", value: "top_and_sides" },
+        { label: "Top Ribbon Swags Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Ribbons)", value: "off" },
+      ],
+      dockingPositionLabel: "Ribbon Docking Position",
+      dockingHelp: "Prevents ribbons from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Glowing Heart",
+      cornerSizeLabel: "Corner Heart Motif Size",
+      cornerPlacementLabel: "Corner Heart Motif Placement",
+      secondaryToggleLabel: "Enable Ribbon Reveal & Petals",
+      secondaryToggleHelp: "Floating heart bokeh, rose petals, and romantic luminescence.",
+      lightsThemeLabel: "Romance Palette",
+      lightsThemeOptions: [
+        { label: "Rose Gold & Ruby", value: "festive_multicolor" },
+        { label: "Warm Candlelit Gold", value: "warm_gold" },
+        { label: "Pastel Pink Blossom", value: "amber_radiance" },
+      ],
+      particleLabel: "Floating Petal Budget",
+      particleHelp: "Controls drifting rose petals and heart bokeh particles at 60 FPS.",
+      audioLabel: "Soft Harp Chord (Audio)",
+      audioHelp: "Gentle romantic acoustic chord on interaction.",
+      safeZoneHelp: "Prevents corner heart motifs from colliding with mobile navigation.",
+    };
+  }
+
+  // 4. Lunar New Year
+  if (fest.includes("lunar") || fest.includes("chinese")) {
+    return {
+      headerCategory: "Lantern Strings",
+      headerBadge: "Red Lanterns",
+      headerArchitectureLabel: "Lantern String Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Lantern String & Side Tassels", value: "top_and_sides" },
+        { label: "Top Lantern String Only", value: "top_only" },
+        { label: "Side Tassels Only", value: "sides_only" },
+        { label: "Off (No Lanterns)", value: "off" },
+      ],
+      dockingPositionLabel: "Lantern Docking Position",
+      dockingHelp: "Prevents lanterns from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Red Lantern",
+      cornerSizeLabel: "Corner Red Lantern Size",
+      cornerPlacementLabel: "Corner Red Lantern Placement",
+      secondaryToggleLabel: "Enable Golden Sparkles & Coin Drift",
+      secondaryToggleHelp: "Auspicious gold coins and red lantern sway animation.",
+      lightsThemeLabel: "Auspicious Palette",
+      lightsThemeOptions: [
+        { label: "Imperial Gold & Vermilion", value: "warm_gold" },
+        { label: "Ruby Red Glow", value: "festive_multicolor" },
+      ],
+      particleLabel: "Golden Sparkle Budget",
+      particleHelp: "Controls golden particle count at 60 FPS.",
+      audioLabel: "Festive Gong / Guzheng Chord (Audio)",
+      audioHelp: "Plays gentle celebratory acoustic chime.",
+      safeZoneHelp: "Prevents corner red lanterns from colliding with mobile navigation.",
+    };
+  }
+
+  // 5. Eid al-Fitr
+  if (fest.includes("eid")) {
+    return {
+      headerCategory: "Fanoos Lanterns",
+      headerBadge: "Damascus Swag",
+      headerArchitectureLabel: "Lantern Swag Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Fanoos Swag & Side Garlands", value: "top_and_sides" },
+        { label: "Top Fanoos Swag Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Lanterns)", value: "off" },
+      ],
+      dockingPositionLabel: "Lantern Docking Position",
+      dockingHelp: "Prevents lanterns from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Fanoos Lantern",
+      cornerSizeLabel: "Corner Fanoos Lantern Size",
+      cornerPlacementLabel: "Corner Fanoos Lantern Placement",
+      secondaryToggleLabel: "Enable Moonlit Illumination",
+      secondaryToggleHelp: "Silver star shimmer and ambient moonlit glow.",
+      lightsThemeLabel: "Moonlit Illumination Theme",
+      lightsThemeOptions: [
+        { label: "Moonlit Silver Pearl", value: "pearl_white" },
+        { label: "Warm Damascus Gold", value: "warm_gold" },
+        { label: "Emerald Oasis Glow", value: "festive_multicolor" },
+      ],
+      particleLabel: "Star Shimmer Budget",
+      particleHelp: "Controls celestial sparkle density at 60 FPS.",
+      audioLabel: "Oud Melody / Chime (Audio)",
+      audioHelp: "Gentle acoustic chime on first customer interaction.",
+      safeZoneHelp: "Prevents corner Fanoos lanterns from colliding with mobile navigation.",
+    };
+  }
+
+  // 6. Vishu
+  if (fest === "vishu") {
+    return {
+      headerCategory: "Kanikonna Cascades",
+      headerBadge: "Golden Blossoms",
+      headerArchitectureLabel: "Blossom Garland Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Kanikonna & Side Cascades", value: "top_and_sides" },
+        { label: "Top Kanikonna Arch Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Blossoms)", value: "off" },
+      ],
+      dockingPositionLabel: "Blossom Docking Position",
+      dockingHelp: "Prevents blossoms from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Nilavilakku",
+      cornerSizeLabel: "Corner Nilavilakku Size",
+      cornerPlacementLabel: "Corner Nilavilakku Placement",
+      secondaryToggleLabel: "Enable Vishu Kani Glow",
+      secondaryToggleHelp: "Golden blossom particles and ceremonial oil lamp radiance.",
+      lightsThemeLabel: "Blossom Radiance Theme",
+      lightsThemeOptions: [
+        { label: "Warm Golden Yellow", value: "warm_gold" },
+        { label: "Deep Amber Radiance", value: "amber_radiance" },
+      ],
+      particleLabel: "Blossom Petal Budget",
+      particleHelp: "Controls falling golden blossom petals at 60 FPS.",
+      audioLabel: "Auspicious Temple Bell (Audio)",
+      audioHelp: "Plays gentle bronze bell chime on first interaction.",
+      safeZoneHelp: "Prevents corner Nilavilakku lamps from colliding with mobile navigation.",
+    };
+  }
+
+  // 7. Thanksgiving
+  if (fest.includes("thanksgiving")) {
+    return {
+      headerCategory: "Autumn Foliage",
+      headerBadge: "Maple Garland",
+      headerArchitectureLabel: "Autumn Foliage Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Foliage & Side Leaf Cascades", value: "top_and_sides" },
+        { label: "Top Foliage Arch Only", value: "top_only" },
+        { label: "Side Cascades Only", value: "sides_only" },
+        { label: "Off (No Foliage)", value: "off" },
+      ],
+      dockingPositionLabel: "Foliage Docking Position",
+      dockingHelp: "Prevents foliage from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Harvest Pumpkin",
+      cornerSizeLabel: "Corner Harvest Pumpkin Size",
+      cornerPlacementLabel: "Corner Harvest Pumpkin Placement",
+      secondaryToggleLabel: "Enable Warm Ambient Lighting",
+      secondaryToggleHelp: "Warm golden twilight glow and drifting autumn leaves.",
+      lightsThemeLabel: "Harvest Palette",
+      lightsThemeOptions: [
+        { label: "Deep Amber Radiance", value: "amber_radiance" },
+        { label: "Warm Golden Hearth", value: "warm_gold" },
+      ],
+      particleLabel: "Drifting Leaf Budget",
+      particleHelp: "Controls falling autumn leaf density at 60 FPS.",
+      audioLabel: "Hearth Chime (Audio)",
+      audioHelp: "Plays gentle acoustic tone on shopper interaction.",
+      safeZoneHelp: "Prevents corner harvest pumpkins from colliding with mobile navigation.",
+    };
+  }
+
+  // 8. Hanukkah
+  if (fest.includes("hanukkah")) {
+    return {
+      headerCategory: "Header Bunting",
+      headerBadge: "Silver & Blue",
+      headerArchitectureLabel: "Bunting Architecture",
+      headerArchitectureOptions: [
+        { label: "Top Bunting & Side Swags", value: "top_and_sides" },
+        { label: "Top Bunting Only", value: "top_only" },
+        { label: "Side Swags Only", value: "sides_only" },
+        { label: "Off (No Bunting)", value: "off" },
+      ],
+      dockingPositionLabel: "Bunting Docking Position",
+      dockingHelp: "Prevents bunting from obstructing your logo or navigation menu.",
+      offsetLabel: "Vertical Alignment Fine-Tuning",
+      cornerName: "Menorah",
+      cornerSizeLabel: "Corner Menorah Size",
+      cornerPlacementLabel: "Corner Menorah Placement",
+      secondaryToggleLabel: "Enable Candlelight Atmosphere",
+      secondaryToggleHelp: "Nine-candle Menorah flicker and subtle sapphire light shimmer.",
+      lightsThemeLabel: "Festival of Lights Theme",
+      lightsThemeOptions: [
+        { label: "Sapphire & Silver Shimmer", value: "pearl_white" },
+        { label: "Golden Candlelight (2700K)", value: "warm_gold" },
+      ],
+      particleLabel: "Candle Sparkle Budget",
+      particleHelp: "Controls subtle shimmering light particle budget.",
+      audioLabel: "Gentle Chime (Audio)",
+      audioHelp: "Subtle celebratory chime on interaction.",
+      safeZoneHelp: "Prevents corner menorah from colliding with mobile navigation.",
+    };
+  }
+
+  // Default: Indian Celebrations (Diwali, Dussehra, Ganesh Chaturthi, Pongal, Navratri, Holi, etc.)
+  return {
+    headerCategory: "Garlands & Docking",
+    headerBadge: "Toran",
+    headerArchitectureLabel: "Garland / Toran Architecture",
+    headerArchitectureOptions: [
+      { label: "Top Toran & Both Side Cascades", value: "top_and_sides" },
+      { label: "Top Toran Only (Header Arch)", value: "top_only" },
+      { label: "Side Cascades Only (Pillars)", value: "sides_only" },
+      { label: "Off (No Garland)", value: "off" },
+    ],
+    dockingPositionLabel: "Toran Docking Position",
+    dockingHelp: "Prevents garland from obstructing your logo, navigation menu, or cart.",
+    offsetLabel: "Vertical Alignment Fine-Tuning",
+    cornerName: "Living Diya",
+    cornerSizeLabel: "Corner Diya / Motif Size",
+    cornerPlacementLabel: "Corner Diya / Motif Placement",
+    secondaryToggleLabel: "Enable Series Fairy Lights & Sparkles",
+    secondaryToggleHelp: "Twinkling catenary fairy lights and glowing ambient particles.",
+    lightsThemeLabel: "Series Lights Color Theme",
+    lightsThemeOptions: [
+      { label: "Warm Royal Gold (2700K)", value: "warm_gold" },
+      { label: "Festive Multi-Color Jewels", value: "festive_multicolor" },
+      { label: "Deep Amber Glow", value: "amber_radiance" },
+      { label: "Moonlit Silver Pearl", value: "pearl_white" },
+    ],
+    particleLabel: "Ambient Particle Budget",
+    particleHelp: "Maintains smooth 60 FPS performance across mobile and low-power devices.",
+    audioLabel: "Auspicious Festive Chime (Audio)",
+    audioHelp: "Plays a gentle, muted temple chime on first customer interaction. Muted by default.",
+    safeZoneHelp: "Prevents corner diyas from colliding with mobile bottom navigation bars or chat widgets.",
+  };
+}
+
+// ─── Dynamic Culturally Authentic Particles Overlay ─────────────────────────
+function DynamicOverlayParticles({ festival, density = 16, intensity = 80, customColor }) {
+  const festId = (festival.id || "").toLowerCase();
+  const count = Math.min(density, 20);
+
+  // 1. Halloween: Floating Ghost Silhouettes + Upward Amber Sparks
+  if (festId.includes("halloween")) {
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {/* Floating Ghost Silhouettes with gentle wave motion */}
+        {[
+          { left: "14%", top: "32%", size: 22, delay: "0s", duration: "7s", opacity: 0.8 },
+          { left: "74%", top: "48%", size: 19, delay: "2.5s", duration: "8.5s", opacity: 0.65 },
+          { left: "40%", top: "72%", size: 21, delay: "4s", duration: "7.8s", opacity: 0.72 },
+        ].map((g, idx) => (
+          <div
+            key={`ghost-${idx}`}
+            style={{
+              position: "absolute",
+              left: g.left,
+              top: g.top,
+              width: `${g.size}px`,
+              height: `${Math.round(g.size * 1.2)}px`,
+              opacity: g.opacity,
+              filter: "drop-shadow(0 0 8px rgba(255, 117, 24, 0.45))",
+              animation: `utsavGhostFloat ${g.duration} ease-in-out infinite alternate`,
+              animationDelay: g.delay,
+              pointerEvents: "none",
+            }}
+          >
+            <svg viewBox="0 0 32 38" width="100%" height="100%">
+              <path
+                d="M 16 3 C 8 3 4 10 4 18 C 4 27 6 34 8 33 C 10 32 12 35 14 33 C 16 31 18 35 20 33 C 22 31 24 35 26 33 C 28 35 28 27 28 18 C 28 10 24 3 16 3 Z"
+                fill="rgba(240, 235, 255, 0.9)"
+              />
+              <ellipse cx="11" cy="14" rx="2.2" ry="3" fill="#1A1528" />
+              <ellipse cx="21" cy="14" rx="2.2" ry="3" fill="#1A1528" />
+              <ellipse cx="16" cy="20" rx="1.8" ry="2.4" fill="#1A1528" />
+            </svg>
+          </div>
+        ))}
+
+        {/* Ambient Amber Sparks & Embers */}
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`ember-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 17 + 5) % 90 + 5}%`,
+              top: `${(i * 23 + 11) % 85 + 8}%`,
+              width: `${(i % 3) + 2.5}px`,
+              height: `${(i % 3) + 2.5}px`,
+              borderRadius: "50%",
+              background: i % 2 === 0 ? "#FF7518" : "#FFD700",
+              boxShadow: "0 0 5px rgba(255, 117, 24, 0.8)",
+              opacity: 0.8,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // 2. Christmas: Soft Falling Snowflakes
+  if (festId.includes("christmas")) {
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`snow-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 21 + 7) % 92 + 4}%`,
+              top: `${(i * 19 + 5) % 88 + 6}%`,
+              width: `${(i % 3) + 3}px`,
+              height: `${(i % 3) + 3}px`,
+              borderRadius: "50%",
+              background: "#FFFFFF",
+              boxShadow: "0 0 6px rgba(255, 255, 255, 0.9)",
+              opacity: (i % 3) === 0 ? 0.95 : 0.65,
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
+  // 3. Valentine's Day: Soft Floating Heart Bokeh
+  if (festId.includes("valentines")) {
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`heart-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 19 + 6) % 90 + 5}%`,
+              top: `${(i * 23 + 8) % 86 + 6}%`,
+              fontSize: `${(i % 3) * 3 + 8}px`,
+              color: i % 2 === 0 ? "#FF4081" : "#FF80AB",
+              opacity: 0.7,
+              filter: "drop-shadow(0 0 4px rgba(255, 64, 129, 0.5))",
+            }}
+          >
+            {i % 3 === 0 ? "🌸" : "♥"}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // 4. Thanksgiving: Drifting Autumn Leaves
+  if (festId.includes("thanksgiving")) {
+    return (
+      <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {[...Array(count)].map((_, i) => (
+          <div
+            key={`leaf-${i}`}
+            style={{
+              position: "absolute",
+              left: `${(i * 23 + 4) % 90 + 5}%`,
+              top: `${(i * 19 + 7) % 86 + 7}%`,
+              fontSize: `${(i % 3) * 2 + 10}px`,
+              opacity: 0.75,
+              transform: `rotate(${(i * 45) % 360}deg)`,
+            }}
+          >
+            {i % 2 === 0 ? "🍁" : "🍂"}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // 5. Default (Diwali, Holi, Pongal, Eid, etc.): Radiant Festive Sparkles
+  return (
+    <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100 }}>
+      {[...Array(count)].map((_, i) => (
+        <div
+          key={i}
+          style={{
+            position: "absolute",
+            left: `${(i * 19) % 92 + 4}%`,
+            top: `${(i * 27) % 85 + 5}%`,
+            width: `${(i % 3) + 2.5}px`,
+            height: `${(i % 3) + 2.5}px`,
+            borderRadius: "50%",
+            background: customColor || festival.palette?.primary || "#FFD700",
+            boxShadow: `0 0 4px ${festival.palette?.glow || "rgba(255,215,0,0.6)"}`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 // ─── Dynamic Header Garland & Lights Dispatcher ─────────────────────────────
 function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLights = true, lightsTheme = "warm_gold" }) {
   const festId = (festival.id || "").toLowerCase();
 
-  // Christmas Pine & Holly
+  // 1. Halloween Spiderweb Lace & Mist
+  if (festId.includes("halloween")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(15, 10, 24, 0.95) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#FF7518" strokeWidth="1.2" opacity="0.6" />
+          {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              {/* Scalloped spiderweb lace */}
+              <path d="M 0 2 Q 40 30 80 2" stroke="#6D5D8A" strokeWidth="1.4" fill="none" opacity="0.8" />
+              <path d="M 12 2 Q 40 22 68 2" stroke="#8E7CAE" strokeWidth="1" fill="none" opacity="0.6" />
+              <path d="M 24 2 Q 40 14 56 2" stroke="#AEA1C7" strokeWidth="0.8" fill="none" opacity="0.5" />
+              <line x1="40" y1="2" x2="15" y2="22" stroke="#8E7CAE" strokeWidth="0.8" opacity="0.5" />
+              <line x1="40" y1="2" x2="40" y2="30" stroke="#8E7CAE" strokeWidth="0.9" opacity="0.6" />
+              <line x1="40" y1="2" x2="65" y2="22" stroke="#8E7CAE" strokeWidth="0.8" opacity="0.5" />
+              {/* Hanging thread with miniature spider */}
+              <line x1="40" y1="30" x2="40" y2="38" stroke="#AEA1C7" strokeWidth="0.6" strokeDasharray="1,1" />
+              <ellipse cx="40" cy="40" rx="2.4" ry="3.2" fill="#1A1528" stroke="#FF7518" strokeWidth="0.5" />
+              <path d="M 37 38 Q 34 36 33 39 M 43 38 Q 46 36 47 39 M 37 42 Q 34 44 33 42 M 43 42 Q 46 44 47 42" stroke="#FF7518" strokeWidth="0.6" fill="none" />
+              {withLights && (
+                <>
+                  <circle cx="0" cy="3" r="2.5" fill={lightsTheme === "mystic_purple" ? "#E040FB" : lightsTheme === "phantom_green" ? "#00E676" : "#FF7518"} />
+                  <circle cx="40" cy="30" r="2" fill={lightsTheme === "mystic_purple" ? "#7C4DFF" : lightsTheme === "phantom_green" ? "#76FF03" : "#FFD700"} />
+                  <circle cx="80" cy="3" r="2.5" fill={lightsTheme === "mystic_purple" ? "#E040FB" : lightsTheme === "phantom_green" ? "#00E676" : "#FF7518"} />
+                </>
+              )}
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 2. Christmas Pine & Holly
   if (festId.includes("christmas")) {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(8, 22, 12, 0.9) 0%, transparent 100%)" }}>
@@ -331,7 +827,47 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // Vishu Golden Kanikonna
+  // 3. Valentine's Day Ribbon Swags
+  if (festId.includes("valentines")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(30, 8, 16, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#E91E63" strokeWidth="1.5" />
+          {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <path d="M 0 2 Q 40 26 80 2" stroke="#C2185B" strokeWidth="2.5" fill="none" />
+              <path d="M 8 2 Q 40 22 72 2" stroke="#FF80AB" strokeWidth="1.2" fill="none" />
+              <circle cx="40" cy="27" r="2.5" fill="#E91E63" />
+              {withLights && (
+                <circle cx="40" cy="16" r="2.5" fill="#FFF8E1" />
+              )}
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 4. Lunar New Year Red Lantern String
+  if (festId.includes("lunar") || festId.includes("chinese")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(35, 6, 6, 0.92) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#D32F2F" strokeWidth="2" />
+          {[40, 120, 200, 280, 360, 440, 520].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <line x1="0" y1="2" x2="0" y2="12" stroke="#B71C1C" strokeWidth="1" />
+              <rect x="-6" y="12" width="12" height="18" rx="4" fill="#D32F2F" stroke="#FFD700" strokeWidth="0.8" />
+              <line x1="0" y1="30" x2="0" y2="38" stroke="#FFD700" strokeWidth="1.2" />
+              {withLights && <circle cx="0" cy="21" r="2" fill="#FFF9C4" />}
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 5. Vishu Golden Kanikonna
   if (festId === "vishu") {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(10, 26, 10, 0.85) 0%, transparent 100%)" }}>
@@ -351,7 +887,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // Eid Damascus Fanoos
+  // 6. Eid Damascus Fanoos
   if (festId.includes("eid")) {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(3, 20, 18, 0.9) 0%, transparent 100%)" }}>
@@ -362,6 +898,44 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
               <line x1="0" y1="2" x2="0" y2="12" stroke="#B78103" strokeWidth="1" />
               <path d="M -7 12 L 7 12 L 5 28 L -5 28 Z" fill="#D4AF37" stroke="#996515" strokeWidth="0.8" />
               <circle cx="0" cy="20" r="1.5" fill="#FFD700" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 7. Thanksgiving Autumn Foliage
+  if (festId.includes("thanksgiving")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(30, 15, 5, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#795548" strokeWidth="2" />
+          {[30, 90, 150, 210, 270, 330, 390, 450, 510].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <path d="M 0 2 Q 15 18 0 32" stroke="#D84315" strokeWidth="2" fill="none" />
+              <circle cx="-3" cy="12" r="3" fill="#E65100" />
+              <circle cx="4" cy="20" r="3.5" fill="#F57F17" />
+              <circle cx="-2" cy="28" r="2.8" fill="#BF360C" />
+            </g>
+          ))}
+        </svg>
+      </div>
+    );
+  }
+
+  // 8. Hanukkah Star of David Bunting
+  if (festId.includes("hanukkah")) {
+    return (
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(8, 20, 38, 0.9) 0%, transparent 100%)" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#1565C0" strokeWidth="1.5" />
+          {[40, 120, 200, 280, 360, 440, 520].map((x, i) => (
+            <g key={i} transform={`translate(${x}, 0)`}>
+              <line x1="0" y1="2" x2="0" y2="10" stroke="#90CAF9" strokeWidth="1" />
+              <polygon points="0,10 7,22 -7,22" stroke="#1976D2" strokeWidth="1" fill="none" />
+              <polygon points="0,24 7,12 -7,12" stroke="#1976D2" strokeWidth="1" fill="none" />
+              {withLights && <circle cx="0" cy="17" r="2" fill="#E0F7FA" />}
             </g>
           ))}
         </svg>
@@ -405,10 +979,31 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   );
 }
 
-// ─── Dynamic Corner Widget (Diya vs Nilavilakku vs Star) ─────────────────────
+// ─── Dynamic Corner Widget (Jack-o'-Lantern vs Star vs Diya) ─────────────────
 function DynamicCornerWidget({ festival, size = 32 }) {
   const festId = (festival.id || "").toLowerCase();
 
+  // 1. Halloween Jack-o'-Lantern (Glowing Carved Pumpkin with Candlelight Halo)
+  if (festId.includes("halloween")) {
+    return (
+      <svg width={size} height={Math.round(size * 0.92)} viewBox="0 0 70 65">
+        <circle cx="35" cy="36" r="24" fill="rgba(255, 117, 24, 0.45)" />
+        <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#2E7D32" />
+        <ellipse cx="35" cy="38" rx="28" ry="22" fill="#FF7518" />
+        <ellipse cx="23" cy="38" rx="16" ry="21" fill="#E65100" opacity="0.35" />
+        <ellipse cx="47" cy="38" rx="16" ry="21" fill="#E65100" opacity="0.35" />
+        <ellipse cx="35" cy="38" rx="12" ry="21" fill="#FFA726" opacity="0.4" />
+        <polygon points="24,28 30,34 22,35" fill="#FFF59D" />
+        <polygon points="46,28 48,35 40,34" fill="#FFF59D" />
+        <polygon points="35,34 38,39 32,39" fill="#FFF59D" />
+        <path d="M 21 44 Q 35 55 49 44 Q 44 51 35 51 Q 26 51 21 44 Z" fill="#FFF59D" />
+        <rect x="29" y="46" width="3" height="3" fill="#BF360C" />
+        <rect x="38" y="48" width="3" height="3" fill="#BF360C" />
+      </svg>
+    );
+  }
+
+  // 2. Christmas Bethlehem Star
   if (festId.includes("christmas")) {
     return (
       <svg width={size} height={size} viewBox="0 0 60 60">
@@ -418,6 +1013,63 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
+  // 3. Valentine's Day Glowing Heart
+  if (festId.includes("valentines")) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 60 60">
+        <circle cx="30" cy="30" r="18" fill="rgba(233, 30, 99, 0.35)" />
+        <path d="M 30 16 C 26 8 14 10 14 22 C 14 34 30 46 30 46 C 30 46 46 34 46 22 C 46 10 34 8 30 16 Z" fill="#E91E63" />
+        <path d="M 30 20 C 27 14 18 15 18 24 C 18 32 30 41 30 41 C 30 41 42 32 42 24 C 42 15 33 14 30 20 Z" fill="#FF4081" />
+      </svg>
+    );
+  }
+
+  // 4. Lunar New Year Red Silk Lantern
+  if (festId.includes("lunar") || festId.includes("chinese")) {
+    return (
+      <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 60 80">
+        <circle cx="30" cy="35" r="18" fill="rgba(211, 47, 47, 0.35)" />
+        <line x1="30" y1="5" x2="30" y2="16" stroke="#FFD700" strokeWidth="2" />
+        <rect x="22" y="14" width="16" height="5" rx="2" fill="#FFD700" />
+        <ellipse cx="30" cy="36" rx="18" ry="17" fill="#D32F2F" />
+        <line x1="22" y1="19" x2="22" y2="53" stroke="#FFD700" strokeWidth="1" opacity="0.6" />
+        <line x1="38" y1="19" x2="38" y2="53" stroke="#FFD700" strokeWidth="1" opacity="0.6" />
+        <rect x="22" y="53" width="16" height="5" rx="2" fill="#FFD700" />
+        <line x1="30" y1="58" x2="30" y2="76" stroke="#FFD700" strokeWidth="2.5" />
+      </svg>
+    );
+  }
+
+  // 5. Thanksgiving Harvest Pumpkin
+  if (festId.includes("thanksgiving")) {
+    return (
+      <svg width={size} height={Math.round(size * 0.9)} viewBox="0 0 70 65">
+        <circle cx="35" cy="36" r="22" fill="rgba(230, 81, 0, 0.35)" />
+        <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#4E342E" />
+        <ellipse cx="35" cy="38" rx="28" ry="22" fill="#E65100" />
+        <ellipse cx="23" cy="38" rx="16" ry="21" fill="#BF360C" opacity="0.35" />
+        <ellipse cx="47" cy="38" rx="16" ry="21" fill="#BF360C" opacity="0.35" />
+        <ellipse cx="35" cy="38" rx="12" ry="21" fill="#F57C00" opacity="0.5" />
+      </svg>
+    );
+  }
+
+  // 6. Hanukkah Menorah
+  if (festId.includes("hanukkah")) {
+    return (
+      <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 70 75">
+        <line x1="35" y1="20" x2="35" y2="65" stroke="#D4AF37" strokeWidth="3" />
+        <ellipse cx="35" cy="65" rx="14" ry="4" fill="#D4AF37" />
+        <path d="M 15 28 Q 15 48 35 48 Q 55 48 55 28" stroke="#D4AF37" strokeWidth="2" fill="none" />
+        <path d="M 22 34 Q 22 44 35 44 Q 48 44 48 34" stroke="#D4AF37" strokeWidth="1.6" fill="none" />
+        {[15, 22, 29, 35, 41, 48, 55].map((x, i) => (
+          <circle key={i} cx={x} cy={x === 35 ? 16 : 24} r="2" fill="#FFF59D" />
+        ))}
+      </svg>
+    );
+  }
+
+  // 7. Vishu Kerala Nilavilakku
   if (festId === "vishu") {
     return (
       <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 60 80">
@@ -430,7 +1082,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // Classical Living Brass Diya
+  // 8. Classical Living Brass Diya (Diwali, Dussehra, Ganesh Chaturthi, Pongal, Navratri, etc.)
   return (
     <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85">
       <circle cx="50" cy="30" r="24" fill="rgba(255, 215, 0, 0.45)" />
@@ -512,6 +1164,13 @@ function DeviceStorefrontMock({
           flexDirection: "column",
         }}
       >
+        <style>{`
+          @keyframes utsavGhostFloat {
+            0% { transform: translateY(0px) translateX(0px); }
+            50% { transform: translateY(-7px) translateX(5px); }
+            100% { transform: translateY(4px) translateX(-3px); }
+          }
+        `}</style>
         {/* Safari Browser Chrome (Desktop) */}
         {isDesktop && (
           <div
@@ -662,25 +1321,14 @@ function DeviceStorefrontMock({
               </div>
             )}
 
-            {/* Sparkles / Ambient Particles Overlay */}
+            {/* Dynamic Culturally Authentic Particles Overlay */}
             {!showOriginal && enableEffects && (
-              <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: effectIntensity / 100 }}>
-                {[...Array(Math.min(particleDensity, 20))].map((_, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      position: "absolute",
-                      left: `${(i * 19) % 92 + 4}%`,
-                      top: `${(i * 27) % 85 + 5}%`,
-                      width: `${(i % 3) + 2}px`,
-                      height: `${(i % 3) + 2}px`,
-                      borderRadius: "50%",
-                      background: customPrimaryColor || festival.palette?.primary || "#FFD700",
-                      boxShadow: `0 0 4px ${festival.palette?.glow || "rgba(255,215,0,0.6)"}`,
-                    }}
-                  />
-                ))}
-              </div>
+              <DynamicOverlayParticles
+                festival={festival}
+                density={particleDensity}
+                intensity={effectIntensity}
+                customColor={customPrimaryColor}
+              />
             )}
 
             {/* Storefront Hero Section */}
@@ -738,7 +1386,7 @@ function DeviceStorefrontMock({
                   cursor: "pointer",
                 }}
               >
-                Shop Festive Specials
+                {festival.banner?.defaultCta || "Shop Festive Specials"}
               </button>
             </div>
 
@@ -751,10 +1399,13 @@ function DeviceStorefrontMock({
                 gap: "8px",
               }}
             >
-              {[
-                { title: `${festival.name} Special`, price: "₹1,499", tag: "Artisanal" },
-                { title: "Festive Keepsake", price: "₹899", tag: "Bestseller" },
-              ].map((prod, i) => (
+              {(festival.sampleProducts && festival.sampleProducts.length > 0
+                ? festival.sampleProducts
+                : [
+                    { title: `${festival.name} Special`, price: "₹1,499", tag: "Artisanal" },
+                    { title: "Festive Keepsake", price: "₹899", tag: "Bestseller" },
+                  ]
+              ).slice(0, 2).map((prod, i) => (
                 <div
                   key={i}
                   style={{
@@ -1034,11 +1685,13 @@ export default function FestivalStudio() {
     ]
   );
 
+  const terminology = getFestivalTerminology(festival?.id);
+
   // 8 Logical Categories as specified in requirements
   const categories = [
     { id: "signature_effects", label: "Signature Effects", badge: enableEffects ? "Active" : "Off" },
     { id: "particles_lighting", label: "Particles & Lighting", badge: enableSeriesLights ? "On" : "Off" },
-    { id: "garlands_decorations", label: "Garlands & Docking", badge: garlandLayout !== "off" ? "Anchored" : "Off" },
+    { id: "garlands_decorations", label: terminology.headerCategory, badge: garlandLayout !== "off" ? terminology.headerBadge : "Off" },
     { id: "interactive_effects", label: "Interactive Effects", badge: "Live" },
     { id: "colors_materials", label: "Colors & Materials", badge: "WCAG AAA" },
     { id: "banner_messaging", label: "Banner & Announcements", badge: enableBanner ? "Visible" : "Hidden" },
@@ -1371,7 +2024,7 @@ export default function FestivalStudio() {
                   />
 
                   <Select
-                    label="Corner Diya / Motif Size"
+                    label={terminology.cornerSizeLabel}
                     options={[
                       { label: "Subtle (Small)", value: "small" },
                       { label: "Balanced (Medium — Recommended)", value: "medium" },
@@ -1382,7 +2035,7 @@ export default function FestivalStudio() {
                   />
 
                   <Select
-                    label="Corner Diya / Motif Placement"
+                    label={terminology.cornerPlacementLabel}
                     options={[
                       { label: "Bottom Corners (Default)", value: "bottom_corners" },
                       { label: "Top Corners", value: "top_corners" },
@@ -1408,36 +2061,31 @@ export default function FestivalStudio() {
             <BlockStack gap="400">
               <Box padding="300" background="bg-surface-secondary" borderRadius="200">
                 <ToggleSwitch
-                  label={`Enable ${festival.secondaryEffect?.name || "Series Fairy Lights"}`}
+                  label={terminology.secondaryToggleLabel}
                   checked={enableSeriesLights}
                   onChange={(val) => { setEnableSeriesLights(val); markDirty(); }}
-                  helpText="Twinkling catenary fairy lights and glowing ambient particles."
+                  helpText={terminology.secondaryToggleHelp}
                 />
               </Box>
 
               {enableSeriesLights && (
                 <>
                   <Select
-                    label="Series Lights Color Theme"
-                    options={[
-                      { label: "Warm Royal Gold (2700K)", value: "warm_gold" },
-                      { label: "Festive Multi-Color Jewels", value: "festive_multicolor" },
-                      { label: "Deep Amber Glow", value: "amber_radiance" },
-                      { label: "Moonlit Silver Pearl", value: "pearl_white" },
-                    ]}
+                    label={terminology.lightsThemeLabel}
+                    options={terminology.lightsThemeOptions}
                     value={seriesLightsTheme}
                     onChange={(val) => { setSeriesLightsTheme(val); markDirty(); }}
                   />
 
                   <LuxurySlider
-                    label="Ambient Particle Budget"
+                    label={terminology.particleLabel}
                     value={particleDensity}
                     min={6}
                     max={36}
                     step={2}
                     unit=" particles"
                     onChange={(val) => { setParticleDensity(val); markDirty(); }}
-                    helpText="Maintains smooth 60 FPS performance across mobile and low-power devices."
+                    helpText={terminology.particleHelp}
                   />
                 </>
               )}
@@ -1448,20 +2096,15 @@ export default function FestivalStudio() {
           {activeCategory === "garlands_decorations" && (
             <BlockStack gap="400">
               <Select
-                label="Garland / Toran Architecture"
-                options={[
-                  { label: "Top Toran & Both Side Cascades", value: "top_and_sides" },
-                  { label: "Top Toran Only (Header Arch)", value: "top_only" },
-                  { label: "Side Cascades Only (Pillars)", value: "sides_only" },
-                  { label: "Off (No Garland)", value: "off" },
-                ]}
+                label={terminology.headerArchitectureLabel}
+                options={terminology.headerArchitectureOptions}
                 value={garlandLayout}
                 onChange={(val) => { setGarlandLayout(val); markDirty(); }}
               />
 
               <Select
-                label="Toran Docking Position"
-                helpText="Prevents garland from obstructing your logo, navigation menu, or cart."
+                label={terminology.dockingPositionLabel}
+                helpText={terminology.dockingHelp}
                 options={[
                   { label: "Below Navigation (Recommended — Zero Menu Overlap)", value: "below_header" },
                   { label: "Top of Screen (Fixed 0px)", value: "top_fixed" },
@@ -1471,14 +2114,14 @@ export default function FestivalStudio() {
               />
 
               <LuxurySlider
-                label="Vertical Alignment Fine-Tuning"
+                label={terminology.offsetLabel}
                 value={garlandOffset}
                 min={-40}
                 max={40}
                 step={2}
                 unit="px"
                 onChange={(val) => { setGarlandOffset(val); markDirty(); }}
-                helpText="Nudge the toran up or down in pixels to match your theme's exact header height."
+                helpText="Nudge the framing up or down in pixels to match your theme's exact header height."
               />
             </BlockStack>
           )}
@@ -1515,10 +2158,10 @@ export default function FestivalStudio() {
               />
 
               <ToggleSwitch
-                label="Auspicious Festive Chime (Audio)"
+                label={terminology.audioLabel}
                 checked={enableAudio}
                 onChange={(val) => { setEnableAudio(val); markDirty(); }}
-                helpText="Plays a gentle, muted temple chime on first customer interaction. Muted by default."
+                helpText={terminology.audioHelp}
               />
 
               <ToggleSwitch
@@ -1682,7 +2325,7 @@ export default function FestivalStudio() {
                 label="Mobile Safe Zone Clearance"
                 checked={safeZoneClearance}
                 onChange={(val) => { setSafeZoneClearance(val); markDirty(); }}
-                helpText="Prevents corner diyas from colliding with mobile bottom navigation bars or chat widgets."
+                helpText={terminology.safeZoneHelp}
               />
             </BlockStack>
           )}
