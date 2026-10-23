@@ -99,6 +99,13 @@ export const action = async ({ request, params }) => {
     const scheduledStartStr = formData.get("scheduledStart") || null;
     const scheduledEndStr = formData.get("scheduledEnd") || null;
 
+    if (isActive) {
+      await prisma.festivalConfig.updateMany({
+        where: { shop, festivalId: { not: festivalId } },
+        data: { isActive: false },
+      });
+    }
+
     await prisma.festivalConfig.upsert({
       where: { shop_festivalId: { shop, festivalId } },
       create: {

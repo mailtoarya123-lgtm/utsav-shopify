@@ -965,6 +965,27 @@
 
     // ─── 9. Live Cloud Sync with Utsav App ───────────────────────────────────
     try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const previewFest = urlParams.get('utsav_preview');
+      if (previewFest) {
+        currentConfig.festivalId = previewFest.toLowerCase();
+        currentConfig.active = true;
+        const bannerTextEl = document.getElementById('utsavBannerText');
+        if (bannerTextEl) {
+          if (currentConfig.festivalId === 'dussehra') {
+            bannerTextEl.textContent = '🏹 Shubh Dussehra! Celebrate the victory of Good over Evil with our Festive Collection ✨';
+          } else if (currentConfig.festivalId.includes('sankranti') || currentConfig.festivalId === 'pongal') {
+            bannerTextEl.textContent = '🪁 Happy Makar Sankranti! Til gud ghya, god god bola! 🌞';
+          } else if (currentConfig.festivalId.includes('diwali')) {
+            bannerTextEl.textContent = '🪔 Shubh Deepavali! May the divine light bring prosperity and joy ✨';
+          }
+        }
+        applyGarlands();
+        applyDiyas();
+        resetFireworkTimer();
+        return;
+      }
+
       const shopDomain = '{{ shop.permanent_domain }}' || window.location.hostname;
       fetch('https://utsav-shopify.onrender.com/api/active-theme?shop=' + encodeURIComponent(shopDomain))
         .then(r => r.json())
