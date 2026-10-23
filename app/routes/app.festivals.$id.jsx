@@ -578,12 +578,12 @@ function DeviceStorefrontMock({
   const isTablet = deviceType === "tablet";
   const isMobile = deviceType === "mobile";
 
-  const frameWidth = isDesktop ? "460px" : isTablet ? "330px" : "250px";
+  const flexRatio = isDesktop ? "1.45" : isTablet ? "1.05" : "0.78";
   const titleLabel = isDesktop ? "Desktop" : isTablet ? "Tablet" : "Mobile";
   const resLabel = isDesktop ? "1440 × 900" : isTablet ? "768 × 1024" : "375 × 812";
 
   return (
-    <div style={{ width: frameWidth, minWidth: frameWidth, flexShrink: 0 }}>
+    <div style={{ flex: `${flexRatio} 1 0px`, minWidth: 0, display: "flex", flexDirection: "column" }}>
       {/* Device Viewport Header Pill */}
       <div
         style={{
@@ -903,10 +903,10 @@ function DeviceStorefrontMock({
         {/* Product Catalog Grid with Vector Silhouettes */}
         <div
           style={{
-            padding: isMobile ? "12px" : "18px 16px",
+            padding: isMobile ? "8px" : "12px 10px",
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr 1fr" : isTablet ? "repeat(3, 1fr)" : "repeat(4, 1fr)",
-            gap: isMobile ? "8px" : "10px",
+            gridTemplateColumns: "1fr 1fr",
+            gap: isMobile ? "6px" : "8px",
           }}
         >
           {[
@@ -915,7 +915,7 @@ function DeviceStorefrontMock({
               price: "₹1,499",
               tag: "Bestseller",
               icon: (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M12 3c-1.5 3-3.5 5.5-3.5 8 0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5c0-2.5-2-5-3.5-8z" fill="#D4AF37"/>
                   <path d="M4 14c0 4 3.5 6 8 6s8-2 8-6H4z" fill="#996515"/>
                 </svg>
@@ -926,7 +926,7 @@ function DeviceStorefrontMock({
               price: "₹899",
               tag: "Handmade",
               icon: (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M3 6q9 12 18 0" stroke="#C62828" strokeWidth="2" fill="none"/>
                   <circle cx="6" cy="10" r="2.5" fill="#E65100"/>
                   <circle cx="12" cy="12" r="3" fill="#FF8F00"/>
@@ -934,30 +934,8 @@ function DeviceStorefrontMock({
                 </svg>
               ),
             },
-            {
-              title: "Royal Pooja Thali",
-              price: "₹2,199",
-              tag: "Pure Brass",
-              icon: (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="9" stroke="#D4AF37" strokeWidth="2" fill="#FFF9C4" fillOpacity="0.4"/>
-                  <circle cx="12" cy="12" r="4" stroke="#D4AF37" strokeWidth="1" fill="#FFD54F" fillOpacity="0.6"/>
-                </svg>
-              ),
-            },
-            {
-              title: "Mitti Diya 12-Pack",
-              price: "₹499",
-              tag: "Terracotta",
-              icon: (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 4c-1 2-2.5 4-2.5 6 0 1.5 1 2.5 2.5 2.5s2.5-1 2.5-2.5c0-2-1.5-4-2.5-6z" fill="#FF9100"/>
-                  <path d="M5 13c0 3.5 3 5 7 5s7-1.5 7-5H5z" fill="#C85A27"/>
-                </svg>
-              ),
-            },
           ]
-            .slice(0, isMobile ? 2 : isTablet ? 3 : 4)
+            .slice(0, 2)
             .map((prod, i) => (
               <div
                 key={i}
@@ -1173,6 +1151,7 @@ export default function FestivalConfig() {
   return (
     <Frame>
       <Page
+        fullWidth
         title={`${festival.name} Studio`}
         subtitle={`${festival.hindiName} • ${festival.region}`}
         backAction={{ content: "Festival Catalog", url: "/app/festivals" }}
@@ -1214,13 +1193,14 @@ export default function FestivalConfig() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "220px minmax(0, 1fr) 320px",
-              gap: "16px",
+              gridTemplateColumns: "190px minmax(0, 1fr) 310px",
+              gap: "14px",
               minHeight: "720px",
               alignItems: "start",
+              width: "100%",
             }}
           >
-            {/* ─── COLUMN 1: Settings Navigation (Left, 220px) ─────────────── */}
+            {/* ─── COLUMN 1: Settings Navigation (Left, 190px) ─────────────── */}
             <Card padding="300">
               <BlockStack gap="200">
                 <Text variant="bodyXs" fontWeight="bold" tone="subdued">
@@ -1357,15 +1337,16 @@ export default function FestivalConfig() {
                   </InlineStack>
                 </Box>
 
-                {/* Side-by-Side Horizontal Scroll Stage */}
+                {/* Side-by-Side Full-Width Zero-Scroll Showcase Stage */}
                 <div
                   style={{
                     display: "flex",
-                    gap: "24px",
-                    overflowX: "auto",
-                    padding: "24px 20px",
+                    gap: "12px",
+                    padding: "16px 12px",
                     background: "#F1F2F4",
                     alignItems: "flex-start",
+                    width: "100%",
+                    boxSizing: "border-box",
                   }}
                 >
                   <DeviceStorefrontMock
