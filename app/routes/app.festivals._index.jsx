@@ -15,11 +15,14 @@ import {
   TextField,
   Select,
   Divider,
+  Modal,
 } from "@shopify/polaris";
 import {
   SearchIcon,
   ViewIcon,
   SettingsIcon,
+  ExternalIcon,
+  LockIcon,
 } from "@shopify/polaris-icons";
 import { authenticate } from "../shopify.server";
 import prisma from "../db.server";
@@ -29,6 +32,7 @@ import {
   getPremiumFestivals,
   getDaysUntilFestival,
 } from "../data/festivals";
+import FestivalArtwork from "../components/FestivalArtwork";
 
 export const loader = async ({ request }) => {
   const { session } = await authenticate.admin(request);
@@ -93,84 +97,9 @@ export const action = async ({ request }) => {
   return json({ success: true, festivalId, isActive });
 };
 
-// Culturally refined SVG emblem for each festival
-function FestivalEmblem({ festivalId }) {
-  const id = festivalId.toLowerCase();
-
-  if (id.includes("diwali")) {
-    return (
-      <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="22" fill="#2A1605" stroke="#D4AF37" strokeWidth="1.2"/>
-        <path d="M 24 10 C 21 16 19 20 19 24 C 19 27 21 29 24 29 C 27 29 29 27 29 24 C 29 20 27 16 24 10 Z" fill="#FF9100"/>
-        <path d="M 24 14 C 22 18 21 21 21 24 C 21 26 22 27 24 27 C 26 27 27 26 27 24 C 27 21 26 18 24 14 Z" fill="#FFFDE7"/>
-        <path d="M 12 28 Q 13 36 24 37 Q 35 36 36 28 Z" fill="#D4AF37"/>
-        <ellipse cx="24" cy="28" rx="12" ry="3" fill="#FFE082"/>
-      </svg>
-    );
-  }
-
-  if (id.includes("dussehra")) {
-    return (
-      <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="22" fill="#142608" stroke="#81C784" strokeWidth="1.2"/>
-        <path d="M 14 34 Q 34 34 34 14" stroke="#D4AF37" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
-        <line x1="14" y1="34" x2="34" y2="14" stroke="#FFF59D" strokeWidth="1" strokeDasharray="2 2"/>
-        <path d="M 18 30 L 32 16 M 32 16 L 27 16 M 32 16 L 32 21" stroke="#FF5722" strokeWidth="2" strokeLinecap="round"/>
-      </svg>
-    );
-  }
-
-  if (id.includes("sankranti") || id.includes("pongal")) {
-    return (
-      <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="22" fill="#0A2239" stroke="#FFB300" strokeWidth="1.2"/>
-        <polygon points="24,10 34,22 24,34 14,22" fill="#FFC107"/>
-        <polygon points="24,10 34,22 24,22" fill="#FF9800"/>
-        <line x1="24" y1="10" x2="24" y2="34" stroke="#FFFFFF" strokeWidth="1.2"/>
-        <path d="M 14 22 Q 24 17 34 22" stroke="#FFFFFF" strokeWidth="1.2" fill="none"/>
-        <polygon points="24,34 21,39 27,39" fill="#E91E63"/>
-      </svg>
-    );
-  }
-
-  if (id.includes("holi")) {
-    return (
-      <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="22" fill="#200A38" stroke="#FF4081" strokeWidth="1.2"/>
-        <circle cx="20" cy="20" r="7" fill="#E040FB" opacity="0.8"/>
-        <circle cx="28" cy="22" r="6" fill="#00E5FF" opacity="0.8"/>
-        <circle cx="23" cy="28" r="6" fill="#FFD700" opacity="0.8"/>
-        <ellipse cx="24" cy="35" rx="10" ry="3.5" fill="#B388FF"/>
-      </svg>
-    );
-  }
-
-  if (id.includes("eid")) {
-    return (
-      <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="24" cy="24" r="22" fill="#032B1E" stroke="#00E676" strokeWidth="1.2"/>
-        <path d="M 28 14 C 20 15 15 22 17 30 C 19 36 26 38 31 34 C 23 35 18 28 20 22 C 22 18 25 15 28 14 Z" fill="#D4AF37"/>
-        <polygon points="31,18 32,21 35,21 32,23 33,26 31,24 29,26 30,23 27,21 30,21" fill="#FFF8E7"/>
-      </svg>
-    );
-  }
-
-  // Default Classical Temple Lotus / Mandala Motif
-  return (
-    <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="24" cy="24" r="22" fill="#1C1824" stroke="#D4AF37" strokeWidth="1.2"/>
-      <circle cx="24" cy="24" r="14" stroke="#D4AF37" strokeWidth="1" strokeDasharray="3 3"/>
-      <circle cx="24" cy="24" r="5" fill="#D4AF37"/>
-      <circle cx="24" cy="14" r="2.5" fill="#FF8F00"/>
-      <circle cx="24" cy="34" r="2.5" fill="#FF8F00"/>
-      <circle cx="14" cy="24" r="2.5" fill="#FF8F00"/>
-      <circle cx="34" cy="24" r="2.5" fill="#FF8F00"/>
-    </svg>
-  );
-}
-
-// Format approximate holiday calendar date with current/next year
+// Format approximate holiday calendar date with current year
 function getFormattedFestivalDate(festival) {
+  if (!festival) return "";
   const currentYear = new Date().getFullYear();
   const date = new Date(currentYear, festival.approximateMonth, festival.approximateDay);
   const end = new Date(date);
@@ -194,9 +123,13 @@ export default function FestivalLibrary() {
   const [selectedRegion, setSelectedRegion] = useState("all");
   const [sortBy, setSortBy] = useState("upcoming");
 
-  const isPremium = plan === "premium";
+  // In-admin preview modal state
+  const [previewFestival, setPreviewFestival] = useState(null);
 
-  // Compute live active ID dynamically
+  const isPremium = plan === "premium";
+  const isSubmitting = fetcher.state !== "idle";
+
+  // Compute live active ID dynamically reflecting optimistic action state
   const activeFestivalId = useMemo(() => {
     if (fetcher.formData) {
       const act = fetcher.formData.get("actionType");
@@ -210,7 +143,7 @@ export default function FestivalLibrary() {
 
   const tabs = [
     { id: "all", content: `All Festivals (${FESTIVALS.length})` },
-    { id: "free", content: `Included in Free (${getFreeFestivals().length})` },
+    { id: "free", content: `Free Included (${getFreeFestivals().length})` },
     { id: "premium", content: `Premium Catalog (${getPremiumFestivals().length})` },
     { id: "active", content: `Active on Store (${activeFestivalId ? 1 : 0})` },
   ];
@@ -246,9 +179,12 @@ export default function FestivalLibrary() {
       list = list.filter(
         (f) =>
           f.name.toLowerCase().includes(q) ||
-          f.hindiName.includes(q) ||
+          (f.hindiName && f.hindiName.includes(q)) ||
+          (f.nativeName && f.nativeName.toLowerCase().includes(q)) ||
           f.region.toLowerCase().includes(q) ||
-          f.description.toLowerCase().includes(q)
+          f.description.toLowerCase().includes(q) ||
+          (f.signatureEffect?.name && f.signatureEffect.name.toLowerCase().includes(q)) ||
+          (f.secondaryEffect?.name && f.secondaryEffect.name.toLowerCase().includes(q))
       );
     }
 
@@ -257,6 +193,8 @@ export default function FestivalLibrary() {
       list.sort((a, b) => getDaysUntilFestival(a) - getDaysUntilFestival(b));
     } else if (sortBy === "name") {
       list.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === "tier") {
+      list.sort((a, b) => a.tier.localeCompare(b.tier));
     }
 
     return list;
@@ -265,7 +203,7 @@ export default function FestivalLibrary() {
   return (
     <Page
       title="Festival Catalog"
-      subtitle="Explore 22 authentic Indian festival themes with curated visual effects and cultural traditions"
+      subtitle="Explore 22 authentic Indian festival experiences with curated visual effects and cultural traditions"
       backAction={{ content: "Dashboard", url: "/app" }}
       primaryAction={{
         content: "View Schedule Calendar",
@@ -273,7 +211,8 @@ export default function FestivalLibrary() {
       }}
     >
       <BlockStack gap="500">
-        <Card>
+        {/* Search, Filter Tabs & Sort Controls */}
+        <Card padding="400">
           <BlockStack gap="400">
             <Tabs tabs={tabs} selected={selectedTab} onSelect={setSelectedTab} />
             <Divider />
@@ -282,7 +221,7 @@ export default function FestivalLibrary() {
               <TextField
                 label="Search festivals"
                 labelHidden
-                placeholder="Search by name (e.g. Diwali, Onam, Pongal), region, or keyword..."
+                placeholder="Search by festival, native name, region, or effect (e.g. Diya, Kolam, Kanikonna)..."
                 value={searchValue}
                 onChange={setSearchValue}
                 prefix={<SearchIcon />}
@@ -301,8 +240,9 @@ export default function FestivalLibrary() {
                 label="Sort Order"
                 labelHidden
                 options={[
-                  { label: "Sort by: Upcoming Date", value: "upcoming" },
-                  { label: "Sort by: Alphabetical (A-Z)", value: "name" },
+                  { label: "Sort: Upcoming Soonest", value: "upcoming" },
+                  { label: "Sort: Alphabetical (A-Z)", value: "name" },
+                  { label: "Sort: Tier (Free / Pro)", value: "tier" },
                 ]}
                 value={sortBy}
                 onChange={setSortBy}
@@ -311,18 +251,26 @@ export default function FestivalLibrary() {
           </BlockStack>
         </Card>
 
+        {/* Festival Cards Grid */}
         {filteredFestivals.length === 0 ? (
-          <Card>
-            <Box padding="800">
-              <BlockStack gap="300" align="center" inlineAlign="center">
-                <Text variant="headingMd" tone="subdued">
-                  No festivals found matching your filters
-                </Text>
-                <Button onClick={() => { setSearchValue(""); setSelectedRegion("all"); setSelectedTab(0); }}>
-                  Reset Filters
-                </Button>
-              </BlockStack>
-            </Box>
+          <Card padding="600">
+            <BlockStack gap="300" align="center" inlineAlign="center">
+              <Text variant="headingMd" tone="subdued" alignment="center">
+                No festival themes found matching your criteria
+              </Text>
+              <Text variant="bodySm" tone="subdued" alignment="center">
+                Try searching for a different holiday name or reset your filters.
+              </Text>
+              <Button
+                onClick={() => {
+                  setSearchValue("");
+                  setSelectedRegion("all");
+                  setSelectedTab(0);
+                }}
+              >
+                Reset All Filters
+              </Button>
+            </BlockStack>
           </Card>
         ) : (
           <InlineGrid columns={{ xs: 1, sm: 2, md: 3 }} gap="400">
@@ -332,131 +280,352 @@ export default function FestivalLibrary() {
               const daysUntil = getDaysUntilFestival(festival);
               const dateRange = getFormattedFestivalDate(festival);
 
-              const effectsList = festival.id === "diwali"
-                ? "Toran Garland • Series Lights • Artisanal Diyas • Fireworks"
-                : festival.id === "dussehra"
-                ? "Toran Garland • Mango Leaves • Marigold Cascades"
-                : festival.id.includes("sankranti") || festival.id.includes("pongal")
-                ? "Harvest Toran • Mango Leaves • Celebratory Kites"
-                : "Atmospheric Vignette • Festive Banner • Cultural Particles";
+              const p = festival.palette || {};
+              const swatchColors = [
+                p.primary || "#FFD700",
+                p.secondary || "#FF6B35",
+                p.accent || "#8B0000",
+                p.background || "#1A0A00",
+              ];
 
               return (
-                <Card key={festival.id} padding="400">
-                  <BlockStack gap="300">
-                    {/* Header Row: Cultural Emblem & Badges */}
-                    <InlineStack align="space-between" blockAlign="start">
-                      <InlineStack gap="300" blockAlign="center">
-                        <FestivalEmblem festivalId={festival.id} />
-                        <BlockStack gap="050">
+                <div
+                  key={festival.id}
+                  style={{
+                    backgroundColor: "var(--p-color-bg-surface, #FFFFFF)",
+                    border: isActive
+                      ? "2px solid #008060"
+                      : "1px solid var(--p-color-border-subdued, #E1E3E5)",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
+                    boxShadow: isActive
+                      ? "0 4px 12px rgba(0, 128, 96, 0.15)"
+                      : "0 1px 3px rgba(0, 0, 0, 0.05)",
+                    transition: "border-color 0.15s ease, box-shadow 0.15s ease",
+                  }}
+                >
+                  {/* Dedicated Authentic Artwork Banner */}
+                  <div style={{ position: "relative" }}>
+                    <FestivalArtwork
+                      festival={festival}
+                      variant="card"
+                    />
+
+                    {/* Left Status Badge Overlay */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "10px",
+                        left: "10px",
+                        zIndex: 2,
+                      }}
+                    >
+                      {isActive ? (
+                        <div
+                          style={{
+                            backgroundColor: "#008060",
+                            color: "#FFFFFF",
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            padding: "2px 8px",
+                            borderRadius: "4px",
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                        >
+                          <span style={{ fontSize: "9px" }}>●</span> LIVE
+                        </div>
+                      ) : isLocked ? (
+                        <div
+                          style={{
+                            backgroundColor: "#D97706",
+                            color: "#FFFFFF",
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            padding: "2px 8px",
+                            borderRadius: "4px",
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                        >
+                          PRO
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            backgroundColor: "#2563EB",
+                            color: "#FFFFFF",
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            padding: "2px 8px",
+                            borderRadius: "4px",
+                            boxShadow: "0 2px 4px rgba(0,0,0,0.3)",
+                          }}
+                        >
+                          FREE
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Right Days Away Countdown Badge */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                        zIndex: 2,
+                        backgroundColor: "rgba(0, 0, 0, 0.65)",
+                        color: "#FFFFFF",
+                        fontSize: "11px",
+                        fontWeight: "600",
+                        padding: "2px 8px",
+                        borderRadius: "4px",
+                        backdropFilter: "blur(4px)",
+                        border: "1px solid rgba(255, 255, 255, 0.2)",
+                      }}
+                    >
+                      {daysUntil === 0 ? "Today" : `In ${daysUntil} days`}
+                    </div>
+                  </div>
+
+                  {/* Card Content Body */}
+                  <Box padding="400">
+                    <BlockStack gap="300">
+                      {/* Title & Native Names */}
+                      <BlockStack gap="050">
+                        <InlineStack align="space-between" blockAlign="center">
                           <Text variant="headingMd" fontWeight="bold">
                             {festival.name}
                           </Text>
                           <Text variant="bodySm" tone="subdued">
                             {festival.hindiName}
                           </Text>
-                        </BlockStack>
-                      </InlineStack>
-
-                      <BlockStack gap="100" inlineAlign="end">
-                        {isActive && <Badge tone="success">● LIVE</Badge>}
-                        {isLocked ? (
-                          <Badge tone="warning">PRO</Badge>
-                        ) : (
-                          <Badge tone="info">{festival.tier === "free" ? "FREE" : "UNLOCKED"}</Badge>
-                        )}
-                      </BlockStack>
-                    </InlineStack>
-
-                    <Divider />
-
-                    {/* Festival Context & Date Range */}
-                    <BlockStack gap="100">
-                      <InlineStack align="space-between" blockAlign="center">
-                        <Text variant="bodyXs" fontWeight="semibold" tone="subdued">
-                          DATE
+                        </InlineStack>
+                        <Text variant="bodyXs" tone="subdued">
+                          {festival.nativeName}
                         </Text>
+                      </BlockStack>
+
+                      {/* Date & Region Metadata */}
+                      <BlockStack gap="050">
                         <Text variant="bodyXs" fontWeight="medium">
                           {dateRange}
                         </Text>
+                        <Text variant="bodyXs" tone="subdued">
+                          {festival.region}
+                        </Text>
+                      </BlockStack>
+
+                      {/* Compact Curated Effect Tags */}
+                      <Box
+                        padding="200"
+                        background="bg-surface-secondary"
+                        borderRadius="150"
+                      >
+                        <BlockStack gap="050">
+                          <Text variant="bodyXs" fontWeight="semibold">
+                            ✨ {festival.signatureEffect.name}
+                          </Text>
+                          <Text variant="bodyXs" tone="subdued">
+                            ✦ {festival.secondaryEffect.name}
+                          </Text>
+                        </BlockStack>
+                      </Box>
+
+                      {/* Harmonious Color Swatches */}
+                      <InlineStack align="space-between" blockAlign="center">
+                        <Text variant="bodyXs" tone="subdued">
+                          Palette Harmony:
+                        </Text>
+                        <InlineStack gap="100" blockAlign="center">
+                          {swatchColors.map((hex, idx) => (
+                            <div
+                              key={idx}
+                              style={{
+                                width: "14px",
+                                height: "14px",
+                                borderRadius: "50%",
+                                backgroundColor: hex,
+                                border: "1px solid rgba(0,0,0,0.15)",
+                                boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
+                              }}
+                              title={hex}
+                            />
+                          ))}
+                        </InlineStack>
                       </InlineStack>
 
-                      <InlineStack align="space-between" blockAlign="center">
-                        <Text variant="bodyXs" fontWeight="semibold" tone="subdued">
-                          REGION
-                        </Text>
-                        <Text variant="bodyXs" fontWeight="medium">
-                          {festival.region.split("(")[0].trim()}
-                        </Text>
-                      </InlineStack>
+                      <Divider />
 
+                      {/* Action Controls Row */}
                       <InlineStack align="space-between" blockAlign="center">
-                        <Text variant="bodyXs" fontWeight="semibold" tone="subdued">
-                          SCHEDULE
-                        </Text>
-                        <Text variant="bodyXs" tone={daysUntil <= 14 ? "success" : "subdued"}>
-                          {daysUntil === 0 ? "Today" : `In ${daysUntil} days`}
-                        </Text>
+                        <InlineStack gap="150">
+                          <Button
+                            size="slim"
+                            icon={ViewIcon}
+                            onClick={() => setPreviewFestival(festival)}
+                          >
+                            Preview
+                          </Button>
+                          <Button
+                            size="slim"
+                            icon={SettingsIcon}
+                            onClick={() => navigate(`/app/festivals/${festival.id}`)}
+                          >
+                            Customize
+                          </Button>
+                        </InlineStack>
+
+                        <div>
+                          {isActive ? (
+                            <Button
+                              size="slim"
+                              tone="critical"
+                              loading={isSubmitting}
+                              onClick={() => {
+                                const fd = new FormData();
+                                fd.append("actionType", "deactivate");
+                                fd.append("festivalId", festival.id);
+                                fetcher.submit(fd, { method: "post" });
+                              }}
+                            >
+                              Deactivate
+                            </Button>
+                          ) : isLocked ? (
+                            <Button
+                              size="slim"
+                              icon={LockIcon}
+                              onClick={() => navigate("/app/billing")}
+                            >
+                              Upgrade
+                            </Button>
+                          ) : (
+                            <Button
+                              size="slim"
+                              variant="primary"
+                              loading={isSubmitting}
+                              onClick={() => {
+                                const fd = new FormData();
+                                fd.append("actionType", "activate");
+                                fd.append("festivalId", festival.id);
+                                fetcher.submit(fd, { method: "post" });
+                              }}
+                            >
+                              Activate
+                            </Button>
+                          )}
+                        </div>
                       </InlineStack>
                     </BlockStack>
-
-                    {/* Effects Summary Box */}
-                    <Box padding="200" background="bg-surface-secondary" borderRadius="200">
-                      <Text variant="bodyXs" tone="subdued">
-                        ✨ <strong>Included Effects:</strong> {effectsList}
-                      </Text>
-                    </Box>
-
-                    {/* Action Buttons */}
-                    <InlineStack gap="200" align="end">
-                      <Button
-                        size="slim"
-                        url={`https://${shop}/?utsav_preview=${festival.id}`}
-                        target="_blank"
-                        icon={ViewIcon}
-                      >
-                        Preview
-                      </Button>
-                      <Button
-                        size="slim"
-                        onClick={() => navigate(`/app/festivals/${festival.id}`)}
-                        icon={SettingsIcon}
-                      >
-                        Customize
-                      </Button>
-                      {isActive ? (
-                        <Button
-                          size="slim"
-                          tone="critical"
-                          onClick={() => {
-                            const fd = new FormData();
-                            fd.append("actionType", "deactivate");
-                            fd.append("festivalId", festival.id);
-                            fetcher.submit(fd, { method: "post" });
-                          }}
-                        >
-                          Deactivate
-                        </Button>
-                      ) : (
-                        <Button
-                          size="slim"
-                          variant="primary"
-                          disabled={isLocked}
-                          onClick={() => {
-                            const fd = new FormData();
-                            fd.append("actionType", "activate");
-                            fd.append("festivalId", festival.id);
-                            fetcher.submit(fd, { method: "post" });
-                          }}
-                        >
-                          {isLocked ? "Upgrade" : "Activate"}
-                        </Button>
-                      )}
-                    </InlineStack>
-                  </BlockStack>
-                </Card>
+                  </Box>
+                </div>
               );
             })}
           </InlineGrid>
+        )}
+
+        {/* Real Interactive Effect Preview Modal */}
+        {previewFestival && (
+          <Modal
+            open={Boolean(previewFestival)}
+            onClose={() => setPreviewFestival(null)}
+            title={`Preview ${previewFestival.name} Experience`}
+            primaryAction={{
+              content: "Customize in Studio",
+              icon: SettingsIcon,
+              onAction: () => {
+                const id = previewFestival.id;
+                setPreviewFestival(null);
+                navigate(`/app/festivals/${id}`);
+              },
+            }}
+            secondaryActions={[
+              {
+                content: "Open Live Storefront Preview",
+                icon: ExternalIcon,
+                url: `https://${shop}/?utsav_preview=${previewFestival.id}`,
+                external: true,
+              },
+            ]}
+          >
+            <Modal.Section>
+              <BlockStack gap="400">
+                {/* Hero Artwork Preview inside Modal */}
+                <div style={{ borderRadius: "8px", overflow: "hidden" }}>
+                  <FestivalArtwork
+                    festival={previewFestival}
+                    variant="hero"
+                    showBadge
+                    badgeText={previewFestival.tier.toUpperCase()}
+                    badgeTone={previewFestival.tier === "free" ? "info" : "warning"}
+                  />
+                </div>
+
+                {/* Cultural & Effect Breakdown */}
+                <BlockStack gap="200">
+                  <InlineStack align="space-between" blockAlign="center">
+                    <Text variant="headingMd" fontWeight="bold">
+                      {previewFestival.name} ({previewFestival.hindiName})
+                    </Text>
+                    <Badge tone="info">{previewFestival.region}</Badge>
+                  </InlineStack>
+                  <Text variant="bodySm" tone="subdued">
+                    {previewFestival.culturalContext}
+                  </Text>
+                </BlockStack>
+
+                <Divider />
+
+                <InlineGrid columns={2} gap="300">
+                  <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                    <BlockStack gap="100">
+                      <Text variant="bodyXs" fontWeight="bold" tone="subdued">
+                        SIGNATURE EFFECT
+                      </Text>
+                      <Text variant="bodySm" fontWeight="semibold">
+                        {previewFestival.signatureEffect.name}
+                      </Text>
+                      <Text variant="bodyXs" tone="subdued">
+                        {previewFestival.signatureEffect.description}
+                      </Text>
+                    </BlockStack>
+                  </Box>
+
+                  <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                    <BlockStack gap="100">
+                      <Text variant="bodyXs" fontWeight="bold" tone="subdued">
+                        SECONDARY EFFECT
+                      </Text>
+                      <Text variant="bodySm" fontWeight="semibold">
+                        {previewFestival.secondaryEffect.name}
+                      </Text>
+                      <Text variant="bodyXs" tone="subdued">
+                        {previewFestival.secondaryEffect.description}
+                      </Text>
+                    </BlockStack>
+                  </Box>
+                </InlineGrid>
+
+                {/* Store Announcement Banner Preview */}
+                <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                  <BlockStack gap="100">
+                    <Text variant="bodyXs" fontWeight="bold" tone="subdued">
+                      STOREFRONT ANNOUNCEMENT BANNER
+                    </Text>
+                    <Text variant="bodySm">
+                      {previewFestival.banner.defaultText}
+                    </Text>
+                  </BlockStack>
+                </Box>
+              </BlockStack>
+            </Modal.Section>
+          </Modal>
         )}
       </BlockStack>
     </Page>
