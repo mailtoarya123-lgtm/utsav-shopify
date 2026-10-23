@@ -160,6 +160,7 @@ export default function FestivalConfig() {
   const [enableColorSwap, setEnableColorSwap] = useState(config.enableColorSwap ?? true);
   const [enableAudio, setEnableAudio] = useState(config.enableAudio ?? true);
   const [enableWheel, setEnableWheel] = useState(config.enableWheel ?? true);
+  const [language, setLanguage] = useState(config.language || "en");
   const [diyaSize, setDiyaSize] = useState(config.diyaSize || "medium");
   const [diyaPosition, setDiyaPosition] = useState(config.diyaPosition || "bottom_corners");
   const [fireworksFrequency, setFireworksFrequency] = useState(config.fireworksFrequency || "subtle");
