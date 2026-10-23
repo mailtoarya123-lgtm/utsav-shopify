@@ -217,6 +217,23 @@
 <canvas id="utsav-fireworks-canvas"></canvas>
 <script>
   (function() {
+    // Live Cloud Sync with Utsav App
+    try {
+      const shopDomain = '{{ shop.permanent_domain }}' || window.location.hostname;
+      fetch('https://utsav-shopify.onrender.com/api/active-theme?shop=' + encodeURIComponent(shopDomain))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.active === false) {
+            const cc = document.getElementById('utsav-corner-container');
+            if (cc) cc.style.display = 'none';
+            const fc = document.getElementById('utsav-fireworks-canvas');
+            if (fc) fc.style.display = 'none';
+            const bn = document.getElementById('utsavBanner');
+            if (bn) bn.style.display = 'none';
+          }
+        }).catch(function() {});
+    } catch(e) {}
+
     const canvas = document.getElementById('utsav-fireworks-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
