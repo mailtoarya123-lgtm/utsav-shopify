@@ -9,6 +9,7 @@
 
   <script>
     window.__UTSAV_CONFIG__ = {
+      shopDomain: {{ shop.permanent_domain | default: shop.myshopify_domain | default: shop.domain | json }},
       festivalId: {{ block.settings.festival_id | default: "diwali" | json }},
       festivalName: {{ block.settings.festival_name | default: "Diwali" | json }},
       festivalEmoji: "🪔",
@@ -16,14 +17,22 @@
       enableBanner: false,
       enableCountdown: false,
       enableColorSwap: true,
+      enableSeriesLights: {{ block.settings.enable_series_lights | default: true | json }},
+      seriesLightsTheme: {{ block.settings.series_lights_theme | default: "warm_gold" | json }},
+      seriesLightsMode: {{ block.settings.series_lights_mode | default: "twinkle" | json }},
       diyaStyle: {{ block.settings.diya_style | default: "royal_brass" | json }},
+      flameGlow: {{ block.settings.flame_glow | default: "warm_radiance" | json }},
       diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
       diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
+      diyaMarginX: {{ block.settings.diya_margin_x | default: 18 | json }},
+      diyaMarginY: {{ block.settings.diya_margin_y | default: 18 | json }},
+      diyaHideOnMobile: {{ block.settings.diya_hide_on_mobile | default: false | json }},
       fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
       garlandLayout: {{ block.settings.garland_layout | default: "top_and_sides" | json }},
       garlandPlacement: {{ block.settings.garland_placement | default: "below_header" | json }},
+      garlandScrollMode: {{ block.settings.garland_scroll_mode | default: "natural_scroll" | json }},
+      garlandOffset: {{ block.settings.garland_offset | default: 0 | json }},
       garlandStyle: {{ block.settings.garland_style | default: "mango_marigold" | json }},
-      seriesLightsTheme: {{ block.settings.series_lights_theme | default: "warm_gold" | json }},
       kiteCount: {{ block.settings.kite_count | default: 2 | json }},
       kiteSpeed: {{ block.settings.kite_speed | default: "gentle" | json }},
       moonPosition: {{ block.settings.moon_position | default: "top_right" | json }},
@@ -88,9 +97,15 @@
       "default": "below_header"
     },
     {
+      "type": "checkbox",
+      "id": "enable_series_lights",
+      "label": "Enable Series Lights (Diwali Only)",
+      "default": true
+    },
+    {
       "type": "select",
       "id": "series_lights_theme",
-      "label": "Diwali Series Lights",
+      "label": "Diwali Series Lights Palette",
       "options": [
         { "value": "warm_gold", "label": "🌟 Warm Golden Fairy Lights" },
         { "value": "festive_multicolor", "label": "🌈 Multi-Color Festive Jewels" },
@@ -99,6 +114,17 @@
         { "value": "off", "label": "🌿 Floral Garland Only (No Lights)" }
       ],
       "default": "warm_gold"
+    },
+    {
+      "type": "select",
+      "id": "series_lights_mode",
+      "label": "Series Lights Animation",
+      "options": [
+        { "value": "chaser", "label": "⚡ Cascading Chaser Wave" },
+        { "value": "twinkle", "label": "✨ Gentle Twinkle & Shimmer" },
+        { "value": "steady", "label": "💡 Steady Luminous Glow" }
+      ],
+      "default": "twinkle"
     },
     {
       "type": "header",
@@ -119,12 +145,25 @@
     },
     {
       "type": "select",
+      "id": "flame_glow",
+      "label": "Flame Glow Aura",
+      "options": [
+        { "value": "warm_radiance", "label": "Warm Radiance" },
+        { "value": "sacred_flicker", "label": "Sacred Flicker" },
+        { "value": "divine_aura", "label": "Divine Aura (Wide Bloom)" },
+        { "value": "sparkling_wick", "label": "Sparkling Wick" }
+      ],
+      "default": "warm_radiance"
+    },
+    {
+      "type": "select",
       "id": "diya_size",
       "label": "Diya Dimensions",
       "options": [
-        { "value": "small", "label": "Small (60px — Subtle)" },
-        { "value": "medium", "label": "Medium (85px — Standard)" },
-        { "value": "large", "label": "Large (110px — Prominent)" }
+        { "value": "small", "label": "Small (56px — Minimal)" },
+        { "value": "medium", "label": "Medium (76px — Standard)" },
+        { "value": "large", "label": "Large (96px — Majestic)" },
+        { "value": "xlarge", "label": "X-Large (116px — Akhand Maha Diya)" }
       ],
       "default": "medium"
     },
@@ -136,9 +175,30 @@
         { "value": "bottom_corners", "label": "Both Bottom Corners" },
         { "value": "bottom_left", "label": "Bottom-Left Corner Only" },
         { "value": "bottom_right", "label": "Bottom-Right Corner Only" },
-        { "value": "top_corners", "label": "Top Corners" }
+        { "value": "top_corners", "label": "Both Top Corners" },
+        { "value": "top_left", "label": "Top-Left Corner Only" },
+        { "value": "top_right", "label": "Top-Right Corner Only" },
+        { "value": "all_four", "label": "All 4 Corners" }
       ],
       "default": "bottom_corners"
+    },
+    {
+      "type": "number",
+      "id": "diya_margin_x",
+      "label": "Horizontal Edge Offset (px)",
+      "default": 18
+    },
+    {
+      "type": "number",
+      "id": "diya_margin_y",
+      "label": "Vertical Edge Offset (px)",
+      "default": 18
+    },
+    {
+      "type": "checkbox",
+      "id": "diya_hide_on_mobile",
+      "label": "Hide Diyas on Mobile (<480px)",
+      "default": false
     },
     {
       "type": "select",

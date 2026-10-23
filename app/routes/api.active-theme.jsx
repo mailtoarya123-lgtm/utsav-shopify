@@ -4,31 +4,106 @@ import { getFestivalById } from "../data/festivals";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
-  const shop = url.searchParams.get("shop");
+  const shopParam = url.searchParams.get("shop");
+  const previewParam = url.searchParams.get("preview");
 
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type",
+    "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+    "Pragma": "no-cache",
+    "Expires": "0",
   };
 
-  if (!shop) {
+  if (!shopParam) {
     return json({ active: false, error: "Missing shop parameter" }, { headers: corsHeaders });
   }
+
+  const shopClean = shopParam.replace(/^https?:\/\//, "").split("/")[0].trim().toLowerCase();
 
   try {
     const now = new Date();
 
-    // 1. Check for manually active configuration
+    // ─── 1. Instant Preview Mode for Live Storefront ────────────────────────
+    if (previewParam) {
+      const previewId = previewParam.toLowerCase();
+      const previewConfig = await prisma.festivalConfig.findFirst({
+        where: {
+          shop: { contains: shopClean.split(".")[0] },
+          festivalId: previewId,
+        },
+      });
+
+      const festival = getFestivalById(previewId);
+
+      if (previewConfig) {
+        let custom = {};
+        if (previewConfig.customColors) {
+          try { custom = JSON.parse(previewConfig.customColors); } catch(e) {}
+        }
+        return json({
+          active: true,
+          isPreview: true,
+          festivalId: previewId,
+          config: {
+            ...previewConfig,
+            ...custom,
+          },
+          festival: festival ? {
+            name: festival.name,
+            hindiName: festival.hindiName,
+            emoji: festival.emoji,
+            palette: festival.palette,
+          } : null,
+        }, { headers: corsHeaders });
+      }
+
+      // Return default festival structure if no database record yet
+      return json({
+        active: true,
+        isPreview: true,
+        festivalId: previewId,
+        config: {
+          festivalId: previewId,
+          enableEffects: true,
+          enableBanner: true,
+          garlandLayout: "top_and_sides",
+          garlandPlacement: "below_header",
+          garlandScrollMode: "natural_scroll",
+          enableSeriesLights: previewId.includes("diwali"),
+          seriesLightsTheme: "warm_gold",
+          seriesLightsMode: "twinkle",
+          diyaStyle: "royal_brass",
+          flameGlow: "sacred_flicker",
+          diyaSize: "medium",
+          diyaPosition: "bottom_corners",
+          diyaMarginX: 18,
+          diyaMarginY: 18,
+          diyaHideOnMobile: false,
+        },
+        festival: festival ? {
+          name: festival.name,
+          hindiName: festival.hindiName,
+          emoji: festival.emoji,
+          palette: festival.palette,
+        } : null,
+      }, { headers: corsHeaders });
+    }
+
+    // ─── 2. Manually Active Theme ──────────────────────────────────────────
     let activeConfig = await prisma.festivalConfig.findFirst({
-      where: { shop, isActive: true },
+      where: {
+        shop: { contains: shopClean.split(".")[0] },
+        isActive: true,
+      },
     });
 
-    // 2. If no manual active theme, check scheduled window
+    // ─── 3. Automated Scheduled Campaign ───────────────────────────────────
     if (!activeConfig) {
       const scheduledConfig = await prisma.festivalConfig.findFirst({
         where: {
-          shop,
+          shop: { contains: shopClean.split(".")[0] },
           scheduledStart: { lte: now },
           OR: [
             { scheduledEnd: null },
@@ -42,10 +117,10 @@ export const loader = async ({ request }) => {
       }
     }
 
-    // 3. Auto-deactivate any config whose schedule has expired
+    // Auto-deactivate any config whose schedule has expired
     await prisma.festivalConfig.updateMany({
       where: {
-        shop,
+        shop: { contains: shopClean.split(".")[0] },
         isActive: true,
         scheduledEnd: { lt: now },
       },
@@ -56,12 +131,20 @@ export const loader = async ({ request }) => {
       return json({ active: false }, { headers: corsHeaders });
     }
 
+    let custom = {};
+    if (activeConfig.customColors) {
+      try { custom = JSON.parse(activeConfig.customColors); } catch(e) {}
+    }
+
     const festival = getFestivalById(activeConfig.festivalId);
 
     return json({
       active: true,
       festivalId: activeConfig.festivalId,
-      config: activeConfig,
+      config: {
+        ...activeConfig,
+        ...custom,
+      },
       festival: festival ? {
         name: festival.name,
         hindiName: festival.hindiName,
