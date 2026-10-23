@@ -14,7 +14,6 @@ import {
   Divider,
   Select,
   TextField,
-  Checkbox,
   Banner,
   Frame,
   Icon,
@@ -407,6 +406,605 @@ function DiyaPreviewWidget({ style, flameGlow, size }) {
   );
 }
 
+// ─── Professional UI Control: Luxury Toggle Switch ─────────────────────────
+function ToggleSwitch({ label, checked, onChange, helpText, disabled }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "4px", margin: "4px 0" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          cursor: disabled ? "not-allowed" : "pointer",
+          userSelect: "none",
+          gap: "12px",
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          if (!disabled) onChange(!checked);
+        }}
+      >
+        <span style={{ fontSize: "13px", fontWeight: 500, color: disabled ? "#8C9196" : "#202223" }}>
+          {label}
+        </span>
+        <div
+          role="switch"
+          aria-checked={checked}
+          style={{
+            width: "38px",
+            height: "22px",
+            borderRadius: "11px",
+            background: checked ? "#008060" : "#D2D5D8",
+            position: "relative",
+            transition: "background 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+            flexShrink: 0,
+            boxShadow: checked ? "0 1px 3px rgba(0, 128, 96, 0.3)" : "none",
+          }}
+        >
+          <div
+            style={{
+              width: "16px",
+              height: "16px",
+              borderRadius: "50%",
+              background: "#FFFFFF",
+              position: "absolute",
+              top: "3px",
+              left: checked ? "19px" : "3px",
+              transition: "left 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
+              boxShadow: "0 1px 2px rgba(0,0,0,0.25)",
+            }}
+          />
+        </div>
+      </div>
+      {helpText && (
+        <span style={{ fontSize: "12px", color: "#6D7175", lineHeight: "16px" }}>
+          {helpText}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// ─── Professional UI Control: Range Slider with Live Badge ──────────────────
+function LuxurySlider({ label, value, min, max, step = 1, unit = "px", onChange, helpText }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "6px 0" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontSize: "13px", fontWeight: 500, color: "#202223" }}>{label}</span>
+        <span
+          style={{
+            fontSize: "12px",
+            fontWeight: 600,
+            color: "#008060",
+            background: "#E3F1DF",
+            padding: "2px 8px",
+            borderRadius: "6px",
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          {value > 0 && unit === "px" ? `+${value}${unit}` : `${value}${unit}`}
+        </span>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        style={{
+          width: "100%",
+          accentColor: "#008060",
+          cursor: "pointer",
+          height: "6px",
+          borderRadius: "3px",
+          background: "#E1E3E5",
+          outline: "none",
+        }}
+      />
+      {helpText && (
+        <span style={{ fontSize: "12px", color: "#6D7175", lineHeight: "15px" }}>
+          {helpText}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// ─── Clean Minimalist SVG Icons (Zero Toy Emojis) ───────────────────────────
+const CLEAN_ICONS = {
+  overview: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM3 16a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" />
+    </svg>
+  ),
+  visual_effects: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" />
+    </svg>
+  ),
+  banner: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.39l6.553 3.276A1 1 0 0018 15V3z" />
+    </svg>
+  ),
+  colors: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clipRule="evenodd" />
+    </svg>
+  ),
+  sound_interaction: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+    </svg>
+  ),
+  scheduling: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+    </svg>
+  ),
+  advanced: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+    </svg>
+  ),
+};
+
+// ─── Single Device Preview Frame in Side-by-Side Showcase ───────────────────
+function DeviceStorefrontMock({
+  deviceType,
+  festival,
+  showOriginal,
+  enableEffects,
+  garlandPlacement,
+  garlandLayout,
+  garlandStyle,
+  enableSeriesLights,
+  seriesLightsTheme,
+  seriesLightsMode,
+  garlandOffset,
+  diyaStyle,
+  flameGlow,
+  diyaSize,
+  diyaPosition,
+  diyaMarginX,
+  diyaMarginY,
+  diyaHideOnMobile,
+  enableBanner,
+  bannerText,
+}) {
+  const isDiwali = (festival.id || "").includes("diwali");
+  const isDesktop = deviceType === "desktop";
+  const isTablet = deviceType === "tablet";
+  const isMobile = deviceType === "mobile";
+
+  const frameWidth = isDesktop ? "460px" : isTablet ? "330px" : "250px";
+  const titleLabel = isDesktop ? "Desktop" : isTablet ? "Tablet" : "Mobile";
+  const resLabel = isDesktop ? "1440 × 900" : isTablet ? "768 × 1024" : "375 × 812";
+
+  return (
+    <div style={{ width: frameWidth, minWidth: frameWidth, flexShrink: 0 }}>
+      {/* Device Viewport Header Pill */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "0 4px 8px 4px",
+          color: "#5C5F62",
+          fontSize: "11px",
+          fontWeight: 600,
+          letterSpacing: "0.4px",
+          textTransform: "uppercase",
+        }}
+      >
+        <span>{titleLabel}</span>
+        <span style={{ fontSize: "10px", color: "#8C9196", fontWeight: 500 }}>{resLabel}</span>
+      </div>
+
+      {/* Frame Container */}
+      <div
+        style={{
+          width: "100%",
+          background: "#FFFFFF",
+          borderRadius: isMobile ? "28px" : isTablet ? "16px" : "8px",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+          position: "relative",
+          overflow: "hidden",
+          border: isMobile ? "7px solid #1A1C1E" : isTablet ? "7px solid #2B2D42" : "1px solid #DCE0E5",
+        }}
+      >
+        {/* Safari Browser Chrome (Desktop) */}
+        {isDesktop && (
+          <div
+            style={{
+              background: "#F1F2F4",
+              padding: "7px 12px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              borderBottom: "1px solid #DCE0E5",
+            }}
+          >
+            <div style={{ display: "flex", gap: "5px" }}>
+              <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#FF5F56", display: "inline-block" }} />
+              <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#FFBD2E", display: "inline-block" }} />
+              <span style={{ width: "9px", height: "9px", borderRadius: "50%", background: "#27C93F", display: "inline-block" }} />
+            </div>
+            <div
+              style={{
+                flex: 1,
+                background: "#FFFFFF",
+                borderRadius: "5px",
+                padding: "2px 10px",
+                fontSize: "10px",
+                color: "#555",
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                border: "1px solid #E1E3E6",
+              }}
+            >
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#6D7175" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              <span style={{ fontWeight: 500 }}>luxestore.myshopify.com</span>
+            </div>
+          </div>
+        )}
+
+        {/* Tablet Sensor Bezel */}
+        {isTablet && (
+          <div style={{ background: "#2B2D42", height: "10px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#4A4D68", display: "inline-block" }} />
+          </div>
+        )}
+
+        {/* Mobile Dynamic Island & Status Bar */}
+        {isMobile && (
+          <div style={{ background: "#000000", color: "#FFFFFF", padding: "4px 14px 4px" }}>
+            <div
+              style={{
+                width: "64px",
+                height: "14px",
+                background: "#1E1E1E",
+                borderRadius: "8px",
+                margin: "0 auto 3px",
+              }}
+            />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "10px", fontWeight: 600 }}>
+              <span>9:41</span>
+              <span style={{ fontSize: "9px", opacity: 0.8 }}>LTE 100%</span>
+            </div>
+          </div>
+        )}
+
+        {/* Announcement Bar */}
+        {!showOriginal && enableBanner && (
+          <div
+            style={{
+              background: "linear-gradient(90deg, #1A0A00 0%, #2A1502 50%, #1A0A00 100%)",
+              color: "#FFF8DC",
+              padding: isMobile ? "5px 10px" : "7px 14px",
+              fontSize: isMobile ? "10px" : "11px",
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "6px",
+              borderBottom: "1px solid rgba(212, 175, 55, 0.3)",
+            }}
+          >
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              {bannerText || "Happy Diwali! Celebrate with artisanal pooja decor."}
+            </span>
+            <span
+              style={{
+                background: "rgba(212, 175, 55, 0.2)",
+                border: "1px solid #D4AF37",
+                color: "#FFD700",
+                borderRadius: "8px",
+                padding: "1px 6px",
+                fontSize: "9px",
+                fontWeight: 700,
+                whiteSpace: "nowrap",
+              }}
+            >
+              UTSAV25
+            </span>
+          </div>
+        )}
+
+        {/* Top Toran (if top_fixed) */}
+        {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
+          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "46px" : "54px" }}>
+            <ToranPreviewWidget
+              festivalId={festival.id}
+              garlandStyle={garlandStyle}
+              withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
+              lightsTheme={seriesLightsTheme}
+              lightsMode={seriesLightsMode}
+            />
+          </div>
+        )}
+
+        {/* Store Navigation Bar */}
+        <div
+          style={{
+            padding: isMobile ? "10px 12px" : "12px 18px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "1px solid #EEEEEE",
+            position: "relative",
+            zIndex: 10,
+            background: "#FFFFFF",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {isMobile && (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#222" strokeWidth="2">
+                <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            )}
+            <div style={{ fontWeight: 800, fontSize: isMobile ? "13px" : "15px", color: "#111", letterSpacing: "0.5px" }}>
+              LUXE STORE
+            </div>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          {isDesktop && (
+            <div style={{ display: "flex", gap: "14px", fontSize: "11px", color: "#555", fontWeight: 500 }}>
+              <span style={{ color: "#000", fontWeight: 700, borderBottom: "2px solid #D4AF37", paddingBottom: "2px" }}>Home</span>
+              <span style={{ cursor: "pointer" }}>Festive Edit</span>
+              <span style={{ cursor: "pointer" }}>Diwali Specials</span>
+              <span style={{ cursor: "pointer" }}>Pooja Sets</span>
+              <span style={{ cursor: "pointer" }}>Contact</span>
+            </div>
+          )}
+
+          {/* Tablet Compact Nav */}
+          {isTablet && (
+            <div style={{ display: "flex", gap: "10px", fontSize: "10px", color: "#555", fontWeight: 500 }}>
+              <span style={{ color: "#000", fontWeight: 700 }}>Home</span>
+              <span>Festive</span>
+              <span>Diwali</span>
+              <span>Contact</span>
+            </div>
+          )}
+
+          {/* Search + Cart */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "12px", color: "#333" }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <div style={{ display: "flex", alignItems: "center", gap: "3px", fontWeight: 600 }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+              <span>(2)</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Top Toran (if below_header) */}
+        {!showOriginal && enableEffects && garlandPlacement === "below_header" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
+          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "46px" : "54px", marginTop: `${garlandOffset}px` }}>
+            <ToranPreviewWidget
+              festivalId={festival.id}
+              garlandStyle={garlandStyle}
+              withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
+              lightsTheme={seriesLightsTheme}
+              lightsMode={seriesLightsMode}
+            />
+          </div>
+        )}
+
+        {/* Side Garlands & Corner Diyas */}
+        {!showOriginal && enableEffects && (
+          <>
+            {!isMobile && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
+              <>
+                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "106px" : "54px", left: "4px", zIndex: 11, pointerEvents: "none" }}>
+                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
+                </div>
+                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "106px" : "54px", right: "4px", zIndex: 11, pointerEvents: "none" }}>
+                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
+                </div>
+              </>
+            )}
+
+            {isDiwali && (!isMobile || !diyaHideOnMobile) && (
+              <>
+                {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four") && (
+                  <div style={{ position: "absolute", bottom: `${diyaMarginY}px`, left: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
+                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
+                  </div>
+                )}
+                {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four") && (
+                  <div style={{ position: "absolute", bottom: `${diyaMarginY}px`, right: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
+                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
+                  </div>
+                )}
+                {(diyaPosition === "top_corners" || diyaPosition === "top_left" || diyaPosition === "all_four") && (
+                  <div style={{ position: "absolute", top: `${diyaMarginY + 50}px`, left: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
+                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
+                  </div>
+                )}
+                {(diyaPosition === "top_corners" || diyaPosition === "top_right" || diyaPosition === "all_four") && (
+                  <div style={{ position: "absolute", top: `${diyaMarginY + 50}px`, right: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
+                    <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={isMobile ? "small" : diyaSize} />
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+
+        {/* Hero Section */}
+        <div
+          style={{
+            padding: isMobile ? "24px 14px" : "36px 20px",
+            textAlign: "center",
+            background: "linear-gradient(180deg, #FAFAFA 0%, #F5F5F7 100%)",
+          }}
+        >
+          <div
+            style={{
+              display: "inline-block",
+              padding: "3px 10px",
+              background: "#E8F5E9",
+              color: "#2E7D32",
+              borderRadius: "10px",
+              fontSize: "10px",
+              fontWeight: 700,
+              marginBottom: "8px",
+            }}
+          >
+            FESTIVE SEASON EXCLUSIVE
+          </div>
+          <div
+            style={{
+              fontSize: isMobile ? "18px" : isTablet ? "22px" : "26px",
+              fontWeight: 800,
+              color: "#111",
+              marginBottom: "6px",
+              letterSpacing: "-0.5px",
+            }}
+          >
+            {festival.name} Collection
+          </div>
+          <div
+            style={{
+              fontSize: isMobile ? "11px" : "12px",
+              color: "#666",
+              maxWidth: "340px",
+              margin: "0 auto 16px",
+              lineHeight: "1.4",
+            }}
+          >
+            Celebrate auspicious traditions with handcrafted artisanal decor.
+          </div>
+          <button
+            style={{
+              background: "#111",
+              color: "#FFF",
+              padding: isMobile ? "9px 18px" : "8px 22px",
+              borderRadius: "5px",
+              border: "none",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              width: isMobile ? "100%" : "auto",
+            }}
+          >
+            Shop Collection
+          </button>
+        </div>
+
+        {/* Product Catalog Grid with Vector Silhouettes */}
+        <div
+          style={{
+            padding: isMobile ? "12px" : "18px 16px",
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr 1fr" : isTablet ? "repeat(3, 1fr)" : "repeat(4, 1fr)",
+            gap: isMobile ? "8px" : "10px",
+          }}
+        >
+          {[
+            {
+              title: "Brass Akhand Diya",
+              price: "₹1,499",
+              tag: "Bestseller",
+              icon: (
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3c-1.5 3-3.5 5.5-3.5 8 0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5c0-2.5-2-5-3.5-8z" fill="#D4AF37"/>
+                  <path d="M4 14c0 4 3.5 6 8 6s8-2 8-6H4z" fill="#996515"/>
+                </svg>
+              ),
+            },
+            {
+              title: "Marigold Toran",
+              price: "₹899",
+              tag: "Handmade",
+              icon: (
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 6q9 12 18 0" stroke="#C62828" strokeWidth="2" fill="none"/>
+                  <circle cx="6" cy="10" r="2.5" fill="#E65100"/>
+                  <circle cx="12" cy="12" r="3" fill="#FF8F00"/>
+                  <circle cx="18" cy="10" r="2.5" fill="#E65100"/>
+                </svg>
+              ),
+            },
+            {
+              title: "Royal Pooja Thali",
+              price: "₹2,199",
+              tag: "Pure Brass",
+              icon: (
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="9" stroke="#D4AF37" strokeWidth="2" fill="#FFF9C4" fillOpacity="0.4"/>
+                  <circle cx="12" cy="12" r="4" stroke="#D4AF37" strokeWidth="1" fill="#FFD54F" fillOpacity="0.6"/>
+                </svg>
+              ),
+            },
+            {
+              title: "Mitti Diya 12-Pack",
+              price: "₹499",
+              tag: "Terracotta",
+              icon: (
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 4c-1 2-2.5 4-2.5 6 0 1.5 1 2.5 2.5 2.5s2.5-1 2.5-2.5c0-2-1.5-4-2.5-6z" fill="#FF9100"/>
+                  <path d="M5 13c0 3.5 3 5 7 5s7-1.5 7-5H5z" fill="#C85A27"/>
+                </svg>
+              ),
+            },
+          ]
+            .slice(0, isMobile ? 2 : isTablet ? 3 : 4)
+            .map((prod, i) => (
+              <div
+                key={i}
+                style={{
+                  border: "1px solid #E8ECEF",
+                  borderRadius: "6px",
+                  padding: "10px",
+                  background: "#FFFFFF",
+                }}
+              >
+                <div
+                  style={{
+                    height: isMobile ? "68px" : "80px",
+                    background: "linear-gradient(135deg, #F9F9FB 0%, #ECEFF1 100%)",
+                    borderRadius: "4px",
+                    marginBottom: "8px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {prod.icon}
+                </div>
+                <div style={{ fontSize: "9px", color: "#D4AF37", fontWeight: 700, textTransform: "uppercase", marginBottom: "2px" }}>
+                  {prod.tag}
+                </div>
+                <div style={{ fontSize: "11px", fontWeight: 600, color: "#222", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  {prod.title}
+                </div>
+                <div style={{ fontSize: "11px", color: "#777", marginTop: "2px", fontWeight: 500 }}>
+                  {prod.price}
+                </div>
+              </div>
+            ))}
+        </div>
+
+        {/* Mobile Home Swipe Bar */}
+        {isMobile && (
+          <div style={{ padding: "8px 0 6px", display: "flex", justifyContent: "center" }}>
+            <div style={{ width: "90px", height: "3px", background: "#333", borderRadius: "2px" }} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Festival Studio Workspace Component ──────────────────────────────
 export default function FestivalConfig() {
   const { festival, shop, config, plan } = useLoaderData();
@@ -416,9 +1014,6 @@ export default function FestivalConfig() {
   // Active section in Left Navigation:
   // 'overview' | 'visual_effects' | 'banner' | 'colors' | 'sound_interaction' | 'scheduling' | 'advanced'
   const [activeSection, setActiveSection] = useState("visual_effects");
-
-  // Device Viewport Simulation: 'desktop' | 'tablet' | 'mobile'
-  const [viewport, setViewport] = useState("desktop");
 
   // Animation Playback: true = playing, false = paused
   const [isPlaying, setIsPlaying] = useState(true);
@@ -575,9 +1170,6 @@ export default function FestivalConfig() {
   const isDussehra = festival.id.includes("dussehra");
   const isSankranti = festival.id.includes("sankranti") || festival.id.includes("pongal");
 
-  // Viewport width styling
-  const canvasWidth = viewport === "mobile" ? "375px" : viewport === "tablet" ? "768px" : "100%";
-
   return (
     <Frame>
       <Page
@@ -585,7 +1177,7 @@ export default function FestivalConfig() {
         subtitle={`${festival.hindiName} • ${festival.region}`}
         backAction={{ content: "Festival Catalog", url: "/app/festivals" }}
         primaryAction={{
-          content: isActive ? "✓ Theme Active" : "▶ Activate on Store",
+          content: isActive ? "Theme Active" : "Activate on Store",
           tone: isActive ? "success" : undefined,
           variant: "primary",
           loading: isSaving,
@@ -622,7 +1214,7 @@ export default function FestivalConfig() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "220px minmax(400px, 1fr) 320px",
+              gridTemplateColumns: "220px minmax(0, 1fr) 320px",
               gap: "16px",
               minHeight: "720px",
               alignItems: "start",
@@ -636,13 +1228,13 @@ export default function FestivalConfig() {
                 </Text>
 
                 {[
-                  { id: "overview", label: "Overview & Status", icon: "📋" },
-                  { id: "visual_effects", label: "Visual Effects Engine", icon: "✨" },
-                  { id: "banner", label: "Banner & Announcements", icon: "🎌" },
-                  { id: "colors", label: "Colors & Materials", icon: "🎨" },
-                  { id: "sound_interaction", label: "Sound & Interaction", icon: "🔔" },
-                  { id: "scheduling", label: "Scheduling & Automation", icon: "📅" },
-                  { id: "advanced", label: "Advanced Safety", icon: "⚡" },
+                  { id: "overview", label: "Overview & Status" },
+                  { id: "visual_effects", label: "Visual Effects Engine" },
+                  { id: "banner", label: "Banner & Announcements" },
+                  { id: "colors", label: "Colors & Materials" },
+                  { id: "sound_interaction", label: "Sound & Interaction" },
+                  { id: "scheduling", label: "Scheduling & Automation" },
+                  { id: "advanced", label: "Advanced Safety" },
                 ].map((item) => {
                   const isSel = activeSection === item.id;
                   return (
@@ -666,7 +1258,9 @@ export default function FestivalConfig() {
                         transition: "all 0.15s ease",
                       }}
                     >
-                      <span>{item.icon}</span>
+                      <span style={{ display: "flex", alignItems: "center", opacity: isSel ? 1 : 0.7 }}>
+                        {CLEAN_ICONS[item.id]}
+                      </span>
                       <span>{item.label}</span>
                     </button>
                   );
@@ -697,37 +1291,17 @@ export default function FestivalConfig() {
               </BlockStack>
             </Card>
 
-            {/* ─── COLUMN 2: Live Storefront Preview (Center) ───────────────── */}
+            {/* ─── COLUMN 2: Multi-Device Responsive Showcase (Center) ─────── */}
             <Card padding="0">
-              <BlockStack gap="0">
-                {/* Viewport Control Bar */}
+              <div style={{ minWidth: 0 }}>
+                {/* Showcase Top Control Bar */}
                 <Box padding="300" background="bg-surface-secondary" borderBlockEndWidth="025" borderColor="border">
                   <InlineStack align="space-between" blockAlign="center">
-                    {/* Viewport Switcher */}
-                    <InlineStack gap="100">
-                      {[
-                        { id: "desktop", label: "🖥️ Desktop" },
-                        { id: "tablet", label: "📱 Tablet" },
-                        { id: "mobile", label: "📱 Mobile" },
-                      ].map((vp) => (
-                        <button
-                          key={vp.id}
-                          onClick={() => setViewport(vp.id)}
-                          style={{
-                            padding: "4px 10px",
-                            fontSize: "12px",
-                            borderRadius: "6px",
-                            border: "1px solid",
-                            borderColor: viewport === vp.id ? "#2C6ECB" : "rgba(0,0,0,0.15)",
-                            background: viewport === vp.id ? "#EBF5FA" : "#FFF",
-                            color: viewport === vp.id ? "#2C6ECB" : "#202223",
-                            cursor: "pointer",
-                            fontWeight: viewport === vp.id ? 600 : 400,
-                          }}
-                        >
-                          {vp.label}
-                        </button>
-                      ))}
+                    <InlineStack gap="200" blockAlign="center">
+                      <Text variant="headingSm" as="h4">
+                        Multi-Device Responsive Showcase
+                      </Text>
+                      <Badge tone="info">Live Sync</Badge>
                     </InlineStack>
 
                     {/* Play/Pause & Before/After controls */}
@@ -735,422 +1309,135 @@ export default function FestivalConfig() {
                       <button
                         onClick={() => setIsPlaying(!isPlaying)}
                         style={{
-                          padding: "4px 8px",
+                          padding: "5px 12px",
                           fontSize: "12px",
                           borderRadius: "6px",
                           border: "1px solid rgba(0,0,0,0.15)",
                           background: "#FFF",
                           cursor: "pointer",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          fontWeight: 500,
                         }}
                         title={isPlaying ? "Pause animations" : "Play animations"}
                       >
-                        {isPlaying ? "⏸ Pause" : "▶ Play"}
+                        {isPlaying ? (
+                          <>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                            <span>Pause</span>
+                          </>
+                        ) : (
+                          <>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            <span>Play</span>
+                          </>
+                        )}
                       </button>
 
                       <button
                         onClick={() => setShowOriginal(!showOriginal)}
                         style={{
-                          padding: "4px 8px",
+                          padding: "5px 12px",
                           fontSize: "12px",
                           borderRadius: "6px",
                           border: "1px solid rgba(0,0,0,0.15)",
                           background: showOriginal ? "#FFF2E2" : "#FFF",
                           cursor: "pointer",
                           color: showOriginal ? "#C05621" : "#202223",
-                          fontWeight: showOriginal ? 600 : 400,
+                          fontWeight: showOriginal ? 600 : 500,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
                         }}
                       >
-                        {showOriginal ? "Showing Before (Off)" : "Before / After"}
+                        <span>{showOriginal ? "Showing Original (Off)" : "Before / After"}</span>
                       </button>
                     </InlineStack>
                   </InlineStack>
                 </Box>
 
-                {/* Simulated Live Storefront Frame */}
+                {/* Side-by-Side Horizontal Scroll Stage */}
                 <div
                   style={{
-                    padding: "24px",
-                    background: "#E5E8EC",
                     display: "flex",
-                    justifyContent: "center",
+                    gap: "24px",
+                    overflowX: "auto",
+                    padding: "24px 20px",
+                    background: "#F1F2F4",
                     alignItems: "flex-start",
-                    minHeight: "640px",
-                    overflow: "hidden",
                   }}
                 >
-                  <div
-                    style={{
-                      width: viewport === "mobile" ? "360px" : viewport === "tablet" ? "580px" : "100%",
-                      maxWidth: "100%",
-                      background: "#FFFFFF",
-                      borderRadius: viewport === "mobile" ? "38px" : viewport === "tablet" ? "22px" : "8px",
-                      boxShadow: "0 15px 35px rgba(0,0,0,0.18)",
-                      position: "relative",
-                      overflow: "hidden",
-                      transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                      border: viewport === "mobile" ? "9px solid #1A1C1E" : viewport === "tablet" ? "9px solid #2B2D42" : "1px solid rgba(0,0,0,0.12)",
-                    }}
-                  >
-                    {/* ─── DESKTOP BROWSER CHROME (Safari Mockup) ────────────────── */}
-                    {viewport === "desktop" && (
-                      <div
-                        style={{
-                          background: "#F1F2F4",
-                          padding: "8px 14px",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "12px",
-                          borderBottom: "1px solid #DCE0E5",
-                        }}
-                      >
-                        <div style={{ display: "flex", gap: "6px" }}>
-                          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#FF5F56", display: "inline-block" }} />
-                          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#FFBD2E", display: "inline-block" }} />
-                          <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#27C93F", display: "inline-block" }} />
-                        </div>
-                        <div
-                          style={{
-                            flex: 1,
-                            background: "#FFFFFF",
-                            borderRadius: "6px",
-                            padding: "3px 12px",
-                            fontSize: "11px",
-                            color: "#555",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: "6px",
-                            border: "1px solid #E1E3E6",
-                          }}
-                        >
-                          <span>🔒</span>
-                          <span style={{ fontWeight: 500 }}>https://luxestore-diwali.myshopify.com</span>
-                          <span style={{ color: "#999", marginLeft: "auto", cursor: "pointer" }}>↻</span>
-                        </div>
-                      </div>
-                    )}
+                  <DeviceStorefrontMock
+                    deviceType="desktop"
+                    festival={festival}
+                    showOriginal={showOriginal}
+                    enableEffects={enableEffects}
+                    garlandPlacement={garlandPlacement}
+                    garlandLayout={garlandLayout}
+                    garlandStyle={garlandStyle}
+                    enableSeriesLights={enableSeriesLights}
+                    seriesLightsTheme={seriesLightsTheme}
+                    seriesLightsMode={seriesLightsMode}
+                    garlandOffset={garlandOffset}
+                    diyaStyle={diyaStyle}
+                    flameGlow={flameGlow}
+                    diyaSize={diyaSize}
+                    diyaPosition={diyaPosition}
+                    diyaMarginX={diyaMarginX}
+                    diyaMarginY={diyaMarginY}
+                    diyaHideOnMobile={diyaHideOnMobile}
+                    enableBanner={enableBanner}
+                    bannerText={bannerText}
+                  />
 
-                    {/* ─── TABLET SENSOR BEZEL ──────────────────────────────────── */}
-                    {viewport === "tablet" && (
-                      <div style={{ background: "#2B2D42", height: "12px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                        <span style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#4A4D68", display: "inline-block" }} />
-                      </div>
-                    )}
+                  <DeviceStorefrontMock
+                    deviceType="tablet"
+                    festival={festival}
+                    showOriginal={showOriginal}
+                    enableEffects={enableEffects}
+                    garlandPlacement={garlandPlacement}
+                    garlandLayout={garlandLayout}
+                    garlandStyle={garlandStyle}
+                    enableSeriesLights={enableSeriesLights}
+                    seriesLightsTheme={seriesLightsTheme}
+                    seriesLightsMode={seriesLightsMode}
+                    garlandOffset={garlandOffset}
+                    diyaStyle={diyaStyle}
+                    flameGlow={flameGlow}
+                    diyaSize={diyaSize}
+                    diyaPosition={diyaPosition}
+                    diyaMarginX={diyaMarginX}
+                    diyaMarginY={diyaMarginY}
+                    diyaHideOnMobile={diyaHideOnMobile}
+                    enableBanner={enableBanner}
+                    bannerText={bannerText}
+                  />
 
-                    {/* ─── MOBILE PHONE STATUS BAR & DYNAMIC ISLAND ─────────────── */}
-                    {viewport === "mobile" && (
-                      <div style={{ background: "#000000", color: "#FFFFFF", padding: "4px 16px 6px" }}>
-                        <div
-                          style={{
-                            width: "84px",
-                            height: "18px",
-                            background: "#1E1E1E",
-                            borderRadius: "10px",
-                            margin: "0 auto 4px",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: "6px",
-                          }}
-                        >
-                          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#0D0D0D" }} />
-                          <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "#222" }} />
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "11px", fontWeight: 600 }}>
-                          <span>9:41</span>
-                          <div style={{ display: "flex", gap: "5px", fontSize: "10px" }}>
-                            <span>5G</span>
-                            <span>📶</span>
-                            <span>🔋 100%</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Announcement Bar */}
-                    {!showOriginal && enableBanner && (
-                      <div
-                        style={{
-                          background: "linear-gradient(90deg, #1A0A00 0%, #2A1502 50%, #1A0A00 100%)",
-                          color: "#FFF8DC",
-                          padding: viewport === "mobile" ? "6px 12px" : "8px 16px",
-                          fontSize: viewport === "mobile" ? "11px" : "12px",
-                          textAlign: "center",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "8px",
-                          borderBottom: "1px solid rgba(212, 175, 55, 0.3)",
-                        }}
-                      >
-                        <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{bannerText}</span>
-                        <span
-                          style={{
-                            background: "rgba(212, 175, 55, 0.2)",
-                            border: "1px solid #D4AF37",
-                            color: "#FFD700",
-                            borderRadius: "10px",
-                            padding: "1px 7px",
-                            fontSize: "10px",
-                            fontWeight: 700,
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          UTSAV25
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Top Toran (if top_fixed) */}
-                    {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
-                      <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: "58px" }}>
-                        <ToranPreviewWidget
-                          festivalId={festival.id}
-                          garlandStyle={garlandStyle}
-                          withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
-                          lightsTheme={seriesLightsTheme}
-                          lightsMode={seriesLightsMode}
-                        />
-                      </div>
-                    )}
-
-                    {/* ─── AUTHENTIC STORE NAVIGATION ────────────────────────────── */}
-                    <div
-                      style={{
-                        padding: viewport === "mobile" ? "12px 16px" : "14px 22px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        borderBottom: "1px solid #EEEEEE",
-                        position: "relative",
-                        zIndex: 10,
-                        background: "#FFFFFF",
-                      }}
-                    >
-                      {/* Left side: Hamburger on Mobile, Logo on Desktop/Tablet */}
-                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                        {viewport === "mobile" && (
-                          <span style={{ fontSize: "16px", cursor: "pointer", color: "#222" }}>☰</span>
-                        )}
-                        <div style={{ fontWeight: 800, fontSize: viewport === "mobile" ? "15px" : "18px", color: "#111", letterSpacing: "0.5px" }}>
-                          {festival.emoji} LUXE STORE
-                        </div>
-                      </div>
-
-                      {/* Desktop Horizontal Navigation Links */}
-                      {viewport === "desktop" && (
-                        <div style={{ display: "flex", gap: "20px", fontSize: "13px", color: "#555", fontWeight: 500 }}>
-                          <span style={{ color: "#000", fontWeight: 700, borderBottom: "2px solid #D4AF37", paddingBottom: "2px" }}>Home</span>
-                          <span style={{ cursor: "pointer" }}>Festive Edit</span>
-                          <span style={{ cursor: "pointer" }}>Diwali Specials</span>
-                          <span style={{ cursor: "pointer" }}>Pooja Sets</span>
-                          <span style={{ cursor: "pointer" }}>About Us</span>
-                          <span style={{ cursor: "pointer" }}>Contact</span>
-                        </div>
-                      )}
-
-                      {/* Tablet Compact Nav */}
-                      {viewport === "tablet" && (
-                        <div style={{ display: "flex", gap: "14px", fontSize: "12px", color: "#555", fontWeight: 500 }}>
-                          <span style={{ color: "#000", fontWeight: 700 }}>Home</span>
-                          <span>Festive Edit</span>
-                          <span>Diwali Specials</span>
-                          <span>Contact</span>
-                        </div>
-                      )}
-
-                      {/* Right Icons: Search + Cart */}
-                      <div style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "14px", color: "#333" }}>
-                        {viewport === "desktop" && (
-                          <div style={{ background: "#F4F5F7", borderRadius: "16px", padding: "4px 12px", fontSize: "12px", color: "#888", display: "flex", alignItems: "center", gap: "6px" }}>
-                            <span>🔍</span>
-                            <span>Search pooja decor...</span>
-                          </div>
-                        )}
-                        {viewport !== "desktop" && <span>🔍</span>}
-                        <span style={{ fontWeight: 600 }}>🛍️ (2)</span>
-                      </div>
-                    </div>
-
-                    {/* Top Toran (if below_header - Doorway Threshold Docking) */}
-                    {!showOriginal && enableEffects && garlandPlacement === "below_header" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
-                      <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: "58px", marginTop: `${garlandOffset}px` }}>
-                        <ToranPreviewWidget
-                          festivalId={festival.id}
-                          garlandStyle={garlandStyle}
-                          withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
-                          lightsTheme={seriesLightsTheme}
-                          lightsMode={seriesLightsMode}
-                        />
-                      </div>
-                    )}
-
-                    {!showOriginal && enableEffects && (
-                      <>
-                        {/* 2. Side Garlands (Hidden on Mobile) */}
-                        {viewport !== "mobile" && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
-                          <>
-                            <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "116px" : "60px", left: "6px", zIndex: 11, pointerEvents: "none" }}>
-                              <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
-                            </div>
-                            <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "116px" : "60px", right: "6px", zIndex: 11, pointerEvents: "none" }}>
-                              <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
-                            </div>
-                          </>
-                        )}
-
-                        {/* 3. Realistic Diya (Diwali Only) with Customizable Margins & Placements */}
-                        {isDiwali && (viewport !== "mobile" || !diyaHideOnMobile) && (
-                          <>
-                            {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four") && (
-                              <div style={{ position: "absolute", bottom: `${diyaMarginY}px`, left: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={viewport === "mobile" ? "small" : diyaSize} />
-                              </div>
-                            )}
-                            {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four") && (
-                              <div style={{ position: "absolute", bottom: `${diyaMarginY}px`, right: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={viewport === "mobile" ? "small" : diyaSize} />
-                              </div>
-                            )}
-                            {(diyaPosition === "top_corners" || diyaPosition === "top_left" || diyaPosition === "all_four") && (
-                              <div style={{ position: "absolute", top: `${diyaMarginY + 54}px`, left: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={viewport === "mobile" ? "small" : diyaSize} />
-                              </div>
-                            )}
-                            {(diyaPosition === "top_corners" || diyaPosition === "top_right" || diyaPosition === "all_four") && (
-                              <div style={{ position: "absolute", top: `${diyaMarginY + 54}px`, right: `${diyaMarginX}px`, zIndex: 15, pointerEvents: "none" }}>
-                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={viewport === "mobile" ? "small" : diyaSize} />
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </>
-                    )}
-
-                    {/* ─── RESPONSIVE STORE HERO ─────────────────────────────────── */}
-                    <div
-                      style={{
-                        padding: viewport === "mobile" ? "28px 16px" : "44px 24px",
-                        textAlign: "center",
-                        background: "linear-gradient(180deg, #FAFAFA 0%, #F5F5F7 100%)",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "inline-block",
-                          padding: "4px 12px",
-                          background: "#E8F5E9",
-                          color: "#2E7D32",
-                          borderRadius: "12px",
-                          fontSize: "11px",
-                          fontWeight: 700,
-                          marginBottom: "12px",
-                        }}
-                      >
-                        FESTIVE SEASON EXCLUSIVE
-                      </div>
-                      <div
-                        style={{
-                          fontSize: viewport === "mobile" ? "22px" : viewport === "tablet" ? "26px" : "32px",
-                          fontWeight: 800,
-                          color: "#111",
-                          marginBottom: "8px",
-                          letterSpacing: "-0.5px",
-                        }}
-                      >
-                        {festival.name} Collection
-                      </div>
-                      <div
-                        style={{
-                          fontSize: viewport === "mobile" ? "13px" : "14px",
-                          color: "#666",
-                          maxWidth: "420px",
-                          margin: "0 auto 20px",
-                          lineHeight: "1.5",
-                        }}
-                      >
-                        Celebrate auspicious traditions with handcrafted artisanal home decor and festive apparel.
-                      </div>
-                      <button
-                        style={{
-                          background: "#111",
-                          color: "#FFF",
-                          padding: viewport === "mobile" ? "12px 24px" : "10px 28px",
-                          borderRadius: "6px",
-                          border: "none",
-                          fontSize: "13px",
-                          fontWeight: 600,
-                          cursor: "pointer",
-                          width: viewport === "mobile" ? "100%" : "auto",
-                        }}
-                      >
-                        Shop Now →
-                      </button>
-                    </div>
-
-                    {/* ─── RESPONSIVE PRODUCT CATALOG FEED ──────────────────────── */}
-                    <div
-                      style={{
-                        padding: viewport === "mobile" ? "16px" : "24px 22px",
-                        display: "grid",
-                        gridTemplateColumns: viewport === "mobile" ? "1fr 1fr" : viewport === "tablet" ? "repeat(3, 1fr)" : "repeat(4, 1fr)",
-                        gap: viewport === "mobile" ? "10px" : "14px",
-                      }}
-                    >
-                      {[
-                        { title: "Brass Akhand Diya", price: "₹1,499", tag: "Bestseller" },
-                        { title: "Marigold Toran", price: "₹899", tag: "Handmade" },
-                        { title: "Pooja Thali Set", price: "₹2,199", tag: "Pure Brass" },
-                        { title: "Mitti Diya (Set of 12)", price: "₹499", tag: "Terracotta" },
-                      ]
-                        .slice(0, viewport === "mobile" ? 2 : viewport === "tablet" ? 3 : 4)
-                        .map((prod, i) => (
-                          <div
-                            key={i}
-                            style={{
-                              border: "1px solid #E8ECEF",
-                              borderRadius: "8px",
-                              padding: "12px",
-                              background: "#FFFFFF",
-                              boxShadow: "0 2px 6px rgba(0,0,0,0.03)",
-                            }}
-                          >
-                            <div
-                              style={{
-                                height: viewport === "mobile" ? "80px" : "100px",
-                                background: "linear-gradient(135deg, #F9F9FB 0%, #ECEFF1 100%)",
-                                borderRadius: "6px",
-                                marginBottom: "10px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                fontSize: "24px",
-                              }}
-                            >
-                              {i === 0 ? "🪔" : i === 1 ? "🌿" : i === 2 ? "✨" : "🧱"}
-                            </div>
-                            <div style={{ fontSize: "10px", color: "#D4AF37", fontWeight: 700, textTransform: "uppercase", marginBottom: "2px" }}>
-                              {prod.tag}
-                            </div>
-                            <div style={{ fontSize: "12px", fontWeight: 600, color: "#222", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                              {prod.title}
-                            </div>
-                            <div style={{ fontSize: "12px", color: "#777", marginTop: "2px", fontWeight: 500 }}>
-                              {prod.price}
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-
-                    {/* ─── MOBILE HOME SWIPE INDICATOR BAR ───────────────────────── */}
-                    {viewport === "mobile" && (
-                      <div style={{ padding: "10px 0 6px", display: "flex", justifyContent: "center" }}>
-                        <div style={{ width: "110px", height: "4px", background: "#333", borderRadius: "2px" }} />
-                      </div>
-                    )}
-                  </div>
+                  <DeviceStorefrontMock
+                    deviceType="mobile"
+                    festival={festival}
+                    showOriginal={showOriginal}
+                    enableEffects={enableEffects}
+                    garlandPlacement={garlandPlacement}
+                    garlandLayout={garlandLayout}
+                    garlandStyle={garlandStyle}
+                    enableSeriesLights={enableSeriesLights}
+                    seriesLightsTheme={seriesLightsTheme}
+                    seriesLightsMode={seriesLightsMode}
+                    garlandOffset={garlandOffset}
+                    diyaStyle={diyaStyle}
+                    flameGlow={flameGlow}
+                    diyaSize={diyaSize}
+                    diyaPosition={diyaPosition}
+                    diyaMarginX={diyaMarginX}
+                    diyaMarginY={diyaMarginY}
+                    diyaHideOnMobile={diyaHideOnMobile}
+                    enableBanner={enableBanner}
+                    bannerText={bannerText}
+                  />
                 </div>
-              </BlockStack>
+              </div>
             </Card>
 
             {/* ─── COLUMN 3: Contextual Property Inspector (Right, 320px) ───── */}
@@ -1164,15 +1451,17 @@ export default function FestivalConfig() {
                     </Text>
                     <Divider />
 
-                    <Checkbox
+                    <ToggleSwitch
                       label="Enable Storefront Visual Effects"
                       checked={enableEffects}
                       onChange={(val) => { setEnableEffects(val); markDirty(); }}
+                      helpText="Master toggle for all festive decorations, garlands, and storefront overlays"
                     />
 
                     {enableEffects && (
                       <>
-                        <Text variant="bodySm" fontWeight="bold">🌿 Toran Garland & Borders</Text>
+                        <Divider />
+                        <Text variant="bodySm" fontWeight="bold">Toran Garland & Borders</Text>
                         <Select
                           label="Garland Layout"
                           options={[
@@ -1189,7 +1478,7 @@ export default function FestivalConfig() {
                           label="Garland Docking Position"
                           helpText="Prevents garland from overlapping store logo, navigation menu, or cart."
                           options={[
-                            { label: "🌿 Below Store Navigation (Recommended — No Menu Overlap)", value: "below_header" },
+                            { label: "Below Store Navigation (Recommended — No Menu Overlap)", value: "below_header" },
                             { label: "Top of Screen (Fixed 0px)", value: "top_fixed" },
                           ]}
                           value={garlandPlacement}
@@ -1206,20 +1495,22 @@ export default function FestivalConfig() {
                           onChange={(val) => { setGarlandScrollMode(val); markDirty(); }}
                         />
 
-                        <TextField
-                          label="Vertical Alignment Fine-Tuning (px)"
-                          type="number"
-                          value={String(garlandOffset)}
-                          onChange={(val) => { setGarlandOffset(parseInt(val, 10) || 0); markDirty(); }}
-                          helpText="Nudge the toran up or down in pixels (e.g. 0, -10, +15) to match your custom theme."
-                          autoComplete="off"
+                        <LuxurySlider
+                          label="Vertical Alignment Fine-Tuning"
+                          value={garlandOffset}
+                          min={-50}
+                          max={50}
+                          step={1}
+                          unit="px"
+                          onChange={(val) => { setGarlandOffset(val); markDirty(); }}
+                          helpText="Nudge the toran up or down in pixels (-50px to +50px) to match your custom theme."
                         />
 
                         {isDiwali && (
                           <>
                             <Divider />
-                            <Text variant="bodySm" fontWeight="bold">💡 Series Lights (Diwali Only)</Text>
-                            <Checkbox
+                            <Text variant="bodySm" fontWeight="bold">Series Lights (Diwali Only)</Text>
+                            <ToggleSwitch
                               label="Enable Series Lights (Ladi / Fairy Lights)"
                               checked={enableSeriesLights}
                               onChange={(val) => { setEnableSeriesLights(val); markDirty(); }}
@@ -1230,10 +1521,10 @@ export default function FestivalConfig() {
                                 <Select
                                   label="Lights Glow Palette"
                                   options={[
-                                    { label: "🌟 Royal Warm Gold (2700K)", value: "warm_gold" },
-                                    { label: "🌈 Multi-Color Festive Jewels", value: "festive_multicolor" },
-                                    { label: "🕯️ Deep Amber Radiance", value: "amber_radiance" },
-                                    { label: "⚪ Moonlit Pearl White", value: "pearl_white" },
+                                    { label: "Royal Warm Gold (2700K)", value: "warm_gold" },
+                                    { label: "Multi-Color Festive Jewels", value: "festive_multicolor" },
+                                    { label: "Deep Amber Radiance", value: "amber_radiance" },
+                                    { label: "Moonlit Pearl White", value: "pearl_white" },
                                   ]}
                                   value={seriesLightsTheme}
                                   onChange={(val) => { setSeriesLightsTheme(val); markDirty(); }}
@@ -1241,9 +1532,9 @@ export default function FestivalConfig() {
                                 <Select
                                   label="Light Animation Mode"
                                   options={[
-                                    { label: "⚡ Cascading Chaser Wave", value: "chaser" },
-                                    { label: "✨ Gentle Twinkle & Shimmer", value: "twinkle" },
-                                    { label: "💡 Steady Luminous Glow", value: "steady" },
+                                    { label: "Cascading Chaser Wave", value: "chaser" },
+                                    { label: "Gentle Twinkle & Shimmer", value: "twinkle" },
+                                    { label: "Steady Luminous Glow", value: "steady" },
                                   ]}
                                   value={seriesLightsMode}
                                   onChange={(val) => { setSeriesLightsMode(val); markDirty(); }}
@@ -1252,15 +1543,15 @@ export default function FestivalConfig() {
                             )}
 
                             <Divider />
-                            <Text variant="bodySm" fontWeight="bold">🪔 Realistic Diya Engine</Text>
+                            <Text variant="bodySm" fontWeight="bold">Realistic Diya Engine</Text>
                             <Select
                               label="Artisanal Diya Style"
                               options={[
-                                { label: "🏺 Royal Brass (राजसी पीतल)", value: "royal_brass" },
-                                { label: "🧱 Earthen Terracotta (मिट्टी का दीया)", value: "terracotta_clay" },
-                                { label: "🪓 Antique Copper (प्राचीन तांबा)", value: "antique_copper" },
-                                { label: "📐 Minimal Contemporary (आधुनिक)", value: "minimal_contemporary" },
-                                { label: "🌸 Marigold Urli (गेंदा फूल अर्ली)", value: "marigold_urli" },
+                                { label: "Royal Brass (राजसी पीतल)", value: "royal_brass" },
+                                { label: "Earthen Terracotta (मिट्टी का दीया)", value: "terracotta_clay" },
+                                { label: "Antique Copper (प्राचीन तांबा)", value: "antique_copper" },
+                                { label: "Minimal Contemporary (आधुनिक)", value: "minimal_contemporary" },
+                                { label: "Marigold Urli (गेंदा फूल अर्ली)", value: "marigold_urli" },
                               ]}
                               value={diyaStyle}
                               onChange={(val) => { setDiyaStyle(val); markDirty(); }}
@@ -1290,25 +1581,27 @@ export default function FestivalConfig() {
                               value={diyaPosition}
                               onChange={(val) => { setDiyaPosition(val); markDirty(); }}
                             />
-                            <InlineGrid columns={2} gap="200">
-                              <TextField
-                                label="Horizontal Offset (px)"
-                                type="number"
-                                value={String(diyaMarginX)}
-                                onChange={(val) => { setDiyaMarginX(parseInt(val, 10) || 0); markDirty(); }}
-                                helpText="Distance from side edge"
-                                autoComplete="off"
-                              />
-                              <TextField
-                                label="Vertical Offset (px)"
-                                type="number"
-                                value={String(diyaMarginY)}
-                                onChange={(val) => { setDiyaMarginY(parseInt(val, 10) || 0); markDirty(); }}
-                                helpText="Distance from top/bottom"
-                                autoComplete="off"
-                              />
-                            </InlineGrid>
-                            <Checkbox
+                            <LuxurySlider
+                              label="Horizontal Diya Margin"
+                              value={diyaMarginX}
+                              min={0}
+                              max={80}
+                              step={1}
+                              unit="px"
+                              onChange={(val) => { setDiyaMarginX(val); markDirty(); }}
+                              helpText="Distance from left and right screen borders"
+                            />
+                            <LuxurySlider
+                              label="Vertical Diya Margin"
+                              value={diyaMarginY}
+                              min={0}
+                              max={80}
+                              step={1}
+                              unit="px"
+                              onChange={(val) => { setDiyaMarginY(val); markDirty(); }}
+                              helpText="Distance from top and bottom screen borders"
+                            />
+                            <ToggleSwitch
                               label="Hide Diyas on Mobile Screens (<480px)"
                               checked={diyaHideOnMobile}
                               onChange={(val) => { setDiyaHideOnMobile(val); markDirty(); }}
@@ -1316,7 +1609,7 @@ export default function FestivalConfig() {
                             />
 
                             <Divider />
-                            <Text variant="bodySm" fontWeight="bold">🎆 Fireworks Engine</Text>
+                            <Text variant="bodySm" fontWeight="bold">Fireworks Engine</Text>
                             <Select
                               label="Fireworks Frequency"
                               options={[
@@ -1342,10 +1635,11 @@ export default function FestivalConfig() {
                       Banner & Announcement
                     </Text>
                     <Divider />
-                    <Checkbox
+                    <ToggleSwitch
                       label="Show Announcement Bar on Storefront"
                       checked={enableBanner}
                       onChange={(val) => { setEnableBanner(val); markDirty(); }}
+                      helpText="Displays festive discount announcement strip across top of store"
                     />
                     {enableBanner && (
                       <>
@@ -1406,7 +1700,7 @@ export default function FestivalConfig() {
                       Sound & Interaction
                     </Text>
                     <Divider />
-                    <Checkbox
+                    <ToggleSwitch
                       label="Interactive Tap-to-Bless (Shopper Diya Blessing)"
                       checked={interactiveBlessing}
                       onChange={(val) => { setInteractiveBlessing(val); markDirty(); }}
@@ -1415,8 +1709,8 @@ export default function FestivalConfig() {
                     <Select
                       label="Festive Soundscape (Web Audio Synthesizer)"
                       options={[
-                        { label: "🔇 Silent (100% Muted — Default)", value: "muted" },
-                        { label: "🔔 Auspicious Temple Bells on Diya Tap", value: "temple_bells" },
+                        { label: "Silent (100% Muted — Default)", value: "muted" },
+                        { label: "Auspicious Temple Bells on Diya Tap", value: "temple_bells" },
                       ]}
                       value={fireworksSound}
                       onChange={(val) => { setFireworksSound(val); markDirty(); }}
@@ -1459,16 +1753,16 @@ export default function FestivalConfig() {
                     </Text>
                     <Divider />
                     <Text variant="bodyXs" tone="success">
-                      ✓ Non-Blocking: Garlands and effects use pointer-events: none
+                      Non-Blocking: Garlands and effects use pointer-events: none
                     </Text>
                     <Text variant="bodyXs" tone="success">
-                      ✓ Mobile Optimization: Side garlands auto-suppressed under 640px
+                      Mobile Optimization: Side garlands auto-suppressed under 640px
                     </Text>
                     <Text variant="bodyXs" tone="success">
-                      ✓ Accessibility: prefers-reduced-motion stops animation loops
+                      Accessibility: prefers-reduced-motion stops animation loops
                     </Text>
                     <Text variant="bodyXs" tone="success">
-                      ✓ Zero Layout Shifts: Fixed overlays do not push theme DOM
+                      Zero Layout Shifts: Fixed overlays do not push theme DOM
                     </Text>
                   </BlockStack>
                 )}
@@ -1480,10 +1774,11 @@ export default function FestivalConfig() {
                       Theme Palette Tokens
                     </Text>
                     <Divider />
-                    <Checkbox
+                    <ToggleSwitch
                       label="Swap CSS Variables with Festival Colors"
                       checked={enableColorSwap}
                       onChange={(val) => { setEnableColorSwap(val); markDirty(); }}
+                      helpText="Injects curated festive accents into theme design tokens"
                     />
                     <InlineGrid columns={2} gap="200">
                       <div>
