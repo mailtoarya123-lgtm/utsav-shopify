@@ -584,15 +584,14 @@ function DeviceStorefrontMock({
 }) {
   const isDiwali = (festival.id || "").includes("diwali");
   const isDesktop = deviceType === "desktop";
-  const isTablet = deviceType === "tablet";
   const isMobile = deviceType === "mobile";
 
-  const flexRatio = isDesktop ? "1.4" : isTablet ? "0.95" : "0.65";
-  const maxW = isDesktop ? "380px" : isTablet ? "240px" : "165px";
-  const minW = isDesktop ? "260px" : isTablet ? "170px" : "120px";
-  const aspectRatio = isDesktop ? "16 / 10" : isTablet ? "3 / 4" : "9 / 19.5";
-  const titleLabel = isDesktop ? "Desktop" : isTablet ? "Tablet" : "Mobile";
-  const resLabel = isDesktop ? "16:10 • 1440×900" : isTablet ? "3:4 • 768×1024" : "9:19.5 • 375×812";
+  const flexRatio = isDesktop ? "2.6" : "1.0";
+  const maxW = isDesktop ? "560px" : "195px";
+  const minW = isDesktop ? "380px" : "145px";
+  const aspectRatio = isDesktop ? "16 / 10" : "9 / 19.5";
+  const titleLabel = isDesktop ? "Desktop" : "Mobile";
+  const resLabel = isDesktop ? "16:10 • 1440×900" : "9:19.5 • 375×812";
 
   // Dynamic Diya Sizing & Viewport Positioning
   const diyaMultiplier =
@@ -603,10 +602,10 @@ function DeviceStorefrontMock({
       : diyaSize === "xlarge"
       ? 1.5
       : 1.0;
-  const baseDiyaPx = isMobile ? 18 : isTablet ? 21 : 24;
+  const baseDiyaPx = isMobile ? 18 : 28;
   const effectiveDiyaPx = Math.round(baseDiyaPx * diyaMultiplier);
-  const scaledMarginX = Math.round((diyaMarginX || 0) * 0.25) + (isMobile ? 3 : 5);
-  const scaledMarginY = Math.round((diyaMarginY || 0) * 0.25) + (isMobile ? 3 : 5);
+  const scaledMarginX = Math.round((diyaMarginX || 0) * 0.25) + (isMobile ? 3 : 6);
+  const scaledMarginY = Math.round((diyaMarginY || 0) * 0.25) + (isMobile ? 3 : 6);
 
   return (
     <div
@@ -642,11 +641,11 @@ function DeviceStorefrontMock({
           width: "100%",
           aspectRatio: aspectRatio,
           background: "#FFFFFF",
-          borderRadius: isMobile ? "24px" : isTablet ? "14px" : "8px",
+          borderRadius: isMobile ? "24px" : "8px",
           boxShadow: "0 6px 20px rgba(0,0,0,0.10)",
           position: "relative",
           overflow: "hidden",
-          border: isMobile ? "6px solid #1A1C1E" : isTablet ? "6px solid #2B2D42" : "1px solid #DCE0E5",
+          border: isMobile ? "6px solid #1A1C1E" : "1px solid #DCE0E5",
           display: "flex",
           flexDirection: "column",
         }}
@@ -687,13 +686,6 @@ function DeviceStorefrontMock({
               <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#6D7175" strokeWidth="2" style={{ flexShrink: 0 }}><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
               <span style={{ fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>luxestore.myshopify.com</span>
             </div>
-          </div>
-        )}
-
-        {/* Tablet Sensor Bezel */}
-        {isTablet && (
-          <div style={{ background: "#2B2D42", height: "8px", display: "flex", justifyContent: "center", alignItems: "center", flexShrink: 0 }}>
-            <span style={{ width: "3.5px", height: "3.5px", borderRadius: "50%", background: "#4A4D68", display: "inline-block" }} />
           </div>
         )}
 
@@ -757,14 +749,14 @@ function DeviceStorefrontMock({
 
         {/* Top Toran (if top_fixed) */}
         {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
-          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "20px" : isTablet ? "26px" : "30px", flexShrink: 0 }}>
+          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "20px" : "32px", flexShrink: 0 }}>
             <ToranPreviewWidget
               festivalId={festival.id}
               garlandStyle={garlandStyle}
               withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
               lightsTheme={seriesLightsTheme}
               lightsMode={seriesLightsMode}
-              height={isMobile ? 20 : isTablet ? 26 : 30}
+              height={isMobile ? 20 : 32}
             />
           </div>
         )}
@@ -772,7 +764,7 @@ function DeviceStorefrontMock({
         {/* Store Navigation Bar */}
         <div
           style={{
-            padding: isMobile ? "4px 8px" : "6px 10px",
+            padding: isMobile ? "4px 8px" : "6px 12px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -790,31 +782,24 @@ function DeviceStorefrontMock({
                 <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
               </svg>
             )}
-            <div style={{ fontWeight: 800, fontSize: isMobile ? "9px" : isTablet ? "10px" : "10.5px", color: "#111", letterSpacing: "0.2px", whiteSpace: "nowrap" }}>
+            <div style={{ fontWeight: 800, fontSize: isMobile ? "9px" : "11px", color: "#111", letterSpacing: "0.2px", whiteSpace: "nowrap" }}>
               LUXE STORE
             </div>
           </div>
 
           {/* Desktop Navigation Links */}
           {isDesktop && (
-            <div style={{ display: "flex", gap: "8px", fontSize: "8px", color: "#555", fontWeight: 500, overflow: "hidden", whiteSpace: "nowrap" }}>
+            <div style={{ display: "flex", gap: "10px", fontSize: "8.5px", color: "#555", fontWeight: 500, overflow: "hidden", whiteSpace: "nowrap" }}>
               <span style={{ color: "#000", fontWeight: 700 }}>Home</span>
-              <span>Festive</span>
-              <span>Diwali</span>
-              <span>Decor</span>
-            </div>
-          )}
-
-          {/* Tablet Compact Nav */}
-          {isTablet && (
-            <div style={{ display: "flex", gap: "6px", fontSize: "7.5px", color: "#555", fontWeight: 500, overflow: "hidden", whiteSpace: "nowrap" }}>
-              <span style={{ color: "#000", fontWeight: 700 }}>Home</span>
-              <span>Festive</span>
+              <span>Festive Collection</span>
+              <span>Diwali Specials</span>
+              <span>Pooja Sets</span>
+              <span>Artisanal Decor</span>
             </div>
           )}
 
           {/* Search + Cart */}
-          <div style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "8.5px", color: "#333", flexShrink: 0 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "8.5px", color: "#333", flexShrink: 0 }}>
             {isDesktop && (
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -835,14 +820,14 @@ function DeviceStorefrontMock({
           <div style={{ flex: 1, overflowY: "auto", position: "relative", scrollbarWidth: "none" }}>
             {/* Below-header Toran */}
             {!showOriginal && enableEffects && garlandPlacement === "below_header" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
-              <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "20px" : isTablet ? "26px" : "30px", marginTop: `${Math.round(garlandOffset * 0.5)}px` }}>
+              <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "20px" : "32px", marginTop: `${Math.round(garlandOffset * 0.5)}px` }}>
                 <ToranPreviewWidget
                   festivalId={festival.id}
                   garlandStyle={garlandStyle}
                   withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"}
                   lightsTheme={seriesLightsTheme}
                   lightsMode={seriesLightsMode}
-                  height={isMobile ? 20 : isTablet ? 26 : 30}
+                  height={isMobile ? 20 : 32}
                 />
               </div>
             )}
@@ -850,11 +835,11 @@ function DeviceStorefrontMock({
             {/* Side Garlands */}
             {!showOriginal && enableEffects && !isMobile && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
               <>
-                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "24px" : "2px", left: "2px", zIndex: 11, pointerEvents: "none" }}>
-                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} height={isTablet ? 90 : 100} width={isTablet ? 12 : 14} />
+                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "26px" : "2px", left: "2px", zIndex: 11, pointerEvents: "none" }}>
+                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} height={120} width={14} />
                 </div>
-                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "24px" : "2px", right: "2px", zIndex: 11, pointerEvents: "none" }}>
-                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} height={isTablet ? 90 : 100} width={isTablet ? 12 : 14} />
+                <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "26px" : "2px", right: "2px", zIndex: 11, pointerEvents: "none" }}>
+                  <SideGarlandPreviewWidget withLights={isDiwali && enableSeriesLights && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} height={120} width={14} />
                 </div>
               </>
             )}
@@ -862,7 +847,7 @@ function DeviceStorefrontMock({
             {/* Hero Section */}
             <div
               style={{
-                padding: isMobile ? "8px 6px 6px" : isTablet ? "12px 8px 8px" : "14px 10px 10px",
+                padding: isMobile ? "8px 6px 6px" : "14px 12px 10px",
                 textAlign: "center",
                 background: "linear-gradient(180deg, #FAFAFA 0%, #F5F5F7 100%)",
               }}
@@ -883,7 +868,7 @@ function DeviceStorefrontMock({
               </div>
               <div
                 style={{
-                  fontSize: isMobile ? "10px" : isTablet ? "11.5px" : "12.5px",
+                  fontSize: isMobile ? "10px" : "13.5px",
                   fontWeight: 800,
                   color: "#111",
                   marginBottom: "2px",
@@ -897,9 +882,9 @@ function DeviceStorefrontMock({
               </div>
               <div
                 style={{
-                  fontSize: "8px",
+                  fontSize: isMobile ? "7.5px" : "8.5px",
                   color: "#666",
-                  maxWidth: "240px",
+                  maxWidth: "280px",
                   margin: "0 auto 5px",
                   lineHeight: "1.2",
                   overflow: "hidden",
@@ -913,10 +898,10 @@ function DeviceStorefrontMock({
                 style={{
                   background: "#111",
                   color: "#FFF",
-                  padding: "3px 9px",
+                  padding: isMobile ? "3px 9px" : "4px 12px",
                   borderRadius: "4px",
                   border: "none",
-                  fontSize: "8px",
+                  fontSize: isMobile ? "8px" : "8.5px",
                   fontWeight: 600,
                   cursor: "pointer",
                 }}
@@ -928,10 +913,10 @@ function DeviceStorefrontMock({
             {/* Product Catalog Grid (Includes 36px bottom padding so products are never blocked by corner diyas) */}
             <div
               style={{
-                padding: "5px 6px 36px",
+                padding: "6px 8px 36px",
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                gap: "4px",
+                gap: "6px",
               }}
             >
               {[
@@ -940,7 +925,7 @@ function DeviceStorefrontMock({
                   price: "₹1,499",
                   tag: "Bestseller",
                   icon: (
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                       <path d="M12 3c-1.5 3-3.5 5.5-3.5 8 0 2 1.5 3.5 3.5 3.5s3.5-1.5 3.5-3.5c0-2.5-2-5-3.5-8z" fill="#D4AF37"/>
                       <path d="M4 14c0 4 3.5 6 8 6s8-2 8-6H4z" fill="#996515"/>
                     </svg>
@@ -951,7 +936,7 @@ function DeviceStorefrontMock({
                   price: "₹899",
                   tag: "Handmade",
                   icon: (
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                       <path d="M3 6q9 12 18 0" stroke="#C62828" strokeWidth="2" fill="none"/>
                       <circle cx="6" cy="10" r="2.5" fill="#E65100"/>
                       <circle cx="12" cy="12" r="3" fill="#FF8F00"/>
@@ -965,16 +950,16 @@ function DeviceStorefrontMock({
                   style={{
                     border: "1px solid #E8ECEF",
                     borderRadius: "5px",
-                    padding: "4px",
+                    padding: "6px",
                     background: "#FFFFFF",
                   }}
                 >
                   <div
                     style={{
-                      height: "34px",
+                      height: isMobile ? "34px" : "42px",
                       background: "linear-gradient(135deg, #F9F9FB 0%, #ECEFF1 100%)",
                       borderRadius: "3px",
-                      marginBottom: "3px",
+                      marginBottom: "4px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -982,13 +967,13 @@ function DeviceStorefrontMock({
                   >
                     {prod.icon}
                   </div>
-                  <div style={{ fontSize: "6px", color: "#D4AF37", fontWeight: 700, textTransform: "uppercase", marginBottom: "1px" }}>
+                  <div style={{ fontSize: "6.5px", color: "#D4AF37", fontWeight: 700, textTransform: "uppercase", marginBottom: "1px" }}>
                     {prod.tag}
                   </div>
-                  <div style={{ fontSize: "8px", fontWeight: 600, color: "#222", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ fontSize: "8.5px", fontWeight: 600, color: "#222", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                     {prod.title}
                   </div>
-                  <div style={{ fontSize: "7.5px", color: "#777", marginTop: "1px", fontWeight: 500 }}>
+                  <div style={{ fontSize: "8px", color: "#777", marginTop: "1px", fontWeight: 500 }}>
                     {prod.price}
                   </div>
                 </div>
@@ -1388,14 +1373,14 @@ export default function FestivalConfig() {
                   </InlineStack>
                 </Box>
 
-                {/* Side-by-Side Full-Width Zero-Scroll Showcase Stage */}
+                {/* Side-by-Side Full-Width Zero-Scroll Showcase Stage (Desktop & Mobile) */}
                 <div
                   style={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "flex-start",
-                    gap: "16px",
-                    padding: "18px 14px",
+                    gap: "20px",
+                    padding: "20px 16px",
                     background: "#F1F2F4",
                     width: "100%",
                     boxSizing: "border-box",
@@ -1403,29 +1388,6 @@ export default function FestivalConfig() {
                 >
                   <DeviceStorefrontMock
                     deviceType="desktop"
-                    festival={festival}
-                    showOriginal={showOriginal}
-                    enableEffects={enableEffects}
-                    garlandPlacement={garlandPlacement}
-                    garlandLayout={garlandLayout}
-                    garlandStyle={garlandStyle}
-                    enableSeriesLights={enableSeriesLights}
-                    seriesLightsTheme={seriesLightsTheme}
-                    seriesLightsMode={seriesLightsMode}
-                    garlandOffset={garlandOffset}
-                    diyaStyle={diyaStyle}
-                    flameGlow={flameGlow}
-                    diyaSize={diyaSize}
-                    diyaPosition={diyaPosition}
-                    diyaMarginX={diyaMarginX}
-                    diyaMarginY={diyaMarginY}
-                    diyaHideOnMobile={diyaHideOnMobile}
-                    enableBanner={enableBanner}
-                    bannerText={bannerText}
-                  />
-
-                  <DeviceStorefrontMock
-                    deviceType="tablet"
                     festival={festival}
                     showOriginal={showOriginal}
                     enableEffects={enableEffects}
