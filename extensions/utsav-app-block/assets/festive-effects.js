@@ -42,6 +42,9 @@
     moonPosition = "top_right", // top_right | top_left
     // 🌿 Garland & Series Lights Customizations
     garlandLayout = "top_and_sides", // top_and_sides | top_only | sides_only | off
+    garlandPlacement = "below_header", // below_header | top_fixed
+    garlandScrollMode = "natural_scroll", // natural_scroll | sticky
+    garlandOffset = 0,
     garlandStyle = "mango_marigold",
     seriesLightsTheme = "warm_gold", // warm_gold | festive_multicolor | amber_radiance | pearl_white | off
     seriesLightsMode = "twinkle",    // twinkle | chaser | steady
@@ -270,6 +273,67 @@
         rightGarland.className = "utsav-side-garland";
         rightGarland.innerHTML = sideSVG;
         document.body.appendChild(rightGarland);
+      }
+
+      function computeHeaderDockOffset() {
+        if (garlandPlacement === "top_fixed") {
+          return parseInt(garlandOffset, 10) || 0;
+        }
+        const mainEl = document.getElementById("MainContent") || document.querySelector("main");
+        if (mainEl && mainEl.offsetTop > 0) {
+          return mainEl.offsetTop + (parseInt(garlandOffset, 10) || 0);
+        }
+        const header = document.querySelector(
+          ".header-group, sticky-header, .header-wrapper, #shopify-section-header, header.header, .site-header"
+        );
+        if (header) {
+          const rect = header.getBoundingClientRect();
+          const pageBottom = rect.bottom + window.scrollY;
+          if (pageBottom > 0) {
+            return Math.round(pageBottom) + (parseInt(garlandOffset, 10) || 0);
+          }
+        }
+        return parseInt(garlandOffset, 10) || 0;
+      }
+
+      function positionGarlands() {
+        const topEl = document.getElementById("utsav-top-garland");
+        const leftEl = document.getElementById("utsav-garland-left");
+        const rightEl = document.getElementById("utsav-garland-right");
+        const dockTop = computeHeaderDockOffset();
+        const isSticky = garlandScrollMode === "sticky";
+
+        if (topEl) {
+          topEl.style.position = isSticky ? "fixed" : "absolute";
+          if (isSticky) {
+            const header = document.querySelector("sticky-header, .header-wrapper, header.header");
+            const hRect = header ? header.getBoundingClientRect() : null;
+            topEl.style.top = (hRect ? Math.max(0, hRect.bottom) : dockTop) + "px";
+          } else {
+            topEl.style.top = dockTop + "px";
+          }
+        }
+        if (leftEl) {
+          leftEl.style.position = isSticky ? "fixed" : "absolute";
+          leftEl.style.top = (isSticky ? (topEl ? topEl.style.top : dockTop + "px") : (dockTop + "px"));
+        }
+        if (rightEl) {
+          rightEl.style.position = isSticky ? "fixed" : "absolute";
+          rightEl.style.top = (isSticky ? (topEl ? topEl.style.top : dockTop + "px") : (dockTop + "px"));
+        }
+      }
+
+      positionGarlands();
+      window.addEventListener("resize", positionGarlands);
+      setTimeout(positionGarlands, 150);
+      setTimeout(positionGarlands, 800);
+
+      if (window.ResizeObserver) {
+        const observed = document.querySelector(".header-group, sticky-header, .header-wrapper, header, #MainContent");
+        if (observed) {
+          const ro = new ResizeObserver(() => positionGarlands());
+          ro.observe(observed);
+        }
       }
     }
   }

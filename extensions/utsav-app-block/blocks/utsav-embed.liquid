@@ -21,6 +21,7 @@
       diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
       fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
       garlandLayout: {{ block.settings.garland_layout | default: "top_and_sides" | json }},
+      garlandPlacement: {{ block.settings.garland_placement | default: "below_header" | json }},
       garlandStyle: {{ block.settings.garland_style | default: "mango_marigold" | json }},
       seriesLightsTheme: {{ block.settings.series_lights_theme | default: "warm_gold" | json }},
       kiteCount: {{ block.settings.kite_count | default: 2 | json }},
@@ -75,6 +76,16 @@
         { "value": "off", "label": "Off (No Garland)" }
       ],
       "default": "top_and_sides"
+    },
+    {
+      "type": "select",
+      "id": "garland_placement",
+      "label": "Garland Docking Position",
+      "options": [
+        { "value": "below_header", "label": "🌿 Below Navigation (Recommended)" },
+        { "value": "top_fixed", "label": "Top of Screen (Fixed 0px)" }
+      ],
+      "default": "below_header"
     },
     {
       "type": "select",

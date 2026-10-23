@@ -405,6 +405,9 @@ export default function FestivalConfig() {
 
   // Garland & Series Lights
   const [garlandLayout, setGarlandLayout] = useState(customSettings.garlandLayout || "top_and_sides");
+  const [garlandPlacement, setGarlandPlacement] = useState(customSettings.garlandPlacement || "below_header");
+  const [garlandScrollMode, setGarlandScrollMode] = useState(customSettings.garlandScrollMode || "natural_scroll");
+  const [garlandOffset, setGarlandOffset] = useState(customSettings.garlandOffset || 0);
   const [garlandStyle, setGarlandStyle] = useState(customSettings.garlandStyle || "mango_marigold");
   const [seriesLightsTheme, setSeriesLightsTheme] = useState(customSettings.seriesLightsTheme || "warm_gold");
   const [seriesLightsMode, setSeriesLightsMode] = useState(customSettings.seriesLightsMode || "twinkle");
@@ -458,6 +461,9 @@ export default function FestivalConfig() {
         fireworksSound,
         interactiveBlessing,
         garlandLayout,
+        garlandPlacement,
+        garlandScrollMode,
+        garlandOffset,
         garlandStyle,
         seriesLightsTheme,
         seriesLightsMode,
@@ -488,6 +494,9 @@ export default function FestivalConfig() {
       fireworksSound,
       interactiveBlessing,
       garlandLayout,
+      garlandPlacement,
+      garlandScrollMode,
+      garlandOffset,
       garlandStyle,
       seriesLightsTheme,
       seriesLightsMode,
@@ -714,51 +723,6 @@ export default function FestivalConfig() {
                       border: viewport === "mobile" ? "8px solid #2B2D42" : "1px solid rgba(0,0,0,0.1)",
                     }}
                   >
-                    {!showOriginal && enableEffects && (
-                      <>
-                        {/* 1. Top Toran Garland */}
-                        {(garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
-                          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: "56px" }}>
-                            <ToranPreviewWidget
-                              festivalId={festival.id}
-                              garlandStyle={garlandStyle}
-                              withLights={isDiwali && seriesLightsTheme !== "off"}
-                              lightsTheme={seriesLightsTheme}
-                              lightsMode={seriesLightsMode}
-                            />
-                          </div>
-                        )}
-
-                        {/* 2. Side Garlands (Hidden on Mobile) */}
-                        {viewport !== "mobile" && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
-                          <>
-                            <div style={{ position: "absolute", top: "60px", left: "6px", zIndex: 11, pointerEvents: "none" }}>
-                              <SideGarlandPreviewWidget withLights={isDiwali && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
-                            </div>
-                            <div style={{ position: "absolute", top: "60px", right: "6px", zIndex: 11, pointerEvents: "none" }}>
-                              <SideGarlandPreviewWidget withLights={isDiwali && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
-                            </div>
-                          </>
-                        )}
-
-                        {/* 3. Realistic Diya (Diwali Only) */}
-                        {isDiwali && (
-                          <>
-                            {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four") && (
-                              <div style={{ position: "absolute", bottom: "14px", left: "18px", zIndex: 15 }}>
-                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={diyaSize} />
-                              </div>
-                            )}
-                            {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four") && (
-                              <div style={{ position: "absolute", bottom: "14px", right: "18px", zIndex: 15 }}>
-                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={diyaSize} />
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </>
-                    )}
-
                     {/* Announcement Bar */}
                     {!showOriginal && enableBanner && (
                       <div
@@ -792,7 +756,20 @@ export default function FestivalConfig() {
                       </div>
                     )}
 
-                    {/* Simulated Store Navigation */}
+                    {/* Top Toran (if top_fixed) */}
+                    {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
+                      <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: "56px" }}>
+                        <ToranPreviewWidget
+                          festivalId={festival.id}
+                          garlandStyle={garlandStyle}
+                          withLights={isDiwali && seriesLightsTheme !== "off"}
+                          lightsTheme={seriesLightsTheme}
+                          lightsMode={seriesLightsMode}
+                        />
+                      </div>
+                    )}
+
+                    {/* Simulated Store Navigation (100% Unobstructed) */}
                     <div
                       style={{
                         padding: "16px 20px",
@@ -800,18 +777,70 @@ export default function FestivalConfig() {
                         alignItems: "center",
                         justifyContent: "space-between",
                         borderBottom: "1px solid #EEEEEE",
+                        position: "relative",
+                        zIndex: 10,
+                        background: "#FFFFFF",
                       }}
                     >
                       <div style={{ fontWeight: 800, fontSize: "18px", color: "#111" }}>
                         {festival.emoji} LUXE STORE
                       </div>
-                      <div style={{ display: "flex", gap: "16px", fontSize: "13px", color: "#666" }}>
-                        <span>New Arrivals</span>
+                      <div style={{ display: "flex", gap: "16px", fontSize: "13px", color: "#444", fontWeight: 500 }}>
+                        <span style={{ color: "#000", fontWeight: 600 }}>Home</span>
+                        <span>Catalog</span>
                         <span>Festive Edit</span>
-                        <span>Collection</span>
-                        <span>About</span>
+                        <span>Contact</span>
+                      </div>
+                      <div style={{ display: "flex", gap: "12px", fontSize: "14px", color: "#333" }}>
+                        <span>🔍</span>
+                        <span>🛒 (2)</span>
                       </div>
                     </div>
+
+                    {/* Top Toran (if below_header - Doorway Threshold Docking) */}
+                    {!showOriginal && enableEffects && garlandPlacement === "below_header" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
+                      <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: "56px", marginTop: `${garlandOffset}px` }}>
+                        <ToranPreviewWidget
+                          festivalId={festival.id}
+                          garlandStyle={garlandStyle}
+                          withLights={isDiwali && seriesLightsTheme !== "off"}
+                          lightsTheme={seriesLightsTheme}
+                          lightsMode={seriesLightsMode}
+                        />
+                      </div>
+                    )}
+
+                    {!showOriginal && enableEffects && (
+                      <>
+                        {/* 2. Side Garlands (Hidden on Mobile) */}
+                        {viewport !== "mobile" && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
+                          <>
+                            <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "116px" : "60px", left: "6px", zIndex: 11, pointerEvents: "none" }}>
+                              <SideGarlandPreviewWidget withLights={isDiwali && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
+                            </div>
+                            <div style={{ position: "absolute", top: garlandPlacement === "below_header" ? "116px" : "60px", right: "6px", zIndex: 11, pointerEvents: "none" }}>
+                              <SideGarlandPreviewWidget withLights={isDiwali && seriesLightsTheme !== "off"} lightsTheme={seriesLightsTheme} />
+                            </div>
+                          </>
+                        )}
+
+                        {/* 3. Realistic Diya (Diwali Only) */}
+                        {isDiwali && (
+                          <>
+                            {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four") && (
+                              <div style={{ position: "absolute", bottom: "14px", left: "18px", zIndex: 15 }}>
+                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={diyaSize} />
+                              </div>
+                            )}
+                            {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four") && (
+                              <div style={{ position: "absolute", bottom: "14px", right: "18px", zIndex: 15 }}>
+                                <DiyaPreviewWidget style={diyaStyle} flameGlow={flameGlow} size={diyaSize} />
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
 
                     {/* Simulated Store Hero */}
                     <div
@@ -896,7 +925,7 @@ export default function FestivalConfig() {
                       <>
                         <Text variant="bodySm" fontWeight="bold">🌿 Toran Garland & Borders</Text>
                         <Select
-                          label="Garland Placement"
+                          label="Garland Layout"
                           options={[
                             { label: "Top Toran & Both Side Cascades", value: "top_and_sides" },
                             { label: "Top Toran Only", value: "top_only" },
@@ -905,6 +934,36 @@ export default function FestivalConfig() {
                           ]}
                           value={garlandLayout}
                           onChange={(val) => { setGarlandLayout(val); markDirty(); }}
+                        />
+
+                        <Select
+                          label="Garland Docking Position"
+                          helpText="Prevents garland from overlapping store logo, navigation menu, or cart."
+                          options={[
+                            { label: "🌿 Below Store Navigation (Recommended — No Menu Overlap)", value: "below_header" },
+                            { label: "Top of Screen (Fixed 0px)", value: "top_fixed" },
+                          ]}
+                          value={garlandPlacement}
+                          onChange={(val) => { setGarlandPlacement(val); markDirty(); }}
+                        />
+
+                        <Select
+                          label="Garland Scroll Behavior"
+                          options={[
+                            { label: "Natural Scroll (Entrance Toran — Scrolls With Hero Banner)", value: "natural_scroll" },
+                            { label: "Sticky (Stays Docked Beneath Sticky Header)", value: "sticky" },
+                          ]}
+                          value={garlandScrollMode}
+                          onChange={(val) => { setGarlandScrollMode(val); markDirty(); }}
+                        />
+
+                        <TextField
+                          label="Vertical Alignment Fine-Tuning (px)"
+                          type="number"
+                          value={String(garlandOffset)}
+                          onChange={(val) => { setGarlandOffset(parseInt(val, 10) || 0); markDirty(); }}
+                          helpText="Nudge the toran up or down in pixels (e.g. 0, -10, +15) to match your custom theme."
+                          autoComplete="off"
                         />
 
                         {isDiwali && (

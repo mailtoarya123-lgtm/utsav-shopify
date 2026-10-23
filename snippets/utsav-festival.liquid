@@ -20,7 +20,7 @@
   /* ─── Top Toran Garland & Side Garlands (Never blocks clicks) ─────────────── */
   #utsav-top-garland {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
@@ -28,16 +28,18 @@
     pointer-events: none;
     z-index: 9993;
     overflow: hidden;
+    transition: top 0.2s ease-out;
   }
 
   .utsav-side-garland {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 44px;
     height: 440px;
     pointer-events: none;
     z-index: 9992;
+    transition: top 0.2s ease-out;
   }
 
   #utsav-garland-left {
@@ -954,6 +956,9 @@
       const config = {
         festivalId: fest,
         garlandLayout: userConfig.garlandLayout || 'top_and_sides',
+        garlandPlacement: userConfig.garlandPlacement || 'below_header',
+        garlandScrollMode: userConfig.garlandScrollMode || 'natural_scroll',
+        garlandOffset: userConfig.garlandOffset || 0,
         garlandStyle: userConfig.garlandStyle || 'mango_marigold',
         seriesLightsTheme: userConfig.seriesLightsTheme || 'warm_gold',
         seriesLightsMode: userConfig.seriesLightsMode || 'twinkle',
@@ -976,6 +981,59 @@
       const layout = config.garlandLayout;
       const showTop = isEligibleForGarlands && (layout === 'top_and_sides' || layout === 'top_only');
       const showSides = isEligibleForGarlands && (layout === 'top_and_sides' || layout === 'sides_only');
+
+      function computeHeaderDockOffset() {
+        if (config.garlandPlacement === 'top_fixed') {
+          return parseInt(config.garlandOffset, 10) || 0;
+        }
+
+        // 1. Primary: Measure MainContent or main element offsetTop (Online Store 2.0 standard)
+        const mainEl = document.getElementById('MainContent') || document.querySelector('main');
+        if (mainEl && mainEl.offsetTop > 0) {
+          return mainEl.offsetTop + (parseInt(config.garlandOffset, 10) || 0);
+        }
+
+        // 2. Fallback: Measure header element rect bottom relative to document
+        const header = document.querySelector(
+          '.header-group, sticky-header, .header-wrapper, #shopify-section-header, header.header, .site-header'
+        );
+        if (header) {
+          const rect = header.getBoundingClientRect();
+          const pageBottom = rect.bottom + window.scrollY;
+          if (pageBottom > 0) {
+            return Math.round(pageBottom) + (parseInt(config.garlandOffset, 10) || 0);
+          }
+        }
+
+        return parseInt(config.garlandOffset, 10) || 0;
+      }
+
+      function positionGarlands() {
+        if (!isEligibleForGarlands || config.garlandLayout === 'off') return;
+        const dockTop = computeHeaderDockOffset();
+        const isSticky = config.garlandScrollMode === 'sticky';
+
+        if (topContainer) {
+          topContainer.style.position = isSticky ? 'fixed' : 'absolute';
+          if (isSticky) {
+            const header = document.querySelector('sticky-header, .header-wrapper, header.header');
+            const hRect = header ? header.getBoundingClientRect() : null;
+            topContainer.style.top = (hRect ? Math.max(0, hRect.bottom) : dockTop) + 'px';
+          } else {
+            topContainer.style.top = dockTop + 'px';
+          }
+        }
+
+        if (leftContainer) {
+          leftContainer.style.position = isSticky ? 'fixed' : 'absolute';
+          leftContainer.style.top = (isSticky ? (topContainer ? topContainer.style.top : dockTop + 'px') : (dockTop + 'px'));
+        }
+
+        if (rightContainer) {
+          rightContainer.style.position = isSticky ? 'fixed' : 'absolute';
+          rightContainer.style.top = (isSticky ? (topContainer ? topContainer.style.top : dockTop + 'px') : (dockTop + 'px'));
+        }
+      }
 
       if (topContainer) {
         if (showTop) {
@@ -1021,6 +1079,20 @@
         } else {
           rightContainer.style.display = 'none';
           rightContainer.innerHTML = '';
+        }
+      }
+
+      // Position garlands below header threshold
+      positionGarlands();
+      window.addEventListener('resize', positionGarlands);
+      setTimeout(positionGarlands, 150);
+      setTimeout(positionGarlands, 800);
+
+      if (window.ResizeObserver) {
+        const observed = document.querySelector('.header-group, sticky-header, .header-wrapper, header, #MainContent');
+        if (observed) {
+          const ro = new ResizeObserver(() => positionGarlands());
+          ro.observe(observed);
         }
       }
 

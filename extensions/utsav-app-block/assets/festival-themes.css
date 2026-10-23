@@ -270,7 +270,7 @@
 
 /* ─── 8. Toran Garland & Micro LED Series Lights ─────────────────────────── */
 #utsav-top-garland {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
@@ -278,15 +278,17 @@
   pointer-events: none;
   z-index: 9993;
   overflow: hidden;
+  transition: top 0.2s ease-out;
 }
 
 .utsav-side-garland {
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 44px;
   height: 440px;
   pointer-events: none;
   z-index: 9992;
+  transition: top 0.2s ease-out;
 }
 
 #utsav-garland-left {
