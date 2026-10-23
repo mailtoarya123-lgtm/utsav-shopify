@@ -403,10 +403,48 @@
       `;
     }
 
-    // ─── 2. Top Toran SVG Builder ───────────────────────────────────────────
     function getTopToranSVG(festivalId, garlandStyle, seriesLightsTheme, seriesLightsMode, enableSeriesLights) {
-      // Series lights are STRICTLY for Diwali only!
-      const isDiwali = (festivalId || '').toLowerCase().includes('diwali');
+      const fest = (festivalId || '').toLowerCase();
+      const isDiwali = fest.includes('diwali');
+      const isChristmas = fest.includes('christmas');
+      const isVishu = fest === 'vishu';
+
+      // 1. Christmas: Evergreen Pine Garland with Twinkling Holiday Bulbs
+      if (isChristmas) {
+        return `
+          <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <path d="M 0 5 Q 600 32 1200 5" stroke="#1B4D2E" stroke-width="4" fill="none"/>
+            ${[40, 140, 240, 340, 440, 540, 640, 740, 840, 940, 1040, 1140].map((x, i) => `
+              <g transform="translate(${x}, 14)">
+                <circle cx="0" cy="0" r="4.5" fill="${i % 3 === 0 ? '#FF1744' : i % 3 === 1 ? '#FFD700' : '#00E676'}" class="utsav-bulb-twinkle-1" style="filter: drop-shadow(0 0 6px #FFD700);"/>
+                <circle cx="-5" cy="5" r="2.5" fill="#D32F2F"/>
+                <circle cx="5" cy="5" r="2.5" fill="#D32F2F"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 2. Vishu: Golden Kanikonna Blossom Cascades
+      if (isVishu) {
+        return `
+          <svg width="100%" height="56" viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="0" y1="4" x2="1200" y2="4" stroke="#2E7D32" stroke-width="3"/>
+            ${[35, 125, 215, 305, 395, 485, 575, 665, 755, 845, 935, 1025, 1115].map((x) => `
+              <g transform="translate(${x}, 4)">
+                <path d="M 0 0 Q 8 20 0 42" stroke="#388E3C" stroke-width="1.8" fill="none"/>
+                <circle cx="-4" cy="10" r="4.2" fill="#FFD700"/>
+                <circle cx="5" cy="18" r="4.8" fill="#FFFF00"/>
+                <circle cx="-3" cy="25" r="4.8" fill="#FFD700"/>
+                <circle cx="4" cy="34" r="4.2" fill="#FFEA00"/>
+                <circle cx="0" cy="42" r="3.2" fill="#FFFF8D"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 3. Diwali / Dussehra / Sankranti (Series lights strictly for Diwali)
       const hasSeriesLights = isDiwali && enableSeriesLights && seriesLightsTheme !== 'off';
 
       let overlayLights = '';
@@ -897,6 +935,73 @@
       fireworkInterval = setInterval(() => triggerFirework(config), ms);
     }
 
+    // ─── 6.5 Christmas Snowfall Engine ───────────────────────────────────────
+    let snowAnimId = null;
+    let snowCanvas = null;
+
+    function stopSnowfall() {
+      if (snowAnimId) {
+        cancelAnimationFrame(snowAnimId);
+        snowAnimId = null;
+      }
+      if (snowCanvas) {
+        snowCanvas.remove();
+        snowCanvas = null;
+      }
+    }
+
+    function startSnowfall() {
+      stopSnowfall();
+      snowCanvas = document.createElement('canvas');
+      snowCanvas.id = 'utsav-snowfall-canvas';
+      snowCanvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9988;';
+      document.body.appendChild(snowCanvas);
+
+      const ctx = snowCanvas.getContext('2d');
+      function resize() {
+        if (!snowCanvas) return;
+        snowCanvas.width = window.innerWidth;
+        snowCanvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const count = window.innerWidth < 600 ? 24 : 50;
+      const flakes = [];
+      for (let i = 0; i < count; i++) {
+        flakes.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          r: 1.5 + Math.random() * 2.5,
+          d: Math.random() * count,
+          speed: 0.6 + Math.random() * 0.8,
+          sway: Math.random() * 0.02
+        });
+      }
+
+      function renderSnow() {
+        if (!snowCanvas) return;
+        ctx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+          f.y += f.speed;
+          f.x += Math.sin(f.d) * 0.5;
+          f.d += f.sway;
+          if (f.y > snowCanvas.height) {
+            f.y = -10;
+            f.x = Math.random() * snowCanvas.width;
+          }
+        }
+        ctx.fill();
+        snowAnimId = requestAnimationFrame(renderSnow);
+      }
+      renderSnow();
+    }
+
     // ─── 7. Interactive Shopper Blessing (Diwali Diyas) ─────────────────────
     const blessings = [
       "✨ शुभ दीपावली! May light & prosperity bless your home ✨",
@@ -958,6 +1063,8 @@
       const isDiwali = fest.includes('diwali');
       const isDussehra = fest.includes('dussehra');
       const isSankranti = fest.includes('sankranti') || fest.includes('pongal');
+      const isChristmas = fest.includes('christmas');
+      const isVishu = fest === 'vishu';
 
       // Default safe config
       const config = {
@@ -983,15 +1090,15 @@
         bannerText: userConfig.bannerText || null
       };
 
-      // ─── A. GARLANDS (Dussehra, Sankranti, Diwali) ───────────────────────
+      // ─── A. GARLANDS (Distinct Visual Styling per Festival) ───────────────
       const topContainer = document.getElementById('utsav-top-garland');
       const leftContainer = document.getElementById('utsav-garland-left');
       const rightContainer = document.getElementById('utsav-garland-right');
 
-      const isEligibleForGarlands = isDussehra || isSankranti || isDiwali;
+      const isEligibleForGarlands = isDussehra || isSankranti || isDiwali || isChristmas || isVishu;
       const layout = config.garlandLayout;
       const showTop = isEligibleForGarlands && (layout === 'top_and_sides' || layout === 'top_only');
-      const showSides = isEligibleForGarlands && (layout === 'top_and_sides' || layout === 'sides_only');
+      const showSides = (isDiwali || isDussehra || isSankranti) && (layout === 'top_and_sides' || layout === 'sides_only');
 
       function computeHeaderDockOffset() {
         if (config.garlandPlacement === 'top_fixed') {
@@ -1110,7 +1217,7 @@
         }
       }
 
-      // ─── B. DIYAS (STRICTLY DIWALI ONLY — ZERO on Dussehra & Sankranti) ───
+      // ─── B. CORNER ELEMENTS (Diwali Diyas vs Vishu Nilavilakku vs None) ───
       const diyaContainer = document.getElementById('utsav-corner-container');
       if (diyaContainer) {
         if (isDiwali && (!config.diyaHideOnMobile || window.innerWidth > 480)) {
@@ -1151,6 +1258,29 @@
             tr.style.right = mX + 'px';
             tr.style.display = (pos === 'top_corners' || pos === 'top_right' || pos === 'all_four') ? 'block' : 'none';
           }
+        } else if (isVishu) {
+          diyaContainer.style.display = 'block';
+          const bl = document.getElementById('utsavDiyaBL');
+          if (bl) {
+            bl.innerHTML = `
+              <svg width="60" height="85" viewBox="0 0 60 85">
+                <circle cx="30" cy="18" r="20" fill="rgba(255, 215, 0, 0.35)"/>
+                <path d="M 30 4 C 26 10 24 15 30 20 C 36 15 34 10 30 4 Z" fill="#FF9100"/>
+                <path d="M 30 9 C 28 12 27 15 30 18 C 33 15 32 12 30 9 Z" fill="#FFFDE7"/>
+                <ellipse cx="30" cy="22" rx="15" ry="4.5" fill="#D4AF37"/>
+                <rect x="27" y="22" width="6" height="42" fill="#B78103" rx="2"/>
+                <ellipse cx="30" cy="64" rx="20" ry="5.5" fill="#D4AF37"/>
+                <ellipse cx="30" cy="72" rx="24" ry="7" fill="#996515"/>
+              </svg>
+            `;
+            bl.style.bottom = '20px';
+            bl.style.left = '24px';
+            bl.style.display = 'block';
+          }
+          ['utsavDiyaBR', 'utsavDiyaTL', 'utsavDiyaTR'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) { el.innerHTML = ''; el.style.display = 'none'; }
+          });
         } else {
           diyaContainer.style.display = 'none';
           ['utsavDiyaBL', 'utsavDiyaBR', 'utsavDiyaTL', 'utsavDiyaTR'].forEach(id => {
@@ -1160,11 +1290,16 @@
         }
       }
 
-      // ─── C. FIREWORKS (STRICTLY DIWALI ONLY — ZERO on Dussehra & Sankranti) ─
+      // ─── C. FIREWORKS & SNOWFALL (Zero Mixing) ───────────────────────────
       if (isDiwali) {
+        stopSnowfall();
         startFireworks(config);
+      } else if (isChristmas) {
+        stopFireworks();
+        startSnowfall();
       } else {
         stopFireworks();
+        stopSnowfall();
       }
 
       // ─── D. AMBIENT VIGNETTE (STRICTLY DIWALI ONLY) ────────────────────────
@@ -1179,6 +1314,10 @@
       if (banner && bannerTextEl) {
         if (config.bannerText) {
           bannerTextEl.textContent = config.bannerText;
+        } else if (isChristmas) {
+          bannerTextEl.textContent = '⭐ Merry Christmas! Celebrate the season of warmth, peace, and holiday gifting! 🎄';
+        } else if (isVishu) {
+          bannerTextEl.textContent = '🌟 Happy Vishu! Vishu Ashamsakal! A prosperous and blessed Kerala New Year! 🌺';
         } else if (isDussehra) {
           bannerTextEl.textContent = '🏹 Shubh Dussehra! Celebrate the victory of Good over Evil with our Festive Collection ✨';
         } else if (isSankranti) {

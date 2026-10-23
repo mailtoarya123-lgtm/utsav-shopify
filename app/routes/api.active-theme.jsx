@@ -55,6 +55,8 @@ export const loader = async ({ request }) => {
             hindiName: festival.hindiName,
             emoji: festival.emoji,
             palette: festival.palette,
+            signatureEffect: festival.signatureEffect,
+            secondaryEffect: festival.secondaryEffect,
           } : null,
         }, { headers: corsHeaders });
       }
@@ -150,6 +152,8 @@ export const loader = async ({ request }) => {
         hindiName: festival.hindiName,
         emoji: festival.emoji,
         palette: festival.palette,
+        signatureEffect: festival.signatureEffect,
+        secondaryEffect: festival.secondaryEffect,
       } : null,
     }, { headers: corsHeaders });
   } catch (err) {

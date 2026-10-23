@@ -16,6 +16,7 @@
       "utsav-garland-right",
       "utsav-corner-container",
       "utsav-kites-container",
+      "utsav-snow-canvas",
       "utsav-fireworks-canvas",
       "utsav-countdown",
       "utsav-wheel-trigger",
@@ -34,6 +35,8 @@
     const isDussehra = festivalId.includes("dussehra");
     const isSankranti = festivalId.includes("sankranti") || festivalId.includes("pongal");
     const isEid = festivalId.includes("eid");
+    const isChristmas = festivalId.includes("christmas");
+    const isVishu = festivalId === "vishu";
 
     const palette = config.palette || {
       primary: "#D4AF37",
@@ -433,9 +436,52 @@
           }
         }
       }
+
+      // ─── 3.6 Inject Christmas Evergreen Garland ────────────────────────────
+      else if (isChristmas && (garlandLayout === "top_and_sides" || garlandLayout === "top_only")) {
+        const topGarland = document.createElement("div");
+        topGarland.id = "utsav-top-garland";
+        topGarland.style.cssText = "position: absolute; left: 0; width: 100%; z-index: 9992; pointer-events: none;";
+        topGarland.innerHTML = `
+          <svg viewBox="0 0 1200 52" width="100%" height="45" preserveAspectRatio="none" style="display:block;">
+            <path d="M 0 5 Q 600 32 1200 5" stroke="#1B4D2E" stroke-width="4" fill="none"/>
+            ${[40, 140, 240, 340, 440, 540, 640, 740, 840, 940, 1040, 1140].map((x, i) => `
+              <g transform="translate(${x}, 14)">
+                <circle cx="0" cy="0" r="4.5" fill="${i % 3 === 0 ? '#FF1744' : i % 3 === 1 ? '#FFD700' : '#00E676'}" class="utsav-bulb-twinkle-1" style="filter: drop-shadow(0 0 6px #FFD700);"/>
+                <circle cx="-5" cy="5" r="2.5" fill="#D32F2F"/>
+                <circle cx="5" cy="5" r="2.5" fill="#D32F2F"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+        document.body.appendChild(topGarland);
+      }
+
+      // ─── 3.7 Inject Vishu Golden Kanikonna Blossom Cascades ─────────────────
+      else if (isVishu && (garlandLayout === "top_and_sides" || garlandLayout === "top_only")) {
+        const topGarland = document.createElement("div");
+        topGarland.id = "utsav-top-garland";
+        topGarland.style.cssText = "position: absolute; left: 0; width: 100%; z-index: 9992; pointer-events: none;";
+        topGarland.innerHTML = `
+          <svg viewBox="0 0 1200 56" width="100%" height="48" preserveAspectRatio="none" style="display:block;">
+            <line x1="0" y1="4" x2="1200" y2="4" stroke="#2E7D32" stroke-width="3"/>
+            ${[35, 125, 215, 305, 395, 485, 575, 665, 755, 845, 935, 1025, 1115].map((x) => `
+              <g transform="translate(${x}, 4)">
+                <path d="M 0 0 Q 8 20 0 42" stroke="#388E3C" stroke-width="1.8" fill="none"/>
+                <circle cx="-4" cy="10" r="4.2" fill="#FFD700"/>
+                <circle cx="5" cy="18" r="4.8" fill="#FFFF00"/>
+                <circle cx="-3" cy="25" r="4.8" fill="#FFD700"/>
+                <circle cx="4" cy="34" r="4.2" fill="#FFEA00"/>
+                <circle cx="0" cy="42" r="3.2" fill="#FFFF8D"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+        document.body.appendChild(topGarland);
+      }
     }
 
-    // ─── 4. Architectural Corner Accents (Diwali Diya, Eid Moon, Sankranti Kites) ───
+    // ─── 4. Architectural Corner Accents (Diwali Diya, Eid Moon, Vishu Lamp) ───
     if (enableEffects) {
       const decorContainer = document.createElement("div");
       decorContainer.id = "utsav-corner-container";
@@ -646,7 +692,73 @@
         decorContainer.appendChild(crescent);
       }
 
+      // ─── C. VISHU: Traditional Nilavilakku Floor Lamp ───────────────────
+      else if (isVishu) {
+        const nilavilakku = document.createElement("div");
+        nilavilakku.className = "utsav-corner-decor utsav-corner-bottom-left";
+        nilavilakku.style.cssText = "position: fixed; bottom: 20px; left: 24px; z-index: 9990; pointer-events: none;";
+        nilavilakku.innerHTML = `
+          <svg width="60" height="85" viewBox="0 0 60 85">
+            <circle cx="30" cy="18" r="20" fill="rgba(255, 215, 0, 0.35)"/>
+            <path d="M 30 4 C 26 10 24 15 30 20 C 36 15 34 10 30 4 Z" fill="#FF9100"/>
+            <path d="M 30 9 C 28 12 27 15 30 18 C 33 15 32 12 30 9 Z" fill="#FFFDE7"/>
+            <ellipse cx="30" cy="22" rx="15" ry="4.5" fill="#D4AF37"/>
+            <rect x="27" y="22" width="6" height="42" fill="#B78103" rx="2"/>
+            <ellipse cx="30" cy="64" rx="20" ry="5.5" fill="#D4AF37"/>
+            <ellipse cx="30" cy="72" rx="24" ry="7" fill="#996515"/>
+          </svg>
+        `;
+        decorContainer.appendChild(nilavilakku);
+      }
+
       document.body.appendChild(decorContainer);
+    }
+
+    // ─── 4.5 CHRISTMAS: Minimal Falling Snowflakes ──────────────────────────
+    if (enableEffects && isChristmas) {
+      const snowCanvas = document.createElement("canvas");
+      snowCanvas.id = "utsav-snow-canvas";
+      snowCanvas.style.cssText = "position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9988;";
+      document.body.appendChild(snowCanvas);
+      const ctx = snowCanvas.getContext("2d");
+      function resize() {
+        snowCanvas.width = window.innerWidth;
+        snowCanvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+      const flakes = [];
+      const count = window.innerWidth < 600 ? 25 : 50;
+      for (let i = 0; i < count; i++) {
+        flakes.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          r: 1.5 + Math.random() * 2.5,
+          d: Math.random() * count,
+          speed: 0.6 + Math.random() * 0.8,
+          sway: Math.random() * 0.02,
+        });
+      }
+      function renderSnow() {
+        ctx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
+        ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+        ctx.beginPath();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.moveTo(f.x, f.y);
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+          f.y += f.speed;
+          f.x += Math.sin(f.d) * 0.5;
+          f.d += f.sway;
+          if (f.y > snowCanvas.height) {
+            f.y = -10;
+            f.x = Math.random() * snowCanvas.width;
+          }
+        }
+        ctx.fill();
+        requestAnimationFrame(renderSnow);
+      }
+      renderSnow();
     }
 
     // ─── 5. PONGAL & MAKAR SANKRANTI: Soaring Kites ─────────────────────────
