@@ -1225,12 +1225,12 @@ export default function FestivalConfig() {
             </Banner>
           )}
 
-          {/* ─── 3-Column Studio Workspace ──────────────────────────────────── */}
+          {/* ─── 2-Column Studio Workspace ──────────────────────────────────── */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "190px minmax(0, 1fr) 310px",
-              gap: "14px",
+              gridTemplateColumns: "200px minmax(0, 1fr)",
+              gap: "16px",
               minHeight: "720px",
               alignItems: "start",
               width: "100%",
@@ -1307,8 +1307,9 @@ export default function FestivalConfig() {
               </BlockStack>
             </Card>
 
-            {/* ─── COLUMN 2: Multi-Device Responsive Showcase (Center) ─────── */}
-            <Card padding="0">
+            {/* ─── COLUMN 2: Main Studio Canvas (Showcase + Divided Controls Below) ─── */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", minWidth: 0 }}>
+              <Card padding="0">
               <div style={{ minWidth: 0 }}>
                 {/* Showcase Top Control Bar */}
                 <Box padding="300" background="bg-surface-secondary" borderBlockEndWidth="025" borderColor="border">
@@ -1435,34 +1436,81 @@ export default function FestivalConfig() {
               </div>
             </Card>
 
-            {/* ─── COLUMN 3: Contextual Property Inspector (Right, 320px) ───── */}
-            <Card padding="400">
-              <BlockStack gap="400">
-                {/* 1. VISUAL EFFECTS INSPECTOR */}
-                {activeSection === "visual_effects" && (
-                  <BlockStack gap="300">
-                    <Text variant="headingMd" as="h3">
-                      Visual Effects Properties
-                    </Text>
-                    <Divider />
+            {/* ─── DIVIDED SECTION CONTROLS (Positioned below preview for minimal scroll) ─── */}
+
+            {/* 1. VISUAL EFFECTS ENGINE (Divided into 4 Modular Cards in a 2-Column Grid) */}
+            {activeSection === "visual_effects" && (
+              <BlockStack gap="300">
+                {/* Master Effects Toggle Banner */}
+                <Card padding="400">
+                  <InlineStack align="space-between" blockAlign="center">
+                    <InlineStack gap="300" blockAlign="center">
+                      <div
+                        style={{
+                          width: "38px",
+                          height: "38px",
+                          borderRadius: "8px",
+                          background: enableEffects ? "#E3F1DF" : "#F1F2F4",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: enableEffects ? "#008060" : "#6D7175",
+                        }}
+                      >
+                        {CLEAN_ICONS.visual_effects}
+                      </div>
+                      <BlockStack gap="050">
+                        <InlineStack gap="150" blockAlign="center">
+                          <Text variant="headingSm" as="h4">
+                            Storefront Visual Effects Engine
+                          </Text>
+                          <Badge tone={enableEffects ? "success" : "subdued"}>
+                            {enableEffects ? "Active on Storefront" : "Effects Disabled"}
+                          </Badge>
+                        </InlineStack>
+                        <Text variant="bodyXs" tone="subdued">
+                          Master toggle for all festive decorations, entrance toran, series lights, and corner diyas
+                        </Text>
+                      </BlockStack>
+                    </InlineStack>
 
                     <ToggleSwitch
-                      label="Enable Storefront Visual Effects"
+                      label=""
                       checked={enableEffects}
                       onChange={(val) => { setEnableEffects(val); markDirty(); }}
-                      helpText="Master toggle for all festive decorations, garlands, and storefront overlays"
                     />
+                  </InlineStack>
+                </Card>
 
-                    {enableEffects && (
-                      <>
+                {/* 4 Divided Cards in Responsive 2-Column Grid */}
+                {enableEffects && (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
+                      gap: "16px",
+                      alignItems: "start",
+                      width: "100%",
+                    }}
+                  >
+                    {/* CARD 1: Toran Garland & Border Cascades */}
+                    <Card padding="400">
+                      <BlockStack gap="300">
+                        <InlineStack align="space-between" blockAlign="center">
+                          <Text variant="headingSm" as="h4">Toran Garland & Borders</Text>
+                          <Badge tone="info">Store Entrance</Badge>
+                        </InlineStack>
+                        <Text variant="bodyXs" tone="subdued">
+                          Auspicious mango leaf kalawa arches and marigold strings framing your storefront
+                        </Text>
                         <Divider />
-                        <Text variant="bodySm" fontWeight="bold">Toran Garland & Borders</Text>
+
                         <Select
                           label="Garland Layout"
                           options={[
                             { label: "Top Toran & Both Side Cascades", value: "top_and_sides" },
-                            { label: "Top Toran Only", value: "top_only" },
-                            { label: "Side Cascades Only", value: "sides_only" },
+                            { label: "Top Toran Only (Header Arch)", value: "top_only" },
+                            { label: "Side Cascades Only (Pillars)", value: "sides_only" },
                             { label: "Off (No Garland)", value: "off" },
                           ]}
                           value={garlandLayout}
@@ -1500,11 +1548,25 @@ export default function FestivalConfig() {
                           onChange={(val) => { setGarlandOffset(val); markDirty(); }}
                           helpText="Nudge the toran up or down in pixels (-50px to +50px) to match your custom theme."
                         />
+                      </BlockStack>
+                    </Card>
 
-                        {isDiwali && (
+                    {/* CARD 2: Series Fairy Lights (Diwali Exclusive) */}
+                    <Card padding="400">
+                      <BlockStack gap="300">
+                        <InlineStack align="space-between" blockAlign="center">
+                          <Text variant="headingSm" as="h4">Series Lights (Ladi / Fairy Lights)</Text>
+                          <Badge tone={isDiwali ? "attention" : "subdued"}>
+                            {isDiwali ? "Diwali Feature" : "Festival Specific"}
+                          </Badge>
+                        </InlineStack>
+                        <Text variant="bodyXs" tone="subdued">
+                          Illuminated electric fairy lights physically wired along the catenary toran garland
+                        </Text>
+                        <Divider />
+
+                        {isDiwali ? (
                           <>
-                            <Divider />
-                            <Text variant="bodySm" fontWeight="bold">Series Lights (Diwali Only)</Text>
                             <ToggleSwitch
                               label="Enable Series Lights (Ladi / Fairy Lights)"
                               checked={enableSeriesLights}
@@ -1536,190 +1598,267 @@ export default function FestivalConfig() {
                                 />
                               </>
                             )}
-
-                            <Divider />
-                            <Text variant="bodySm" fontWeight="bold">Realistic Diya Engine</Text>
-                            <Select
-                              label="Artisanal Diya Style"
-                              options={[
-                                { label: "Royal Brass (राजसी पीतल)", value: "royal_brass" },
-                                { label: "Earthen Terracotta (मिट्टी का दीया)", value: "terracotta_clay" },
-                                { label: "Antique Copper (प्राचीन तांबा)", value: "antique_copper" },
-                                { label: "Minimal Contemporary (आधुनिक)", value: "minimal_contemporary" },
-                                { label: "Marigold Urli (गेंदा फूल अर्ली)", value: "marigold_urli" },
-                              ]}
-                              value={diyaStyle}
-                              onChange={(val) => { setDiyaStyle(val); markDirty(); }}
-                            />
-                            <Select
-                              label="Diya Dimensions"
-                              options={[
-                                { label: "Small (56px — Minimal)", value: "small" },
-                                { label: "Medium (74px — Standard)", value: "medium" },
-                                { label: "Large (95px — Majestic)", value: "large" },
-                                { label: "X-Large (116px — Akhand Maha Diya)", value: "xlarge" },
-                              ]}
-                              value={diyaSize}
-                              onChange={(val) => { setDiyaSize(val); markDirty(); }}
-                            />
-                            <Select
-                              label="Corner Placement"
-                              options={[
-                                { label: "Both Bottom Corners (Auspicious Grounding)", value: "bottom_corners" },
-                                { label: "Bottom-Left Corner Only", value: "bottom_left" },
-                                { label: "Bottom-Right Corner Only", value: "bottom_right" },
-                                { label: "Both Top Corners", value: "top_corners" },
-                                { label: "Top-Left Corner Only", value: "top_left" },
-                                { label: "Top-Right Corner Only", value: "top_right" },
-                                { label: "All 4 Corners (Full Celestial Frame)", value: "all_four" },
-                              ]}
-                              value={diyaPosition}
-                              onChange={(val) => { setDiyaPosition(val); markDirty(); }}
-                            />
-                            <LuxurySlider
-                              label="Horizontal Diya Margin"
-                              value={diyaMarginX}
-                              min={0}
-                              max={80}
-                              step={1}
-                              unit="px"
-                              onChange={(val) => { setDiyaMarginX(val); markDirty(); }}
-                              helpText="Distance from left and right screen borders"
-                            />
-                            <LuxurySlider
-                              label="Vertical Diya Margin"
-                              value={diyaMarginY}
-                              min={0}
-                              max={80}
-                              step={1}
-                              unit="px"
-                              onChange={(val) => { setDiyaMarginY(val); markDirty(); }}
-                              helpText="Distance from top and bottom screen borders"
-                            />
-                            <ToggleSwitch
-                              label="Hide Diyas on Mobile Screens (<480px)"
-                              checked={diyaHideOnMobile}
-                              onChange={(val) => { setDiyaHideOnMobile(val); markDirty(); }}
-                              helpText="Prevents corner diyas from overlapping mobile sticky Add-to-Cart or chat buttons"
-                            />
-
-                            <Divider />
-                            <Text variant="bodySm" fontWeight="bold">Fireworks Engine</Text>
-                            <Select
-                              label="Fireworks Frequency"
-                              options={[
-                                { label: "Off (No Fireworks)", value: "off" },
-                                { label: "Subtle (Burst every 8.5s)", value: "subtle" },
-                                { label: "Moderate (Burst every 4.5s)", value: "moderate" },
-                                { label: "Celebratory (Burst every 2.4s)", value: "celebratory" },
-                              ]}
-                              value={fireworksFrequency}
-                              onChange={(val) => { setFireworksFrequency(val); markDirty(); }}
-                            />
                           </>
+                        ) : (
+                          <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                            <Text variant="bodyXs" tone="subdued">
+                              Series fairy lights are designed exclusively for Diwali. Holy mango leaf & marigold entrance torans are active for this festival.
+                            </Text>
+                          </Box>
                         )}
-                      </>
-                    )}
-                  </BlockStack>
-                )}
+                      </BlockStack>
+                    </Card>
 
-                {/* 2. BANNER & MESSAGING INSPECTOR */}
-                {activeSection === "banner" && (
-                  <BlockStack gap="300">
-                    <Text variant="headingMd" as="h3">
-                      Banner & Announcement
-                    </Text>
-                    <Divider />
-                    <ToggleSwitch
-                      label="Show Announcement Bar on Storefront"
-                      checked={enableBanner}
-                      onChange={(val) => { setEnableBanner(val); markDirty(); }}
-                      helpText="Displays festive discount announcement strip across top of store"
-                    />
-                    {enableBanner && (
-                      <>
+                    {/* CARD 3: Artisanal Diya Engine */}
+                    <Card padding="400">
+                      <BlockStack gap="300">
+                        <InlineStack align="space-between" blockAlign="center">
+                          <Text variant="headingSm" as="h4">Artisanal Diya Engine</Text>
+                          <Badge tone="success">Living Flame</Badge>
+                        </InlineStack>
+                        <Text variant="bodyXs" tone="subdued">
+                          Auspicious sacred lamps with glowing wicks, atmospheric halos, and custom placement
+                        </Text>
+                        <Divider />
+
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                          <Select
+                            label="Artisanal Diya Style"
+                            options={[
+                              { label: "Royal Brass (राजसी पीतल)", value: "royal_brass" },
+                              { label: "Earthen Terracotta (मिट्टी का दीया)", value: "terracotta_clay" },
+                              { label: "Antique Copper (प्राचीन तांबा)", value: "antique_copper" },
+                              { label: "Minimal Contemporary (आधुनिक)", value: "minimal_contemporary" },
+                              { label: "Marigold Urli (गेंदा फूल अर्ली)", value: "marigold_urli" },
+                            ]}
+                            value={diyaStyle}
+                            onChange={(val) => { setDiyaStyle(val); markDirty(); }}
+                          />
+                          <Select
+                            label="Diya Dimensions"
+                            options={[
+                              { label: "Small (56px — Minimal)", value: "small" },
+                              { label: "Medium (74px — Standard)", value: "medium" },
+                              { label: "Large (95px — Majestic)", value: "large" },
+                              { label: "X-Large (116px — Akhand)", value: "xlarge" },
+                            ]}
+                            value={diyaSize}
+                            onChange={(val) => { setDiyaSize(val); markDirty(); }}
+                          />
+                        </div>
+
                         <Select
-                          label="Greeting Language"
+                          label="Corner Placement"
                           options={[
-                            { label: "English", value: "en" },
-                            { label: "हिंदी (Hindi)", value: "hi" },
-                            { label: "ગુજરાતી (Gujarati)", value: "gu" },
-                            { label: "मराठी (Marathi)", value: "mr" },
-                            { label: "தமிழ் (Tamil)", value: "ta" },
-                            { label: "తెలుగు (Telugu)", value: "te" },
-                            { label: "বাংলা (Bengali)", value: "bn" },
-                            { label: "ਪੰਜਾਬੀ (Punjabi)", value: "pa" },
+                            { label: "Both Bottom Corners (Auspicious Grounding)", value: "bottom_corners" },
+                            { label: "Bottom-Left Corner Only", value: "bottom_left" },
+                            { label: "Bottom-Right Corner Only", value: "bottom_right" },
+                            { label: "Both Top Corners", value: "top_corners" },
+                            { label: "Top-Left Corner Only", value: "top_left" },
+                            { label: "Top-Right Corner Only", value: "top_right" },
+                            { label: "All 4 Corners (Full Celestial Frame)", value: "all_four" },
                           ]}
-                          value={language}
-                          onChange={handleLanguageChange}
+                          value={diyaPosition}
+                          onChange={(val) => { setDiyaPosition(val); markDirty(); }}
                         />
-                        <TextField
-                          label="Banner Message"
-                          value={bannerText}
-                          onChange={(val) => { setBannerText(val); markDirty(); }}
-                          multiline={3}
-                          autoComplete="off"
-                        />
-                      </>
-                    )}
-                  </BlockStack>
-                )}
 
-                {/* 3. OVERVIEW & STATUS INSPECTOR */}
-                {activeSection === "overview" && (
-                  <BlockStack gap="300">
-                    <Text variant="headingMd" as="h3">
-                      Festival Overview
-                    </Text>
-                    <Divider />
-                    <Text variant="bodySm"><strong>Festival:</strong> {festival.name}</Text>
-                    <Text variant="bodySm"><strong>Regional Name:</strong> {festival.hindiName}</Text>
-                    <Text variant="bodySm"><strong>Region:</strong> {festival.region}</Text>
-                    <Text variant="bodySm"><strong>Tier:</strong> {festival.tier.toUpperCase()}</Text>
-                    <Text variant="bodySm"><strong>Description:</strong> {festival.description}</Text>
-                    <Divider />
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                          <LuxurySlider
+                            label="Horizontal Margin"
+                            value={diyaMarginX}
+                            min={0}
+                            max={80}
+                            step={1}
+                            unit="px"
+                            onChange={(val) => { setDiyaMarginX(val); markDirty(); }}
+                          />
+                          <LuxurySlider
+                            label="Vertical Margin"
+                            value={diyaMarginY}
+                            min={0}
+                            max={80}
+                            step={1}
+                            unit="px"
+                            onChange={(val) => { setDiyaMarginY(val); markDirty(); }}
+                          />
+                        </div>
+
+                        <ToggleSwitch
+                          label="Hide Diyas on Mobile Screens (<480px)"
+                          checked={diyaHideOnMobile}
+                          onChange={(val) => { setDiyaHideOnMobile(val); markDirty(); }}
+                          helpText="Prevents corner diyas from overlapping mobile sticky Add-to-Cart or chat buttons"
+                        />
+                      </BlockStack>
+                    </Card>
+
+                    {/* CARD 4: Fireworks & Atmospheric FX */}
+                    <Card padding="400">
+                      <BlockStack gap="300">
+                        <InlineStack align="space-between" blockAlign="center">
+                          <Text variant="headingSm" as="h4">Fireworks & Ambient FX</Text>
+                          <Badge tone="magic">Celestial Glow</Badge>
+                        </InlineStack>
+                        <Text variant="bodyXs" tone="subdued">
+                          Celestial skyward fireworks bursts, soundscapes, and shopper interactive blessings
+                        </Text>
+                        <Divider />
+
+                        <Select
+                          label="Fireworks Frequency"
+                          options={[
+                            { label: "Off (No Fireworks)", value: "off" },
+                            { label: "Subtle (Burst every 8.5s)", value: "subtle" },
+                            { label: "Moderate (Burst every 4.5s)", value: "moderate" },
+                            { label: "Celebratory (Burst every 2.4s)", value: "celebratory" },
+                          ]}
+                          value={fireworksFrequency}
+                          onChange={(val) => { setFireworksFrequency(val); markDirty(); }}
+                        />
+
+                        <ToggleSwitch
+                          label="Interactive Tap-to-Bless (Shopper Diya Blessing)"
+                          checked={interactiveBlessing}
+                          onChange={(val) => { setInteractiveBlessing(val); markDirty(); }}
+                          helpText="Shoppers can tap corner diyas to receive auspicious greetings and floral sparks"
+                        />
+
+                        <Select
+                          label="Festive Soundscape (Web Audio Synthesizer)"
+                          options={[
+                            { label: "Silent (100% Muted — Default)", value: "muted" },
+                            { label: "Auspicious Temple Bells on Diya Tap", value: "temple_bells" },
+                          ]}
+                          value={fireworksSound}
+                          onChange={(val) => { setFireworksSound(val); markDirty(); }}
+                        />
+                      </BlockStack>
+                    </Card>
+                  </div>
+                )}
+              </BlockStack>
+            )}
+
+            {/* 2. BANNER & MESSAGING SECTION */}
+            {activeSection === "banner" && (
+              <Card padding="400">
+                <BlockStack gap="300">
+                  <Text variant="headingMd" as="h3">
+                    Banner & Announcement
+                  </Text>
+                  <Divider />
+                  <ToggleSwitch
+                    label="Show Announcement Bar on Storefront"
+                    checked={enableBanner}
+                    onChange={(val) => { setEnableBanner(val); markDirty(); }}
+                    helpText="Displays festive discount announcement strip across top of store"
+                  />
+                  {enableBanner && (
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "16px" }}>
+                      <Select
+                        label="Greeting Language"
+                        options={[
+                          { label: "English", value: "en" },
+                          { label: "हिंदी (Hindi)", value: "hi" },
+                          { label: "ગુજરાતી (Gujarati)", value: "gu" },
+                          { label: "मराठी (Marathi)", value: "mr" },
+                          { label: "தமிழ் (Tamil)", value: "ta" },
+                          { label: "తెలుగు (Telugu)", value: "te" },
+                          { label: "বাংলা (Bengali)", value: "bn" },
+                          { label: "ਪੰਜਾਬੀ (Punjabi)", value: "pa" },
+                        ]}
+                        value={language}
+                        onChange={handleLanguageChange}
+                      />
+                      <TextField
+                        label="Banner Message"
+                        value={bannerText}
+                        onChange={(val) => { setBannerText(val); markDirty(); }}
+                        multiline={2}
+                        autoComplete="off"
+                      />
+                    </div>
+                  )}
+                </BlockStack>
+              </Card>
+            )}
+
+            {/* 3. OVERVIEW & STATUS SECTION */}
+            {activeSection === "overview" && (
+              <Card padding="400">
+                <BlockStack gap="300">
+                  <Text variant="headingMd" as="h3">
+                    Festival Overview & Status
+                  </Text>
+                  <Divider />
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
+                    <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                      <Text variant="bodyXs" tone="subdued">FESTIVAL</Text>
+                      <Text variant="bodyMd" fontWeight="bold">{festival.name}</Text>
+                      <Text variant="bodyXs" tone="subdued">{festival.hindiName}</Text>
+                    </Box>
+                    <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                      <Text variant="bodyXs" tone="subdued">REGION & TIER</Text>
+                      <Text variant="bodyMd" fontWeight="bold">{festival.region}</Text>
+                      <Text variant="bodyXs" tone="subdued">{festival.tier.toUpperCase()} Tier</Text>
+                    </Box>
+                    <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                      <Text variant="bodyXs" tone="subdued">STORE EMBED STATUS</Text>
+                      <Text variant="bodyMd" fontWeight="bold" tone={isActive ? "success" : "subdued"}>
+                        {isActive ? "Active on Live Store" : "Draft / Inactive"}
+                      </Text>
+                    </Box>
+                  </div>
+                  <Text variant="bodySm">{festival.description}</Text>
+                  <Divider />
+                  <InlineStack align="end">
                     <Button
-                      fullWidth
                       variant="primary"
                       onClick={() => handleSave(!isActive)}
                     >
-                      {isActive ? "Deactivate Theme" : "Activate Theme"}
+                      {isActive ? "Deactivate Theme" : "Activate on Store"}
                     </Button>
-                  </BlockStack>
-                )}
+                  </InlineStack>
+                </BlockStack>
+              </Card>
+            )}
 
-                {/* 4. SOUND & INTERACTION INSPECTOR */}
-                {activeSection === "sound_interaction" && (
-                  <BlockStack gap="300">
-                    <Text variant="headingMd" as="h3">
-                      Sound & Interaction
-                    </Text>
-                    <Divider />
-                    <ToggleSwitch
-                      label="Interactive Tap-to-Bless (Shopper Diya Blessing)"
-                      checked={interactiveBlessing}
-                      onChange={(val) => { setInteractiveBlessing(val); markDirty(); }}
-                      helpText="Shoppers can tap corner diyas to receive auspicious greetings"
-                    />
-                    <Select
-                      label="Festive Soundscape (Web Audio Synthesizer)"
-                      options={[
-                        { label: "Silent (100% Muted — Default)", value: "muted" },
-                        { label: "Auspicious Temple Bells on Diya Tap", value: "temple_bells" },
-                      ]}
-                      value={fireworksSound}
-                      onChange={(val) => { setFireworksSound(val); markDirty(); }}
-                    />
-                  </BlockStack>
-                )}
+            {/* 4. SOUND & INTERACTION SECTION */}
+            {activeSection === "sound_interaction" && (
+              <Card padding="400">
+                <BlockStack gap="300">
+                  <Text variant="headingMd" as="h3">
+                    Sound & Interaction
+                  </Text>
+                  <Divider />
+                  <ToggleSwitch
+                    label="Interactive Tap-to-Bless (Shopper Diya Blessing)"
+                    checked={interactiveBlessing}
+                    onChange={(val) => { setInteractiveBlessing(val); markDirty(); }}
+                    helpText="Shoppers can tap corner diyas to receive auspicious greetings and floral sparks"
+                  />
+                  <Select
+                    label="Festive Soundscape (Web Audio Synthesizer)"
+                    options={[
+                      { label: "Silent (100% Muted — Default)", value: "muted" },
+                      { label: "Auspicious Temple Bells on Diya Tap", value: "temple_bells" },
+                    ]}
+                    value={fireworksSound}
+                    onChange={(val) => { setFireworksSound(val); markDirty(); }}
+                  />
+                </BlockStack>
+              </Card>
+            )}
 
-                {/* 5. SCHEDULING INSPECTOR */}
-                {activeSection === "scheduling" && (
-                  <BlockStack gap="300">
-                    <Text variant="headingMd" as="h3">
-                      Automated Scheduling
-                    </Text>
-                    <Divider />
+            {/* 5. SCHEDULING SECTION */}
+            {activeSection === "scheduling" && (
+              <Card padding="400">
+                <BlockStack gap="300">
+                  <Text variant="headingMd" as="h3">
+                    Automated Scheduling
+                  </Text>
+                  <Divider />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
                     <TextField
                       label="Activation Start Date"
                       type="date"
@@ -1734,62 +1873,73 @@ export default function FestivalConfig() {
                       onChange={(val) => { setScheduledEnd(val); markDirty(); }}
                       autoComplete="off"
                     />
-                    <Text variant="bodyXs" tone="subdued">
-                      The theme will automatically appear on your storefront when the start date arrives and shut off after the end date.
-                    </Text>
-                  </BlockStack>
-                )}
+                  </div>
+                  <Text variant="bodyXs" tone="subdued">
+                    The theme will automatically appear on your storefront when the start date arrives and shut off after the end date.
+                  </Text>
+                </BlockStack>
+              </Card>
+            )}
 
-                {/* 6. ADVANCED & SAFETY INSPECTOR */}
-                {activeSection === "advanced" && (
-                  <BlockStack gap="300">
-                    <Text variant="headingMd" as="h3">
-                      Conversion & Performance Safety
-                    </Text>
-                    <Divider />
-                    <Text variant="bodyXs" tone="success">
-                      Non-Blocking: Garlands and effects use pointer-events: none
-                    </Text>
-                    <Text variant="bodyXs" tone="success">
-                      Mobile Optimization: Side garlands auto-suppressed under 640px
-                    </Text>
-                    <Text variant="bodyXs" tone="success">
-                      Accessibility: prefers-reduced-motion stops animation loops
-                    </Text>
-                    <Text variant="bodyXs" tone="success">
-                      Zero Layout Shifts: Fixed overlays do not push theme DOM
-                    </Text>
-                  </BlockStack>
-                )}
+            {/* 6. ADVANCED & SAFETY SECTION */}
+            {activeSection === "advanced" && (
+              <Card padding="400">
+                <BlockStack gap="300">
+                  <Text variant="headingMd" as="h3">
+                    Conversion & Performance Safety
+                  </Text>
+                  <Divider />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
+                      <Text variant="bodyXs" tone="success" fontWeight="bold">Non-Blocking Interactions</Text>
+                      <Text variant="bodyXs" tone="subdued">Garlands and effects use pointer-events: none</Text>
+                    </Box>
+                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
+                      <Text variant="bodyXs" tone="success" fontWeight="bold">Mobile Responsive Guard</Text>
+                      <Text variant="bodyXs" tone="subdued">Side garlands auto-suppressed under 640px</Text>
+                    </Box>
+                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
+                      <Text variant="bodyXs" tone="success" fontWeight="bold">Accessibility Compliant</Text>
+                      <Text variant="bodyXs" tone="subdued">prefers-reduced-motion halts animation loops</Text>
+                    </Box>
+                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
+                      <Text variant="bodyXs" tone="success" fontWeight="bold">Zero Layout Shifts</Text>
+                      <Text variant="bodyXs" tone="subdued">Fixed overlays do not push theme DOM elements</Text>
+                    </Box>
+                  </div>
+                </BlockStack>
+              </Card>
+            )}
 
-                {/* 7. COLORS & MATERIALS INSPECTOR */}
-                {activeSection === "colors" && (
-                  <BlockStack gap="300">
-                    <Text variant="headingMd" as="h3">
-                      Theme Palette Tokens
-                    </Text>
-                    <Divider />
-                    <ToggleSwitch
-                      label="Swap CSS Variables with Festival Colors"
-                      checked={enableColorSwap}
-                      onChange={(val) => { setEnableColorSwap(val); markDirty(); }}
-                      helpText="Injects curated festive accents into theme design tokens"
-                    />
-                    <InlineGrid columns={2} gap="200">
-                      <div>
-                        <Text variant="bodyXs" tone="subdued">Primary</Text>
-                        <div style={{ width: "32px", height: "32px", borderRadius: "6px", background: festival.palette.primary, border: "1px solid #ccc" }} />
-                      </div>
-                      <div>
-                        <Text variant="bodyXs" tone="subdued">Secondary</Text>
-                        <div style={{ width: "32px", height: "32px", borderRadius: "6px", background: festival.palette.secondary, border: "1px solid #ccc" }} />
-                      </div>
-                    </InlineGrid>
-                  </BlockStack>
-                )}
-              </BlockStack>
-            </Card>
+            {/* 7. COLORS & MATERIALS SECTION */}
+            {activeSection === "colors" && (
+              <Card padding="400">
+                <BlockStack gap="300">
+                  <Text variant="headingMd" as="h3">
+                    Theme Palette Tokens
+                  </Text>
+                  <Divider />
+                  <ToggleSwitch
+                    label="Swap CSS Variables with Festival Colors"
+                    checked={enableColorSwap}
+                    onChange={(val) => { setEnableColorSwap(val); markDirty(); }}
+                    helpText="Injects curated festive accents into theme design tokens"
+                  />
+                  <InlineGrid columns={2} gap="200">
+                    <div>
+                      <Text variant="bodyXs" tone="subdued">Primary Festive Accent</Text>
+                      <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: festival.palette.primary, border: "1px solid #ccc", marginTop: "4px" }} />
+                    </div>
+                    <div>
+                      <Text variant="bodyXs" tone="subdued">Secondary Festive Accent</Text>
+                      <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: festival.palette.secondary, border: "1px solid #ccc", marginTop: "4px" }} />
+                    </div>
+                  </InlineGrid>
+                </BlockStack>
+              </Card>
+            )}
           </div>
+        </div>
         </BlockStack>
       </Page>
     </Frame>
