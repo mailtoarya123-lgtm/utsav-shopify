@@ -131,9 +131,9 @@
   letter-spacing: 0.08em;
   padding: 2px 10px;
   border-radius: 999px;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  color: #D4AF37;
+  background: var(--utsav-glow, rgba(212, 175, 55, 0.15));
+  border: 1px solid var(--utsav-primary, rgba(212, 175, 55, 0.4));
+  color: var(--utsav-primary, #D4AF37);
 }
 
 .utsav-banner-text {
@@ -146,19 +146,19 @@
   align-items: center;
   gap: 6px;
   background: rgba(255, 255, 255, 0.08);
-  border: 1px dashed rgba(212, 175, 55, 0.6);
+  border: 1px dashed var(--utsav-primary, rgba(212, 175, 55, 0.6));
   padding: 3px 10px;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 700;
-  color: #D4AF37;
+  color: var(--utsav-primary, #D4AF37);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .utsav-coupon-pill:hover {
-  background: rgba(212, 175, 55, 0.2);
-  border-color: #D4AF37;
+  background: var(--utsav-glow, rgba(212, 175, 55, 0.2));
+  border-color: var(--utsav-primary, #D4AF37);
 }
 
 .utsav-banner-close {
