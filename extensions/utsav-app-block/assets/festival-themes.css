@@ -404,6 +404,19 @@
   100% { opacity: 0; transform: translate(-50%, -50px) scale(0.95); }
 }
 
+/* ─── Halloween & Particle Animations ────────────────────────────────────── */
+@keyframes utsavGhostFloat {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(4deg); }
+  100% { transform: translateY(6px) rotate(-3deg); }
+}
+
+@keyframes utsavEeriePulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.95; }
+  100% { opacity: 0.6; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .utsav-diya-flame,
   .utsav-diya-glow,

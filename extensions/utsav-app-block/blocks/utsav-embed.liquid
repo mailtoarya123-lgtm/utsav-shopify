@@ -4,48 +4,46 @@
   Appears directly in the Theme Customizer 'App embeds' tab!
 {% endcomment %}
 
-{% if block.settings.enable_decor %}
-  {{ 'festival-themes.css' | asset_url | stylesheet_tag }}
+{{ 'festival-themes.css' | asset_url | stylesheet_tag }}
 
-  <script>
-    window.__UTSAV_CONFIG__ = {
-      shopDomain: {{ shop.permanent_domain | default: shop.myshopify_domain | default: shop.domain | json }},
-      festivalId: {{ block.settings.festival_id | default: "diwali" | json }},
-      festivalName: {{ block.settings.festival_name | default: "Diwali" | json }},
-      festivalEmoji: "🪔",
-      enableEffects: true,
-      enableBanner: false,
-      enableCountdown: false,
-      enableColorSwap: true,
-      enableSeriesLights: {{ block.settings.enable_series_lights | default: true | json }},
-      seriesLightsTheme: {{ block.settings.series_lights_theme | default: "warm_gold" | json }},
-      seriesLightsMode: {{ block.settings.series_lights_mode | default: "twinkle" | json }},
-      diyaStyle: {{ block.settings.diya_style | default: "royal_brass" | json }},
-      flameGlow: {{ block.settings.flame_glow | default: "warm_radiance" | json }},
-      diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
-      diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
-      diyaMarginX: {{ block.settings.diya_margin_x | default: 18 | json }},
-      diyaMarginY: {{ block.settings.diya_margin_y | default: 18 | json }},
-      diyaHideOnMobile: {{ block.settings.diya_hide_on_mobile | default: false | json }},
-      fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
-      garlandLayout: {{ block.settings.garland_layout | default: "top_and_sides" | json }},
-      garlandPlacement: {{ block.settings.garland_placement | default: "below_header" | json }},
-      garlandScrollMode: {{ block.settings.garland_scroll_mode | default: "natural_scroll" | json }},
-      garlandOffset: {{ block.settings.garland_offset | default: 0 | json }},
-      garlandStyle: {{ block.settings.garland_style | default: "mango_marigold" | json }},
-      kiteCount: {{ block.settings.kite_count | default: 2 | json }},
-      kiteSpeed: {{ block.settings.kite_speed | default: "gentle" | json }},
-      moonPosition: {{ block.settings.moon_position | default: "top_right" | json }},
-      palette: {
-        primary: "#D4AF37",
-        secondary: "#FF6B35",
-        background: "#1A0A00",
-        glow: "rgba(212, 175, 55, 0.35)"
-      }
-    };
-  </script>
-  <script src="{{ 'festive-effects.js' | asset_url }}" defer></script>
-{% endif %}
+<script>
+  window.__UTSAV_CONFIG__ = {
+    shopDomain: {{ shop.myshopify_domain | default: shop.domain | json }},
+    festivalId: {{ block.settings.festival_id | default: "diwali" | json }},
+    festivalName: {{ block.settings.festival_name | default: "Diwali" | json }},
+    festivalEmoji: "🪔",
+    enableEffects: true,
+    enableBanner: false,
+    enableCountdown: false,
+    enableColorSwap: true,
+    enableSeriesLights: {{ block.settings.enable_series_lights | default: true | json }},
+    seriesLightsTheme: {{ block.settings.series_lights_theme | default: "warm_gold" | json }},
+    seriesLightsMode: {{ block.settings.series_lights_mode | default: "twinkle" | json }},
+    diyaStyle: {{ block.settings.diya_style | default: "royal_brass" | json }},
+    flameGlow: {{ block.settings.flame_glow | default: "warm_radiance" | json }},
+    diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
+    diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
+    diyaMarginX: {{ block.settings.diya_margin_x | default: 18 | json }},
+    diyaMarginY: {{ block.settings.diya_margin_y | default: 18 | json }},
+    diyaHideOnMobile: {{ block.settings.diya_hide_on_mobile | default: false | json }},
+    fireworksFrequency: {{ block.settings.fireworks_frequency | default: "subtle" | json }},
+    garlandLayout: {{ block.settings.garland_layout | default: "top_and_sides" | json }},
+    garlandPlacement: {{ block.settings.garland_placement | default: "below_header" | json }},
+    garlandScrollMode: {{ block.settings.garland_scroll_mode | default: "natural_scroll" | json }},
+    garlandOffset: {{ block.settings.garland_offset | default: 0 | json }},
+    garlandStyle: {{ block.settings.garland_style | default: "mango_marigold" | json }},
+    kiteCount: {{ block.settings.kite_count | default: 2 | json }},
+    kiteSpeed: {{ block.settings.kite_speed | default: "gentle" | json }},
+    moonPosition: {{ block.settings.moon_position | default: "top_right" | json }},
+    palette: {
+      primary: "#D4AF37",
+      secondary: "#FF6B35",
+      background: "#1A0A00",
+      glow: "rgba(212, 175, 55, 0.35)"
+    }
+  };
+</script>
+<script src="{{ 'festive-effects.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

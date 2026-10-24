@@ -15,6 +15,7 @@
       "utsav-garland-left",
       "utsav-garland-right",
       "utsav-corner-container",
+      "utsav-ghost-container",
       "utsav-kites-container",
       "utsav-snow-canvas",
       "utsav-fireworks-canvas",
@@ -52,11 +53,11 @@
     const enableColorSwap = config.enableColorSwap !== undefined ? Boolean(config.enableColorSwap) : true;
     const enableAudio = config.enableAudio !== undefined ? Boolean(config.enableAudio) : true;
     const enableWheel = Boolean(config.enableWheel);
-    const bannerText = config.bannerText || "";
+    const bannerText = config.bannerText || (festivalId.includes("halloween") ? "🎃 Spooktacular Deals! Treat yourself to enchanting Halloween savings!" : (config.festivalName ? `✨ Celebrate ${config.festivalName} with Festive Offers!` : ""));
     const couponCode = config.couponCode || "";
     const countdownTarget = config.countdownTarget || null;
     const festivalName = config.festivalName || "Festival";
-    const festivalEmoji = config.festivalEmoji || "🪔";
+    const festivalEmoji = config.festivalEmoji || (festivalId.includes("halloween") ? "🎃" : "🪔");
 
     // 🪔 Diya Customizations
     const diyaStyle = config.diyaStyle || "royal_brass";
@@ -1629,6 +1630,48 @@
       document.body.appendChild(decorContainer);
     }
 
+    // ─── 4.4 HALLOWEEN: Floating Ghost Silhouettes & Ambient Eerie Mist ───────
+    if (enableEffects && festivalId.includes("halloween")) {
+      const ghostContainer = document.createElement("div");
+      ghostContainer.id = "utsav-ghost-container";
+      ghostContainer.style.cssText = "position: fixed; inset: 0; pointer-events: none; z-index: 9989; overflow: hidden;";
+
+      // Eerie Twilight Luminescence & Amber Candlelight Glow
+      const eerieMist = document.createElement("div");
+      eerieMist.style.cssText = "position: absolute; inset: 0; background: radial-gradient(circle at 50% 20%, rgba(106, 13, 173, 0.16) 0%, transparent 60%), radial-gradient(circle at 50% 80%, rgba(255, 117, 24, 0.14) 0%, transparent 50%); animation: utsavEeriePulse 6s ease-in-out infinite alternate;";
+      ghostContainer.appendChild(eerieMist);
+
+      // Translucent Spectral Ghost Silhouettes
+      const ghosts = [
+        { left: "14%", top: "32%", size: 38, delay: "0s", duration: "7s", opacity: 0.8 },
+        { left: "78%", top: "42%", size: 44, delay: "2.2s", duration: "8.5s", opacity: 0.7 },
+        { left: "22%", top: "68%", size: 34, delay: "3.8s", duration: "7.6s", opacity: 0.75 },
+        { left: "82%", top: "75%", size: 40, delay: "1s", duration: "9s", opacity: 0.68 }
+      ];
+
+      ghosts.forEach(function (g) {
+        const ghostEl = document.createElement("div");
+        ghostEl.style.cssText = "position: absolute; left: " + g.left + "; top: " + g.top + "; width: " + g.size + "px; height: " + Math.round(g.size * 1.25) + "px; opacity: " + g.opacity + "; filter: drop-shadow(0 0 10px rgba(255, 117, 24, 0.55)); animation: utsavGhostFloat " + g.duration + " ease-in-out infinite alternate; animation-delay: " + g.delay + "; pointer-events: none;";
+        ghostEl.innerHTML = '<svg viewBox="0 0 32 38" width="100%" height="100%">' +
+          '<path d="M 16 3 C 8 3 4 10 4 18 C 4 27 6 34 8 33 C 10 32 12 35 14 33 C 16 31 18 35 20 33 C 22 31 24 35 26 33 C 28 35 28 27 28 18 C 28 10 24 3 16 3 Z" fill="rgba(240, 235, 255, 0.9)"/>' +
+          '<ellipse cx="11" cy="14" rx="2.2" ry="3" fill="#1A1528"/>' +
+          '<ellipse cx="21" cy="14" rx="2.2" ry="3" fill="#1A1528"/>' +
+          '<ellipse cx="16" cy="20" rx="1.8" ry="2.4" fill="#1A1528"/>' +
+        '</svg>';
+        ghostContainer.appendChild(ghostEl);
+      });
+
+      // Floating Ember Particles
+      for (let i = 0; i < 16; i++) {
+        const ember = document.createElement("div");
+        const size = (i % 3) + 2.5;
+        ember.style.cssText = "position: absolute; left: " + ((i * 19 + 7) % 90 + 5) + "%; top: " + ((i * 23 + 11) % 85 + 8) + "%; width: " + size + "px; height: " + size + "px; border-radius: 50%; background: " + (i % 2 === 0 ? "#FF7518" : "#FFD700") + "; box-shadow: 0 0 6px rgba(255, 117, 24, 0.85); opacity: 0.8;";
+        ghostContainer.appendChild(ember);
+      }
+
+      document.body.appendChild(ghostContainer);
+    }
+
     // ─── 4.5 CHRISTMAS: Minimal Falling Snowflakes ──────────────────────────
     if (enableEffects && isChristmas) {
       const snowCanvas = document.createElement("canvas");
@@ -1834,38 +1877,46 @@
     }
   }
 
-  // ─── BOOTSTRAPPER: Cloud Fetch + Local Config Merge ────────────────────────
-  const shopDomain =
-    (window.Shopify && window.Shopify.shop) ||
-    (window.__UTSAV_CONFIG__ && window.__UTSAV_CONFIG__.shopDomain) ||
-    window.location.hostname;
-  const urlParams = new URLSearchParams(window.location.search);
-  const previewFest = urlParams.get("utsav_preview");
+  // ─── BOOTSTRAPPER: Cloud Fetch + Local Config Merge (DOM Safe) ─────────────
+  function bootstrapper() {
+    const shopDomain =
+      (window.Shopify && window.Shopify.shop) ||
+      (window.__UTSAV_CONFIG__ && window.__UTSAV_CONFIG__.shopDomain) ||
+      window.location.hostname;
+    const urlParams = new URLSearchParams(window.location.search);
+    const previewFest = urlParams.get("utsav_preview");
 
-  if (previewFest) {
-    startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, { festivalId: previewFest, enableEffects: true }));
-    fetch("https://utsav-shopify.onrender.com/api/active-theme?shop=" + encodeURIComponent(shopDomain) + "&preview=" + encodeURIComponent(previewFest) + "&_t=" + Date.now())
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        if (data && data.active && data.config) {
-          startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, data.config, { festivalId: data.festivalId || previewFest }));
-        }
-      })
-      .catch(function () {});
-  } else {
-    fetch("https://utsav-shopify.onrender.com/api/active-theme?shop=" + encodeURIComponent(shopDomain) + "&_t=" + Date.now())
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
-        if (data && data.active === true && data.config) {
-          startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, data.config, { festivalId: data.festivalId || "diwali" }));
-        } else if (data && data.active === false) {
-          teardownExistingEffects();
-        } else {
+    if (previewFest) {
+      startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, { festivalId: previewFest, enableEffects: true }));
+      fetch("https://utsav-shopify.onrender.com/api/active-theme?shop=" + encodeURIComponent(shopDomain) + "&preview=" + encodeURIComponent(previewFest) + "&_t=" + Date.now())
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.active && data.config) {
+            startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, data.config, { festivalId: data.festivalId || previewFest }));
+          }
+        })
+        .catch(function () {});
+    } else {
+      fetch("https://utsav-shopify.onrender.com/api/active-theme?shop=" + encodeURIComponent(shopDomain) + "&_t=" + Date.now())
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.active === true && data.config) {
+            startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, data.config, { festivalId: data.festivalId || "diwali" }));
+          } else if (data && data.active === false) {
+            teardownExistingEffects();
+          } else {
+            startFestiveEngine(window.__UTSAV_CONFIG__ || {});
+          }
+        })
+        .catch(function () {
           startFestiveEngine(window.__UTSAV_CONFIG__ || {});
-        }
-      })
-      .catch(function () {
-        startFestiveEngine(window.__UTSAV_CONFIG__ || {});
-      });
+        });
+    }
+  }
+
+  if (document.readyState === "loading" || !document.body) {
+    document.addEventListener("DOMContentLoaded", bootstrapper);
+  } else {
+    bootstrapper();
   }
 })();
