@@ -21,9 +21,14 @@
       "utsav-fireworks-canvas",
       "utsav-countdown",
       "utsav-wheel-trigger",
+      "utsav-cart-urgency-pill",
+      "utsav-product-urgency-badge",
     ].forEach(function (id) {
       const el = document.getElementById(id);
       if (el) el.remove();
+    });
+    document.querySelectorAll(".utsav-discount-badge").forEach(function (b) {
+      b.remove();
     });
   }
 
@@ -173,7 +178,7 @@
         // 1. Halloween: Rich Scalloped Spiderweb Bunting with Glowing Lanterns & Spiders
         if (fest.includes("halloween")) {
           return `
-            <svg width="100%" height="64" viewBox="0 0 1200 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));">
+            <svg width="100%" height="64" viewBox="0 0 1200 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent !important; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));">
               <line x1="0" y1="3" x2="1200" y2="3" stroke="#FF7518" stroke-width="3" opacity="0.95"/>
               <line x1="0" y1="5" x2="1200" y2="5" stroke="#1C1428" stroke-width="1.5" opacity="0.8"/>
               ${[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100].map((x, i) => `
@@ -206,7 +211,7 @@
         if (fest.includes("christmas")) {
           const holidayColors = ["#FF1744", "#FFD700", "#00E676", "#2979FF"];
           return `
-            <svg width="100%" height="54" viewBox="0 0 1200 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(8,24,12,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="54" viewBox="0 0 1200 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <path d="M 0 5 Q 600 32 1200 5" stroke="#1B4D2E" stroke-width="4.5" fill="none"/>
               ${[40, 140, 240, 340, 440, 540, 640, 740, 840, 940, 1040, 1140].map((x, i) => `
                 <g transform="translate(${x}, 14)">
@@ -224,7 +229,7 @@
         // 3. Valentine's Day: Pink & Scarlet Ribbon Swags with Floating Hearts
         if (fest.includes("valentines")) {
           return `
-            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(35,8,18,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <path d="M 0 6 Q 600 26 1200 6" stroke="#E91E63" stroke-width="2.5" fill="none"/>
               ${[50, 150, 250, 350, 450, 550, 650, 750, 850, 950, 1050, 1150].map((x) => `
                 <g transform="translate(${x}, 12)">
@@ -239,7 +244,7 @@
         // 4. Lunar New Year: Imperial Red & Gold Cord with Lucky Coins
         if (fest.includes("lunar") || fest.includes("chinese")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(30,6,6,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="4" x2="1200" y2="4" stroke="#D32F2F" stroke-width="3"/>
               ${[40, 120, 200, 280, 360, 440, 520, 600, 680, 760, 840, 920, 1000, 1080, 1160].map((x) => `
                 <g transform="translate(${x}, 0)">
@@ -257,7 +262,7 @@
         if (fest.includes("holi")) {
           const pomColors = ["#E91E63", "#FF9800", "#FFEB3B", "#00E5FF", "#76FF03"];
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(22,6,22,0.9) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <path d="M 0 5 Q 600 24 1200 5" stroke="#FF4081" stroke-width="2" fill="none"/>
               ${[30, 110, 190, 270, 350, 430, 510, 590, 670, 750, 830, 910, 990, 1070, 1150].map((x, i) => `
                 <g transform="translate(${x}, 0)">
@@ -273,7 +278,7 @@
         // 6. Pongal: Sugarcane & Turmeric Foliage Arch
         if (fest.includes("pongal")) {
           return `
-            <svg width="100%" height="54" viewBox="0 0 1200 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(14,24,8,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="54" viewBox="0 0 1200 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="4" x2="1200" y2="4" stroke="#2E7D32" stroke-width="3"/>
               ${[40, 140, 240, 340, 440, 540, 640, 740, 840, 940, 1040, 1140].map((x) => `
                 <g transform="translate(${x}, 0)">
@@ -289,7 +294,7 @@
         // 7. Onam: Palm Kuruthola Thoranam
         if (fest.includes("onam")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(12,24,12,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="3" x2="1200" y2="3" stroke="#558B2F" stroke-width="2.5"/>
               ${[25, 75, 125, 175, 225, 275, 325, 375, 425, 475, 525, 575, 625, 675, 725, 775, 825, 875, 925, 975, 1025, 1075, 1125, 1175].map((x, i) => `
                 <g transform="translate(${x}, 0)">
@@ -304,7 +309,7 @@
         // 8. Vishu: Golden Kanikonna Blossom Cascades
         if (fest === "vishu") {
           return `
-            <svg width="100%" height="56" viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(10,26,10,0.88) 0%, transparent 100%);">
+            <svg width="100%" height="56" viewBox="0 0 1200 56" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="4" x2="1200" y2="4" stroke="#2E7D32" stroke-width="3"/>
               ${[35, 125, 215, 305, 395, 485, 575, 665, 755, 845, 935, 1025, 1115].map((x) => `
                 <g transform="translate(${x}, 4)">
@@ -323,7 +328,7 @@
         // 9. Eid: Damascus Fanoos Lanterns & Golden Crescent Chain
         if (fest.includes("eid")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(4,22,20,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="3" x2="1200" y2="3" stroke="#D4AF37" stroke-width="1.8"/>
               ${[60, 180, 300, 420, 540, 660, 780, 900, 1020, 1140].map((x) => `
                 <g transform="translate(${x}, 0)">
@@ -339,7 +344,7 @@
         // 10. Thanksgiving: Autumn Foliage (Oak & Maple leaves)
         if (fest.includes("thanksgiving")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(32,16,6,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="3" x2="1200" y2="3" stroke="#795548" stroke-width="2.5"/>
               ${[40, 120, 200, 280, 360, 440, 520, 600, 680, 760, 840, 920, 1000, 1080, 1160].map((x, i) => `
                 <g transform="translate(${x}, 0)">
@@ -356,7 +361,7 @@
         // 11. Hanukkah: Sapphire Blue & Silver Bunting
         if (fest.includes("hanukkah")) {
           return `
-            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(8,22,42,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="2" x2="1200" y2="2" stroke="#1565C0" stroke-width="2"/>
               ${[50, 150, 250, 350, 450, 550, 650, 750, 850, 950, 1050, 1150].map((x) => `
                 <g transform="translate(${x}, 0)">
@@ -374,7 +379,7 @@
         if (fest.includes("easter")) {
           const eggColors = ["#F8BBD0", "#B2EBF2", "#FFF9C4", "#D1C4E9", "#C8E6C9"];
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(22,30,20,0.9) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <path d="M 0 6 Q 600 24 1200 6" stroke="#81C784" stroke-width="2.5" fill="none"/>
               ${[40, 120, 200, 280, 360, 440, 520, 600, 680, 760, 840, 920, 1000, 1080, 1160].map((x, i) => `
                 <g transform="translate(${x}, 8)">
@@ -391,7 +396,7 @@
         // 13. New Year: Champagne Metallic Streamers
         if (fest.includes("new-year") || fest.includes("newyear")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(22,20,12,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="2" x2="1200" y2="2" stroke="#FFD700" stroke-width="2"/>
               ${[35, 115, 195, 275, 355, 435, 515, 595, 675, 755, 835, 915, 995, 1075, 1155].map((x, i) => `
                 <g transform="translate(${x}, 0)">
@@ -406,7 +411,7 @@
         // 14. Mid-Autumn: Bamboo Pole & Sky Lantern Strings
         if (fest.includes("mid-autumn") || fest.includes("mooncake")) {
           return `
-            <svg width="100%" height="54" viewBox="0 0 1200 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(10,14,35,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="54" viewBox="0 0 1200 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="3" x2="1200" y2="3" stroke="#8D6E63" stroke-width="2.2"/>
               ${[50, 150, 250, 350, 450, 550, 650, 750, 850, 950, 1050, 1150].map((x) => `
                 <g transform="translate(${x}, 0)">
@@ -423,7 +428,7 @@
         // 15. Vesak: Sacred Bodhi Leaf & Jasmine Garland
         if (fest.includes("vesak") || fest.includes("buddha")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(25,16,8,0.9) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <path d="M 0 4 Q 600 22 1200 4" stroke="#FB8C00" stroke-width="2" fill="none"/>
               ${[35, 115, 195, 275, 355, 435, 515, 595, 675, 755, 835, 915, 995, 1075, 1155].map((x) => `
                 <g transform="translate(${x}, 4)">
@@ -439,7 +444,7 @@
         // 16. Durga Puja: Alpana Border & Kash Reeds
         if (fest.includes("durga")) {
           return `
-            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(26,6,10,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <rect x="0" y="0" width="100%" height="4" fill="#C62828"/>
               ${[20, 70, 120, 170, 220, 270, 320, 370, 420, 470, 520, 570, 620, 670, 720, 770, 820, 870, 920, 970, 1020, 1070, 1120, 1170].map((x) => `
                 <g transform="translate(${x}, 4)">
@@ -455,7 +460,7 @@
         // 17. Raksha Bandhan: Silk Kalawa & Mauli Thread Swags
         if (fest.includes("raksha") || fest.includes("rakhi")) {
           return `
-            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(30,8,8,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="50" viewBox="0 0 1200 50" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <line x1="0" y1="2" x2="1200" y2="2" stroke="#D32F2F" stroke-width="3"/>
               ${[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100].map((x) => `
                 <g transform="translate(${x}, 0)">
@@ -472,7 +477,7 @@
         // 18. Navratri: Mirrored Bandhanwar & Gold Gota
         if (fest.includes("navratri")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(30,6,28,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <rect x="0" y="0" width="100%" height="4.5" fill="#FF4500"/>
               ${[0, 80, 160, 240, 320, 400, 480, 560, 640, 720, 800, 880, 960, 1040, 1120].map((x, i) => `
                 <g transform="translate(${x}, 4.5)">
@@ -488,7 +493,7 @@
         // 19. Ganesh Chaturthi: Hibiscus Flowers & Sacred Durva Grass Arch
         if (fest.includes("ganesh")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(28,12,6,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <path d="M 0 5 Q 600 24 1200 5" stroke="#2E7D32" stroke-width="3.5" fill="none"/>
               ${[40, 120, 200, 280, 360, 440, 520, 600, 680, 760, 840, 920, 1000, 1080, 1160].map((x) => `
                 <g transform="translate(${x}, 8)">
@@ -505,7 +510,7 @@
         if (fest.includes("sankranti") || fest.includes("uttarayan")) {
           const kiteColors = ["#FF6D00", "#00B0FF", "#FFD700", "#FF1744", "#00E676"];
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(12,22,38,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <path d="M 0 5 Q 600 20 1200 5" stroke="#00B0FF" stroke-width="1.8" fill="none"/>
               ${[45, 135, 225, 315, 405, 495, 585, 675, 765, 855, 945, 1035, 1125].map((x, i) => `
                 <g transform="translate(${x}, 15)">
@@ -520,7 +525,7 @@
         // 21. Dussehra: Shami Leaf Garland & Marigold Victory Toran
         if (fest.includes("dussehra") || fest.includes("vijayadashami")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(26,12,0,0.92) 0%, transparent 100%);">
+            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
               <rect x="0" y="0" width="100%" height="4" fill="#1B5E20"/>
               ${[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100].map((x) => `
                 <g transform="translate(${x}, 4)">
@@ -1104,8 +1109,17 @@
       if (garlandLayout === "top_and_sides" || garlandLayout === "top_only") {
         const topGarland = document.createElement("div");
         topGarland.id = "utsav-top-garland";
+        topGarland.style.cssText = "position: relative; width: 100%; height: 0 !important; overflow: visible !important; z-index: 9998; pointer-events: none !important; display: block; background: transparent !important;";
         topGarland.innerHTML = getEfTopSVG(festivalId);
-        document.body.appendChild(topGarland);
+
+        const header = document.querySelector("sticky-header, .header-wrapper, #shopify-section-header, header.header, .shopify-section-group-header-group, header");
+        if (header && garlandPlacement === "below_header") {
+          header.insertAdjacentElement("afterend", topGarland);
+        } else {
+          document.body.prepend(topGarland);
+          topGarland.style.position = "absolute";
+          topGarland.style.top = "0";
+        }
       }
 
       if (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") {
@@ -1162,19 +1176,13 @@
         const isSticky = garlandScrollMode === "sticky";
 
         if (topEl) {
-          topEl.style.position = isSticky ? "fixed" : "absolute";
-          topEl.style.zIndex = "9998";
-          topEl.style.left = "0";
-          topEl.style.right = "0";
-          topEl.style.width = "100%";
-          topEl.style.height = "64px";
+          topEl.style.height = "0";
+          topEl.style.overflow = "visible";
+          topEl.style.background = "transparent";
           topEl.style.pointerEvents = "none";
-          if (isSticky) {
-            const header = document.querySelector("sticky-header, .header-wrapper, header.header, header");
-            const hRect = header ? header.getBoundingClientRect() : null;
-            topEl.style.top = (hRect && Number.isFinite(hRect.bottom) ? Math.max(0, hRect.bottom) : dockTop) + "px";
-          } else {
-            topEl.style.top = dockTop + "px";
+          if (garlandPlacement === "top_fixed") {
+            topEl.style.position = isSticky ? "fixed" : "absolute";
+            topEl.style.top = "0";
           }
         }
 
@@ -1715,12 +1723,12 @@
       eerieMist.style.cssText = "position: absolute; inset: 0; background: radial-gradient(circle at 50% 20%, rgba(106, 13, 173, 0.16) 0%, transparent 60%), radial-gradient(circle at 50% 80%, rgba(255, 117, 24, 0.14) 0%, transparent 50%); animation: utsavEeriePulse 6s ease-in-out infinite alternate;";
       ghostContainer.appendChild(eerieMist);
 
-      // Translucent Spectral Ghost Silhouettes
+      // Translucent Spectral Ghost Silhouettes (Safe peripheral gutters only)
       const ghosts = [
-        { left: "14%", top: "32%", size: 38, delay: "0s", duration: "7s", opacity: 0.8 },
-        { left: "78%", top: "42%", size: 44, delay: "2.2s", duration: "8.5s", opacity: 0.7 },
-        { left: "22%", top: "68%", size: 34, delay: "3.8s", duration: "7.6s", opacity: 0.75 },
-        { left: "82%", top: "75%", size: 40, delay: "1s", duration: "9s", opacity: 0.68 }
+        { left: "5%", top: "25%", size: 36, delay: "0s", duration: "7s", opacity: 0.75 },
+        { left: "8%", top: "68%", size: 34, delay: "3.5s", duration: "8.5s", opacity: 0.7 },
+        { left: "91%", top: "24%", size: 38, delay: "1.8s", duration: "7.8s", opacity: 0.75 },
+        { left: "94%", top: "72%", size: 40, delay: "4s", duration: "9s", opacity: 0.68 }
       ];
 
       ghosts.forEach(function (g) {
@@ -1948,6 +1956,123 @@
         fwAnimId = requestAnimationFrame(renderFireworks);
       }
       renderFireworks();
+    }
+
+    // ─── 7. FESTIVAL DISCOUNTS & OFFERS ENGINE ─────────────────────────────────
+    if (config.discount && config.discount.enabled) {
+      const disc = config.discount;
+      let shouldShowDiscount = true;
+
+      // Audience Targeting Check
+      if (disc.audience === "new_visitors") {
+        if (localStorage.getItem("utsav_visited")) {
+          shouldShowDiscount = false;
+        } else {
+          try { localStorage.setItem("utsav_visited", "true"); } catch (e) {}
+        }
+      } else if (disc.audience === "returning") {
+        if (!localStorage.getItem("utsav_visited")) {
+          shouldShowDiscount = false;
+        }
+        try { localStorage.setItem("utsav_visited", "true"); } catch (e) {}
+      }
+
+      if (shouldShowDiscount) {
+        const badgeLabel = disc.badgeText || (disc.type === "fixed_amount" ? `$${disc.value || 10} OFF` : `${disc.value || 10}% OFF`);
+
+        // Inject discount badges onto prices across product cards and product pages
+        function injectDiscountBadges() {
+          const priceEls = document.querySelectorAll(".price:not(.utsav-tagged), .price__regular:not(.utsav-tagged), .price__sale:not(.utsav-tagged), .product__price:not(.utsav-tagged), .price-item--sale:not(.utsav-tagged)");
+          priceEls.forEach(function (el) {
+            el.classList.add("utsav-tagged");
+            const badge = document.createElement("span");
+            badge.className = "utsav-discount-badge";
+            badge.textContent = "🏷️ " + badgeLabel;
+            el.appendChild(badge);
+          });
+        }
+        injectDiscountBadges();
+        setTimeout(injectDiscountBadges, 800);
+        setTimeout(injectDiscountBadges, 2000);
+
+        // Auto-apply discount to checkout links if requested
+        if (disc.autoApply && (couponCode || "UTSAV26")) {
+          const codeToApply = couponCode || "UTSAV26";
+          document.querySelectorAll('a[href*="/checkout"]').forEach(function (a) {
+            try {
+              const url = new URL(a.href, window.location.origin);
+              url.searchParams.set("discount", codeToApply);
+              a.href = url.toString();
+            } catch (e) {}
+          });
+        }
+      }
+    }
+
+    // ─── 8. URGENCY & COUNTDOWN TIMERS ENGINE ─────────────────────────────────
+    if (config.urgencyTimers && config.urgencyTimers.enabled) {
+      const timers = config.urgencyTimers;
+
+      // A. General Festive Countdown Timer in Banner
+      if (timers.festiveTimer) {
+        const bannerInner = document.querySelector(".utsav-banner-inner");
+        if (bannerInner && !document.getElementById("utsav-live-timer")) {
+          const timerSpan = document.createElement("span");
+          timerSpan.id = "utsav-live-timer";
+          timerSpan.style.cssText = "background: rgba(255, 117, 24, 0.25); border: 1px solid rgba(255, 117, 24, 0.5); color: #FFD700; font-family: monospace; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 4px; margin-left: 6px; display: inline-flex; align-items: center; gap: 4px;";
+
+          let totalSec = 2 * 86400 + 14 * 3600 + 32 * 60 + 18;
+          function updateTimer() {
+            if (totalSec <= 0) totalSec = 86400 * 3;
+            const d = Math.floor(totalSec / 86400);
+            const h = Math.floor((totalSec % 86400) / 3600);
+            const m = Math.floor((totalSec % 3600) / 60);
+            const s = totalSec % 60;
+            const pad = function (n) { return String(n).padStart(2, "0"); };
+            timerSpan.textContent = "⏳ " + pad(d) + "d : " + pad(h) + "h : " + pad(m) + "m : " + pad(s) + "s";
+            totalSec--;
+          }
+          updateTimer();
+          setInterval(updateTimer, 1000);
+          bannerInner.insertBefore(timerSpan, bannerInner.querySelector(".utsav-banner-close") || null);
+        }
+      }
+
+      // B. Cart Urgency / Reservation Timer
+      if (timers.cartTimer && !document.getElementById("utsav-cart-urgency-pill")) {
+        const cartMinutes = Number(timers.cartMinutes) || 15;
+        let remainingCartSec = cartMinutes * 60;
+        const pill = document.createElement("div");
+        pill.id = "utsav-cart-urgency-pill";
+
+        function updateCartTimer() {
+          if (remainingCartSec <= 0) remainingCartSec = cartMinutes * 60;
+          const m = Math.floor(remainingCartSec / 60);
+          const s = remainingCartSec % 60;
+          const pad = function (n) { return String(n).padStart(2, "0"); };
+          pill.innerHTML = '<span>🔥</span><span>Cart reserved for <strong style="color:#FFD700; font-family:monospace;">' + pad(m) + ':' + pad(s) + '</strong></span><a href="/cart">Checkout</a>';
+          remainingCartSec--;
+        }
+        updateCartTimer();
+        setInterval(updateCartTimer, 1000);
+        document.body.appendChild(pill);
+      }
+
+      // C. Product Flash Deal Urgency
+      if (timers.productTimer) {
+        function injectProductUrgency() {
+          const productForm = document.querySelector(".product-form, form[action*='/cart/add']");
+          if (productForm && !document.getElementById("utsav-product-urgency-badge")) {
+            const urgencyDiv = document.createElement("div");
+            urgencyDiv.id = "utsav-product-urgency-badge";
+            urgencyDiv.style.cssText = "display: flex; align-items: center; gap: 6px; color: #E65100; font-size: 12px; font-weight: 700; margin: 8px 0; background: rgba(255, 152, 0, 0.12); padding: 7px 12px; border-radius: 6px; border: 1px solid rgba(255, 152, 0, 0.35);";
+            urgencyDiv.innerHTML = '<span style="font-size: 14px;">⚡</span> Flash Deal: Only 4 items left in stock at this festive price!';
+            productForm.parentNode.insertBefore(urgencyDiv, productForm);
+          }
+        }
+        injectProductUrgency();
+        setTimeout(injectProductUrgency, 600);
+      }
     }
   }
 

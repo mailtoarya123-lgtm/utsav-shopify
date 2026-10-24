@@ -316,6 +316,48 @@ function ToggleSwitch({ label, checked, onChange, helpText, disabled }) {
 
 // ─── Category Navigation Icons ──────────────────────────────────────────────
 const CATEGORY_ICONS = {
+  // New Merchant-Friendly Categories
+  visual_decor: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-5 8a5 5 0 019.9-1H16a6 6 0 11-12 0h1.1A5 5 0 015 10z" />
+    </svg>
+  ),
+  floating_effects: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+    </svg>
+  ),
+  discounts_offers: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M17.707 9.293a1 1 0 000-1.414l-7-7A1 1 0 0010 0.586H3a2 2 0 00-2 2v7a1 1 0 00.293.707l7 7a1 1 0 001.414 0l8-8zm-12.414-5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" clipRule="evenodd" />
+    </svg>
+  ),
+  urgency_timers: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+    </svg>
+  ),
+  banner_announcements: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.39l6.553 3.276A1 1 0 0018 15V3z" />
+    </svg>
+  ),
+  theme_colors: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clipRule="evenodd" />
+    </svg>
+  ),
+  dates_schedule: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+    </svg>
+  ),
+  store_settings: (
+    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M10 1.944A11.954 11.954 0 012.166 5C2.056 5.649 2 6.319 2 7c0 5.225 3.34 9.67 8 11.317C14.66 16.67 18 12.225 18 7c0-.682-.057-1.35-.166-2.001A11.954 11.954 0 0110 1.944zM11 14a1 1 0 11-2 0 1 1 0 012 0zm0-7a1 1 0 10-2 0v3a1 1 0 102 0V7z" clipRule="evenodd" />
+    </svg>
+  ),
+  // Legacy aliases
   signature_effects: (
     <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
       <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" />
@@ -1104,9 +1146,9 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
     return (
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
         {[
-          { left: "14%", top: "32%", size: 22, delay: "0s", duration: "7s", opacity: 0.8 },
-          { left: "74%", top: "48%", size: 19, delay: "2.5s", duration: "8.5s", opacity: 0.65 },
-          { left: "40%", top: "72%", size: 21, delay: "4s", duration: "7.8s", opacity: 0.72 },
+          { left: "6%", top: "25%", size: 21, delay: "0s", duration: "7s", opacity: 0.75 },
+          { left: "10%", top: "68%", size: 23, delay: "3.5s", duration: "8.5s", opacity: 0.7 },
+          { left: "90%", top: "22%", size: 19, delay: "1.8s", duration: "7.8s", opacity: 0.75 },
         ].map((g, idx) => (
           <div
             key={`ghost-${idx}`}
@@ -1352,27 +1394,34 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 1. Halloween Spiderweb Lace & Mist
   if (festId.includes("halloween")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(15, 10, 24, 0.95) 0%, transparent 100%)" }}>
-        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
-          <line x1="0" y1="2" x2="560" y2="2" stroke="#FF7518" strokeWidth="1.2" opacity="0.6" />
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "visible", background: "transparent" }}>
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none" style={{ display: "block", background: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.4))" }}>
+          <line x1="0" y1="2" x2="560" y2="2" stroke="#FF7518" strokeWidth="2.5" opacity="0.95" />
+          <line x1="0" y1="4" x2="560" y2="4" stroke="#1C1428" strokeWidth="1.2" opacity="0.8" />
           {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
             <g key={i} transform={`translate(${x}, 0)`}>
-              <path d="M 0 2 Q 40 30 80 2" stroke="#6D5D8A" strokeWidth="1.4" fill="none" opacity="0.8" />
-              <path d="M 12 2 Q 40 22 68 2" stroke="#8E7CAE" strokeWidth="1" fill="none" opacity="0.6" />
-              <path d="M 24 2 Q 40 14 56 2" stroke="#AEA1C7" strokeWidth="0.8" fill="none" opacity="0.5" />
-              <line x1="40" y1="2" x2="15" y2="22" stroke="#8E7CAE" strokeWidth="0.8" opacity="0.5" />
-              <line x1="40" y1="2" x2="40" y2="30" stroke="#8E7CAE" strokeWidth="0.9" opacity="0.6" />
-              <line x1="40" y1="2" x2="65" y2="22" stroke="#8E7CAE" strokeWidth="0.8" opacity="0.5" />
-              <line x1="40" y1="30" x2="40" y2="38" stroke="#AEA1C7" strokeWidth="0.6" strokeDasharray="1,1" />
-              <ellipse cx="40" cy="40" rx="2.4" ry="3.2" fill="#1A1528" stroke="#FF7518" strokeWidth="0.5" />
-              <path d="M 37 38 Q 34 36 33 39 M 43 38 Q 46 36 47 39 M 37 42 Q 34 44 33 42 M 43 42 Q 46 44 47 42" stroke="#FF7518" strokeWidth="0.6" fill="none" />
-              {withLights && (
+              <path d="M 0 3 Q 40 32 80 3" stroke="#FF7518" strokeWidth="2" fill="none" opacity="0.95" />
+              <path d="M 10 3 Q 40 24 70 3" stroke="#2D1B4E" strokeWidth="1.6" fill="none" opacity="0.85" />
+              <path d="M 20 3 Q 40 16 60 3" stroke="#8E7CAE" strokeWidth="1.2" fill="none" opacity="0.75" />
+              <line x1="40" y1="3" x2="12" y2="22" stroke="#FF7518" strokeWidth="1" opacity="0.7" />
+              <line x1="40" y1="3" x2="40" y2="32" stroke="#FF7518" strokeWidth="1.2" opacity="0.85" />
+              <line x1="40" y1="3" x2="68" y2="22" stroke="#FF7518" strokeWidth="1" opacity="0.7" />
+              <line x1="40" y1="32" x2="40" y2="40" stroke="#AEA1C7" strokeWidth="0.8" strokeDasharray="1.5,1.5" />
+              {i % 2 === 0 ? (
                 <>
-                  <circle cx="0" cy="3" r="2.5" fill={lightsTheme === "mystic_purple" ? "#E040FB" : lightsTheme === "phantom_green" ? "#00E676" : "#FF7518"} />
-                  <circle cx="40" cy="30" r="2" fill={lightsTheme === "mystic_purple" ? "#7C4DFF" : lightsTheme === "phantom_green" ? "#76FF03" : "#FFD700"} />
-                  <circle cx="80" cy="3" r="2.5" fill={lightsTheme === "mystic_purple" ? "#E040FB" : lightsTheme === "phantom_green" ? "#00E676" : "#FF7518"} />
+                  <circle cx="40" cy="42" r="5.5" fill="#FF7518" stroke="#1A1528" strokeWidth="0.8" style={{ filter: "drop-shadow(0 0 5px #FF7518)" }} />
+                  <polygon points="38,40 40,38 42,40" fill="#FFF59D" />
+                  <path d="M 37 44 Q 40 46 43 44" stroke="#1A1528" strokeWidth="0.8" fill="none" />
+                </>
+              ) : (
+                <>
+                  <ellipse cx="40" cy="42" rx="3.5" ry="4.5" fill="#1C1428" stroke="#FF7518" strokeWidth="0.7" style={{ filter: "drop-shadow(0 0 4px #FF7518)" }} />
+                  <path d="M 37 40 Q 33 38 32 41 M 43 40 Q 47 38 48 41 M 37 44 Q 33 46 32 43 M 43 44 Q 47 46 48 43" stroke="#FF7518" strokeWidth="0.7" fill="none" />
                 </>
               )}
+              <circle cx="0" cy="3" r="2.8" fill="#FF7518" style={{ filter: "drop-shadow(0 0 4px #FF7518)" }} />
+              <circle cx="40" cy="32" r="2.5" fill="#FFD700" style={{ filter: "drop-shadow(0 0 5px #FFD700)" }} />
+              <circle cx="80" cy="3" r="2.8" fill="#FF7518" style={{ filter: "drop-shadow(0 0 4px #FF7518)" }} />
             </g>
           ))}
         </svg>
@@ -1383,7 +1432,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 2. Christmas Pine & Holly
   if (festId.includes("christmas")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(8, 22, 12, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           {[0, 90, 180, 270, 360, 450].map((x, i) => (
             <g key={i} transform={`translate(${x}, 0)`}>
@@ -1407,7 +1456,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 3. Valentine's Day Ribbon Swags
   if (festId.includes("valentines")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(30, 8, 16, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#E91E63" strokeWidth="1.5" />
           {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
@@ -1426,7 +1475,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 4. Lunar New Year Red Lantern String
   if (festId.includes("lunar") || festId.includes("chinese")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(35, 6, 6, 0.92) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#D32F2F" strokeWidth="2" />
           {[40, 120, 200, 280, 360, 440, 520].map((x, i) => (
@@ -1446,7 +1495,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   if (festId.includes("holi")) {
     const pomColors = ["#E91E63", "#FF9800", "#FFEB3B", "#00E5FF", "#76FF03"];
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(20, 5, 20, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <path d="M 0 4 Q 280 20 560 4" stroke="#FF4081" strokeWidth="1.8" fill="none" />
           {[20, 80, 140, 200, 260, 320, 380, 440, 500].map((x, i) => (
@@ -1464,7 +1513,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 6. Pongal Sugarcane & Turmeric Foliage
   if (festId.includes("pongal")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(12, 24, 8, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="3" x2="560" y2="3" stroke="#2E7D32" strokeWidth="3" />
           {[30, 110, 190, 270, 350, 430, 510].map((x, i) => (
@@ -1482,7 +1531,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 7. Onam Palm Thoranam (Kuruthola)
   if (festId.includes("onam")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(10, 22, 10, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#558B2F" strokeWidth="2" />
           {[20, 60, 100, 140, 180, 220, 260, 300, 340, 380, 420, 460, 500, 540].map((x, i) => (
@@ -1499,7 +1548,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 8. Vishu Golden Kanikonna
   if (festId === "vishu") {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(10, 26, 10, 0.85) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#2E7D32" strokeWidth="2.5" />
           {[20, 80, 140, 200, 260, 320, 380, 440, 500].map((x, i) => (
@@ -1519,7 +1568,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 9. Eid Damascus Fanoos
   if (festId.includes("eid")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(3, 20, 18, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#D4AF37" strokeWidth="1.5" />
           {[60, 180, 300, 420, 500].map((x, i) => (
@@ -1537,7 +1586,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 10. Thanksgiving Autumn Foliage
   if (festId.includes("thanksgiving")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(30, 15, 5, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#795548" strokeWidth="2" />
           {[30, 90, 150, 210, 270, 330, 390, 450, 510].map((x, i) => (
@@ -1556,7 +1605,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 11. Hanukkah Star of David Bunting
   if (festId.includes("hanukkah")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(8, 20, 38, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#1565C0" strokeWidth="1.5" />
           {[40, 120, 200, 280, 360, 440, 520].map((x, i) => (
@@ -1575,7 +1624,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 12. New Year Champagne Streamers
   if (festId.includes("new-year") || festId.includes("newyear")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(20, 18, 10, 0.92) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#FFD700" strokeWidth="1.8" />
           {[30, 90, 150, 210, 270, 330, 390, 450, 510].map((x, i) => (
@@ -1593,7 +1642,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   if (festId.includes("easter")) {
     const eggColors = ["#F8BBD0", "#B2EBF2", "#FFF9C4", "#D1C4E9", "#C8E6C9"];
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(20, 28, 18, 0.88) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <path d="M 0 6 Q 280 22 560 6" stroke="#81C784" strokeWidth="2.2" fill="none" />
           {[35, 105, 175, 245, 315, 385, 455, 525].map((x, i) => (
@@ -1612,7 +1661,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 15. Mid-Autumn Bamboo & Paper Lantern Strings
   if (festId.includes("mid-autumn") || festId.includes("mooncake")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(8, 12, 32, 0.92) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="3" x2="560" y2="3" stroke="#8D6E63" strokeWidth="2" />
           {[40, 120, 200, 280, 360, 440, 520].map((x, i) => (
@@ -1631,7 +1680,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 16. Vesak Sacred Bodhi Leaf & Jasmine Garland
   if (festId.includes("vesak") || festId.includes("buddha")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(22, 14, 6, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <path d="M 0 4 Q 280 20 560 4" stroke="#FB8C00" strokeWidth="1.8" fill="none" />
           {[30, 90, 150, 210, 270, 330, 390, 450, 510].map((x, i) => (
@@ -1649,7 +1698,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 17. Durga Puja Kash Reeds & Alpana Border
   if (festId.includes("durga")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(24, 6, 8, 0.92) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <rect x="0" y="0" width="100%" height="3.5" fill="#C62828" />
           {[20, 60, 100, 140, 180, 220, 260, 300, 340, 380, 420, 460, 500, 540].map((x, i) => (
@@ -1667,7 +1716,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 18. Raksha Bandhan Silk Kalawa & Mauli Thread Swags
   if (festId.includes("raksha") || festId.includes("rakhi")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(28, 8, 8, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <line x1="0" y1="2" x2="560" y2="2" stroke="#D32F2F" strokeWidth="2.5" />
           {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
@@ -1686,7 +1735,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 19. Navratri Mirrored Bandhanwar & Gold Gota
   if (festId.includes("navratri")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(28, 5, 25, 0.92) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <rect x="0" y="0" width="100%" height="4" fill="#FF4500" />
           {[0, 70, 140, 210, 280, 350, 420, 490].map((x, i) => (
@@ -1704,7 +1753,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 20. Ganesh Chaturthi Hibiscus & Durva Grass Arch
   if (festId.includes("ganesh")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(25, 10, 5, 0.9) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <path d="M 0 5 Q 280 22 560 5" stroke="#2E7D32" strokeWidth="3" fill="none" />
           {[35, 105, 175, 245, 315, 385, 455, 525].map((x, i) => (
@@ -1722,7 +1771,7 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   // 21. Dussehra Shami Leaves & Marigold Victory Toran
   if (festId.includes("dussehra") || festId.includes("vijayadashami")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "linear-gradient(180deg, rgba(24, 10, 0, 0.92) 0%, transparent 100%)" }}>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
         <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
           <rect x="0" y="0" width="100%" height="3.5" fill="#1B5E20" />
           {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
@@ -2086,6 +2135,7 @@ function DeviceStorefrontMock({
   seriesLightsTheme,
   enableBanner,
   bannerText,
+  promoCode = "UTSAV26",
   diyaSize,
   diyaPosition,
   particleDensity,
@@ -2093,6 +2143,21 @@ function DeviceStorefrontMock({
   customPrimaryColor,
   storeInfo,
   storeProducts,
+  // Discount props
+  enableDiscount = true,
+  discountType = "percentage",
+  discountValue = 10,
+  discountScope = "collection",
+  discountCollection = "Snowboards",
+  discountBadgeText = "🎃 10% OFF HALLOWEEN DEAL",
+  discountAudience = "all",
+  // Urgency Timer props
+  enableUrgencyTimer = true,
+  enableFestiveTimer = true,
+  enableCartTimer = true,
+  enableProductTimer = true,
+  cartTimerMinutes = 15,
+  cartTimerUrgencyText = "🔥 Items reserved in cart for [TIME] — checkout before deals expire!",
 }) {
   const isDesktop = deviceType === "desktop";
   const isMobile = deviceType === "mobile";
@@ -2231,14 +2296,45 @@ function DeviceStorefrontMock({
                 flexShrink: 0,
               }}
             >
-              UTSAV26
+              {promoCode || "UTSAV26"}
             </span>
+            {enableUrgencyTimer && enableFestiveTimer && (
+              <span
+                style={{
+                  background: "rgba(255, 117, 24, 0.25)",
+                  border: "1px solid rgba(255, 117, 24, 0.5)",
+                  color: "#FFD700",
+                  borderRadius: "3px",
+                  padding: "0 4px",
+                  fontSize: "7.5px",
+                  fontWeight: 700,
+                  flexShrink: 0,
+                }}
+              >
+                ⏳ 02d:14h:32m
+              </span>
+            )}
+            {enableDiscount && (
+              <span
+                style={{
+                  background: "#FF7518",
+                  color: "#FFFFFF",
+                  borderRadius: "3px",
+                  padding: "0 4px",
+                  fontSize: "7.5px",
+                  fontWeight: 700,
+                  flexShrink: 0,
+                }}
+              >
+                🏷️ {discountValue}% OFF
+              </span>
+            )}
           </div>
         )}
 
         {/* Top-Fixed Garland (if selected) */}
         {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && garlandLayout !== "off" && (
-          <div style={{ position: "relative", zIndex: 12, overflow: "hidden", height: isMobile ? "20px" : "32px", flexShrink: 0 }}>
+          <div style={{ position: "relative", zIndex: 14, overflow: "visible", width: "100%", height: 0, flexShrink: 0, pointerEvents: "none" }}>
             <DynamicFestivalHeaderWidget
               festival={festival}
               isMobile={isMobile}
@@ -2294,21 +2390,23 @@ function DeviceStorefrontMock({
         {/* Scrollable Storefront Body */}
         <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column" }}>
           <div style={{ flex: 1, overflowY: "auto", position: "relative", scrollbarWidth: "none" }}>
-            {/* Below-Header Garland (Recommended) */}
+            {/* Below-Header Garland (Recommended) - Draped with 100% Transparency */}
             {!showOriginal && enableEffects && garlandPlacement === "below_header" && garlandLayout !== "off" && (
               <div
                 style={{
                   position: "relative",
-                  zIndex: 12,
-                  overflow: "hidden",
-                  height: isMobile ? "22px" : "34px",
+                  zIndex: 14,
+                  overflow: "visible",
+                  width: "100%",
+                  height: 0,
                   marginTop: `${Math.round(garlandOffset * 0.4)}px`,
+                  pointerEvents: "none",
                 }}
               >
                 <DynamicFestivalHeaderWidget
                   festival={festival}
                   isMobile={isMobile}
-                  height={isMobile ? 22 : 34}
+                  height={isMobile ? 22 : 36}
                   withLights={enableSeriesLights}
                   lightsTheme={seriesLightsTheme}
                 />
@@ -2333,10 +2431,10 @@ function DeviceStorefrontMock({
                 height: isMobile ? "150px" : "210px",
                 backgroundImage: "linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0.02)), url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=1200&q=80')",
                 backgroundSize: "cover",
-                backgroundPosition: "center 38%",
+                backgroundPosition: "center",
                 display: "flex",
                 alignItems: "center",
-                padding: isMobile ? "12px 14px" : "20px 24px",
+                padding: isMobile ? "0 14px" : "0 28px",
               }}
             >
               {/* Dawn Left Overlay Card */}
@@ -2349,6 +2447,8 @@ function DeviceStorefrontMock({
                   maxWidth: isMobile ? "160px" : "240px",
                   textAlign: "left",
                   boxShadow: "0 6px 20px rgba(0, 0, 0, 0.12)",
+                  position: "relative",
+                  zIndex: 20,
                 }}
               >
                 <div style={{ fontSize: isMobile ? "11px" : "15px", fontWeight: 800, color: "#121212", margin: "0 0 3px 0", letterSpacing: "-0.01em", lineHeight: 1.15 }}>
@@ -2367,6 +2467,9 @@ function DeviceStorefrontMock({
                     fontSize: isMobile ? "7.5px" : "9px",
                     fontWeight: 600,
                     cursor: "pointer",
+                    position: "relative",
+                    zIndex: 30,
+                    pointerEvents: "auto",
                   }}
                 >
                   Shop products
@@ -2376,8 +2479,19 @@ function DeviceStorefrontMock({
 
             {/* Featured Products Section (Shopify Dawn Snowboards) */}
             <div style={{ padding: isMobile ? "12px 10px 40px" : "16px 16px 45px", background: "#FFFFFF" }}>
-              <div style={{ fontSize: isMobile ? "11px" : "14px", fontWeight: 700, color: "#121212", marginBottom: "10px", textAlign: "left" }}>
-                Featured products
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                <div style={{ fontSize: isMobile ? "11px" : "14px", fontWeight: 700, color: "#121212", textAlign: "left" }}>
+                  Featured products {enableDiscount && discountScope === "collection" && (
+                    <span style={{ fontSize: "10px", fontWeight: 500, color: "#FF7518" }}>
+                      ({discountCollection})
+                    </span>
+                  )}
+                </div>
+                {enableDiscount && (
+                  <span style={{ fontSize: "9px", color: "#FF7518", fontWeight: 600 }}>
+                    🏷️ Event Deals Active
+                  </span>
+                )}
               </div>
               <div
                 style={{
@@ -2402,52 +2516,136 @@ function DeviceStorefrontMock({
                     price: "$920.00",
                     colors: ["#F5A623", "#F8E71C"],
                   },
-                ]).map((prod, i) => (
-                  <div key={i} style={{ textAlign: "left", cursor: "pointer" }}>
-                    <div
-                      style={{
-                        background: "#F4F4F5",
-                        borderRadius: "4px",
-                        height: isMobile ? "95px" : "125px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "relative",
-                        overflow: "hidden",
-                        marginBottom: "5px",
-                      }}
-                    >
-                      {prod.image ? (
-                        <img src={prod.image} alt={prod.title} style={{ maxWidth: "80%", maxHeight: "85%", objectFit: "contain" }} />
-                      ) : (
-                        <div
-                          style={{
-                            width: "32px",
-                            height: "85px",
-                            borderRadius: "16px",
-                            background: `linear-gradient(135deg, ${prod.colors?.[0] || '#00C9FF'} 0%, ${prod.colors?.[1] || '#92FE9D'} 100%)`,
-                            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            transform: "rotate(-12deg)",
-                          }}
-                        >
-                          <div style={{ width: "16px", height: "3px", background: "rgba(255,255,255,0.7)", borderRadius: "2px" }}></div>
+                ]).map((prod, i) => {
+                  let finalPrice = prod.price;
+                  let originalPrice = null;
+                  if (enableDiscount) {
+                    const numericPrice = parseFloat(prod.price.replace(/[^0-9.]/g, "")) || 800;
+                    let discAmount = 0;
+                    if (discountType === "percentage") {
+                      discAmount = numericPrice * (discountValue / 100);
+                    } else if (discountType === "fixed_amount") {
+                      discAmount = discountValue;
+                    } else if (discountType === "cart_size") {
+                      discAmount = numericPrice >= discountMinSpend ? numericPrice * (discountValue / 100) : 0;
+                    }
+                    const discountedNum = Math.max(0, numericPrice - discAmount);
+                    const prefix = prod.price.startsWith("₹") ? "₹" : "$";
+                    finalPrice = `${prefix}${discountedNum.toFixed(2)}`;
+                    originalPrice = prod.price;
+                  }
+
+                  return (
+                    <div key={i} style={{ textAlign: "left", cursor: "pointer", position: "relative" }}>
+                      <div
+                        style={{
+                          background: "#F4F4F5",
+                          borderRadius: "4px",
+                          height: isMobile ? "95px" : "125px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          position: "relative",
+                          overflow: "hidden",
+                          marginBottom: "5px",
+                        }}
+                      >
+                        {prod.image ? (
+                          <img src={prod.image} alt={prod.title} style={{ maxWidth: "80%", maxHeight: "85%", objectFit: "contain" }} />
+                        ) : (
+                          <div
+                            style={{
+                              width: "32px",
+                              height: "85px",
+                              borderRadius: "16px",
+                              background: `linear-gradient(135deg, ${prod.colors?.[0] || '#00C9FF'} 0%, ${prod.colors?.[1] || '#92FE9D'} 100%)`,
+                              boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              transform: "rotate(-12deg)",
+                            }}
+                          >
+                            <div style={{ width: "16px", height: "3px", background: "rgba(255,255,255,0.7)", borderRadius: "2px" }}></div>
+                          </div>
+                        )}
+                        {/* Festive Discount Tag on Product */}
+                        {enableDiscount && (
+                          <span
+                            style={{
+                              position: "absolute",
+                              top: "4px",
+                              right: "4px",
+                              background: "#FF7518",
+                              color: "#FFFFFF",
+                              padding: isMobile ? "1px 4px" : "2px 6px",
+                              borderRadius: "3px",
+                              fontSize: isMobile ? "6.5px" : "8px",
+                              fontWeight: 700,
+                              boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                              zIndex: 5,
+                            }}
+                          >
+                            {discountBadgeText || `-${discountValue}%`}
+                          </span>
+                        )}
+                      </div>
+                      <div style={{ fontSize: isMobile ? "8px" : "9.5px", fontWeight: 600, color: "#18181B", lineHeight: 1.25 }}>
+                        {prod.title}
+                      </div>
+                      <div style={{ fontSize: isMobile ? "7.5px" : "9px", marginTop: "2px", display: "flex", alignItems: "center", gap: "4px" }}>
+                        {originalPrice && (
+                          <span style={{ textDecoration: "line-through", color: "#9CA3AF" }}>
+                            {originalPrice}
+                          </span>
+                        )}
+                        <span style={{ fontWeight: 700, color: "#18181B" }}>
+                          {finalPrice}
+                        </span>
+                      </div>
+                      {/* Flash Deal Urgency Text */}
+                      {enableUrgencyTimer && enableProductTimer && (
+                        <div style={{ fontSize: isMobile ? "6px" : "7.5px", color: "#DC2626", fontWeight: 600, marginTop: "2px" }}>
+                          ⚡ Flash deal: 4 left in stock!
                         </div>
                       )}
                     </div>
-                    <div style={{ fontSize: isMobile ? "8px" : "9.5px", fontWeight: 600, color: "#18181B", lineHeight: 1.25 }}>
-                      {prod.title}
-                    </div>
-                    <div style={{ fontSize: isMobile ? "7.5px" : "9px", color: "#52525B", marginTop: "2px" }}>
-                      {prod.price}
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
+
+          {/* Floating Cart Urgency Reservation Pill */}
+          {!showOriginal && enableUrgencyTimer && enableCartTimer && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: isMobile ? "8px" : "12px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                background: "rgba(18, 18, 18, 0.94)",
+                color: "#FFFFFF",
+                border: "1px solid #FF7518",
+                borderRadius: "20px",
+                padding: isMobile ? "3px 8px" : "4px 12px",
+                fontSize: isMobile ? "7.5px" : "9px",
+                fontWeight: 600,
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                zIndex: 35,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
+                pointerEvents: "none",
+                whiteSpace: "nowrap",
+                backdropFilter: "blur(6px)",
+              }}
+            >
+              <span>🔥</span>
+              <span>Cart reserved for <strong style={{ color: "#FFD700", fontFamily: "monospace" }}>14:52</strong></span>
+              <span style={{ background: "#FF7518", padding: "1px 5px", borderRadius: "10px", fontSize: isMobile ? "6.5px" : "7.5px" }}>Checkout</span>
+            </div>
+          )}
 
           {/* Living Diya / Corner Elements */}
           {!showOriginal && enableEffects && (
@@ -2487,10 +2685,10 @@ export default function FestivalStudio() {
   const fetcher = useFetcher();
 
   // Active Category in Left Navigation
-  const [activeCategory, setActiveCategory] = useState("signature_effects");
+  const [activeCategory, setActiveCategory] = useState("visual_decor");
 
   // Device Mode: "desktop" | "mobile" | "side_by_side"
-  const [deviceMode, setDeviceMode] = useState("desktop");
+  const [deviceMode, setDeviceMode] = useState("side_by_side");
 
   // Animation Playback & Comparison State
   const [isPlaying, setIsPlaying] = useState(true);
@@ -2547,6 +2745,33 @@ export default function FestivalStudio() {
   const [bannerText, setBannerText] = useState(config.bannerText || festival.banner?.defaultText || "");
   const [promoCode, setPromoCode] = useState(customSettings.promoCode || "UTSAV26");
 
+  // 🏷️ Festival Discounts & Offers State
+  const [enableDiscount, setEnableDiscount] = useState(
+    customSettings.discount?.enabled !== undefined ? Boolean(customSettings.discount.enabled) : true
+  );
+  const [discountType, setDiscountType] = useState(customSettings.discount?.type || "percentage");
+  const [discountValue, setDiscountValue] = useState(Number(customSettings.discount?.value) || 10);
+  const [discountScope, setDiscountScope] = useState(customSettings.discount?.scope || "collection");
+  const [discountCollection, setDiscountCollection] = useState(customSettings.discount?.collection || "Snowboards");
+  const [discountMinSpend, setDiscountMinSpend] = useState(Number(customSettings.discount?.minSpend) || 50);
+  const [discountAudience, setDiscountAudience] = useState(customSettings.discount?.audience || "all");
+  const [discountBadgeText, setDiscountBadgeText] = useState(
+    customSettings.discount?.badgeText || (festival.id.includes("halloween") ? "🎃 10% OFF HALLOWEEN DEAL" : "🏷️ 10% FESTIVE DISCOUNT")
+  );
+  const [discountAutoApply, setDiscountAutoApply] = useState(customSettings.discount?.autoApply ?? true);
+
+  // ⏳ Urgency & Countdown Timers State
+  const [enableUrgencyTimer, setEnableUrgencyTimer] = useState(
+    customSettings.urgencyTimers?.enabled !== undefined ? Boolean(customSettings.urgencyTimers.enabled) : true
+  );
+  const [enableFestiveTimer, setEnableFestiveTimer] = useState(customSettings.urgencyTimers?.festiveTimer ?? true);
+  const [enableCartTimer, setEnableCartTimer] = useState(customSettings.urgencyTimers?.cartTimer ?? true);
+  const [enableProductTimer, setEnableProductTimer] = useState(customSettings.urgencyTimers?.productTimer ?? true);
+  const [cartTimerMinutes, setCartTimerMinutes] = useState(Number(customSettings.urgencyTimers?.cartMinutes) || 15);
+  const [cartTimerUrgencyText, setCartTimerUrgencyText] = useState(
+    customSettings.urgencyTimers?.cartText || "🔥 Items reserved in cart for [TIME] — checkout before deals expire!"
+  );
+
   // Scheduling & Autopilot
   const [scheduledStart, setScheduledStart] = useState(
     config.scheduledStart ? new Date(config.scheduledStart).toISOString().split("T")[0] : ""
@@ -2600,6 +2825,9 @@ export default function FestivalStudio() {
     setEnableBanner(true);
     setBannerText(festival.banner?.defaultText || `Happy ${festival.name}!`);
     setCustomPrimaryColor(festival.palette?.primary || "#FFD700");
+    setEnableDiscount(true);
+    setDiscountValue(10);
+    setEnableUrgencyTimer(true);
     markDirty();
   };
 
@@ -2650,6 +2878,25 @@ export default function FestivalStudio() {
         autopilotCalendar,
         zeroDayCleanup,
         safeZoneClearance,
+        discount: {
+          enabled: enableDiscount,
+          type: discountType,
+          value: discountValue,
+          scope: discountScope,
+          collection: discountCollection,
+          minSpend: discountMinSpend,
+          audience: discountAudience,
+          badgeText: discountBadgeText,
+          autoApply: discountAutoApply,
+        },
+        urgencyTimers: {
+          enabled: enableUrgencyTimer,
+          festiveTimer: enableFestiveTimer,
+          cartTimer: enableCartTimer,
+          productTimer: enableProductTimer,
+          cartMinutes: cartTimerMinutes,
+          cartText: cartTimerUrgencyText,
+        },
       });
       fd.append("customColors", customPayload);
 
@@ -2688,22 +2935,37 @@ export default function FestivalStudio() {
       autopilotCalendar,
       zeroDayCleanup,
       safeZoneClearance,
+      enableDiscount,
+      discountType,
+      discountValue,
+      discountScope,
+      discountCollection,
+      discountMinSpend,
+      discountAudience,
+      discountBadgeText,
+      discountAutoApply,
+      enableUrgencyTimer,
+      enableFestiveTimer,
+      enableCartTimer,
+      enableProductTimer,
+      cartTimerMinutes,
+      cartTimerUrgencyText,
       fetcher,
     ]
   );
 
   const terminology = getFestivalTerminology(festival?.id);
 
-  // 8 Logical Categories as specified in requirements
+  // 8 Merchant-Friendly Categories with Intuitive Plain-Language Labels
   const categories = [
-    { id: "signature_effects", label: "Signature Effects", badge: enableEffects ? "Active" : "Off" },
-    { id: "particles_lighting", label: "Particles & Lighting", badge: enableSeriesLights ? "On" : "Off" },
-    { id: "garlands_decorations", label: terminology.headerCategory, badge: garlandLayout !== "off" ? terminology.headerBadge : "Off" },
-    { id: "interactive_effects", label: "Interactive Effects", badge: "Live" },
-    { id: "colors_materials", label: "Colors & Materials", badge: "WCAG AAA" },
-    { id: "banner_messaging", label: "Banner & Announcements", badge: enableBanner ? "Visible" : "Hidden" },
-    { id: "scheduling", label: "Scheduling & Autopilot", badge: scheduledStart ? "Scheduled" : "Manual" },
-    { id: "performance", label: "Performance & A11y", badge: "60 FPS" },
+    { id: "visual_decor", label: "Festive Visuals & Decor", badge: garlandLayout !== "off" ? terminology.headerBadge : "Off" },
+    { id: "floating_effects", label: "Falling & Floating Effects", badge: enableEffects ? "Active" : "Off" },
+    { id: "discounts_offers", label: "Festival Discounts & Offers", badge: enableDiscount ? `${discountValue}% OFF` : "Off" },
+    { id: "urgency_timers", label: "Urgency & Countdown Timers", badge: enableUrgencyTimer ? "Active" : "Off" },
+    { id: "banner_announcements", label: "Announcement Banner", badge: enableBanner ? "Visible" : "Hidden" },
+    { id: "theme_colors", label: "Colors & Atmosphere", badge: "WCAG AAA" },
+    { id: "dates_schedule", label: "Dates & Scheduling", badge: scheduledStart ? "Scheduled" : "Manual" },
+    { id: "store_settings", label: "Storefront & CTA Protection", badge: "Protected" },
   ];
 
   return (
@@ -3058,33 +3320,67 @@ export default function FestivalStudio() {
             </p>
           </div>
 
-          {/* 1. SIGNATURE EFFECTS CATEGORY */}
-          {activeCategory === "signature_effects" && (
+          {/* 1. FESTIVE VISUALS & DECOR CATEGORY */}
+          {(activeCategory === "visual_decor" || activeCategory === "garlands_decorations" || activeCategory === "signature_effects") && (
             <BlockStack gap="400">
               <Box padding="300" background="bg-surface-secondary" borderRadius="200">
                 <ToggleSwitch
-                  label={`Enable ${festival.signatureEffect?.name || "Signature Effect"}`}
+                  label={`Enable ${festival.name} Visual Decor`}
                   checked={enableEffects}
                   onChange={(val) => { setEnableEffects(val); markDirty(); }}
-                  helpText="Primary cultural motif engineered for this festival."
+                  helpText="Drapes authentic spiderwebs, garlands, and corner motifs across your storefront."
                 />
               </Box>
 
               {enableEffects && (
                 <>
-                  <LuxurySlider
-                    label="Signature Effect Intensity"
-                    value={effectIntensity}
-                    min={20}
-                    max={100}
-                    step={5}
-                    unit="%"
-                    onChange={(val) => { setEffectIntensity(val); markDirty(); }}
-                    helpText="Scales the radiance and visual prominence of the primary motif."
+                  <Select
+                    label={terminology.headerArchitectureLabel || "Spiderweb & Garland Architecture"}
+                    options={terminology.headerArchitectureOptions || [
+                      { label: "Top Spiderweb & Side Web Cascades", value: "top_and_sides" },
+                      { label: "Top Spiderweb Only (Header Arch)", value: "top_only" },
+                      { label: "Side Cascades Only (Screen Margins)", value: "sides_only" },
+                      { label: "Off (No Web Framing)", value: "off" },
+                    ]}
+                    value={garlandLayout}
+                    onChange={(val) => { setGarlandLayout(val); markDirty(); }}
                   />
 
                   <Select
-                    label={terminology.cornerSizeLabel}
+                    label={terminology.dockingPositionLabel || "Framing Docking Position"}
+                    helpText={terminology.dockingHelp || "Prevents framing from obstructing your logo or navigation menu."}
+                    options={[
+                      { label: "Below Navigation (Recommended — 100% Transparent)", value: "below_header" },
+                      { label: "Top of Screen (Fixed 0px)", value: "top_fixed" },
+                    ]}
+                    value={garlandPlacement}
+                    onChange={(val) => { setGarlandPlacement(val); markDirty(); }}
+                  />
+
+                  <LuxurySlider
+                    label={terminology.offsetLabel || "Vertical Alignment Fine-Tuning"}
+                    value={garlandOffset}
+                    min={-40}
+                    max={40}
+                    step={2}
+                    unit="px"
+                    onChange={(val) => { setGarlandOffset(val); markDirty(); }}
+                    helpText="Nudge the framing up or down in pixels to match your theme's exact header."
+                  />
+
+                  <Select
+                    label={terminology.cornerPlacementLabel || "Corner Motif Placement"}
+                    options={[
+                      { label: "Bottom Corners (Default — Elegant)", value: "bottom_corners" },
+                      { label: "Top Corners", value: "top_corners" },
+                      { label: "All 4 Corners", value: "all_corners" },
+                    ]}
+                    value={diyaPosition}
+                    onChange={(val) => { setDiyaPosition(val); markDirty(); }}
+                  />
+
+                  <Select
+                    label={terminology.cornerSizeLabel || "Corner Motif Size"}
                     options={[
                       { label: "Subtle (Small)", value: "small" },
                       { label: "Balanced (Medium — Recommended)", value: "medium" },
@@ -3093,17 +3389,58 @@ export default function FestivalStudio() {
                     value={diyaSize}
                     onChange={(val) => { setDiyaSize(val); markDirty(); }}
                   />
+                </>
+              )}
+            </BlockStack>
+          )}
 
-                  <Select
-                    label={terminology.cornerPlacementLabel}
-                    options={[
-                      { label: "Bottom Corners (Default)", value: "bottom_corners" },
-                      { label: "Top Corners", value: "top_corners" },
-                      { label: "All 4 Corners", value: "all_corners" },
-                    ]}
-                    value={diyaPosition}
-                    onChange={(val) => { setDiyaPosition(val); markDirty(); }}
+          {/* 2. FALLING & FLOATING EFFECTS CATEGORY */}
+          {(activeCategory === "floating_effects" || activeCategory === "particles_lighting") && (
+            <BlockStack gap="400">
+              <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                <ToggleSwitch
+                  label={`Enable Floating ${festival.id.includes("halloween") ? "Ghosts & Embers" : "Particles & Sparks"}`}
+                  checked={enableSeriesLights}
+                  onChange={(val) => { setEnableSeriesLights(val); markDirty(); }}
+                  helpText="Ambient floating silhouettes that hover gently in safe margins without covering products."
+                />
+              </Box>
+
+              {enableSeriesLights && (
+                <>
+                  <LuxurySlider
+                    label="Particle Radiance & Intensity"
+                    value={effectIntensity}
+                    min={20}
+                    max={100}
+                    step={5}
+                    unit="%"
+                    onChange={(val) => { setEffectIntensity(val); markDirty(); }}
+                    helpText="Controls the opacity and glow intensity of floating ghosts and embers."
                   />
+
+                  <LuxurySlider
+                    label={terminology.particleLabel || "Particle Density Budget"}
+                    value={particleDensity}
+                    min={6}
+                    max={36}
+                    step={2}
+                    unit=" particles"
+                    onChange={(val) => { setParticleDensity(val); markDirty(); }}
+                    helpText="Maintains smooth 60 FPS performance across mobile and desktop."
+                  />
+
+                  <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                      <span style={{ color: "#008060", fontSize: "14px" }}>🛡️</span>
+                      <div>
+                        <div style={{ fontSize: "12px", fontWeight: 600, color: "#202223" }}>CTA Safe Gutters Active</div>
+                        <div style={{ fontSize: "11px", color: "#6D7175" }}>
+                          Ghosts are constrained to peripheral gutters (outer 15% margins), never floating over Add to Cart or Buy Now buttons.
+                        </div>
+                      </div>
+                    </div>
+                  </Box>
 
                   <ToggleSwitch
                     label="Motion Sensitivity Protection"
@@ -3116,177 +3453,168 @@ export default function FestivalStudio() {
             </BlockStack>
           )}
 
-          {/* 2. PARTICLES & LIGHTING CATEGORY */}
-          {activeCategory === "particles_lighting" && (
+          {/* 3. FESTIVAL DISCOUNTS & OFFERS CATEGORY */}
+          {activeCategory === "discounts_offers" && (
             <BlockStack gap="400">
               <Box padding="300" background="bg-surface-secondary" borderRadius="200">
                 <ToggleSwitch
-                  label={terminology.secondaryToggleLabel}
-                  checked={enableSeriesLights}
-                  onChange={(val) => { setEnableSeriesLights(val); markDirty(); }}
-                  helpText={terminology.secondaryToggleHelp}
+                  label={`Enable ${festival.name} Event Discount`}
+                  checked={enableDiscount}
+                  onChange={(val) => { setEnableDiscount(val); markDirty(); }}
+                  helpText="Automatically displays discounted prices, sale badges, and promotional tags."
                 />
               </Box>
 
-              {enableSeriesLights && (
+              {enableDiscount && (
                 <>
                   <Select
-                    label={terminology.lightsThemeLabel}
-                    options={terminology.lightsThemeOptions}
-                    value={seriesLightsTheme}
-                    onChange={(val) => { setSeriesLightsTheme(val); markDirty(); }}
+                    label="Discount Adjustment Type"
+                    options={[
+                      { label: "Percentage Off (e.g. 10%, 15%, 20%)", value: "percentage" },
+                      { label: "Fixed Money Amount Off (e.g. $10, $25 Off)", value: "fixed_amount" },
+                      { label: "Cart Spend Tier (Spend $X, Get Discount)", value: "cart_size" },
+                    ]}
+                    value={discountType}
+                    onChange={(val) => { setDiscountType(val); markDirty(); }}
                   />
 
-                  <LuxurySlider
-                    label={terminology.particleLabel}
-                    value={particleDensity}
-                    min={6}
-                    max={36}
-                    step={2}
-                    unit=" particles"
-                    onChange={(val) => { setParticleDensity(val); markDirty(); }}
-                    helpText={terminology.particleHelp}
+                  <TextField
+                    label={discountType === "percentage" ? "Discount Percentage (%)" : "Discount Amount ($ / ₹)"}
+                    type="number"
+                    value={String(discountValue)}
+                    onChange={(val) => { setDiscountValue(Number(val) || 0); markDirty(); }}
+                    autoComplete="off"
+                    helpText={discountType === "percentage" ? "Example: 10 for 10% off items." : "Example: 15 for $15 off."}
+                  />
+
+                  <Select
+                    label="Applies To / Scope"
+                    options={[
+                      { label: "Specific Collection (Recommended — e.g. Snowboards)", value: "collection" },
+                      { label: "All Store Products", value: "all" },
+                      { label: "Featured Products Only", value: "specific_products" },
+                    ]}
+                    value={discountScope}
+                    onChange={(val) => { setDiscountScope(val); markDirty(); }}
+                  />
+
+                  {discountScope === "collection" && (
+                    <TextField
+                      label="Target Collection Name"
+                      value={discountCollection}
+                      onChange={(val) => { setDiscountCollection(val); markDirty(); }}
+                      autoComplete="off"
+                      helpText="Products matching this collection will display sale badges and discounts."
+                    />
+                  )}
+
+                  {discountType === "cart_size" && (
+                    <TextField
+                      label="Minimum Cart Spend ($ / ₹)"
+                      type="number"
+                      value={String(discountMinSpend)}
+                      onChange={(val) => { setDiscountMinSpend(Number(val) || 0); markDirty(); }}
+                      autoComplete="off"
+                      helpText="Discount activates when cart total exceeds this value (e.g. $50)."
+                    />
+                  )}
+
+                  <Select
+                    label="Target Audience (Who Sees This Discount)"
+                    options={[
+                      { label: "All Store Visitors (Default)", value: "all" },
+                      { label: "First-Time / New Visitors Only", value: "new_visitors" },
+                      { label: "Returning Loyal Shoppers Only", value: "returning" },
+                      { label: "High-Value Carts (Over Threshold)", value: "cart_threshold" },
+                    ]}
+                    value={discountAudience}
+                    onChange={(val) => { setDiscountAudience(val); markDirty(); }}
+                    helpText="Control which segment of shoppers receives this festive incentive."
+                  />
+
+                  <TextField
+                    label="Sale Badge Tag Text"
+                    value={discountBadgeText}
+                    onChange={(val) => { setDiscountBadgeText(val); markDirty(); }}
+                    autoComplete="off"
+                    helpText="Displayed as a festive badge on product cards and banner."
+                  />
+
+                  <ToggleSwitch
+                    label="Auto-Apply Discount at Checkout"
+                    checked={discountAutoApply}
+                    onChange={(val) => { setDiscountAutoApply(val); markDirty(); }}
+                    helpText="Applies coupon code directly to shopper's checkout link."
                   />
                 </>
               )}
             </BlockStack>
           )}
 
-          {/* 3. GARLANDS & DOCKING CATEGORY */}
-          {activeCategory === "garlands_decorations" && (
-            <BlockStack gap="400">
-              <Select
-                label={terminology.headerArchitectureLabel}
-                options={terminology.headerArchitectureOptions}
-                value={garlandLayout}
-                onChange={(val) => { setGarlandLayout(val); markDirty(); }}
-              />
-
-              <Select
-                label={terminology.dockingPositionLabel}
-                helpText={terminology.dockingHelp}
-                options={[
-                  { label: "Below Navigation (Recommended — Zero Menu Overlap)", value: "below_header" },
-                  { label: "Top of Screen (Fixed 0px)", value: "top_fixed" },
-                ]}
-                value={garlandPlacement}
-                onChange={(val) => { setGarlandPlacement(val); markDirty(); }}
-              />
-
-              <LuxurySlider
-                label={terminology.offsetLabel}
-                value={garlandOffset}
-                min={-40}
-                max={40}
-                step={2}
-                unit="px"
-                onChange={(val) => { setGarlandOffset(val); markDirty(); }}
-                helpText="Nudge the framing up or down in pixels to match your theme's exact header height."
-              />
-            </BlockStack>
-          )}
-
-          {/* 4. INTERACTIVE EFFECTS CATEGORY */}
-          {activeCategory === "interactive_effects" && (
-            <BlockStack gap="400">
-              <Select
-                label="Shopper Activation Trigger"
-                options={[
-                  { label: "Page Entry (Immediate Welcome)", value: "page_entry" },
-                  { label: "Click Anywhere on Screen", value: "click_anywhere" },
-                  { label: "Add to Cart Celebration", value: "cart_add" },
-                ]}
-                value={triggerEvent}
-                onChange={(val) => { setTriggerEvent(val); markDirty(); }}
-              />
-
-              <Select
-                label="Trigger Frequency"
-                options={[
-                  { label: "Once Per Session (Subtle & Polite)", value: "once_per_session" },
-                  { label: "Always Active on Every Page", value: "always" },
-                ]}
-                value={triggerFrequency}
-                onChange={(val) => { setTriggerFrequency(val); markDirty(); }}
-              />
-
-              <ToggleSwitch
-                label="Mobile Tap Micro-Animations"
-                checked={tapInteraction}
-                onChange={(val) => { setTapInteraction(val); markDirty(); }}
-                helpText="Shoppers tapping screen trigger gentle ripples of festive sparkles."
-              />
-
-              <ToggleSwitch
-                label={terminology.audioLabel}
-                checked={enableAudio}
-                onChange={(val) => { setEnableAudio(val); markDirty(); }}
-                helpText={terminology.audioHelp}
-              />
-
-              <ToggleSwitch
-                label="Festive Lucky Spin Wheel"
-                checked={enableWheel}
-                onChange={(val) => { setEnableWheel(val); markDirty(); }}
-                helpText="Engage shoppers with a celebratory coupon spin wheel."
-              />
-            </BlockStack>
-          )}
-
-          {/* 5. COLORS & MATERIALS CATEGORY */}
-          {activeCategory === "colors_materials" && (
+          {/* 4. URGENCY & COUNTDOWN TIMERS CATEGORY */}
+          {activeCategory === "urgency_timers" && (
             <BlockStack gap="400">
               <Box padding="300" background="bg-surface-secondary" borderRadius="200">
-                <BlockStack gap="200">
-                  <span style={{ fontSize: "12px", fontWeight: 600 }}>Festival Palette Harmony</span>
-                  <div style={{ display: "flex", gap: "8px" }}>
-                    {[
-                      festival.palette?.primary || "#FFD700",
-                      festival.palette?.secondary || "#FF6B35",
-                      festival.palette?.accent || "#8B0000",
-                      festival.palette?.background || "#1A0A00",
-                    ].map((c, i) => (
-                      <div
-                        key={i}
-                        onClick={() => { setCustomPrimaryColor(c); markDirty(); }}
-                        style={{
-                          width: "32px",
-                          height: "32px",
-                          borderRadius: "6px",
-                          backgroundColor: c,
-                          border: customPrimaryColor === c ? "2px solid #008060" : "1px solid rgba(0,0,0,0.2)",
-                          cursor: "pointer",
-                          boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
-                        }}
-                        title={`Click to set accent: ${c}`}
-                      />
-                    ))}
-                  </div>
-                </BlockStack>
+                <ToggleSwitch
+                  label="Enable Urgency & Countdown Timers"
+                  checked={enableUrgencyTimer}
+                  onChange={(val) => { setEnableUrgencyTimer(val); markDirty(); }}
+                  helpText="Creates psychological urgency with countdowns to boost conversion rates."
+                />
               </Box>
 
-              <TextField
-                label="Primary Accent Hex Code"
-                value={customPrimaryColor}
-                onChange={(val) => { setCustomPrimaryColor(val); markDirty(); }}
-                autoComplete="off"
-                helpText="Custom color applied to CTA buttons and lighting corona."
-              />
+              {enableUrgencyTimer && (
+                <>
+                  <ToggleSwitch
+                    label="General Festive Holiday Countdown"
+                    checked={enableFestiveTimer}
+                    onChange={(val) => { setEnableFestiveTimer(val); markDirty(); }}
+                    helpText="Shows live ticking countdown in the announcement bar (e.g. 02d : 14h : 32m : 18s)."
+                  />
 
-              <Select
-                label="Smart Contrast Adaptation"
-                options={[
-                  { label: "Harmonic (Blends with Theme)", value: "harmonic" },
-                  { label: "High Contrast (Maximum Visibility)", value: "contrast_boost" },
-                ]}
-                value={smartMatchMode}
-                onChange={(val) => { setSmartMatchMode(val); markDirty(); }}
-              />
+                  <ToggleSwitch
+                    label="Add-to-Cart / Cart Reservation Timer"
+                    checked={enableCartTimer}
+                    onChange={(val) => { setEnableCartTimer(val); markDirty(); }}
+                    helpText="Displays a sleek reservation pill ('🔥 Items reserved in cart for 14:59') to drive fast checkout."
+                  />
+
+                  {enableCartTimer && (
+                    <>
+                      <Select
+                        label="Cart Reservation Duration"
+                        options={[
+                          { label: "10 Minutes (High Urgency)", value: 10 },
+                          { label: "15 Minutes (Recommended Balance)", value: 15 },
+                          { label: "30 Minutes (Relaxed Urgency)", value: 30 },
+                        ]}
+                        value={cartTimerMinutes}
+                        onChange={(val) => { setCartTimerMinutes(Number(val)); markDirty(); }}
+                      />
+
+                      <TextField
+                        label="Cart Urgency Banner Text"
+                        value={cartTimerUrgencyText}
+                        onChange={(val) => { setCartTimerUrgencyText(val); markDirty(); }}
+                        autoComplete="off"
+                        helpText="Use [TIME] as placeholder for live ticking minutes:seconds."
+                      />
+                    </>
+                  )}
+
+                  <ToggleSwitch
+                    label="Product Page Flash Deal Urgency"
+                    checked={enableProductTimer}
+                    onChange={(val) => { setEnableProductTimer(val); markDirty(); }}
+                    helpText="Shows live '⚡ Flash deal: 4 left in stock' indicators above purchase buttons."
+                  />
+                </>
+              )}
             </BlockStack>
           )}
 
-          {/* 6. BANNER & MESSAGING CATEGORY */}
-          {activeCategory === "banner_messaging" && (
+          {/* 5. ANNOUNCEMENT BANNER CATEGORY */}
+          {(activeCategory === "banner_announcements" || activeCategory === "banner_messaging") && (
             <BlockStack gap="400">
               <ToggleSwitch
                 label="Show Announcement Bar"
@@ -3327,20 +3655,65 @@ export default function FestivalStudio() {
                     autoComplete="off"
                     helpText="Displayed as a 1-click copy badge in the banner."
                   />
-
-                  <ToggleSwitch
-                    label="Countdown Timer to Celebration"
-                    checked={enableCountdown}
-                    onChange={(val) => { setEnableCountdown(val); markDirty(); }}
-                    helpText="Instills festive urgency as holiday approaches."
-                  />
                 </>
               )}
             </BlockStack>
           )}
 
-          {/* 7. SCHEDULING & AUTOPILOT CATEGORY */}
-          {activeCategory === "scheduling" && (
+          {/* 6. THEME COLORS & ATMOSPHERE CATEGORY */}
+          {(activeCategory === "theme_colors" || activeCategory === "colors_materials") && (
+            <BlockStack gap="400">
+              <Box padding="300" background="bg-surface-secondary" borderRadius="200">
+                <BlockStack gap="200">
+                  <span style={{ fontSize: "12px", fontWeight: 600 }}>Festival Palette Harmony</span>
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    {[
+                      festival.palette?.primary || "#FFD700",
+                      festival.palette?.secondary || "#FF6B35",
+                      festival.palette?.accent || "#8B0000",
+                      festival.palette?.background || "#1A0A00",
+                    ].map((c, i) => (
+                      <div
+                        key={i}
+                        onClick={() => { setCustomPrimaryColor(c); markDirty(); }}
+                        style={{
+                          width: "32px",
+                          height: "32px",
+                          borderRadius: "6px",
+                          backgroundColor: c,
+                          border: customPrimaryColor === c ? "2px solid #008060" : "1px solid rgba(0,0,0,0.2)",
+                          cursor: "pointer",
+                          boxShadow: "0 1px 3px rgba(0,0,0,0.15)",
+                        }}
+                        title={`Click to set accent: ${c}`}
+                      />
+                    ))}
+                  </div>
+                </BlockStack>
+              </Box>
+
+              <TextField
+                label="Primary Accent Hex Code"
+                value={customPrimaryColor}
+                onChange={(val) => { setCustomPrimaryColor(val); markDirty(); }}
+                autoComplete="off"
+                helpText="Custom color applied to festive badges and lighting corona."
+              />
+
+              <Select
+                label="Smart Contrast Adaptation"
+                options={[
+                  { label: "Harmonic (Blends with Theme)", value: "harmonic" },
+                  { label: "High Contrast (Maximum Visibility)", value: "contrast_boost" },
+                ]}
+                value={smartMatchMode}
+                onChange={(val) => { setSmartMatchMode(val); markDirty(); }}
+              />
+            </BlockStack>
+          )}
+
+          {/* 7. DATES & SCHEDULING CATEGORY */}
+          {(activeCategory === "dates_schedule" || activeCategory === "scheduling") && (
             <BlockStack gap="400">
               <TextField
                 label="Automated Start Date"
@@ -3369,15 +3742,18 @@ export default function FestivalStudio() {
             </BlockStack>
           )}
 
-          {/* 8. PERFORMANCE & ACCESSIBILITY CATEGORY */}
-          {activeCategory === "performance" && (
+          {/* 8. STORE SETTINGS & CTA PROTECTION CATEGORY */}
+          {(activeCategory === "store_settings" || activeCategory === "performance") && (
             <BlockStack gap="400">
               <Box padding="300" background="bg-surface-secondary" borderRadius="200">
                 <BlockStack gap="150">
-                  <span style={{ fontSize: "12px", fontWeight: 700 }}>Storefront Performance Audit</span>
-                  <div style={{ fontSize: "11.5px", color: "#008060" }}>✓ 60 FPS GPU-accelerated canvas</div>
-                  <div style={{ fontSize: "11.5px", color: "#008060" }}>✓ Zero Cumulative Layout Shift (0.00 CLS)</div>
-                  <div style={{ fontSize: "11.5px", color: "#008060" }}>✓ Core Script Execution: 0.32ms (Lightweight)</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ color: "#008060", fontSize: "14px" }}>🛡️</span>
+                    <span style={{ fontSize: "12px", fontWeight: 700 }}>CTA Button Safe-Zone Protection</span>
+                  </div>
+                  <div style={{ fontSize: "11.5px", color: "#008060" }}>✓ Add to Cart & Buy Now buttons locked to z-index 99999</div>
+                  <div style={{ fontSize: "11.5px", color: "#008060" }}>✓ Zero click interference or overlay blockage</div>
+                  <div style={{ fontSize: "11.5px", color: "#008060" }}>✓ 60 FPS GPU-accelerated canvas (0.00 CLS)</div>
                 </BlockStack>
               </Box>
 
@@ -3385,7 +3761,21 @@ export default function FestivalStudio() {
                 label="Mobile Safe Zone Clearance"
                 checked={safeZoneClearance}
                 onChange={(val) => { setSafeZoneClearance(val); markDirty(); }}
-                helpText={terminology.safeZoneHelp}
+                helpText="Prevents corner motifs from colliding with mobile bottom navigation bars or chat widgets."
+              />
+
+              <ToggleSwitch
+                label="Celebratory Soundscape Chime"
+                checked={enableAudio}
+                onChange={(val) => { setEnableAudio(val); markDirty(); }}
+                helpText="Subtle festive chime on shopper interaction. Muted by default."
+              />
+
+              <ToggleSwitch
+                label="Mobile Tap Celebration Ripples"
+                checked={tapInteraction}
+                onChange={(val) => { setTapInteraction(val); markDirty(); }}
+                helpText="Shoppers tapping screen trigger gentle ripples of festive sparkles."
               />
             </BlockStack>
           )}
@@ -3522,6 +3912,7 @@ export default function FestivalStudio() {
                 seriesLightsTheme={seriesLightsTheme}
                 enableBanner={enableBanner}
                 bannerText={bannerText}
+                promoCode={promoCode}
                 diyaSize={diyaSize}
                 diyaPosition={diyaPosition}
                 particleDensity={particleDensity}
@@ -3529,6 +3920,19 @@ export default function FestivalStudio() {
                 customPrimaryColor={customPrimaryColor}
                 storeInfo={storeInfo}
                 storeProducts={storeProducts}
+                enableDiscount={enableDiscount}
+                discountType={discountType}
+                discountValue={discountValue}
+                discountScope={discountScope}
+                discountCollection={discountCollection}
+                discountBadgeText={discountBadgeText}
+                discountAudience={discountAudience}
+                enableUrgencyTimer={enableUrgencyTimer}
+                enableFestiveTimer={enableFestiveTimer}
+                enableCartTimer={enableCartTimer}
+                enableProductTimer={enableProductTimer}
+                cartTimerMinutes={cartTimerMinutes}
+                cartTimerUrgencyText={cartTimerUrgencyText}
               />
             )}
 
@@ -3545,6 +3949,7 @@ export default function FestivalStudio() {
                 seriesLightsTheme={seriesLightsTheme}
                 enableBanner={enableBanner}
                 bannerText={bannerText}
+                promoCode={promoCode}
                 diyaSize={diyaSize}
                 diyaPosition={diyaPosition}
                 particleDensity={particleDensity}
@@ -3552,6 +3957,19 @@ export default function FestivalStudio() {
                 customPrimaryColor={customPrimaryColor}
                 storeInfo={storeInfo}
                 storeProducts={storeProducts}
+                enableDiscount={enableDiscount}
+                discountType={discountType}
+                discountValue={discountValue}
+                discountScope={discountScope}
+                discountCollection={discountCollection}
+                discountBadgeText={discountBadgeText}
+                discountAudience={discountAudience}
+                enableUrgencyTimer={enableUrgencyTimer}
+                enableFestiveTimer={enableFestiveTimer}
+                enableCartTimer={enableCartTimer}
+                enableProductTimer={enableProductTimer}
+                cartTimerMinutes={cartTimerMinutes}
+                cartTimerUrgencyText={cartTimerUrgencyText}
               />
             )}
 
@@ -3579,6 +3997,7 @@ export default function FestivalStudio() {
                     seriesLightsTheme={seriesLightsTheme}
                     enableBanner={enableBanner}
                     bannerText={bannerText}
+                    promoCode={promoCode}
                     diyaSize={diyaSize}
                     diyaPosition={diyaPosition}
                     particleDensity={particleDensity}
@@ -3586,6 +4005,19 @@ export default function FestivalStudio() {
                     customPrimaryColor={customPrimaryColor}
                     storeInfo={storeInfo}
                     storeProducts={storeProducts}
+                    enableDiscount={enableDiscount}
+                    discountType={discountType}
+                    discountValue={discountValue}
+                    discountScope={discountScope}
+                    discountCollection={discountCollection}
+                    discountBadgeText={discountBadgeText}
+                    discountAudience={discountAudience}
+                    enableUrgencyTimer={enableUrgencyTimer}
+                    enableFestiveTimer={enableFestiveTimer}
+                    enableCartTimer={enableCartTimer}
+                    enableProductTimer={enableProductTimer}
+                    cartTimerMinutes={cartTimerMinutes}
+                    cartTimerUrgencyText={cartTimerUrgencyText}
                   />
                 </div>
                 <div style={{ flex: "1 1 0px", maxWidth: "240px" }}>
@@ -3601,6 +4033,7 @@ export default function FestivalStudio() {
                     seriesLightsTheme={seriesLightsTheme}
                     enableBanner={enableBanner}
                     bannerText={bannerText}
+                    promoCode={promoCode}
                     diyaSize={diyaSize}
                     diyaPosition={diyaPosition}
                     particleDensity={particleDensity}
@@ -3608,6 +4041,19 @@ export default function FestivalStudio() {
                     customPrimaryColor={customPrimaryColor}
                     storeInfo={storeInfo}
                     storeProducts={storeProducts}
+                    enableDiscount={enableDiscount}
+                    discountType={discountType}
+                    discountValue={discountValue}
+                    discountScope={discountScope}
+                    discountCollection={discountCollection}
+                    discountBadgeText={discountBadgeText}
+                    discountAudience={discountAudience}
+                    enableUrgencyTimer={enableUrgencyTimer}
+                    enableFestiveTimer={enableFestiveTimer}
+                    enableCartTimer={enableCartTimer}
+                    enableProductTimer={enableProductTimer}
+                    cartTimerMinutes={cartTimerMinutes}
+                    cartTimerUrgencyText={cartTimerUrgencyText}
                   />
                 </div>
               </div>
