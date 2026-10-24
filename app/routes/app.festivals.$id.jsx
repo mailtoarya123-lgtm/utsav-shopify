@@ -29,7 +29,7 @@ import {
 } from "../data/festivals";
 
 export const loader = async ({ request, params }) => {
-  const { session } = await authenticate.admin(request);
+  const { admin, session } = await authenticate.admin(request);
   const shop = session.shop;
   const festivalId = params.id;
 
@@ -50,9 +50,61 @@ export const loader = async ({ request, params }) => {
   const plan = subscription?.plan || "free";
   const defaultGreeting = festival.banner?.defaultText || `Happy ${festival.name}! Celebrate with festive deals.`;
 
+  let storeInfo = {
+    name: "utsav",
+    domain: shop,
+  };
+  let storeProducts = [];
+
+  try {
+    const shopRes = await admin.graphql(`
+      #graphql
+      query GetShopAndProducts {
+        shop {
+          name
+        }
+        products(first: 6) {
+          edges {
+            node {
+              id
+              title
+              featuredImage {
+                url
+              }
+              priceRangeV2 {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    `);
+    const shopData = await shopRes.json();
+    if (shopData?.data?.shop?.name) {
+      storeInfo.name = shopData.data.shop.name;
+    }
+    if (shopData?.data?.products?.edges?.length) {
+      storeProducts = shopData.data.products.edges.map(({ node }) => ({
+        id: node.id,
+        title: node.title,
+        image: node.featuredImage?.url,
+        price: node.priceRangeV2?.minVariantPrice
+          ? `${node.priceRangeV2.minVariantPrice.currencyCode === "INR" ? "₹" : "$"}${Number(node.priceRangeV2.minVariantPrice.amount).toFixed(2)}`
+          : "$885.00",
+      }));
+    }
+  } catch (err) {
+    // Graceful fallback to user Dawn theme defaults
+  }
+
   return json({
     festival,
     shop,
+    storeInfo,
+    storeProducts,
     config: config || {
       shop,
       festivalId,
@@ -2039,6 +2091,8 @@ function DeviceStorefrontMock({
   particleDensity,
   effectIntensity,
   customPrimaryColor,
+  storeInfo,
+  storeProducts,
 }) {
   const isDesktop = deviceType === "desktop";
   const isMobile = deviceType === "mobile";
@@ -2195,31 +2249,45 @@ function DeviceStorefrontMock({
           </div>
         )}
 
-        {/* Navigation Bar */}
+        {/* Real Store Navigation Bar (Shopify Dawn Theme) */}
         <div
           style={{
-            padding: isMobile ? "5px 8px" : "8px 12px",
+            padding: isMobile ? "6px 10px" : "9px 18px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            borderBottom: "1px solid #EEEEEE",
+            borderBottom: "1px solid #E5E7EB",
             background: "#FFFFFF",
             flexShrink: 0,
           }}
         >
-          <div style={{ fontWeight: 800, fontSize: isMobile ? "10px" : "12px", color: "#111", letterSpacing: "0.2px" }}>
-            LUXE STORE
+          {/* Left: Nav Links */}
+          <div style={{ display: "flex", gap: isMobile ? "8px" : "14px", fontSize: isMobile ? "8px" : "10px", color: "#18181B", fontWeight: 500 }}>
+            <span style={{ textDecoration: "underline", textUnderlineOffset: "3px", fontWeight: 600 }}>Home</span>
+            <span>Catalog</span>
+            <span>Contact</span>
           </div>
-          {isDesktop && (
-            <div style={{ display: "flex", gap: "12px", fontSize: "9px", color: "#555", fontWeight: 500 }}>
-              <span style={{ color: "#000", fontWeight: 700 }}>Home</span>
-              <span>Festive Collection</span>
-              <span>{festival.name} Specials</span>
-              <span>Gifts</span>
-            </div>
-          )}
-          <div style={{ fontSize: "9px", fontWeight: 600, color: "#333" }}>
-            Cart (2)
+
+          {/* Center: Store Brand Name */}
+          <div style={{ fontWeight: 800, fontSize: isMobile ? "12px" : "15px", color: "#09090B", letterSpacing: "0.2px" }}>
+            {storeInfo?.name || "utsav"}
+          </div>
+
+          {/* Right: Search, Account, Cart Icons */}
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? "8px" : "12px", color: "#18181B" }}>
+            <svg width={isMobile ? "11" : "13"} height={isMobile ? "11" : "13"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <svg width={isMobile ? "11" : "13"} height={isMobile ? "11" : "13"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <svg width={isMobile ? "11" : "13"} height={isMobile ? "11" : "13"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
           </div>
         </div>
 
@@ -2233,14 +2301,14 @@ function DeviceStorefrontMock({
                   position: "relative",
                   zIndex: 12,
                   overflow: "hidden",
-                  height: isMobile ? "20px" : "32px",
+                  height: isMobile ? "22px" : "34px",
                   marginTop: `${Math.round(garlandOffset * 0.4)}px`,
                 }}
               >
                 <DynamicFestivalHeaderWidget
                   festival={festival}
                   isMobile={isMobile}
-                  height={isMobile ? 20 : 32}
+                  height={isMobile ? 22 : 34}
                   withLights={enableSeriesLights}
                   lightsTheme={seriesLightsTheme}
                 />
@@ -2257,114 +2325,127 @@ function DeviceStorefrontMock({
               />
             )}
 
-            {/* Storefront Hero Section */}
+            {/* Real Store Hero Image Banner (Shopify Dawn Snowboard Theme) */}
             <div
               style={{
-                padding: isMobile ? "10px 8px" : "18px 14px 12px",
-                textAlign: "center",
-                background: "linear-gradient(180deg, #FAFAFA 0%, #F5F5F7 100%)",
+                position: "relative",
+                width: "100%",
+                height: isMobile ? "150px" : "210px",
+                backgroundImage: "linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0.02)), url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?auto=format&fit=crop&w=1200&q=80')",
+                backgroundSize: "cover",
+                backgroundPosition: "center 38%",
+                display: "flex",
+                alignItems: "center",
+                padding: isMobile ? "12px 14px" : "20px 24px",
               }}
             >
+              {/* Dawn Left Overlay Card */}
               <div
                 style={{
-                  display: "inline-block",
-                  padding: "1px 6px",
-                  background: "#E8F5E9",
-                  color: "#2E7D32",
-                  borderRadius: "4px",
-                  fontSize: "7.5px",
-                  fontWeight: 700,
-                  marginBottom: "3px",
+                  background: "rgba(255, 255, 255, 0.96)",
+                  backdropFilter: "blur(6px)",
+                  padding: isMobile ? "9px 12px" : "15px 18px",
+                  borderRadius: "2px",
+                  maxWidth: isMobile ? "160px" : "240px",
+                  textAlign: "left",
+                  boxShadow: "0 6px 20px rgba(0, 0, 0, 0.12)",
                 }}
               >
-                FESTIVE EXCLUSIVE
-              </div>
-              <div
-                style={{
-                  fontSize: isMobile ? "11px" : "15px",
-                  fontWeight: 800,
-                  color: "#111",
-                  marginBottom: "2px",
-                }}
-              >
-                {festival.name} Collection
-              </div>
-              <div
-                style={{
-                  fontSize: isMobile ? "8px" : "9.5px",
-                  color: "#666",
-                  maxWidth: "280px",
-                  margin: "0 auto 6px",
-                  lineHeight: "1.3",
-                }}
-              >
-                {festival.description}
-              </div>
-              <button
-                style={{
-                  background: customPrimaryColor || "#111",
-                  color: "#FFF",
-                  padding: isMobile ? "3px 10px" : "5px 14px",
-                  borderRadius: "4px",
-                  border: "none",
-                  fontSize: isMobile ? "8.5px" : "9.5px",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                {festival.banner?.defaultCta || "Shop Festive Specials"}
-              </button>
-            </div>
-
-            {/* Product Grid Mockup */}
-            <div
-              style={{
-                padding: "8px 10px 40px",
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "8px",
-              }}
-            >
-              {(festival.sampleProducts && festival.sampleProducts.length > 0
-                ? festival.sampleProducts
-                : [
-                    { title: `${festival.name} Special`, price: "₹1,499", tag: "Artisanal" },
-                    { title: "Festive Keepsake", price: "₹899", tag: "Bestseller" },
-                  ]
-              ).slice(0, 2).map((prod, i) => (
-                <div
-                  key={i}
+                <div style={{ fontSize: isMobile ? "11px" : "15px", fontWeight: 800, color: "#121212", margin: "0 0 3px 0", letterSpacing: "-0.01em", lineHeight: 1.15 }}>
+                  Generated test data
+                </div>
+                <div style={{ fontSize: isMobile ? "7.5px" : "9px", color: "#4B5563", margin: "0 0 8px 0", lineHeight: 1.35 }}>
+                  A theme and populated test store by Shopify to help you test commerce primitives.
+                </div>
+                <button
                   style={{
-                    background: "#FAFAFA",
-                    borderRadius: "6px",
-                    border: "1px solid #ECECEC",
-                    padding: "8px",
-                    textAlign: "center",
+                    background: "#121212",
+                    color: "#FFFFFF",
+                    border: "none",
+                    borderRadius: "2px",
+                    padding: isMobile ? "3px 8px" : "4px 12px",
+                    fontSize: isMobile ? "7.5px" : "9px",
+                    fontWeight: 600,
+                    cursor: "pointer",
                   }}
                 >
-                  <div
-                    style={{
-                      height: "30px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: "4px",
-                      fontSize: "18px",
-                    }}
-                  >
-                    {festival.emoji || "✨"}
+                  Shop products
+                </button>
+              </div>
+            </div>
+
+            {/* Featured Products Section (Shopify Dawn Snowboards) */}
+            <div style={{ padding: isMobile ? "12px 10px 40px" : "16px 16px 45px", background: "#FFFFFF" }}>
+              <div style={{ fontSize: isMobile ? "11px" : "14px", fontWeight: 700, color: "#121212", marginBottom: "10px", textAlign: "left" }}>
+                Featured products
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr 1fr 1fr",
+                  gap: isMobile ? "8px" : "12px",
+                }}
+              >
+                {(storeProducts && storeProducts.length > 0 ? storeProducts.slice(0, 3) : [
+                  {
+                    title: "The Complete Snowboard",
+                    price: "$885.00",
+                    colors: ["#38EF7D", "#11998E"],
+                  },
+                  {
+                    title: "The Multi-location Snowboard",
+                    price: "$785.00",
+                    colors: ["#4A90E2", "#9013FE"],
+                  },
+                  {
+                    title: "The Collection Snowboard",
+                    price: "$920.00",
+                    colors: ["#F5A623", "#F8E71C"],
+                  },
+                ]).map((prod, i) => (
+                  <div key={i} style={{ textAlign: "left", cursor: "pointer" }}>
+                    <div
+                      style={{
+                        background: "#F4F4F5",
+                        borderRadius: "4px",
+                        height: isMobile ? "95px" : "125px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: "relative",
+                        overflow: "hidden",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      {prod.image ? (
+                        <img src={prod.image} alt={prod.title} style={{ maxWidth: "80%", maxHeight: "85%", objectFit: "contain" }} />
+                      ) : (
+                        <div
+                          style={{
+                            width: "32px",
+                            height: "85px",
+                            borderRadius: "16px",
+                            background: `linear-gradient(135deg, ${prod.colors?.[0] || '#00C9FF'} 0%, ${prod.colors?.[1] || '#92FE9D'} 100%)`,
+                            boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            transform: "rotate(-12deg)",
+                          }}
+                        >
+                          <div style={{ width: "16px", height: "3px", background: "rgba(255,255,255,0.7)", borderRadius: "2px" }}></div>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ fontSize: isMobile ? "8px" : "9.5px", fontWeight: 600, color: "#18181B", lineHeight: 1.25 }}>
+                      {prod.title}
+                    </div>
+                    <div style={{ fontSize: isMobile ? "7.5px" : "9px", color: "#52525B", marginTop: "2px" }}>
+                      {prod.price}
+                    </div>
                   </div>
-                  <div style={{ fontSize: "7px", color: customPrimaryColor || festival.palette?.primary || "#D4AF37", fontWeight: 700, textTransform: "uppercase" }}>
-                    {prod.tag}
-                  </div>
-                  <div style={{ fontSize: "9px", fontWeight: 600, color: "#222" }}>
-                    {prod.title}
-                  </div>
-                  <div style={{ fontSize: "8.5px", color: "#777", marginTop: "1px" }}>
-                    {prod.price}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
@@ -2401,7 +2482,7 @@ function DeviceStorefrontMock({
 
 // ─── Main Fixed-Height Visual Editor Studio ─────────────────────────────────
 export default function FestivalStudio() {
-  const { festival, shop, config, plan } = useLoaderData();
+  const { festival, shop, storeInfo, storeProducts, config, plan } = useLoaderData();
   const navigate = useNavigate();
   const fetcher = useFetcher();
 
@@ -2740,9 +2821,25 @@ export default function FestivalStudio() {
 
         {/* Right: Actions */}
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <button
-            onClick={() => window.open(`https://${shop}/admin/themes/current/editor?context=apps&activateAppId=5db56cc4-c065-7d56-20a9-6eb82834fdc0ea9c3601/utsav-embed`, "_blank")}
+          <a
+            href={`https://${shop}/admin/themes/current/editor?context=apps&activateAppId=5db56cc4-c065-7d56-20a9-6eb82834fdc0ea9c3601/utsav-embed`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              const themeUrl = `https://${shop}/admin/themes/current/editor?context=apps&activateAppId=5db56cc4-c065-7d56-20a9-6eb82834fdc0ea9c3601/utsav-embed`;
+              try {
+                if (window.shopify && typeof window.shopify.open === "function") {
+                  e.preventDefault();
+                  window.shopify.open(themeUrl, "_blank");
+                  return;
+                }
+              } catch (_) {}
+              try {
+                window.open(themeUrl, "_blank", "noopener,noreferrer");
+              } catch (_) {}
+            }}
             style={{
+              textDecoration: "none",
               background: "#F1F8F5",
               border: "1px solid #95C9B4",
               borderRadius: "6px",
@@ -2759,11 +2856,27 @@ export default function FestivalStudio() {
           >
             <span>⚙️ Enable in Theme</span>
             <span style={{ fontSize: "11px" }}>↗</span>
-          </button>
+          </a>
 
-          <button
-            onClick={() => window.open(`https://${shop}/?utsav_preview=${festival.id}`, "_blank")}
+          <a
+            href={`https://${shop}/?utsav_preview=${festival.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => {
+              const liveUrl = `https://${shop}/?utsav_preview=${festival.id}`;
+              try {
+                if (window.shopify && typeof window.shopify.open === "function") {
+                  e.preventDefault();
+                  window.shopify.open(liveUrl, "_blank");
+                  return;
+                }
+              } catch (_) {}
+              try {
+                window.open(liveUrl, "_blank", "noopener,noreferrer");
+              } catch (_) {}
+            }}
             style={{
+              textDecoration: "none",
               background: "#FFFFFF",
               border: "1px solid #D2D5D8",
               borderRadius: "6px",
@@ -2779,7 +2892,7 @@ export default function FestivalStudio() {
           >
             <span>Live Store</span>
             <span style={{ fontSize: "11px" }}>↗</span>
-          </button>
+          </a>
 
           <button
             onClick={() => handleSave()}
@@ -3414,6 +3527,8 @@ export default function FestivalStudio() {
                 particleDensity={particleDensity}
                 effectIntensity={effectIntensity}
                 customPrimaryColor={customPrimaryColor}
+                storeInfo={storeInfo}
+                storeProducts={storeProducts}
               />
             )}
 
@@ -3435,6 +3550,8 @@ export default function FestivalStudio() {
                 particleDensity={particleDensity}
                 effectIntensity={effectIntensity}
                 customPrimaryColor={customPrimaryColor}
+                storeInfo={storeInfo}
+                storeProducts={storeProducts}
               />
             )}
 
@@ -3467,6 +3584,8 @@ export default function FestivalStudio() {
                     particleDensity={particleDensity}
                     effectIntensity={effectIntensity}
                     customPrimaryColor={customPrimaryColor}
+                    storeInfo={storeInfo}
+                    storeProducts={storeProducts}
                   />
                 </div>
                 <div style={{ flex: "1 1 0px", maxWidth: "240px" }}>
@@ -3487,6 +3606,8 @@ export default function FestivalStudio() {
                     particleDensity={particleDensity}
                     effectIntensity={effectIntensity}
                     customPrimaryColor={customPrimaryColor}
+                    storeInfo={storeInfo}
+                    storeProducts={storeProducts}
                   />
                 </div>
               </div>
@@ -3564,6 +3685,8 @@ export default function FestivalStudio() {
                 particleDensity={particleDensity}
                 effectIntensity={effectIntensity}
                 customPrimaryColor={customPrimaryColor}
+                storeInfo={storeInfo}
+                storeProducts={storeProducts}
               />
             </div>
           </div>

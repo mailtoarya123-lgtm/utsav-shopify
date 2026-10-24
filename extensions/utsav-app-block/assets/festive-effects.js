@@ -173,22 +173,29 @@
         // 1. Halloween: Rich Scalloped Spiderweb Bunting with Glowing Lanterns & Spiders
         if (fest.includes("halloween")) {
           return `
-            <svg width="100%" height="48" viewBox="0 0 560 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(15, 10, 24, 0.95) 0%, transparent 100%);">
-              <line x1="0" y1="2" x2="560" y2="2" stroke="#FF7518" stroke-width="1.2" opacity="0.6"/>
-              ${[0, 80, 160, 240, 320, 400, 480].map((x, i) => `
+            <svg width="100%" height="64" viewBox="0 0 1200 64" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.45));">
+              <line x1="0" y1="3" x2="1200" y2="3" stroke="#FF7518" stroke-width="3" opacity="0.95"/>
+              <line x1="0" y1="5" x2="1200" y2="5" stroke="#1C1428" stroke-width="1.5" opacity="0.8"/>
+              ${[0, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100].map((x, i) => `
                 <g transform="translate(${x}, 0)">
-                  <path d="M 0 2 Q 40 30 80 2" stroke="#6D5D8A" stroke-width="1.4" fill="none" opacity="0.8"/>
-                  <path d="M 12 2 Q 40 22 68 2" stroke="#8E7CAE" stroke-width="1" fill="none" opacity="0.6"/>
-                  <path d="M 24 2 Q 40 14 56 2" stroke="#AEA1C7" stroke-width="0.8" fill="none" opacity="0.5"/>
-                  <line x1="40" y1="2" x2="15" y2="22" stroke="#8E7CAE" stroke-width="0.8" opacity="0.5"/>
-                  <line x1="40" y1="2" x2="40" y2="30" stroke="#8E7CAE" stroke-width="0.9" opacity="0.6"/>
-                  <line x1="40" y1="2" x2="65" y2="22" stroke="#8E7CAE" stroke-width="0.8" opacity="0.5"/>
-                  <line x1="40" y1="30" x2="40" y2="38" stroke="#AEA1C7" stroke-width="0.6" stroke-dasharray="1,1"/>
-                  <ellipse cx="40" cy="40" rx="3.5" ry="4.5" fill="#1A1528" stroke="#FF7518" stroke-width="0.8"/>
-                  <path d="M 37 38 Q 34 36 33 39 M 43 38 Q 46 36 47 39 M 37 42 Q 34 44 33 42 M 43 42 Q 46 44 47 42" stroke="#FF7518" stroke-width="0.6" fill="none"/>
-                  <circle cx="0" cy="3" r="2.5" fill="#FF7518" style="filter: drop-shadow(0 0 4px #FF7518);"/>
-                  <circle cx="40" cy="30" r="2.5" fill="#FFD700" style="filter: drop-shadow(0 0 5px #FFD700);"/>
-                  <circle cx="80" cy="3" r="2.5" fill="#FF7518" style="filter: drop-shadow(0 0 4px #FF7518);"/>
+                  <path d="M 0 3 Q 50 42 100 3" stroke="#FF7518" stroke-width="2.2" fill="none" opacity="0.9"/>
+                  <path d="M 12 3 Q 50 32 88 3" stroke="#2D1B4E" stroke-width="1.8" fill="none" opacity="0.85"/>
+                  <path d="M 24 3 Q 50 22 76 3" stroke="#8E7CAE" stroke-width="1.4" fill="none" opacity="0.75"/>
+                  <line x1="50" y1="3" x2="16" y2="30" stroke="#FF7518" stroke-width="1.2" opacity="0.7"/>
+                  <line x1="50" y1="3" x2="50" y2="42" stroke="#FF7518" stroke-width="1.4" opacity="0.85"/>
+                  <line x1="50" y1="3" x2="84" y2="30" stroke="#FF7518" stroke-width="1.2" opacity="0.7"/>
+                  <line x1="50" y1="42" x2="50" y2="52" stroke="#AEA1C7" stroke-width="1" stroke-dasharray="2,2"/>
+                  ${i % 2 === 0 ? `
+                    <circle cx="50" cy="54" r="7" fill="#FF7518" stroke="#1A1528" stroke-width="1" style="filter: drop-shadow(0 0 6px #FF7518);"/>
+                    <polygon points="48,52 50,50 52,52" fill="#FFF59D"/>
+                    <path d="M 46 56 Q 50 59 54 56" stroke="#1A1528" stroke-width="1" fill="none"/>
+                  ` : `
+                    <ellipse cx="50" cy="54" rx="4.5" ry="5.5" fill="#1C1428" stroke="#FF7518" stroke-width="0.8" style="filter: drop-shadow(0 0 4px #FF7518);"/>
+                    <path d="M 46 52 Q 42 49 41 53 M 54 52 Q 58 49 59 53 M 46 56 Q 42 58 41 55 M 54 56 Q 58 58 59 55" stroke="#FF7518" stroke-width="0.9" fill="none"/>
+                  `}
+                  <circle cx="0" cy="3" r="3.5" fill="#FF7518" style="filter: drop-shadow(0 0 5px #FF7518);"/>
+                  <circle cx="50" cy="42" r="3" fill="#FFD700" style="filter: drop-shadow(0 0 6px #FFD700);"/>
+                  <circle cx="100" cy="3" r="3.5" fill="#FF7518" style="filter: drop-shadow(0 0 5px #FF7518);"/>
                 </g>
               `).join('')}
             </svg>
@@ -683,17 +690,23 @@
         // 1. Halloween: Hanging Web Garland with Spiders & Amber Lanterns
         if (fest.includes("halloween")) {
           return `
-            <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-              <line x1="22" y1="0" x2="22" y2="420" stroke="#FF7518" stroke-width="1.6" opacity="0.6"/>
-              ${[30, 90, 150, 210, 270, 330, 390].map((y, i) => `
-                <g transform="translate(22, ${y})">
-                  <path d="M ${i % 2 === 0 ? '-14' : '14'} -15 Q 0 0 ${i % 2 === 0 ? '14' : '-14'} 15" stroke="#8E7CAE" stroke-width="1.4" fill="none" opacity="0.8"/>
-                  <circle cx="${i % 2 === 0 ? -12 : 12}" cy="0" r="2.5" fill="#FFD700" style="filter: drop-shadow(0 0 4px #FFD700);"/>
-                  <ellipse cx="0" cy="0" rx="4.5" ry="5.5" fill="#FF7518"/>
-                  <circle cx="-1.5" cy="-1.5" r="1" fill="#1A1528"/>
-                  <circle cx="1.5" cy="-1.5" r="1" fill="#1A1528"/>
-                  <path d="M -2 2 Q 0 4 2 2" stroke="#1A1528" stroke-width="0.8" fill="none"/>
-                  <path d="M -4 -3 Q -8 -6 -10 -4 M 4 -3 Q 8 -6 10 -4 M -4 3 Q -8 6 -10 4 M 4 3 Q 8 6 10 4" stroke="#FF7518" stroke-width="0.8" fill="none"/>
+            <svg viewBox="0 0 48 480" width="48" height="480" xmlns="http://www.w3.org/2000/svg" style="display:block; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.45));">
+              <line x1="24" y1="0" x2="24" y2="470" stroke="#FF7518" stroke-width="2.4" opacity="0.9"/>
+              <line x1="24" y1="0" x2="24" y2="470" stroke="#1C1428" stroke-width="1.2" opacity="0.75"/>
+              ${[35, 95, 155, 215, 275, 335, 395, 455].map((y, i) => `
+                <g transform="translate(24, ${y})">
+                  <path d="M ${i % 2 === 0 ? '-16' : '16'} -16 Q 0 0 ${i % 2 === 0 ? '16' : '-16'} 16" stroke="#2D1B4E" stroke-width="2" fill="none" opacity="0.9"/>
+                  <path d="M ${i % 2 === 0 ? '-16' : '16'} -16 Q 0 0 ${i % 2 === 0 ? '16' : '-16'} 16" stroke="#FF7518" stroke-width="1.2" fill="none" opacity="0.8"/>
+                  <circle cx="${i % 2 === 0 ? -14 : 14}" cy="0" r="3" fill="#FFD700" style="filter: drop-shadow(0 0 5px #FFD700);"/>
+                  ${i % 2 === 0 ? `
+                    <circle cx="0" cy="0" r="6.5" fill="#FF7518" stroke="#1A1528" stroke-width="1" style="filter: drop-shadow(0 0 5px #FF7518);"/>
+                    <circle cx="-2" cy="-1" r="1" fill="#FFF59D"/>
+                    <circle cx="2" cy="-1" r="1" fill="#FFF59D"/>
+                    <path d="M -2 2 Q 0 4 2 2" stroke="#1A1528" stroke-width="0.8" fill="none"/>
+                  ` : `
+                    <ellipse cx="0" cy="0" rx="4.5" ry="5.5" fill="#1C1428" stroke="#FF7518" stroke-width="0.9" style="filter: drop-shadow(0 0 4px #FF7518);"/>
+                    <path d="M -4 -3 Q -9 -6 -11 -4 M 4 -3 Q 9 -6 11 -4 M -4 3 Q -9 6 -11 4 M 4 3 Q 9 6 11 4" stroke="#FF7518" stroke-width="1" fill="none"/>
+                  `}
                 </g>
               `).join('')}
             </svg>
@@ -1111,25 +1124,34 @@
 
       function computeHeaderDockOffset() {
         const banner = document.getElementById("utsav-festival-banner");
-        const bannerH = banner ? banner.offsetHeight : 0;
+        const bannerH = banner && Number.isFinite(banner.offsetHeight) && banner.offsetHeight > 0
+          ? banner.offsetHeight
+          : (enableBanner ? 38 : 0);
+        const offsetVal = Number(garlandOffset) || 0;
         if (garlandPlacement === "top_fixed") {
-          return bannerH + garlandOffset;
+          return bannerH + offsetVal;
         }
         const header = document.querySelector(
-          ".header-group, sticky-header, .header-wrapper, #shopify-section-header, header.header, .section-header, .site-header"
+          "sticky-header, .header-wrapper, #shopify-section-header, header.header, .header-group, .section-header, .site-header, header"
         );
+        let headerBottom = 0;
         if (header) {
           const rect = header.getBoundingClientRect();
-          const pageBottom = rect.bottom + window.scrollY;
-          if (pageBottom > bannerH) {
-            return Math.round(pageBottom) + garlandOffset;
+          if (rect && Number.isFinite(rect.bottom) && (rect.bottom + (window.scrollY || 0)) > bannerH) {
+            headerBottom = Math.round(rect.bottom + (window.scrollY || 0));
+          } else if (header.offsetHeight > 20) {
+            headerBottom = bannerH + header.offsetHeight;
           }
         }
-        const mainEl = document.getElementById("MainContent") || document.querySelector("main");
-        if (mainEl && mainEl.offsetTop > bannerH) {
-          return mainEl.offsetTop + garlandOffset;
+        if (!headerBottom) {
+          const mainEl = document.getElementById("MainContent") || document.querySelector("main");
+          if (mainEl && mainEl.offsetTop > bannerH) {
+            headerBottom = mainEl.offsetTop;
+          } else {
+            headerBottom = bannerH + 72;
+          }
         }
-        return bannerH + (header ? header.offsetHeight : 70) + garlandOffset;
+        return Math.max(bannerH, headerBottom + offsetVal);
       }
 
       function positionGarlands() {
@@ -1141,10 +1163,16 @@
 
         if (topEl) {
           topEl.style.position = isSticky ? "fixed" : "absolute";
+          topEl.style.zIndex = "9998";
+          topEl.style.left = "0";
+          topEl.style.right = "0";
+          topEl.style.width = "100%";
+          topEl.style.height = "64px";
+          topEl.style.pointerEvents = "none";
           if (isSticky) {
-            const header = document.querySelector("sticky-header, .header-wrapper, header.header");
+            const header = document.querySelector("sticky-header, .header-wrapper, header.header, header");
             const hRect = header ? header.getBoundingClientRect() : null;
-            topEl.style.top = (hRect ? Math.max(0, hRect.bottom) : dockTop) + "px";
+            topEl.style.top = (hRect && Number.isFinite(hRect.bottom) ? Math.max(0, hRect.bottom) : dockTop) + "px";
           } else {
             topEl.style.top = dockTop + "px";
           }
@@ -1152,10 +1180,14 @@
 
         if (leftEl) {
           leftEl.style.position = isSticky ? "fixed" : "absolute";
+          leftEl.style.zIndex = "9997";
+          leftEl.style.pointerEvents = "none";
           leftEl.style.top = (isSticky ? (topEl ? topEl.style.top : dockTop + "px") : (dockTop + "px"));
         }
         if (rightEl) {
           rightEl.style.position = isSticky ? "fixed" : "absolute";
+          rightEl.style.zIndex = "9997";
+          rightEl.style.pointerEvents = "none";
           rightEl.style.top = (isSticky ? (topEl ? topEl.style.top : dockTop + "px") : (dockTop + "px"));
         }
       }
@@ -1178,7 +1210,7 @@
     if (enableEffects && (!diyaHideOnMobile || window.innerWidth > 480)) {
       const decorContainer = document.createElement("div");
       decorContainer.id = "utsav-corner-container";
-      decorContainer.style.cssText = "position: fixed; inset: 0; pointer-events: none; z-index: 9991; overflow: visible;";
+      decorContainer.style.cssText = "position: fixed !important; inset: 0 !important; width: 100vw !important; height: 100vh !important; pointer-events: none !important; z-index: 99995 !important; overflow: visible !important;";
 
       const sizeMap = {
         small: 56,
@@ -1643,11 +1675,7 @@
         decor.setAttribute("tabindex", "0");
         decor.setAttribute("aria-label", `Tap for ${festivalName} festive greeting`);
         decor.title = "Tap for Festive Blessing ✨";
-        decor.style.position = "absolute";
-        decor.style.pointerEvents = "auto";
-        decor.style.cursor = "pointer";
-        decor.style.zIndex = "9991";
-        decor.style.filter = "drop-shadow(0 4px 16px var(--utsav-glow, rgba(255, 117, 24, 0.55)))";
+        decor.style.cssText = "position: fixed !important; pointer-events: auto !important; cursor: pointer !important; z-index: 99996 !important; filter: drop-shadow(0 4px 16px var(--utsav-glow, rgba(255, 117, 24, 0.75))); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);";
         Object.assign(decor.style, coords);
         decor.innerHTML = getEfCornerSVG(festivalId, sizePx);
         decor.addEventListener("click", triggerBlessing);
@@ -1673,7 +1701,7 @@
         attachCornerDecor({ top: diyaMarginY + "px", right: diyaMarginX + "px" });
       }
 
-      document.body.appendChild(decorContainer);
+      (document.documentElement || document.body).appendChild(decorContainer);
     }
 
     // ─── 4.4 HALLOWEEN: Floating Ghost Silhouettes & Ambient Eerie Mist ───────
