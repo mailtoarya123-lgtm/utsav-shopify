@@ -2738,6 +2738,27 @@ export default function FestivalStudio() {
         {/* Right: Actions */}
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <button
+            onClick={() => window.open(`https://${shop}/admin/themes/current/editor?context=apps&activateAppId=5db56cc4-c065-7d56-20a9-6eb82834fdc0ea9c3601/utsav-embed`, "_blank")}
+            style={{
+              background: "#F1F8F5",
+              border: "1px solid #95C9B4",
+              borderRadius: "6px",
+              padding: "6px 12px",
+              fontSize: "12px",
+              fontWeight: 600,
+              cursor: "pointer",
+              color: "#008060",
+              display: "flex",
+              alignItems: "center",
+              gap: "5px",
+            }}
+            title="Open Shopify Theme Customizer to turn ON Utsav App Embed and click Save"
+          >
+            <span>⚙️ Enable in Theme</span>
+            <span style={{ fontSize: "11px" }}>↗</span>
+          </button>
+
+          <button
             onClick={() => window.open(`https://${shop}/?utsav_preview=${festival.id}`, "_blank")}
             style={{
               background: "#FFFFFF",

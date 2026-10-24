@@ -605,11 +605,11 @@ export default function Dashboard() {
                   <Box paddingTop="100">
                     <Button
                       fullWidth
-                      url={`https://${shop}/admin/themes/current/editor`}
+                      url={`https://${shop}/admin/themes/current/editor?context=apps&activateAppId=5db56cc4-c065-7d56-20a9-6eb82834fdc0ea9c3601/utsav-embed`}
                       target="_blank"
                       icon={ExternalIcon}
                     >
-                      Theme Editor App Embed
+                      Enable App Embed in Theme Editor
                     </Button>
                   </Box>
                 </BlockStack>
