@@ -105,7 +105,10 @@ export const action = async ({ request, params }) => {
 
     if (isActive) {
       await prisma.festivalConfig.updateMany({
-        where: { shop, festivalId: { not: festivalId } },
+        where: {
+          shop: { contains: shop.split(".")[0] },
+          festivalId: { not: festivalId },
+        },
         data: { isActive: false },
       });
     }

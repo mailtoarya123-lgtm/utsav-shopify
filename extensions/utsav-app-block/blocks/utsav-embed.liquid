@@ -10,8 +10,8 @@
   window.__UTSAV_CONFIG__ = {
     shopDomain: {{ shop.myshopify_domain | default: shop.domain | json }},
     festivalId: {{ block.settings.festival_id | default: "diwali" | json }},
-    festivalName: {{ block.settings.festival_name | default: "Diwali" | json }},
-    festivalEmoji: "🪔",
+    festivalName: {{ block.settings.festival_name | default: "" | json }},
+    festivalEmoji: "",
     enableEffects: true,
     enableBanner: false,
     enableCountdown: false,

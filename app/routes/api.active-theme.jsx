@@ -49,6 +49,9 @@ export const loader = async ({ request }) => {
           config: {
             ...previewConfig,
             ...custom,
+            festivalName: festival ? festival.name : undefined,
+            festivalEmoji: festival ? festival.emoji : undefined,
+            palette: festival ? festival.palette : undefined,
           },
           festival: festival ? {
             name: festival.name,
@@ -68,6 +71,9 @@ export const loader = async ({ request }) => {
         festivalId: previewId,
         config: {
           festivalId: previewId,
+          festivalName: festival ? festival.name : "Festival",
+          festivalEmoji: festival ? festival.emoji : "🪔",
+          palette: festival ? festival.palette : undefined,
           enableEffects: true,
           enableBanner: true,
           garlandLayout: "top_and_sides",
@@ -99,6 +105,7 @@ export const loader = async ({ request }) => {
         shop: { contains: shopClean.split(".")[0] },
         isActive: true,
       },
+      orderBy: { updatedAt: "desc" },
     });
 
     // ─── 3. Automated Scheduled Campaign ───────────────────────────────────
@@ -112,6 +119,7 @@ export const loader = async ({ request }) => {
             { scheduledEnd: { gte: now } },
           ],
         },
+        orderBy: { updatedAt: "desc" },
       });
 
       if (scheduledConfig) {
@@ -146,6 +154,9 @@ export const loader = async ({ request }) => {
       config: {
         ...activeConfig,
         ...custom,
+        festivalName: festival ? festival.name : undefined,
+        festivalEmoji: festival ? festival.emoji : undefined,
+        palette: festival ? festival.palette : undefined,
       },
       festival: festival ? {
         name: festival.name,

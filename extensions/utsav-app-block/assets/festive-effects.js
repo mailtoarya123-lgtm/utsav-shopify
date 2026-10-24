@@ -27,11 +27,38 @@
     });
   }
 
+  const FESTIVAL_META = {
+    "halloween": { name: "Halloween", emoji: "🎃", defaultBanner: "🎃 Spooktacular Deals! Treat yourself to enchanting Halloween savings! 👻" },
+    "christmas": { name: "Christmas", emoji: "🎄", defaultBanner: "⭐ Merry Christmas! Celebrate the season of warmth, peace, and holiday gifting! 🎄" },
+    "christmas-india": { name: "Christmas", emoji: "🎄", defaultBanner: "⭐ Merry Christmas! Celebrate the season of warmth, peace, and holiday gifting! 🎄" },
+    "diwali": { name: "Diwali", emoji: "🪔", defaultBanner: "✨ Happy Diwali! Celebrate the festival of lights with exclusive blessings & offers!" },
+    "holi": { name: "Holi", emoji: "🎨", defaultBanner: "🌈 Happy Holi! Splash into joyous celebrations with vibrant festive discounts!" },
+    "navratri": { name: "Navratri", emoji: "💃", defaultBanner: "🌺 Shubh Navratri! Celebrate 9 nights of devotion, garba & grand offers!" },
+    "valentines": { name: "Valentine's", emoji: "💖", defaultBanner: "💖 Spread Love! Discover exquisite Valentine's specials for someone special!" },
+    "lunar-new-year": { name: "Lunar New Year", emoji: "🏮", defaultBanner: "🏮 Happy Lunar New Year! Wishing you boundless prosperity, luck & happiness!" },
+    "hanukkah": { name: "Hanukkah", emoji: "🕎", defaultBanner: "🕎 Happy Hanukkah! May your days be illuminated with light, joy & peace!" },
+    "easter": { name: "Easter", emoji: "🐣", defaultBanner: "🐣 Happy Easter! Spring into fresh renewal & delightful festive treats!" },
+    "thanksgiving": { name: "Thanksgiving", emoji: "🦃", defaultBanner: "🍂 Happy Thanksgiving! Harvest blessings and gratitude-filled holiday specials!" },
+    "new-year": { name: "New Year", emoji: "🥂", defaultBanner: "🥂 Happy New Year! Welcome a brilliant new beginning with celebratory perks!" },
+    "pongal": { name: "Pongal", emoji: "🌾", defaultBanner: "🌾 Happy Pongal! Overflowing abundance, joy & prosperity to your family!" },
+    "onam": { name: "Onam", emoji: "🌸", defaultBanner: "🌸 Happy Onam! Celebrate the grand harvest homecoming of King Mahabali!" },
+    "raksha-bandhan": { name: "Raksha Bandhan", emoji: "🧵", defaultBanner: "🧵 Happy Raksha Bandhan! Cherish eternal sibling love with heartfelt gifts!" },
+    "ganesh-chaturthi": { name: "Ganesh Chaturthi", emoji: "🐘", defaultBanner: "🌺 Ganpati Bappa Morya! May Lord Ganesha bestow wisdom, health & success!" },
+    "eid": { name: "Eid al-Fitr", emoji: "🌙", defaultBanner: "🌙 Eid Mubarak! Peace, blessings, and prosperity to you and family!" },
+    "mid-autumn": { name: "Mid-Autumn", emoji: "🥮", defaultBanner: "🥮 Happy Mid-Autumn Festival! Harmonious reunions under the full harvest moon!" },
+    "vesak": { name: "Vesak Day", emoji: "🪷", defaultBanner: "🪷 Happy Vesak Day! May universal peace, compassion & mindfulness shine on all!" },
+    "vishu": { name: "Vishu", emoji: "🌿", defaultBanner: "🌿 Happy Vishu! Golden Kani blossoms and auspicious new year beginnings!" },
+    "durga-puja": { name: "Durga Puja", emoji: "🔱", defaultBanner: "🔱 Shubho Sharodiya! Divine strength, victory & blessings from Maa Durga!" },
+    "makar-sankranti": { name: "Makar Sankranti", emoji: "🪁", defaultBanner: "🪁 Happy Makar Sankranti! Soar high with auspicious sunshine & sweet revdis!" },
+    "dussehra": { name: "Dussehra", emoji: "🏹", defaultBanner: "🏹 Happy Dussehra! Celebrating the eternal triumph of righteousness and courage!" }
+  };
+
   function startFestiveEngine(rawConfig) {
     teardownExistingEffects();
 
     const config = rawConfig || {};
     const festivalId = (config.festivalId || "diwali").toLowerCase();
+    const meta = FESTIVAL_META[festivalId] || (festivalId.includes("halloween") ? FESTIVAL_META["halloween"] : (festivalId.includes("christmas") ? FESTIVAL_META["christmas"] : FESTIVAL_META["diwali"]));
     const isDiwali = festivalId.includes("diwali");
     const isDussehra = festivalId.includes("dussehra");
     const isSankranti = festivalId.includes("sankranti") || festivalId.includes("pongal");
@@ -39,7 +66,7 @@
     const isChristmas = festivalId.includes("christmas");
     const isVishu = festivalId === "vishu";
 
-    const palette = config.palette || {
+    const palette = config.palette || meta.palette || {
       primary: "#D4AF37",
       secondary: "#FF6B35",
       accent: "#8B0000",
@@ -53,11 +80,17 @@
     const enableColorSwap = config.enableColorSwap !== undefined ? Boolean(config.enableColorSwap) : true;
     const enableAudio = config.enableAudio !== undefined ? Boolean(config.enableAudio) : true;
     const enableWheel = Boolean(config.enableWheel);
-    const bannerText = config.bannerText || (festivalId.includes("halloween") ? "🎃 Spooktacular Deals! Treat yourself to enchanting Halloween savings!" : (config.festivalName ? `✨ Celebrate ${config.festivalName} with Festive Offers!` : ""));
-    const couponCode = config.couponCode || "";
+
+    const festivalName = (config.festivalName && !config.festivalName.toLowerCase().includes("diwali"))
+      ? config.festivalName
+      : (festivalId.includes("diwali") ? (config.festivalName || "Diwali") : meta.name);
+    const festivalEmoji = (config.festivalEmoji && config.festivalEmoji !== "🪔")
+      ? config.festivalEmoji
+      : (festivalId.includes("diwali") ? (config.festivalEmoji || "🪔") : meta.emoji);
+
+    const bannerText = config.bannerText || meta.defaultBanner || (festivalName ? `✨ Celebrate ${festivalName} with Festive Offers!` : "");
+    const couponCode = config.couponCode || config.promoCode || "";
     const countdownTarget = config.countdownTarget || null;
-    const festivalName = config.festivalName || "Festival";
-    const festivalEmoji = config.festivalEmoji || (festivalId.includes("halloween") ? "🎃" : "🪔");
 
     // 🪔 Diya Customizations
     const diyaStyle = config.diyaStyle || "royal_brass";
@@ -137,22 +170,25 @@
       function getEfTopSVG(festId) {
         const fest = (festId || "").toLowerCase();
 
-        // 1. Halloween: Violet webbing with mini Jack-o'-lanterns & spiders
+        // 1. Halloween: Rich Scalloped Spiderweb Bunting with Glowing Lanterns & Spiders
         if (fest.includes("halloween")) {
           return `
-            <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(20,10,30,0.92) 0%, transparent 100%);">
-              <path d="M 0 4 Q 300 24 600 4 Q 900 24 1200 4" stroke="#8E7CAE" stroke-width="1.6" fill="none" stroke-dasharray="3,3"/>
-              ${[50, 150, 250, 350, 450, 550, 650, 750, 850, 950, 1050, 1150].map((x, i) => `
+            <svg width="100%" height="48" viewBox="0 0 560 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: linear-gradient(180deg, rgba(15, 10, 24, 0.95) 0%, transparent 100%);">
+              <line x1="0" y1="2" x2="560" y2="2" stroke="#FF7518" stroke-width="1.2" opacity="0.6"/>
+              ${[0, 80, 160, 240, 320, 400, 480].map((x, i) => `
                 <g transform="translate(${x}, 0)">
-                  <line x1="0" y1="4" x2="0" y2="18" stroke="#8E7CAE" stroke-width="1"/>
-                  ${i % 2 === 0 ? `
-                    <ellipse cx="0" cy="27" rx="8" ry="7" fill="#FF7518"/>
-                    <polygon points="-3,25 0,22 3,25" fill="#1A1528"/>
-                    <path d="M -4 28 Q 0 32 4 28" stroke="#1A1528" stroke-width="1" fill="none"/>
-                  ` : `
-                    <circle cx="0" cy="24" r="3.5" fill="#1A1528"/>
-                    <path d="M -3 21 Q -7 18 -9 20 M 3 21 Q 7 18 9 20 M -3 27 Q -7 30 -9 28 M 3 27 Q 7 30 9 28" stroke="#FF7518" stroke-width="1" fill="none"/>
-                  `}
+                  <path d="M 0 2 Q 40 30 80 2" stroke="#6D5D8A" stroke-width="1.4" fill="none" opacity="0.8"/>
+                  <path d="M 12 2 Q 40 22 68 2" stroke="#8E7CAE" stroke-width="1" fill="none" opacity="0.6"/>
+                  <path d="M 24 2 Q 40 14 56 2" stroke="#AEA1C7" stroke-width="0.8" fill="none" opacity="0.5"/>
+                  <line x1="40" y1="2" x2="15" y2="22" stroke="#8E7CAE" stroke-width="0.8" opacity="0.5"/>
+                  <line x1="40" y1="2" x2="40" y2="30" stroke="#8E7CAE" stroke-width="0.9" opacity="0.6"/>
+                  <line x1="40" y1="2" x2="65" y2="22" stroke="#8E7CAE" stroke-width="0.8" opacity="0.5"/>
+                  <line x1="40" y1="30" x2="40" y2="38" stroke="#AEA1C7" stroke-width="0.6" stroke-dasharray="1,1"/>
+                  <ellipse cx="40" cy="40" rx="3.5" ry="4.5" fill="#1A1528" stroke="#FF7518" stroke-width="0.8"/>
+                  <path d="M 37 38 Q 34 36 33 39 M 43 38 Q 46 36 47 39 M 37 42 Q 34 44 33 42 M 43 42 Q 46 44 47 42" stroke="#FF7518" stroke-width="0.6" fill="none"/>
+                  <circle cx="0" cy="3" r="2.5" fill="#FF7518" style="filter: drop-shadow(0 0 4px #FF7518);"/>
+                  <circle cx="40" cy="30" r="2.5" fill="#FFD700" style="filter: drop-shadow(0 0 5px #FFD700);"/>
+                  <circle cx="80" cy="3" r="2.5" fill="#FF7518" style="filter: drop-shadow(0 0 4px #FF7518);"/>
                 </g>
               `).join('')}
             </svg>
@@ -644,16 +680,20 @@
       function getEfSideSVG(festId, isLeft) {
         const fest = (festId || "").toLowerCase();
 
-        // 1. Halloween: Delicate Web Streamer
+        // 1. Halloween: Hanging Web Garland with Spiders & Amber Lanterns
         if (fest.includes("halloween")) {
           return `
             <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
-              <line x1="22" y1="0" x2="22" y2="420" stroke="#6D5D8A" stroke-width="1.5" stroke-dasharray="2,2"/>
+              <line x1="22" y1="0" x2="22" y2="420" stroke="#FF7518" stroke-width="1.6" opacity="0.6"/>
               ${[30, 90, 150, 210, 270, 330, 390].map((y, i) => `
                 <g transform="translate(22, ${y})">
-                  <path d="M ${i % 2 === 0 ? '-14' : '14'} -15 Q 0 0 ${i % 2 === 0 ? '14' : '-14'} 15" stroke="#8E7CAE" stroke-width="1.2" fill="none" opacity="0.7"/>
-                  <ellipse cx="0" cy="0" rx="3.5" ry="4.5" fill="#1A1528" stroke="#FF7518" stroke-width="0.7"/>
-                  <path d="M -3 -3 Q -7 -6 -9 -4 M 3 -3 Q 7 -6 9 -4 M -3 3 Q -7 6 -9 4 M 3 3 Q 7 6 9 4" stroke="#FF7518" stroke-width="0.8" fill="none"/>
+                  <path d="M ${i % 2 === 0 ? '-14' : '14'} -15 Q 0 0 ${i % 2 === 0 ? '14' : '-14'} 15" stroke="#8E7CAE" stroke-width="1.4" fill="none" opacity="0.8"/>
+                  <circle cx="${i % 2 === 0 ? -12 : 12}" cy="0" r="2.5" fill="#FFD700" style="filter: drop-shadow(0 0 4px #FFD700);"/>
+                  <ellipse cx="0" cy="0" rx="4.5" ry="5.5" fill="#FF7518"/>
+                  <circle cx="-1.5" cy="-1.5" r="1" fill="#1A1528"/>
+                  <circle cx="1.5" cy="-1.5" r="1" fill="#1A1528"/>
+                  <path d="M -2 2 Q 0 4 2 2" stroke="#1A1528" stroke-width="0.8" fill="none"/>
+                  <path d="M -4 -3 Q -8 -6 -10 -4 M 4 -3 Q 8 -6 10 -4 M -4 3 Q -8 6 -10 4 M 4 3 Q 8 6 10 4" stroke="#FF7518" stroke-width="0.8" fill="none"/>
                 </g>
               `).join('')}
             </svg>
@@ -1070,24 +1110,26 @@
       }
 
       function computeHeaderDockOffset() {
+        const banner = document.getElementById("utsav-festival-banner");
+        const bannerH = banner ? banner.offsetHeight : 0;
         if (garlandPlacement === "top_fixed") {
-          return garlandOffset;
-        }
-        const mainEl = document.getElementById("MainContent") || document.querySelector("main");
-        if (mainEl && mainEl.offsetTop > 0) {
-          return mainEl.offsetTop + garlandOffset;
+          return bannerH + garlandOffset;
         }
         const header = document.querySelector(
-          ".header-group, sticky-header, .header-wrapper, #shopify-section-header, header.header, .site-header"
+          ".header-group, sticky-header, .header-wrapper, #shopify-section-header, header.header, .section-header, .site-header"
         );
         if (header) {
           const rect = header.getBoundingClientRect();
           const pageBottom = rect.bottom + window.scrollY;
-          if (pageBottom > 0) {
+          if (pageBottom > bannerH) {
             return Math.round(pageBottom) + garlandOffset;
           }
         }
-        return garlandOffset;
+        const mainEl = document.getElementById("MainContent") || document.querySelector("main");
+        if (mainEl && mainEl.offsetTop > bannerH) {
+          return mainEl.offsetTop + garlandOffset;
+        }
+        return bannerH + (header ? header.offsetHeight : 70) + garlandOffset;
       }
 
       function positionGarlands() {
@@ -1136,6 +1178,7 @@
     if (enableEffects && (!diyaHideOnMobile || window.innerWidth > 480)) {
       const decorContainer = document.createElement("div");
       decorContainer.id = "utsav-corner-container";
+      decorContainer.style.cssText = "position: fixed; inset: 0; pointer-events: none; z-index: 9991; overflow: visible;";
 
       const sizeMap = {
         small: 56,
@@ -1600,8 +1643,11 @@
         decor.setAttribute("tabindex", "0");
         decor.setAttribute("aria-label", `Tap for ${festivalName} festive greeting`);
         decor.title = "Tap for Festive Blessing ✨";
-        decor.style.position = "fixed";
+        decor.style.position = "absolute";
+        decor.style.pointerEvents = "auto";
+        decor.style.cursor = "pointer";
         decor.style.zIndex = "9991";
+        decor.style.filter = "drop-shadow(0 4px 16px var(--utsav-glow, rgba(255, 117, 24, 0.55)))";
         Object.assign(decor.style, coords);
         decor.innerHTML = getEfCornerSVG(festivalId, sizePx);
         decor.addEventListener("click", triggerBlessing);
@@ -1614,16 +1660,16 @@
         decorContainer.appendChild(decor);
       }
 
-      if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four") {
+      if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
         attachCornerDecor({ bottom: diyaMarginY + "px", left: diyaMarginX + "px" });
       }
-      if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four") {
+      if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
         attachCornerDecor({ bottom: diyaMarginY + "px", right: diyaMarginX + "px" });
       }
-      if (diyaPosition === "top_corners" || diyaPosition === "top_left" || diyaPosition === "all_four") {
+      if (diyaPosition === "top_corners" || diyaPosition === "top_left" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
         attachCornerDecor({ top: diyaMarginY + "px", left: diyaMarginX + "px" });
       }
-      if (diyaPosition === "top_corners" || diyaPosition === "top_right" || diyaPosition === "all_four") {
+      if (diyaPosition === "top_corners" || diyaPosition === "top_right" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
         attachCornerDecor({ top: diyaMarginY + "px", right: diyaMarginX + "px" });
       }
 
@@ -1887,12 +1933,28 @@
     const previewFest = urlParams.get("utsav_preview");
 
     if (previewFest) {
-      startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, { festivalId: previewFest, enableEffects: true }));
+      const initMeta = FESTIVAL_META[previewFest.toLowerCase()] || {};
+      startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, {
+        festivalId: previewFest,
+        festivalName: initMeta.name || previewFest,
+        festivalEmoji: initMeta.emoji || "✨",
+        enableEffects: true
+      }));
+
       fetch("https://utsav-shopify.onrender.com/api/active-theme?shop=" + encodeURIComponent(shopDomain) + "&preview=" + encodeURIComponent(previewFest) + "&_t=" + Date.now())
         .then(function (res) { return res.json(); })
         .then(function (data) {
           if (data && data.active && data.config) {
-            startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, data.config, { festivalId: data.festivalId || previewFest }));
+            const festInfo = data.festival || {};
+            const activeId = data.festivalId || previewFest;
+            const meta = FESTIVAL_META[activeId.toLowerCase()] || {};
+            const merged = Object.assign({}, window.__UTSAV_CONFIG__, data.config, {
+              festivalId: activeId,
+              festivalName: (data.config && data.config.festivalName) || festInfo.name || meta.name,
+              festivalEmoji: (data.config && data.config.festivalEmoji) || festInfo.emoji || meta.emoji,
+              palette: (data.config && data.config.palette) || festInfo.palette,
+            });
+            startFestiveEngine(merged);
           }
         })
         .catch(function () {});
@@ -1901,7 +1963,16 @@
         .then(function (res) { return res.json(); })
         .then(function (data) {
           if (data && data.active === true && data.config) {
-            startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, data.config, { festivalId: data.festivalId || "diwali" }));
+            const festInfo = data.festival || {};
+            const activeId = data.festivalId || "diwali";
+            const meta = FESTIVAL_META[activeId.toLowerCase()] || {};
+            const merged = Object.assign({}, window.__UTSAV_CONFIG__, data.config, {
+              festivalId: activeId,
+              festivalName: (data.config && data.config.festivalName) || festInfo.name || meta.name,
+              festivalEmoji: (data.config && data.config.festivalEmoji) || festInfo.emoji || meta.emoji,
+              palette: (data.config && data.config.palette) || festInfo.palette,
+            });
+            startFestiveEngine(merged);
           } else if (data && data.active === false) {
             teardownExistingEffects();
           } else {
