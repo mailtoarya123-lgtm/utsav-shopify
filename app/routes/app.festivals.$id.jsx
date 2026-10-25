@@ -1395,35 +1395,67 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   if (festId.includes("halloween")) {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "visible", background: "transparent" }}>
-        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none" style={{ display: "block", background: "transparent", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.4))" }}>
-          <line x1="0" y1="2" x2="560" y2="2" stroke="#FF7518" strokeWidth="2.5" opacity="0.95" />
-          <line x1="0" y1="4" x2="560" y2="4" stroke="#1C1428" strokeWidth="1.2" opacity="0.8" />
-          {[0, 80, 160, 240, 320, 400, 480].map((x, i) => (
-            <g key={i} transform={`translate(${x}, 0)`}>
-              <path d="M 0 3 Q 40 32 80 3" stroke="#FF7518" strokeWidth="2" fill="none" opacity="0.95" />
-              <path d="M 10 3 Q 40 24 70 3" stroke="#2D1B4E" strokeWidth="1.6" fill="none" opacity="0.85" />
-              <path d="M 20 3 Q 40 16 60 3" stroke="#8E7CAE" strokeWidth="1.2" fill="none" opacity="0.75" />
-              <line x1="40" y1="3" x2="12" y2="22" stroke="#FF7518" strokeWidth="1" opacity="0.7" />
-              <line x1="40" y1="3" x2="40" y2="32" stroke="#FF7518" strokeWidth="1.2" opacity="0.85" />
-              <line x1="40" y1="3" x2="68" y2="22" stroke="#FF7518" strokeWidth="1" opacity="0.7" />
-              <line x1="40" y1="32" x2="40" y2="40" stroke="#AEA1C7" strokeWidth="0.8" strokeDasharray="1.5,1.5" />
-              {i % 2 === 0 ? (
-                <>
-                  <circle cx="40" cy="42" r="5.5" fill="#FF7518" stroke="#1A1528" strokeWidth="0.8" style={{ filter: "drop-shadow(0 0 5px #FF7518)" }} />
-                  <polygon points="38,40 40,38 42,40" fill="#FFF59D" />
-                  <path d="M 37 44 Q 40 46 43 44" stroke="#1A1528" strokeWidth="0.8" fill="none" />
-                </>
-              ) : (
-                <>
-                  <ellipse cx="40" cy="42" rx="3.5" ry="4.5" fill="#1C1428" stroke="#FF7518" strokeWidth="0.7" style={{ filter: "drop-shadow(0 0 4px #FF7518)" }} />
-                  <path d="M 37 40 Q 33 38 32 41 M 43 40 Q 47 38 48 41 M 37 44 Q 33 46 32 43 M 43 44 Q 47 46 48 43" stroke="#FF7518" strokeWidth="0.7" fill="none" />
-                </>
-              )}
-              <circle cx="0" cy="3" r="2.8" fill="#FF7518" style={{ filter: "drop-shadow(0 0 4px #FF7518)" }} />
-              <circle cx="40" cy="32" r="2.5" fill="#FFD700" style={{ filter: "drop-shadow(0 0 5px #FFD700)" }} />
-              <circle cx="80" cy="3" r="2.8" fill="#FF7518" style={{ filter: "drop-shadow(0 0 4px #FF7518)" }} />
+        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none" style={{ display: "block", background: "transparent", pointerEvents: "none", overflow: "visible" }}>
+          {/* Main Sagging Catenary Silk Lines */}
+          <path d="M 0 2 Q 90 14 180 3 Q 270 18 360 4 Q 460 16 560 2" stroke="rgba(240, 240, 255, 0.75)" strokeWidth="1.2" fill="none" />
+          <path d="M 0 3 Q 70 24 140 5 Q 230 26 320 6 Q 420 25 500 5 Q 530 18 560 3" stroke="rgba(220, 210, 245, 0.55)" strokeWidth="0.9" fill="none" />
+          <path d="M 80 12 Q 180 32 280 10 Q 380 30 480 9" stroke="rgba(255, 255, 255, 0.35)" strokeWidth="0.7" strokeDasharray="3,1" fill="none" />
+
+          {/* Left Corner Radial Anchor Web */}
+          <g transform="translate(0, 0)">
+            <line x1="0" y1="0" x2="80" y2="3" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="1" />
+            <line x1="0" y1="0" x2="70" y2="20" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.9" />
+            <line x1="0" y1="0" x2="48" y2="38" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.9" />
+            <line x1="0" y1="0" x2="22" y2="46" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="0.8" />
+            <path d="M 16 1 Q 13 8 10 11 Q 7 14 4 15" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
+            <path d="M 32 1 Q 27 13 20 20 Q 14 24 7 27" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
+            <path d="M 50 2 Q 42 18 32 28 Q 22 34 11 37" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.8" fill="none" />
+            <path d="M 70 2 Q 58 20 44 34 Q 30 42 16 46" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
+          </g>
+
+          {/* Right Corner Radial Anchor Web */}
+          <g transform="translate(560, 0) scale(-1, 1)">
+            <line x1="0" y1="0" x2="85" y2="3" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="1" />
+            <line x1="0" y1="0" x2="74" y2="20" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.9" />
+            <line x1="0" y1="0" x2="50" y2="38" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.9" />
+            <line x1="0" y1="0" x2="24" y2="46" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="0.8" />
+            <path d="M 18 1 Q 14 8 11 11 Q 8 14 4 15" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
+            <path d="M 34 1 Q 28 13 21 20 Q 15 24 8 27" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
+            <path d="M 52 2 Q 44 18 34 28 Q 23 34 12 37" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.8" fill="none" />
+            <path d="M 72 2 Q 60 20 46 34 Q 32 42 17 46" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
+          </g>
+
+          {/* Realistic Suspended Spider on Single Silk Drop */}
+          <g transform="translate(450, 0)">
+            <line x1="0" y1="0" x2="0" y2="26" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="0.8" />
+            <g transform="translate(0, 26)">
+              {/* Spider Legs */}
+              <path d="M -1 1 Q -5 -3 -9 0 Q -11 4 -9 7" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
+              <path d="M -1 3 Q -7 1 -10 5 Q -12 9 -10 11" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
+              <path d="M -1 5 Q -8 5 -10 9 Q -11 13 -8 15" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
+              <path d="M 0 6 Q -5 9 -7 13 Q -8 17 -6 19" stroke="#18131F" strokeWidth="0.9" strokeLinecap="round" fill="none" />
+              <path d="M 1 1 Q 5 -3 9 0 Q 11 4 9 7" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
+              <path d="M 1 3 Q 7 1 10 5 Q 12 9 10 11" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
+              <path d="M 1 5 Q 8 5 10 9 Q 11 13 8 15" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
+              <path d="M 0 6 Q 5 9 7 13 Q 8 17 6 19" stroke="#18131F" strokeWidth="0.9" strokeLinecap="round" fill="none" />
+              {/* Abdomen & Cephalothorax */}
+              <ellipse cx="0" cy="8" rx="3.2" ry="4.5" fill="#15111B" stroke="#2D1F3D" strokeWidth="0.6" />
+              <polygon points="0,6.5 -1.5,8.5 1.5,8.5" fill="#FF7518" opacity="0.9" />
+              <ellipse cx="0" cy="3" rx="2.2" ry="2.5" fill="#1F1826" stroke="#3D2952" strokeWidth="0.5" />
+              <circle cx="-0.7" cy="1.6" r="0.5" fill="#FFD700" />
+              <circle cx="0.7" cy="1.6" r="0.5" fill="#FFD700" />
             </g>
-          ))}
+          </g>
+
+          {/* Left Lurking Spider */}
+          <g transform="translate(68, 18) rotate(-15)">
+            <ellipse cx="0" cy="5" rx="2.5" ry="3.5" fill="#15111B" />
+            <circle cx="0" cy="1.8" r="1.6" fill="#1F1826" />
+            <path d="M -1 1 Q -4 -2 -7 0 M -1 3 Q -5 2 -7 5 M -1 4 Q -6 5 -7 8 M 0 5 Q -4 7 -5 10" stroke="#18131F" strokeWidth="0.8" fill="none" />
+            <path d="M 1 1 Q 4 -2 7 0 M 1 3 Q 5 2 7 5 M 1 4 Q 6 5 7 8 M 0 5 Q 4 7 5 10" stroke="#18131F" strokeWidth="0.8" fill="none" />
+            <circle cx="-0.5" cy="0.9" r="0.4" fill="#FF7518" />
+            <circle cx="0.5" cy="0.9" r="0.4" fill="#FF7518" />
+          </g>
         </svg>
       </div>
     );
@@ -2149,8 +2181,9 @@ function DeviceStorefrontMock({
   discountValue = 10,
   discountScope = "collection",
   discountCollection = "Snowboards",
-  discountBadgeText = "🎃 10% OFF HALLOWEEN DEAL",
+  discountBadgeText = "🎃 10% OFF",
   discountAudience = "all",
+  activeCategory = "visual_decor",
   // Urgency Timer props
   enableUrgencyTimer = true,
   enableFestiveTimer = true,
@@ -2616,8 +2649,8 @@ function DeviceStorefrontMock({
             </div>
           </div>
 
-          {/* Floating Cart Urgency Reservation Pill */}
-          {!showOriginal && enableUrgencyTimer && enableCartTimer && (
+          {/* Floating Cart Urgency Reservation Pill (Only shown when configuring Urgency Timers as a preview of the Cart Page) */}
+          {!showOriginal && enableUrgencyTimer && enableCartTimer && activeCategory === "urgency_timers" && (
             <div
               style={{
                 position: "absolute",
@@ -2754,10 +2787,13 @@ export default function FestivalStudio() {
   const [discountScope, setDiscountScope] = useState(customSettings.discount?.scope || "collection");
   const [discountCollection, setDiscountCollection] = useState(customSettings.discount?.collection || "Snowboards");
   const [discountMinSpend, setDiscountMinSpend] = useState(Number(customSettings.discount?.minSpend) || 50);
-  const [discountAudience, setDiscountAudience] = useState(customSettings.discount?.audience || "all");
-  const [discountBadgeText, setDiscountBadgeText] = useState(
-    customSettings.discount?.badgeText || (festival.id.includes("halloween") ? "🎃 10% OFF HALLOWEEN DEAL" : "🏷️ 10% FESTIVE DISCOUNT")
-  );
+  const [discountBadgeText, setDiscountBadgeText] = useState(() => {
+    const raw = customSettings.discount?.badgeText;
+    if (raw && !raw.includes("HALLOWEEN DEAL") && !raw.includes("FESTIVE DISCOUNT")) {
+      return raw;
+    }
+    return `${festival.emoji || "🎃"} 10% OFF`;
+  });
   const [discountAutoApply, setDiscountAutoApply] = useState(customSettings.discount?.autoApply ?? true);
 
   // ⏳ Urgency & Countdown Timers State
@@ -3933,6 +3969,7 @@ export default function FestivalStudio() {
                 enableProductTimer={enableProductTimer}
                 cartTimerMinutes={cartTimerMinutes}
                 cartTimerUrgencyText={cartTimerUrgencyText}
+                activeCategory={activeCategory}
               />
             )}
 
@@ -3970,6 +4007,7 @@ export default function FestivalStudio() {
                 enableProductTimer={enableProductTimer}
                 cartTimerMinutes={cartTimerMinutes}
                 cartTimerUrgencyText={cartTimerUrgencyText}
+                activeCategory={activeCategory}
               />
             )}
 
@@ -4018,6 +4056,7 @@ export default function FestivalStudio() {
                     enableProductTimer={enableProductTimer}
                     cartTimerMinutes={cartTimerMinutes}
                     cartTimerUrgencyText={cartTimerUrgencyText}
+                    activeCategory={activeCategory}
                   />
                 </div>
                 <div style={{ flex: "1 1 0px", maxWidth: "240px" }}>
@@ -4054,6 +4093,7 @@ export default function FestivalStudio() {
                     enableProductTimer={enableProductTimer}
                     cartTimerMinutes={cartTimerMinutes}
                     cartTimerUrgencyText={cartTimerUrgencyText}
+                    activeCategory={activeCategory}
                   />
                 </div>
               </div>
