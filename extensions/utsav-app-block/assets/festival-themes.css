@@ -523,25 +523,23 @@ body.utsav-cart-page #utsav-top-garland {
 }
 
 @keyframes utsavBulbTwinkleA {
-  0%, 100% { opacity: 0.96; filter: drop-shadow(0 0 6px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.95))); transform: scale(1); }
-  50% { opacity: 0.32; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.25))); transform: scale(0.85); }
+  0%, 100% { opacity: 0.96; filter: drop-shadow(0 0 6px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.95))); }
+  50% { opacity: 0.35; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.2))); }
 }
 
 @keyframes utsavBulbTwinkleB {
-  0%, 100% { opacity: 0.32; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.25))); transform: scale(0.85); }
-  50% { opacity: 1.0; filter: drop-shadow(0 0 8px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); transform: scale(1.1); }
+  0%, 100% { opacity: 0.35; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.2))); }
+  50% { opacity: 1.0; filter: drop-shadow(0 0 8px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
 }
 
 @keyframes utsavBulbTwinkleC {
-  0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 4px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.7))); }
+  0%, 100% { opacity: 0.65; filter: drop-shadow(0 0 3px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.6))); }
   50% { opacity: 1.0; filter: drop-shadow(0 0 9px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
 }
 
 @keyframes utsavBulbChase {
-  0% { opacity: 0.3; transform: scale(0.85); }
-  25% { opacity: 1.0; transform: scale(1.15); filter: drop-shadow(0 0 9px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
-  50% { opacity: 0.4; transform: scale(0.9); }
-  100% { opacity: 0.3; transform: scale(0.85); }
+  0%, 100% { opacity: 0.35; filter: drop-shadow(0 0 1px var(--utsav-bulb-glow, rgba(255, 215, 0, 0.2))); }
+  50% { opacity: 1.0; filter: drop-shadow(0 0 9px var(--utsav-bulb-glow, rgba(255, 215, 0, 1))); }
 }
 
 .utsav-bulb-twinkle-1 {
