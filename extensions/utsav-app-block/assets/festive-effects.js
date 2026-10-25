@@ -172,6 +172,45 @@
 
     // ─── 3.5 Inject Top Toran & Side Garlands (Culturally Tailored for All 22 Festivals) ───
     if (enableEffects && garlandLayout !== "off") {
+function buildSpiderWeb() {
+  let seed = 11;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  const n = 11;
+  const spokes = [];
+  for (let i = 0; i < n; i++) {
+    const a = (2 + (i / (n - 1)) * 86 + (rnd() - 0.5) * 5) * Math.PI / 180;
+    spokes.push({ a, len: 135 + rnd() * 115 });
+  }
+  const P = (sp, r) => [r * Math.cos(sp.a), r * Math.sin(sp.a) * 0.75];
+  const f = (v) => v.toFixed(1);
+  let out = "";
+  spokes.forEach((sp) => {
+    const [x, y] = P(sp, sp.len);
+    const [mx, my] = P(sp, sp.len * 0.5);
+    const cx = mx + (rnd() - 0.5) * 5, cy = my + (rnd() - 0.5) * 5 + 2.5;
+    out += `<path d="M0 0 Q${f(cx)} ${f(cy)} ${f(x)} ${f(y)}" stroke="rgba(246,248,255,${(0.7 + rnd() * 0.2).toFixed(2)})" stroke-width="${(0.9 + rnd() * 0.3).toFixed(2)}" fill="none" stroke-linecap="round"/>`;
+  });
+  let r = 13;
+  let k = 0;
+  while (r < 250) {
+    for (let i = 0; i < n - 1; i++) {
+      const A = spokes[i], B = spokes[i + 1];
+      if (r > A.len || r > B.len) continue;
+      if (rnd() < 0.07) continue;
+      const rj = r * (1 + (rnd() - 0.5) * 0.05);
+      const [x1, y1] = P(A, rj), [x2, y2] = P(B, rj * (1 + (rnd() - 0.5) * 0.04));
+      const pull = 0.80 + rnd() * 0.06;
+      const cx = (x1 + x2) / 2 * pull, cy = (y1 + y2) / 2 * pull;
+      const op = Math.max(0.25, 0.8 - k * 0.04);
+      out += `<path d="M${f(x1)} ${f(y1)} Q${f(cx)} ${f(cy)} ${f(x2)} ${f(y2)}" stroke="rgba(236,240,255,${op.toFixed(2)})" stroke-width="${(0.55 + rnd() * 0.25).toFixed(2)}" fill="none" stroke-linecap="round"/>`;
+      if (rnd() < 0.18) out += `<circle cx="${f(x2)}" cy="${f(y2)}" r="${(0.8 + rnd() * 0.7).toFixed(1)}" fill="#fff" opacity="${(0.5 + rnd() * 0.4).toFixed(2)}"/>`;
+    }
+    r *= 1.28 + rnd() * 0.12;
+    k++;
+  }
+  return out;
+}
+
       function getEfTopSVG(festId) {
         const fest = (festId || "").toLowerCase();
 
@@ -189,59 +228,13 @@
               </div>
 
               <!-- Left Corner Natural Radial Cobweb (Fixed aspect ratio, anchored to top-left corner) -->
-              <div class="utsav-corner-web utsav-corner-web--left" style="position: absolute; left: 0; top: 0; width: clamp(130px, 16vw, 220px); height: clamp(75px, 10vw, 120px);">
-                <svg viewBox="0 0 220 120" preserveAspectRatio="xMinYMin meet" style="display:block; width:100%; height:100%; overflow:visible; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));">
-                  <line x1="0" y1="0" x2="220" y2="4" stroke="rgba(250, 252, 255, 0.85)" stroke-width="1.2"/>
-                  <line x1="0" y1="0" x2="205" y2="34" stroke="rgba(242, 246, 255, 0.75)" stroke-width="1.1"/>
-                  <line x1="0" y1="0" x2="170" y2="68" stroke="rgba(235, 240, 255, 0.75)" stroke-width="1.1"/>
-                  <line x1="0" y1="0" x2="120" y2="96" stroke="rgba(230, 235, 255, 0.7)" stroke-width="1.1"/>
-                  <line x1="0" y1="0" x2="62" y2="114" stroke="rgba(225, 230, 255, 0.65)" stroke-width="1.0"/>
-                  <line x1="0" y1="0" x2="12" y2="118" stroke="rgba(220, 225, 255, 0.55)" stroke-width="0.9"/>
-
-                  <path d="M 24 1 Q 20 6 16 10 Q 12 13 6 15 Q 2 15 1 16" stroke="rgba(255, 255, 255, 0.7)" stroke-width="0.9" fill="none"/>
-                  <path d="M 52 2 Q 46 14 38 21 Q 27 28 16 32 Q 6 33 2 34" stroke="rgba(255, 255, 255, 0.75)" stroke-width="0.95" fill="none"/>
-                  <path d="M 90 3 Q 78 23 66 36 Q 50 48 31 54 Q 13 56 4 58" stroke="rgba(255, 255, 255, 0.8)" stroke-width="1.0" fill="none"/>
-                  <path d="M 138 3 Q 120 32 100 52 Q 76 69 48 78 Q 19 82 6 84" stroke="rgba(255, 255, 255, 0.75)" stroke-width="1.0" fill="none"/>
-                  <path d="M 190 4 Q 164 40 138 68 Q 104 90 66 102 Q 28 108 9 110" stroke="rgba(240, 245, 255, 0.7)" stroke-width="0.95" fill="none"/>
-                  <path d="M 205 34 Q 178 58 145 78 Q 112 94 72 104" stroke="rgba(225, 235, 255, 0.5)" stroke-width="0.8" stroke-dasharray="4,2" fill="none"/>
-
-                  <circle cx="52" cy="2" r="1.2" fill="#FFFFFF" opacity="0.85"/>
-                  <circle cx="38" cy="21" r="1.1" fill="#FFFFFF" opacity="0.8"/>
-                  <circle cx="90" cy="3" r="1.3" fill="#FFFFFF" opacity="0.9"/>
-                  <circle cx="66" cy="36" r="1.2" fill="#FFFFFF" opacity="0.85"/>
-                  <circle cx="138" cy="3" r="1.4" fill="#FFFFFF" opacity="0.9"/>
-                  <circle cx="100" cy="52" r="1.2" fill="#FFFFFF" opacity="0.85"/>
-                  <circle cx="190" cy="4" r="1.3" fill="#FFFFFF" opacity="0.9"/>
-                  <circle cx="138" cy="68" r="1.2" fill="#FFFFFF" opacity="0.8"/>
-                </svg>
+              <div class="utsav-corner-web utsav-corner-web--left" style="position: absolute; left: 0; top: 0; width: clamp(150px, 18vw, 260px); height: clamp(110px, 13.2vw, 190px);">
+                <svg viewBox="0 0 260 190" preserveAspectRatio="xMinYMin meet" style="display:block; width:100%; height:100%; overflow:visible; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));">${buildSpiderWeb()}</svg>
               </div>
 
               <!-- Right Corner Natural Radial Cobweb (Mirrored, anchored to top-right corner) -->
-              <div class="utsav-corner-web utsav-corner-web--right" style="position: absolute; right: 0; top: 0; width: clamp(130px, 16vw, 220px); height: clamp(75px, 10vw, 120px); transform: scaleX(-1);">
-                <svg viewBox="0 0 220 120" preserveAspectRatio="xMinYMin meet" style="display:block; width:100%; height:100%; overflow:visible; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));">
-                  <line x1="0" y1="0" x2="220" y2="4" stroke="rgba(250, 252, 255, 0.85)" stroke-width="1.2"/>
-                  <line x1="0" y1="0" x2="205" y2="34" stroke="rgba(242, 246, 255, 0.75)" stroke-width="1.1"/>
-                  <line x1="0" y1="0" x2="170" y2="68" stroke="rgba(235, 240, 255, 0.75)" stroke-width="1.1"/>
-                  <line x1="0" y1="0" x2="120" y2="96" stroke="rgba(230, 235, 255, 0.7)" stroke-width="1.1"/>
-                  <line x1="0" y1="0" x2="62" y2="114" stroke="rgba(225, 230, 255, 0.65)" stroke-width="1.0"/>
-                  <line x1="0" y1="0" x2="12" y2="118" stroke="rgba(220, 225, 255, 0.55)" stroke-width="0.9"/>
-
-                  <path d="M 24 1 Q 20 6 16 10 Q 12 13 6 15 Q 2 15 1 16" stroke="rgba(255, 255, 255, 0.7)" stroke-width="0.9" fill="none"/>
-                  <path d="M 52 2 Q 46 14 38 21 Q 27 28 16 32 Q 6 33 2 34" stroke="rgba(255, 255, 255, 0.75)" stroke-width="0.95" fill="none"/>
-                  <path d="M 90 3 Q 78 23 66 36 Q 50 48 31 54 Q 13 56 4 58" stroke="rgba(255, 255, 255, 0.8)" stroke-width="1.0" fill="none"/>
-                  <path d="M 138 3 Q 120 32 100 52 Q 76 69 48 78 Q 19 82 6 84" stroke="rgba(255, 255, 255, 0.75)" stroke-width="1.0" fill="none"/>
-                  <path d="M 190 4 Q 164 40 138 68 Q 104 90 66 102 Q 28 108 9 110" stroke="rgba(240, 245, 255, 0.7)" stroke-width="0.95" fill="none"/>
-                  <path d="M 205 34 Q 178 58 145 78 Q 112 94 72 104" stroke="rgba(225, 235, 255, 0.5)" stroke-width="0.8" stroke-dasharray="4,2" fill="none"/>
-
-                  <circle cx="52" cy="2" r="1.2" fill="#FFFFFF" opacity="0.85"/>
-                  <circle cx="38" cy="21" r="1.1" fill="#FFFFFF" opacity="0.8"/>
-                  <circle cx="90" cy="3" r="1.3" fill="#FFFFFF" opacity="0.9"/>
-                  <circle cx="66" cy="36" r="1.2" fill="#FFFFFF" opacity="0.85"/>
-                  <circle cx="138" cy="3" r="1.4" fill="#FFFFFF" opacity="0.9"/>
-                  <circle cx="100" cy="52" r="1.2" fill="#FFFFFF" opacity="0.85"/>
-                  <circle cx="190" cy="4" r="1.3" fill="#FFFFFF" opacity="0.9"/>
-                  <circle cx="138" cy="68" r="1.2" fill="#FFFFFF" opacity="0.8"/>
-                </svg>
+              <div class="utsav-corner-web utsav-corner-web--right" style="position: absolute; right: 0; top: 0; width: clamp(150px, 18vw, 260px); height: clamp(110px, 13.2vw, 190px); transform: scaleX(-1);">
+                <svg viewBox="0 0 260 190" preserveAspectRatio="xMinYMin meet" style="display:block; width:100%; height:100%; overflow:visible; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));">${buildSpiderWeb()}</svg>
               </div>
 
               <!-- Left Corner Resident Active Spider (Creeps along web spoke) -->
