@@ -647,14 +647,15 @@ body.utsav-cart-page #utsav-top-garland {
 .utsav-spider-silk {
   position: absolute;
   top: 0;
-  left: 22px;
-  width: 1px;
-  height: 120px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 255, 0.95) 100%);
-  box-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+  left: 21px;
+  width: 2px;
+  height: 125px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 1) 100%);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.95), 0 0 8px rgba(200, 220, 255, 0.7);
   transform-origin: top center;
   transform: scaleY(0);
   animation: utsavSpiderSilkCycle 13s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
+  z-index: 9;
 }
 
 .utsav-spider-creature {
@@ -663,7 +664,7 @@ body.utsav-cart-page #utsav-top-garland {
   left: 0;
   width: 44px;
   height: 44px;
-  transform-origin: 22px 10px;
+  transform-origin: 22px 14px;
   transform: translate3d(0, 0, 0);
   animation: utsavSpiderActionCycle 13s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
   pointer-events: auto;

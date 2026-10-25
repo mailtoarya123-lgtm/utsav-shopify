@@ -165,14 +165,15 @@
   .utsav-spider-silk {
     position: absolute;
     top: 0;
-    left: 22px;
-    width: 1px;
-    height: 120px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 255, 0.95) 100%);
-    box-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+    left: 21px;
+    width: 2px;
+    height: 125px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 1) 100%);
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.95), 0 0 8px rgba(200, 220, 255, 0.7);
     transform-origin: top center;
     transform: scaleY(0);
     animation: utsavSpiderSilkCycle 13s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
+    z-index: 9;
   }
 
   .utsav-spider-creature {
@@ -181,7 +182,7 @@
     left: 0;
     width: 44px;
     height: 44px;
-    transform-origin: 22px 10px;
+    transform-origin: 22px 14px;
     transform: translate3d(0, 0, 0);
     animation: utsavSpiderActionCycle 13s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
     pointer-events: auto;
@@ -305,59 +306,53 @@
     pointer-events: auto !important;
     cursor: pointer !important;
     z-index: 99996 !important;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0.88;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   }
 
   .utsav-corner-decor:hover {
-    transform: scale(1.08) translateY(-4px);
+    opacity: 1;
+    transform: scale(1.04) translateY(-2px);
   }
 
   .utsav-corner-bottom-left {
-    bottom: 14px;
+    bottom: 16px;
     left: 18px;
   }
 
   .utsav-corner-bottom-right {
-    bottom: 14px;
+    bottom: 16px;
     right: 18px;
   }
 
   .utsav-corner-top-left {
-    top: 75px;
+    top: 60px;
     left: 18px;
   }
 
   .utsav-corner-top-right {
-    top: 75px;
+    top: 60px;
     right: 18px;
   }
 
-  /* Diya Flame Flicker */
+  /* Diya Flame Flicker - Subtle & Organic */
   @keyframes utsavFlameFlicker {
     0%, 100% {
       transform: scale(1) rotate(0deg);
-      filter: drop-shadow(0 0 8px rgba(255, 165, 0, 0.8));
-    }
-    25% {
-      transform: scale(1.04, 0.96) rotate(-1.5deg);
-      filter: drop-shadow(0 0 13px rgba(255, 140, 0, 0.9));
+      filter: drop-shadow(0 0 5px rgba(255, 175, 55, 0.6));
     }
     50% {
-      transform: scale(0.97, 1.03) rotate(1deg);
-      filter: drop-shadow(0 0 7px rgba(255, 215, 0, 0.75));
-    }
-    75% {
-      transform: scale(1.02, 0.98) rotate(-0.5deg);
-      filter: drop-shadow(0 0 15px rgba(255, 100, 0, 0.95));
+      transform: scale(0.98, 1.02) rotate(0.8deg);
+      filter: drop-shadow(0 0 4px rgba(255, 195, 60, 0.5));
     }
   }
 
   .utsav-diya-flame {
     transform-origin: 60px 48px;
-    animation: utsavFlameFlicker 1.8s ease-in-out infinite alternate;
+    animation: utsavFlameFlicker 2.4s ease-in-out infinite alternate;
   }
 
-  /* Atmospheric Corner Vignette (Diwali Only) */
+  /* Atmospheric Corner Vignette - Whisper Delicate */
   .utsav-ambient-vignette {
     display: none;
     position: fixed;
@@ -368,8 +363,8 @@
     pointer-events: none;
     z-index: 9988;
     background:
-      radial-gradient(circle at 4% 96%, rgba(255, 170, 0, 0.12) 0%, transparent 28%),
-      radial-gradient(circle at 96% 96%, rgba(255, 170, 0, 0.12) 0%, transparent 28%);
+      radial-gradient(circle at 4% 96%, rgba(212, 175, 55, 0.06) 0%, transparent 22%),
+      radial-gradient(circle at 96% 96%, rgba(212, 175, 55, 0.06) 0%, transparent 22%);
   }
 
   /* Fireworks Canvas (Diwali Only) */
@@ -384,20 +379,24 @@
     z-index: 9989;
   }
 
-  /* Minimal Announcement Banner */
+  /* Editorial Minimal Announcement Bar */
   .utsav-store-banner {
     display: none;
-    background: linear-gradient(90deg, #1A0A00 0%, #2A1502 50%, #1A0A00 100%);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-    color: #FFF8DC;
-    padding: 9px 24px;
-    font-size: 13px;
-    font-weight: 500;
+    position: relative;
+    background: rgba(14, 14, 16, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    color: #F4F4F6;
+    padding: 7px 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 14px;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   }
 
   body.utsav-cart-open .utsav-store-banner,
@@ -418,39 +417,48 @@
   }
 
   .utsav-pill-code {
-    background: rgba(212, 175, 55, 0.18);
-    border: 1px solid #D4AF37;
-    color: #FFD700;
-    border-radius: 999px;
-    padding: 2px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #F8F8FA;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  /* Floating Blessing Toast on Diya Tap */
+  .utsav-pill-code:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Floating Blessing Toast on Diya Tap - Minimal Editorial */
   .utsav-blessing-toast {
     position: fixed;
-    background: rgba(26, 10, 0, 0.92);
-    border: 1px solid #D4AF37;
-    color: #FFF8DC;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
+    background: rgba(18, 18, 20, 0.94);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #FAF9F6;
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     pointer-events: none;
     z-index: 99999;
-    animation: utsavBlessingFloat 2.6s ease-out forwards;
+    animation: utsavBlessingFloat 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     white-space: nowrap;
   }
 
   @keyframes utsavBlessingFloat {
-    0% { opacity: 0; transform: translate(-50%, 0) scale(0.85); }
-    15% { opacity: 1; transform: translate(-50%, -18px) scale(1); }
-    80% { opacity: 1; transform: translate(-50%, -36px) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -50px) scale(0.95); }
+    0% { opacity: 0; transform: translate(-50%, 4px) scale(0.96); }
+    15% { opacity: 1; transform: translate(-50%, -10px) scale(1); }
+    80% { opacity: 1; transform: translate(-50%, -16px) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -24px) scale(0.98); }
   }
 
   /* Accessibility: Respect Reduced Motion Preferences */
@@ -700,31 +708,39 @@ function buildSpiderWeb() {
             <div class="utsav-spider-rig">
               <div class="utsav-spider-silk"></div>
               <div class="utsav-spider-creature" title="Spooky Arachnid — click or hover!">
-                <svg viewBox="0 0 44 44" style="width: 100%; height: 100%; overflow: visible; display: block;">
-                  <path d="M 20 14 Q 19 11 18 12 M 24 14 Q 25 11 26 12" stroke="#14101A" stroke-width="1.3" stroke-linecap="round" fill="none"/>
-                  <g class="utsav-spider-leg-a">
-                    <path d="M 19 16 Q 10 9 6 12 L 3 19" stroke="#14101A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M 18 19 Q 8 19 5 25 L 7 34" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M 25 18 Q 35 14 39 20 L 41 28" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M 25 21 Q 34 26 36 34 L 33 42" stroke="#14101A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <!-- Visible Drop Silk Thread (extends upwards from the spider to the ceiling) -->
+                <svg viewBox="0 0 44 350" style="position: absolute; top: -330px; left: 0; width: 44px; height: 350px; pointer-events: none; overflow: visible; display: block; z-index: 1;">
+                  <!-- High-contrast glow and core silk line -->
+                  <line x1="22" y1="0" x2="22" y2="350" stroke="rgba(0, 0, 0, 0.55)" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="22" y1="0" x2="22" y2="350" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" style="filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 6px rgba(180, 210, 255, 0.8));"/>
+                </svg>
+                <svg viewBox="0 0 44 44" style="width: 100%; height: 100%; overflow: visible; display: block; position: relative; z-index: 2;">
+                  <g transform="rotate(180 22 22)">
+                    <path d="M 20 14 Q 19 11 18 12 M 24 14 Q 25 11 26 12" stroke="#14101A" stroke-width="1.3" stroke-linecap="round" fill="none"/>
+                    <g class="utsav-spider-leg-a">
+                      <path d="M 19 16 Q 10 9 6 12 L 3 19" stroke="#14101A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                      <path d="M 18 19 Q 8 19 5 25 L 7 34" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                      <path d="M 25 18 Q 35 14 39 20 L 41 28" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                      <path d="M 25 21 Q 34 26 36 34 L 33 42" stroke="#14101A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </g>
+                    <g class="utsav-spider-leg-b">
+                      <path d="M 19 18 Q 9 14 5 20 L 3 28" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                      <path d="M 19 21 Q 10 26 8 34 L 11 42" stroke="#14101A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                      <path d="M 25 16 Q 34 9 38 12 L 41 19" stroke="#14101A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                      <path d="M 26 19 Q 36 19 39 25 L 37 34" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </g>
+                    <ellipse cx="22" cy="18" rx="4.2" ry="4.8" fill="#16111E" stroke="#2F213E" stroke-width="0.8"/>
+                    <circle cx="20.7" cy="15.2" r="0.9" fill="#FF4500" class="utsav-spider-eye"/>
+                    <circle cx="23.3" cy="15.2" r="0.9" fill="#FF4500" class="utsav-spider-eye"/>
+                    <circle cx="19.5" cy="17" r="0.5" fill="#FFD700"/>
+                    <circle cx="24.5" cy="17" r="0.5" fill="#FFD700"/>
+                    <ellipse cx="22" cy="27" rx="6.8" ry="9" fill="#110C17" stroke="#2F213E" stroke-width="1"/>
+                    <polygon points="22,22 19.2,25.5 24.8,25.5" fill="#FF7518" opacity="0.95"/>
+                    <polygon points="22,29 19.2,25.5 24.8,25.5" fill="#FF7518" opacity="0.95"/>
+                    <ellipse cx="22" cy="31.5" rx="1.8" ry="2.6" fill="#FF3D00" opacity="0.9"/>
+                    <circle cx="18.5" cy="28" r="0.8" fill="#FFB74D" opacity="0.8"/>
+                    <circle cx="25.5" cy="28" r="0.8" fill="#FFB74D" opacity="0.8"/>
                   </g>
-                  <g class="utsav-spider-leg-b">
-                    <path d="M 19 18 Q 9 14 5 20 L 3 28" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M 19 21 Q 10 26 8 34 L 11 42" stroke="#14101A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M 25 16 Q 34 9 38 12 L 41 19" stroke="#14101A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M 26 19 Q 36 19 39 25 L 37 34" stroke="#14101A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                  </g>
-                  <ellipse cx="22" cy="18" rx="4.2" ry="4.8" fill="#16111E" stroke="#2F213E" stroke-width="0.8"/>
-                  <circle cx="20.7" cy="15.2" r="0.9" fill="#FF4500" class="utsav-spider-eye"/>
-                  <circle cx="23.3" cy="15.2" r="0.9" fill="#FF4500" class="utsav-spider-eye"/>
-                  <circle cx="19.5" cy="17" r="0.5" fill="#FFD700"/>
-                  <circle cx="24.5" cy="17" r="0.5" fill="#FFD700"/>
-                  <ellipse cx="22" cy="27" rx="6.8" ry="9" fill="#110C17" stroke="#2F213E" stroke-width="1"/>
-                  <polygon points="22,22 19.2,25.5 24.8,25.5" fill="#FF7518" opacity="0.95"/>
-                  <polygon points="22,29 19.2,25.5 24.8,25.5" fill="#FF7518" opacity="0.95"/>
-                  <ellipse cx="22" cy="31.5" rx="1.8" ry="2.6" fill="#FF3D00" opacity="0.9"/>
-                  <circle cx="18.5" cy="28" r="0.8" fill="#FFB74D" opacity="0.8"/>
-                  <circle cx="25.5" cy="28" r="0.8" fill="#FFB74D" opacity="0.8"/>
                 </svg>
               </div>
             </div>
@@ -2458,6 +2474,8 @@ function buildSpiderWeb() {
           diyaContainer.style.display = 'block';
           const sizePx = config.diyaSize === 'small' ? 56 : config.diyaSize === 'medium' ? 76 : config.diyaSize === 'large' ? 96 : 116;
           const cornerSvg = getFestivalCornerSVG(fest, sizePx, config);
+          const mX = config.diyaMarginX !== undefined ? config.diyaMarginX : 18;
+          const mY = config.diyaMarginY !== undefined ? config.diyaMarginY : 18;
 
           const bl = document.getElementById('utsavDiyaBL');
           const br = document.getElementById('utsavDiyaBR');
