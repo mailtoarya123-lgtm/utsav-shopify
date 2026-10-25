@@ -2850,6 +2850,7 @@ export default function FestivalStudio() {
     return `${festival.emoji || "🎃"} 10% OFF`;
   });
   const [discountAutoApply, setDiscountAutoApply] = useState(customSettings.discount?.autoApply ?? true);
+  const [discountAudience, setDiscountAudience] = useState(customSettings.discount?.audience || "all");
 
   // ⏳ Urgency & Countdown Timers State
   const [enableUrgencyTimer, setEnableUrgencyTimer] = useState(
