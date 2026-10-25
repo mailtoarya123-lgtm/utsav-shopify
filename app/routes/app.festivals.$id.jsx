@@ -1391,72 +1391,127 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
 function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLights = true, lightsTheme = "warm_gold" }) {
   const festId = (festival.id || "").toLowerCase();
 
-  // 1. Halloween Spiderweb Lace & Mist
+  // 1. Halloween Spiderweb Lace & Mist (Responsive Corner Cobwebs & Active Alive Arachnid Rig)
   if (festId.includes("halloween")) {
     return (
       <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "visible", background: "transparent" }}>
-        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none" style={{ display: "block", background: "transparent", pointerEvents: "none", overflow: "visible" }}>
-          {/* Main Sagging Catenary Silk Lines */}
-          <path d="M 0 2 Q 90 14 180 3 Q 270 18 360 4 Q 460 16 560 2" stroke="rgba(240, 240, 255, 0.75)" strokeWidth="1.2" fill="none" />
-          <path d="M 0 3 Q 70 24 140 5 Q 230 26 320 6 Q 420 25 500 5 Q 530 18 560 3" stroke="rgba(220, 210, 245, 0.55)" strokeWidth="0.9" fill="none" />
-          <path d="M 80 12 Q 180 32 280 10 Q 380 30 480 9" stroke="rgba(255, 255, 255, 0.35)" strokeWidth="0.7" strokeDasharray="3,1" fill="none" />
+        <div className="utsav-spiderweb-wrapper" style={{ position: "relative", width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }}>
+          {/* Central Sagging Gossamer Silk Swags */}
+          <div className="utsav-web-catenary-wrap" style={{ position: "absolute", left: 0, top: 0, width: "100%", height: "100%", pointerEvents: "none" }}>
+            <svg width="100%" height={height} viewBox="0 0 1000 50" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "100%", pointerEvents: "none", overflow: "visible" }}>
+              <path d="M 0 3 Q 150 18 300 4 Q 450 22 600 5 Q 800 20 1000 3" stroke="rgba(240, 244, 255, 0.75)" strokeWidth="1.3" fill="none" style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.45))" }} />
+              <path d="M 0 5 Q 100 28 200 6 Q 360 32 520 8 Q 700 30 880 7 Q 940 22 1000 5" stroke="rgba(220, 210, 245, 0.55)" strokeWidth="0.95" fill="none" />
+              <path d="M 120 14 Q 280 38 440 12 Q 600 36 760 10 Q 920 34 1000 14" stroke="rgba(255, 255, 255, 0.35)" strokeWidth="0.8" strokeDasharray="4,2" fill="none" />
+            </svg>
+          </div>
 
-          {/* Left Corner Radial Anchor Web */}
-          <g transform="translate(0, 0)">
-            <line x1="0" y1="0" x2="80" y2="3" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="1" />
-            <line x1="0" y1="0" x2="70" y2="20" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.9" />
-            <line x1="0" y1="0" x2="48" y2="38" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.9" />
-            <line x1="0" y1="0" x2="22" y2="46" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="0.8" />
-            <path d="M 16 1 Q 13 8 10 11 Q 7 14 4 15" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
-            <path d="M 32 1 Q 27 13 20 20 Q 14 24 7 27" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
-            <path d="M 50 2 Q 42 18 32 28 Q 22 34 11 37" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.8" fill="none" />
-            <path d="M 70 2 Q 58 20 44 34 Q 30 42 16 46" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
-          </g>
+          {/* Left Corner Radial Cobweb (Fixed aspect ratio, never stretches) */}
+          <div className="utsav-corner-web utsav-corner-web--left" style={{ position: "absolute", left: 0, top: 0, width: isMobile ? "110px" : "180px", height: isMobile ? "65px" : "100px", pointerEvents: "none" }}>
+            <svg viewBox="0 0 220 120" preserveAspectRatio="xMinYMin meet" style={{ display: "block", width: "100%", height: "100%", overflow: "visible", filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))" }}>
+              <line x1="0" y1="0" x2="220" y2="4" stroke="rgba(250, 252, 255, 0.85)" strokeWidth="1.2" />
+              <line x1="0" y1="0" x2="205" y2="34" stroke="rgba(242, 246, 255, 0.75)" strokeWidth="1.1" />
+              <line x1="0" y1="0" x2="170" y2="68" stroke="rgba(235, 240, 255, 0.75)" strokeWidth="1.1" />
+              <line x1="0" y1="0" x2="120" y2="96" stroke="rgba(230, 235, 255, 0.7)" strokeWidth="1.1" />
+              <line x1="0" y1="0" x2="62" y2="114" stroke="rgba(225, 230, 255, 0.65)" strokeWidth="1.0" />
+              <line x1="0" y1="0" x2="12" y2="118" stroke="rgba(220, 225, 255, 0.55)" strokeWidth="0.9" />
 
-          {/* Right Corner Radial Anchor Web */}
-          <g transform="translate(560, 0) scale(-1, 1)">
-            <line x1="0" y1="0" x2="85" y2="3" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="1" />
-            <line x1="0" y1="0" x2="74" y2="20" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.9" />
-            <line x1="0" y1="0" x2="50" y2="38" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.9" />
-            <line x1="0" y1="0" x2="24" y2="46" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="0.8" />
-            <path d="M 18 1 Q 14 8 11 11 Q 8 14 4 15" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
-            <path d="M 34 1 Q 28 13 21 20 Q 15 24 8 27" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
-            <path d="M 52 2 Q 44 18 34 28 Q 23 34 12 37" stroke="rgba(255, 255, 255, 0.65)" strokeWidth="0.8" fill="none" />
-            <path d="M 72 2 Q 60 20 46 34 Q 32 42 17 46" stroke="rgba(255, 255, 255, 0.6)" strokeWidth="0.8" fill="none" />
-          </g>
+              <path d="M 24 1 Q 20 6 16 10 Q 12 13 6 15 Q 2 15 1 16" stroke="rgba(255, 255, 255, 0.7)" strokeWidth="0.9" fill="none" />
+              <path d="M 52 2 Q 46 14 38 21 Q 27 28 16 32 Q 6 33 2 34" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="0.95" fill="none" />
+              <path d="M 90 3 Q 78 23 66 36 Q 50 48 31 54 Q 13 56 4 58" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1.0" fill="none" />
+              <path d="M 138 3 Q 120 32 100 52 Q 76 69 48 78 Q 19 82 6 84" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="1.0" fill="none" />
+              <path d="M 190 4 Q 164 40 138 68 Q 104 90 66 102 Q 28 108 9 110" stroke="rgba(240, 245, 255, 0.7)" strokeWidth="0.95" fill="none" />
 
-          {/* Realistic Suspended Spider on Single Silk Drop */}
-          <g transform="translate(450, 0)">
-            <line x1="0" y1="0" x2="0" y2="26" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="0.8" />
-            <g transform="translate(0, 26)">
-              {/* Spider Legs */}
-              <path d="M -1 1 Q -5 -3 -9 0 Q -11 4 -9 7" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
-              <path d="M -1 3 Q -7 1 -10 5 Q -12 9 -10 11" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
-              <path d="M -1 5 Q -8 5 -10 9 Q -11 13 -8 15" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
-              <path d="M 0 6 Q -5 9 -7 13 Q -8 17 -6 19" stroke="#18131F" strokeWidth="0.9" strokeLinecap="round" fill="none" />
-              <path d="M 1 1 Q 5 -3 9 0 Q 11 4 9 7" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
-              <path d="M 1 3 Q 7 1 10 5 Q 12 9 10 11" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
-              <path d="M 1 5 Q 8 5 10 9 Q 11 13 8 15" stroke="#18131F" strokeWidth="1" strokeLinecap="round" fill="none" />
-              <path d="M 0 6 Q 5 9 7 13 Q 8 17 6 19" stroke="#18131F" strokeWidth="0.9" strokeLinecap="round" fill="none" />
-              {/* Abdomen & Cephalothorax */}
-              <ellipse cx="0" cy="8" rx="3.2" ry="4.5" fill="#15111B" stroke="#2D1F3D" strokeWidth="0.6" />
-              <polygon points="0,6.5 -1.5,8.5 1.5,8.5" fill="#FF7518" opacity="0.9" />
-              <ellipse cx="0" cy="3" rx="2.2" ry="2.5" fill="#1F1826" stroke="#3D2952" strokeWidth="0.5" />
-              <circle cx="-0.7" cy="1.6" r="0.5" fill="#FFD700" />
-              <circle cx="0.7" cy="1.6" r="0.5" fill="#FFD700" />
-            </g>
-          </g>
+              <circle cx="52" cy="2" r="1.2" fill="#FFFFFF" opacity="0.85" />
+              <circle cx="38" cy="21" r="1.1" fill="#FFFFFF" opacity="0.8" />
+              <circle cx="90" cy="3" r="1.3" fill="#FFFFFF" opacity="0.9" />
+              <circle cx="66" cy="36" r="1.2" fill="#FFFFFF" opacity="0.85" />
+              <circle cx="138" cy="3" r="1.4" fill="#FFFFFF" opacity="0.9" />
+              <circle cx="100" cy="52" r="1.2" fill="#FFFFFF" opacity="0.85" />
+              <circle cx="190" cy="4" r="1.3" fill="#FFFFFF" opacity="0.9" />
+            </svg>
+          </div>
 
-          {/* Left Lurking Spider */}
-          <g transform="translate(68, 18) rotate(-15)">
-            <ellipse cx="0" cy="5" rx="2.5" ry="3.5" fill="#15111B" />
-            <circle cx="0" cy="1.8" r="1.6" fill="#1F1826" />
-            <path d="M -1 1 Q -4 -2 -7 0 M -1 3 Q -5 2 -7 5 M -1 4 Q -6 5 -7 8 M 0 5 Q -4 7 -5 10" stroke="#18131F" strokeWidth="0.8" fill="none" />
-            <path d="M 1 1 Q 4 -2 7 0 M 1 3 Q 5 2 7 5 M 1 4 Q 6 5 7 8 M 0 5 Q 4 7 5 10" stroke="#18131F" strokeWidth="0.8" fill="none" />
-            <circle cx="-0.5" cy="0.9" r="0.4" fill="#FF7518" />
-            <circle cx="0.5" cy="0.9" r="0.4" fill="#FF7518" />
-          </g>
-        </svg>
+          {/* Right Corner Radial Cobweb (Mirrored, never stretches) */}
+          <div className="utsav-corner-web utsav-corner-web--right" style={{ position: "absolute", right: 0, top: 0, width: isMobile ? "110px" : "180px", height: isMobile ? "65px" : "100px", pointerEvents: "none", transform: "scaleX(-1)" }}>
+            <svg viewBox="0 0 220 120" preserveAspectRatio="xMinYMin meet" style={{ display: "block", width: "100%", height: "100%", overflow: "visible", filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.4))" }}>
+              <line x1="0" y1="0" x2="220" y2="4" stroke="rgba(250, 252, 255, 0.85)" strokeWidth="1.2" />
+              <line x1="0" y1="0" x2="205" y2="34" stroke="rgba(242, 246, 255, 0.75)" strokeWidth="1.1" />
+              <line x1="0" y1="0" x2="170" y2="68" stroke="rgba(235, 240, 255, 0.75)" strokeWidth="1.1" />
+              <line x1="0" y1="0" x2="120" y2="96" stroke="rgba(230, 235, 255, 0.7)" strokeWidth="1.1" />
+              <line x1="0" y1="0" x2="62" y2="114" stroke="rgba(225, 230, 255, 0.65)" strokeWidth="1.0" />
+              <line x1="0" y1="0" x2="12" y2="118" stroke="rgba(220, 225, 255, 0.55)" strokeWidth="0.9" />
+
+              <path d="M 24 1 Q 20 6 16 10 Q 12 13 6 15 Q 2 15 1 16" stroke="rgba(255, 255, 255, 0.7)" strokeWidth="0.9" fill="none" />
+              <path d="M 52 2 Q 46 14 38 21 Q 27 28 16 32 Q 6 33 2 34" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="0.95" fill="none" />
+              <path d="M 90 3 Q 78 23 66 36 Q 50 48 31 54 Q 13 56 4 58" stroke="rgba(255, 255, 255, 0.8)" strokeWidth="1.0" fill="none" />
+              <path d="M 138 3 Q 120 32 100 52 Q 76 69 48 78 Q 19 82 6 84" stroke="rgba(255, 255, 255, 0.75)" strokeWidth="1.0" fill="none" />
+              <path d="M 190 4 Q 164 40 138 68 Q 104 90 66 102 Q 28 108 9 110" stroke="rgba(240, 245, 255, 0.7)" strokeWidth="0.95" fill="none" />
+
+              <circle cx="52" cy="2" r="1.2" fill="#FFFFFF" opacity="0.85" />
+              <circle cx="38" cy="21" r="1.1" fill="#FFFFFF" opacity="0.8" />
+              <circle cx="90" cy="3" r="1.3" fill="#FFFFFF" opacity="0.9" />
+              <circle cx="66" cy="36" r="1.2" fill="#FFFFFF" opacity="0.85" />
+              <circle cx="138" cy="3" r="1.4" fill="#FFFFFF" opacity="0.9" />
+              <circle cx="100" cy="52" r="1.2" fill="#FFFFFF" opacity="0.85" />
+              <circle cx="190" cy="4" r="1.3" fill="#FFFFFF" opacity="0.9" />
+            </svg>
+          </div>
+
+          {/* Left Resident Spider */}
+          <div className="utsav-left-spider" style={{ position: "absolute", left: isMobile ? "35px" : "60px", top: isMobile ? "12px" : "20px", width: "24px", height: "24px", pointerEvents: "none" }}>
+            <div className="utsav-left-spider-creature" style={{ width: "100%", height: "100%" }}>
+              <svg viewBox="0 0 32 32" style={{ width: "100%", height: "100%", overflow: "visible", display: "block" }}>
+                <g className="utsav-spider-leg-a">
+                  <path d="M 14 12 Q 7 7 4 9 L 2 15" stroke="#120E18" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                  <path d="M 13 15 Q 5 15 3 20 L 4 26" stroke="#120E18" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                  <path d="M 19 14 Q 26 11 29 15 L 30 21" stroke="#120E18" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                  <path d="M 18 16 Q 25 20 26 26 L 24 31" stroke="#120E18" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+                </g>
+                <g className="utsav-spider-leg-b">
+                  <path d="M 14 13 Q 6 11 3 15 L 2 21" stroke="#120E18" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                  <path d="M 14 16 Q 7 20 5 26 L 7 31" stroke="#120E18" strokeWidth="1.2" strokeLinecap="round" fill="none" />
+                  <path d="M 18 12 Q 25 7 28 9 L 30 15" stroke="#120E18" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                  <path d="M 19 15 Q 27 15 29 20 L 28 26" stroke="#120E18" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                </g>
+                <ellipse cx="16" cy="20" rx="4.8" ry="6.2" fill="#110D17" stroke="#2B1E38" strokeWidth="0.7" />
+                <polygon points="16,16 14,18.5 18,18.5" fill="#FF7518" opacity="0.95" />
+                <circle cx="16" cy="13" r="3" fill="#171220" stroke="#322244" strokeWidth="0.6" />
+                <circle cx="14.8" cy="11.8" r="0.6" fill="#FF4500" />
+                <circle cx="17.2" cy="11.8" r="0.6" fill="#FF4500" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Hero Dropping, Swaying, Climbing & Scrawling Spider Rig */}
+          <div className="utsav-spider-rig" style={{ position: "absolute", right: isMobile ? "24px" : "80px", top: 0, width: "36px", height: "160px", pointerEvents: "none" }}>
+            <div className="utsav-spider-silk" style={{ left: "18px" }}></div>
+            <div className="utsav-spider-creature" style={{ width: "36px", height: "36px" }}>
+              <svg viewBox="0 0 44 44" style={{ width: "100%", height: "100%", overflow: "visible", display: "block" }}>
+                <path d="M 20 14 Q 19 11 18 12 M 24 14 Q 25 11 26 12" stroke="#14101A" strokeWidth="1.3" strokeLinecap="round" fill="none" />
+                <g className="utsav-spider-leg-a">
+                  <path d="M 19 16 Q 10 9 6 12 L 3 19" stroke="#14101A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path d="M 18 19 Q 8 19 5 25 L 7 34" stroke="#14101A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path d="M 25 18 Q 35 14 39 20 L 41 28" stroke="#14101A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path d="M 25 21 Q 34 26 36 34 L 33 42" stroke="#14101A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                </g>
+                <g className="utsav-spider-leg-b">
+                  <path d="M 19 18 Q 9 14 5 20 L 3 28" stroke="#14101A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path d="M 19 21 Q 10 26 8 34 L 11 42" stroke="#14101A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path d="M 25 16 Q 34 9 38 12 L 41 19" stroke="#14101A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <path d="M 26 19 Q 36 19 39 25 L 37 34" stroke="#14101A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                </g>
+                <ellipse cx="22" cy="18" rx="4.2" ry="4.8" fill="#16111E" stroke="#2F213E" strokeWidth="0.8" />
+                <circle cx="20.7" cy="15.2" r="0.9" fill="#FF4500" />
+                <circle cx="23.3" cy="15.2" r="0.9" fill="#FF4500" />
+                <ellipse cx="22" cy="27" rx="6.8" ry="9" fill="#110C17" stroke="#2F213E" strokeWidth="1" />
+                <polygon points="22,22 19.2,25.5 24.8,25.5" fill="#FF7518" opacity="0.95" />
+                <polygon points="22,29 19.2,25.5 24.8,25.5" fill="#FF7518" opacity="0.95" />
+                <circle cx="18.5" cy="28" r="0.8" fill="#FFB74D" opacity="0.8" />
+                <circle cx="25.5" cy="28" r="0.8" fill="#FFB74D" opacity="0.8" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

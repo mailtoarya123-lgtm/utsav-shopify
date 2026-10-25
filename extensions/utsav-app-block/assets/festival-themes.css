@@ -502,6 +502,272 @@ form[action*="/cart/add"] button,
   100% { opacity: 0; transform: translate(-50%, -50px) scale(0.95); }
 }
 
+/* ─── Halloween Responsive Cobweb & Active Arachnid Rig ──────────────────── */
+.utsav-spiderweb-wrapper {
+  position: relative;
+  width: 100%;
+  height: 75px;
+  pointer-events: none !important;
+  overflow: visible !important;
+  background: transparent !important;
+}
+
+.utsav-corner-web {
+  pointer-events: none;
+  overflow: visible;
+}
+
+.utsav-web-catenary-wrap {
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* ─── Hero Dropping & Scrawling Spider Rig ─── */
+.utsav-spider-rig {
+  position: absolute;
+  top: 0;
+  right: clamp(40px, 18vw, 240px);
+  width: 44px;
+  height: 200px;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+.utsav-spider-silk {
+  position: absolute;
+  top: 0;
+  left: 22px;
+  width: 1px;
+  height: 120px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 255, 0.95) 100%);
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+  transform-origin: top center;
+  transform: scaleY(0);
+  animation: utsavSpiderSilkCycle 13s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.utsav-spider-creature {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  transform-origin: 22px 10px;
+  transform: translate3d(0, 0, 0);
+  animation: utsavSpiderActionCycle 13s infinite cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: auto;
+  cursor: pointer;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.65));
+  transition: filter 0.25s ease;
+}
+
+.utsav-spider-creature:hover {
+  filter: drop-shadow(0 0 10px rgba(255, 117, 24, 0.85)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.7));
+}
+
+/* ─── Left Resident Spider ─── */
+.utsav-left-spider {
+  position: absolute;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.utsav-left-spider-creature {
+  transform-origin: 16px 16px;
+  animation: utsavLeftSpiderPatrol 10s ease-in-out infinite alternate;
+}
+
+/* ─── Leg Stepping Gait Groupings ─── */
+.utsav-spider-leg-a {
+  transform-origin: 22px 18px;
+  animation: utsavSpiderLegMotionA 0.45s ease-in-out infinite alternate;
+}
+
+.utsav-spider-leg-b {
+  transform-origin: 22px 18px;
+  animation: utsavSpiderLegMotionB 0.45s ease-in-out infinite alternate;
+}
+
+@keyframes utsavSpiderLegMotionA {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(10deg); }
+}
+
+@keyframes utsavSpiderLegMotionB {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+/* ─── Glowing Arachnid Eye Pulse ─── */
+.utsav-spider-eye {
+  animation: utsavSpiderEyeGlow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes utsavSpiderEyeGlow {
+  0%, 100% { fill: #FF3D00; filter: drop-shadow(0 0 2px #FF3D00); }
+  50% { fill: #FFD700; filter: drop-shadow(0 0 5px #FFD700); }
+}
+
+/* ─── Silk Drop & Retract Cycle (13s loop) ─── */
+@keyframes utsavSpiderSilkCycle {
+  0%, 14% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  14.1% {
+    opacity: 1;
+  }
+  16% {
+    transform: scaleY(0.4);
+    opacity: 1;
+  }
+  17.5% {
+    transform: scaleY(1.08); /* Overshoot bounce */
+    opacity: 1;
+  }
+  18.5% {
+    transform: scaleY(0.96); /* Rebound */
+    opacity: 1;
+  }
+  19.5%, 40% {
+    transform: scaleY(1); /* Suspended mid-air */
+    opacity: 1;
+  }
+  /* Climbing back up silk line */
+  42% { transform: scaleY(0.9); opacity: 1; }
+  45% { transform: scaleY(0.68); opacity: 1; }
+  48% { transform: scaleY(0.42); opacity: 1; }
+  51% { transform: scaleY(0.18); opacity: 1; }
+  53%, 100% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+}
+
+/* ─── Spider Action Cycle (Drop, Sway, Climb, Scrawl on Web) ─── */
+@keyframes utsavSpiderActionCycle {
+  /* 1. Lurk at top on the web */
+  0%, 14% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  /* 2. Sudden bungee drop down */
+  16% {
+    transform: translate3d(0, 48px, 0) rotate(2deg);
+  }
+  17.5% {
+    transform: translate3d(0, 130px, 0) rotate(-4deg); /* Overshoot bounce */
+  }
+  18.5% {
+    transform: translate3d(0, 115px, 0) rotate(3deg); /* Rebound */
+  }
+  19.5% {
+    transform: translate3d(0, 120px, 0) rotate(0deg); /* Settled */
+  }
+  /* 3. Suspended in air, swaying gently & probing */
+  23% {
+    transform: translate3d(-5px, 120px, 0) rotate(-6deg);
+  }
+  28% {
+    transform: translate3d(5px, 120px, 0) rotate(6deg);
+  }
+  33% {
+    transform: translate3d(-3px, 120px, 0) rotate(-3deg);
+  }
+  37% {
+    transform: translate3d(2px, 120px, 0) rotate(2deg);
+  }
+  40% {
+    transform: translate3d(0, 120px, 0) rotate(0deg);
+  }
+  /* 4. Climbing back up the silk thread */
+  42% {
+    transform: translate3d(0, 108px, 0) rotate(-3deg);
+  }
+  45% {
+    transform: translate3d(0, 82px, 0) rotate(4deg);
+  }
+  48% {
+    transform: translate3d(0, 50px, 0) rotate(-4deg);
+  }
+  51% {
+    transform: translate3d(0, 22px, 0) rotate(3deg);
+  }
+  53% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  /* 5. Reaches web, turns to face left along strand */
+  55% {
+    transform: translate3d(0, 0, 0) rotate(80deg);
+  }
+  /* 6. Scrawling / scurrying along the web strand */
+  57% {
+    transform: translate3d(-18px, 2px, 0) rotate(84deg);
+  }
+  60% {
+    transform: translate3d(-42px, -1px, 0) rotate(76deg);
+  }
+  63% {
+    transform: translate3d(-68px, 3px, 0) rotate(84deg);
+  }
+  66% {
+    transform: translate3d(-92px, 1px, 0) rotate(78deg);
+  }
+  /* Brief pause & examine web */
+  68%, 71% {
+    transform: translate3d(-92px, 1px, 0) rotate(68deg);
+  }
+  /* Scurry further */
+  74% {
+    transform: translate3d(-118px, 3px, 0) rotate(82deg);
+  }
+  /* Turn around and scurry back */
+  76% {
+    transform: translate3d(-118px, 3px, 0) rotate(-85deg);
+  }
+  79% {
+    transform: translate3d(-85px, 1px, 0) rotate(-80deg);
+  }
+  82% {
+    transform: translate3d(-50px, 2px, 0) rotate(-86deg);
+  }
+  85% {
+    transform: translate3d(-18px, 0, 0) rotate(-78deg);
+  }
+  88% {
+    transform: translate3d(0, 0, 0) rotate(-75deg);
+  }
+  /* 7. Turn facing downward again */
+  90% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  /* 8. Lurk, reset for next drop */
+  91%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+/* ─── Left Resident Spider Patrol Keyframes ─── */
+@keyframes utsavLeftSpiderPatrol {
+  0%, 20% { transform: translate3d(0, 0, 0) rotate(-20deg); }
+  35% { transform: translate3d(12px, 10px, 0) rotate(-14deg); }
+  50%, 70% { transform: translate3d(18px, 16px, 0) rotate(-26deg); }
+  85% { transform: translate3d(5px, 4px, 0) rotate(-22deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(-20deg); }
+}
+
+@media (max-width: 640px) {
+  .utsav-spider-rig {
+    right: 14px !important;
+    transform: scale(0.8);
+    transform-origin: top right;
+  }
+  .utsav-left-spider {
+    transform: scale(0.85);
+    transform-origin: top left;
+  }
+}
+
 /* ─── Halloween & Particle Animations ────────────────────────────────────── */
 @keyframes utsavGhostFloat {
   0% { transform: translateY(0) rotate(0deg); }
