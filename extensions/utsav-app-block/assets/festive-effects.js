@@ -310,10 +310,6 @@ function buildSpiderWeb() {
               <div class="utsav-spider-rig">
                 <div class="utsav-spider-silk"></div>
                 <div class="utsav-spider-creature" title="Spooky Arachnid — click or hover!">
-                  <svg viewBox="0 0 44 350" style="position: absolute; top: -330px; left: 0; width: 44px; height: 350px; pointer-events: none; overflow: visible; display: block; z-index: 1;">
-                    <line x1="22" y1="0" x2="22" y2="350" stroke="rgba(0, 0, 0, 0.55)" stroke-width="3" stroke-linecap="round"/>
-                    <line x1="22" y1="0" x2="22" y2="350" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" style="filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 6px rgba(180, 210, 255, 0.8));"/>
-                  </svg>
                   <svg viewBox="0 0 44 44" style="width: 100%; height: 100%; overflow: visible; display: block; position: relative; z-index: 2;">
                     <g transform="rotate(180 22 22)">
                       <path d="M 20 14 Q 19 11 18 12 M 24 14 Q 25 11 26 12" stroke="#14101A" stroke-width="1.3" stroke-linecap="round" fill="none"/>

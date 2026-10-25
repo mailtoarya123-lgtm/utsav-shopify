@@ -1483,10 +1483,6 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
           <div className="utsav-spider-rig" style={{ position: "absolute", right: isMobile ? "24px" : "80px", top: 0, width: "36px", height: "160px", pointerEvents: "none" }}>
             <div className="utsav-spider-silk" style={{ left: "18px" }}></div>
             <div className="utsav-spider-creature" style={{ width: "36px", height: "36px" }}>
-              <svg viewBox="0 0 44 260" style={{ position: "absolute", bottom: "18px", left: 0, width: "36px", height: "260px", pointerEvents: "none", overflow: "visible", display: "block", zIndex: 1 }}>
-                <line x1="22" y1="0" x2="22" y2="260" stroke="rgba(0, 0, 0, 0.45)" strokeWidth="3" strokeLinecap="round" />
-                <line x1="22" y1="0" x2="22" y2="260" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" style={{ filter: "drop-shadow(0 0 3px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 6px rgba(180, 210, 255, 0.8))" }} />
-              </svg>
               <svg viewBox="0 0 44 44" style={{ width: "100%", height: "100%", overflow: "visible", display: "block", position: "relative", zIndex: 2 }}>
                 <g transform="rotate(180 22 22)">
                   <path d="M 20 14 Q 19 11 18 12 M 24 14 Q 25 11 26 12" stroke="#14101A" strokeWidth="1.3" strokeLinecap="round" fill="none" />
