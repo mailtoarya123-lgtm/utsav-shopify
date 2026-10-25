@@ -332,11 +332,6 @@ const CATEGORY_ICONS = {
       <path fillRule="evenodd" d="M17.707 9.293a1 1 0 000-1.414l-7-7A1 1 0 0010 0.586H3a2 2 0 00-2 2v7a1 1 0 00.293.707l7 7a1 1 0 001.414 0l8-8zm-12.414-5a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" clipRule="evenodd" />
     </svg>
   ),
-  urgency_timers: (
-    <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
-      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-    </svg>
-  ),
   banner_announcements: (
     <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
       <path d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.39l6.553 3.276A1 1 0 0018 15V3z" />
@@ -2229,23 +2224,7 @@ function DeviceStorefrontMock({
   customPrimaryColor,
   storeInfo,
   storeProducts,
-  // Discount props
-  enableDiscount = true,
-  discountType = "percentage",
-  discountValue = 10,
-  discountScope = "collection",
-  discountCollection = "Snowboards",
-  discountBadgeText = "🎃 10% OFF",
-  discountAudience = "all",
   activeCategory = "visual_decor",
-  // Urgency Timer props
-  enableUrgencyTimer = true,
-  enableFestiveTimer = true,
-  enableCartTimer = true,
-  enableProductTimer = true,
-  cartTimerMinutes = 15,
-  cartTimerUrgencyText = "🔥 Items reserved in cart for [TIME] — checkout before deals expire!",
-  bannerStyle = {},
 }) {
   const isDesktop = deviceType === "desktop";
   const isMobile = deviceType === "mobile";
@@ -2352,83 +2331,7 @@ function DeviceStorefrontMock({
           </div>
         )}
 
-        {/* Announcement Bar */}
-        {!showOriginal && enableBanner && (
-          <div
-            style={{
-              background:
-                bannerStyle.bgType === "solid" ? (bannerStyle.bgColor || "#1A0A00")
-                : bannerStyle.bgType === "gradient" ? `linear-gradient(${bannerStyle.gradientAngle || 90}deg, ${bannerStyle.bgColor || "#1A0A00"}, ${bannerStyle.bgColor2 || "#FF7518"})`
-                : (festival.palette?.background || "#1A0A00"),
-              color: bannerStyle.textColor || festival.palette?.highlight || "#FFF8DC",
-              padding: ({ compact: isMobile ? "1px 6px" : "2px 8px", large: isMobile ? "7px 6px" : "10px 8px" })[bannerStyle.size] || (isMobile ? "3px 6px" : "5px 8px"),
-              fontSize: `${(Number(bannerStyle.fontSize) || 13) * (isMobile ? 0.62 : 0.73)}px`,
-              fontWeight: bannerStyle.bold ? 700 : 500,
-              textTransform: bannerStyle.uppercase ? "uppercase" : "none",
-              textAlign: "center",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: ({ left: "flex-start", right: "flex-end" })[bannerStyle.align] || "center",
-              gap: "6px",
-              borderBottom: bannerStyle.showBorder === false ? "none" : `1px solid ${bannerStyle.borderColor || festival.palette?.glow || "rgba(212, 175, 55, 0.3)"}`,
-              flexShrink: 0,
-            }}
-          >
-            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {bannerText || festival.banner?.defaultText || `Happy ${festival.name}! Celebrate with special discounts.`}
-            </span>
-            {bannerStyle.ctaText && (
-              <span style={{ background: bannerStyle.accentColor || "#FF7518", color: "#fff", borderRadius: "999px", padding: "0 6px", fontSize: "7.5px", fontWeight: 700, flexShrink: 0 }}>
-                {bannerStyle.ctaText}
-              </span>
-            )}
-            <span
-              style={{
-                background: "rgba(255, 255, 255, 0.2)",
-                border: "1px solid rgba(255, 255, 255, 0.4)",
-                color: "#FFFFFF",
-                borderRadius: "3px",
-                padding: "0 4px",
-                fontSize: "7.5px",
-                fontWeight: 700,
-                flexShrink: 0,
-              }}
-            >
-              {promoCode || "UTSAV26"}
-            </span>
-            {enableUrgencyTimer && enableFestiveTimer && (
-              <span
-                style={{
-                  background: "rgba(255, 117, 24, 0.25)",
-                  border: "1px solid rgba(255, 117, 24, 0.5)",
-                  color: "#FFD700",
-                  borderRadius: "3px",
-                  padding: "0 4px",
-                  fontSize: "7.5px",
-                  fontWeight: 700,
-                  flexShrink: 0,
-                }}
-              >
-                ⏳ 02d:14h:32m
-              </span>
-            )}
-            {enableDiscount && (
-              <span
-                style={{
-                  background: "#FF7518",
-                  color: "#FFFFFF",
-                  borderRadius: "3px",
-                  padding: "0 4px",
-                  fontSize: "7.5px",
-                  fontWeight: 700,
-                  flexShrink: 0,
-                }}
-              >
-                🏷️ {discountValue}% OFF
-              </span>
-            )}
-          </div>
-        )}
+        {/* Storefront Header */}
 
         {/* Top-Fixed Garland (if selected) */}
         {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && garlandLayout !== "off" && (
@@ -2579,17 +2482,8 @@ function DeviceStorefrontMock({
             <div style={{ padding: isMobile ? "12px 10px 40px" : "16px 16px 45px", background: "#FFFFFF" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                 <div style={{ fontSize: isMobile ? "11px" : "14px", fontWeight: 700, color: "#121212", textAlign: "left" }}>
-                  Featured products {enableDiscount && discountScope === "collection" && (
-                    <span style={{ fontSize: "10px", fontWeight: 500, color: "#FF7518" }}>
-                      ({discountCollection})
-                    </span>
-                  )}
+                  Featured products
                 </div>
-                {enableDiscount && (
-                  <span style={{ fontSize: "9px", color: "#FF7518", fontWeight: 600 }}>
-                    🏷️ Event Deals Active
-                  </span>
-                )}
               </div>
               <div
                 style={{
@@ -2615,24 +2509,6 @@ function DeviceStorefrontMock({
                     colors: ["#F5A623", "#F8E71C"],
                   },
                 ]).map((prod, i) => {
-                  let finalPrice = prod.price;
-                  let originalPrice = null;
-                  if (enableDiscount) {
-                    const numericPrice = parseFloat(prod.price.replace(/[^0-9.]/g, "")) || 800;
-                    let discAmount = 0;
-                    if (discountType === "percentage") {
-                      discAmount = numericPrice * (discountValue / 100);
-                    } else if (discountType === "fixed_amount") {
-                      discAmount = discountValue;
-                    } else if (discountType === "cart_size") {
-                      discAmount = numericPrice >= discountMinSpend ? numericPrice * (discountValue / 100) : 0;
-                    }
-                    const discountedNum = Math.max(0, numericPrice - discAmount);
-                    const prefix = prod.price.startsWith("₹") ? "₹" : "$";
-                    finalPrice = `${prefix}${discountedNum.toFixed(2)}`;
-                    originalPrice = prod.price;
-                  }
-
                   return (
                     <div key={i} style={{ textAlign: "left", cursor: "pointer", position: "relative" }}>
                       <div
@@ -2667,83 +2543,21 @@ function DeviceStorefrontMock({
                             <div style={{ width: "16px", height: "3px", background: "rgba(255,255,255,0.7)", borderRadius: "2px" }}></div>
                           </div>
                         )}
-                        {/* Festive Discount Tag on Product */}
-                        {enableDiscount && (
-                          <span
-                            style={{
-                              position: "absolute",
-                              top: "4px",
-                              right: "4px",
-                              background: "#FF7518",
-                              color: "#FFFFFF",
-                              padding: isMobile ? "1px 4px" : "2px 6px",
-                              borderRadius: "3px",
-                              fontSize: isMobile ? "6.5px" : "8px",
-                              fontWeight: 700,
-                              boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-                              zIndex: 5,
-                            }}
-                          >
-                            {discountBadgeText || `-${discountValue}%`}
-                          </span>
-                        )}
                       </div>
                       <div style={{ fontSize: isMobile ? "8px" : "9.5px", fontWeight: 600, color: "#18181B", lineHeight: 1.25 }}>
                         {prod.title}
                       </div>
                       <div style={{ fontSize: isMobile ? "7.5px" : "9px", marginTop: "2px", display: "flex", alignItems: "center", gap: "4px" }}>
-                        {originalPrice && (
-                          <span style={{ textDecoration: "line-through", color: "#9CA3AF" }}>
-                            {originalPrice}
-                          </span>
-                        )}
                         <span style={{ fontWeight: 700, color: "#18181B" }}>
-                          {finalPrice}
+                          {prod.price}
                         </span>
                       </div>
-                      {/* Flash Deal Urgency Text */}
-                      {enableUrgencyTimer && enableProductTimer && (
-                        <div style={{ fontSize: isMobile ? "6px" : "7.5px", color: "#DC2626", fontWeight: 600, marginTop: "2px" }}>
-                          ⚡ Flash deal: 4 left in stock!
-                        </div>
-                      )}
                     </div>
                   );
                 })}
               </div>
             </div>
           </div>
-
-          {/* Floating Cart Urgency Reservation Pill (Only shown when configuring Urgency Timers as a preview of the Cart Page) */}
-          {!showOriginal && enableUrgencyTimer && enableCartTimer && activeCategory === "urgency_timers" && (
-            <div
-              style={{
-                position: "absolute",
-                bottom: isMobile ? "8px" : "12px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                background: "rgba(18, 18, 18, 0.94)",
-                color: "#FFFFFF",
-                border: "1px solid #FF7518",
-                borderRadius: "20px",
-                padding: isMobile ? "3px 8px" : "4px 12px",
-                fontSize: isMobile ? "7.5px" : "9px",
-                fontWeight: 600,
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                zIndex: 35,
-                boxShadow: "0 4px 12px rgba(0,0,0,0.25)",
-                pointerEvents: "none",
-                whiteSpace: "nowrap",
-                backdropFilter: "blur(6px)",
-              }}
-            >
-              <span>🔥</span>
-              <span>Cart reserved for <strong style={{ color: "#FFD700", fontFamily: "monospace" }}>14:52</strong></span>
-              <span style={{ background: "#FF7518", padding: "1px 5px", borderRadius: "10px", fontSize: isMobile ? "6.5px" : "7.5px" }}>Checkout</span>
-            </div>
-          )}
 
           {/* Living Diya / Corner Elements */}
           {!showOriginal && enableEffects && (
@@ -2843,76 +2657,6 @@ export default function FestivalStudio() {
   const [bannerText, setBannerText] = useState(config.bannerText || festival.banner?.defaultText || "");
   const [promoCode, setPromoCode] = useState(customSettings.promoCode || "UTSAV26");
 
-  // 🏷️ Festival Discounts & Offers State
-  const [enableDiscount, setEnableDiscount] = useState(
-    customSettings.discount?.enabled !== undefined ? Boolean(customSettings.discount.enabled) : true
-  );
-  const [discountType, setDiscountType] = useState(customSettings.discount?.type || "percentage");
-  const [discountValue, setDiscountValue] = useState(Number(customSettings.discount?.value) || 10);
-  const [discountScope, setDiscountScope] = useState(customSettings.discount?.scope || "collection");
-  const [discountCollection, setDiscountCollection] = useState(customSettings.discount?.collection || "Snowboards");
-  const [discountMinSpend, setDiscountMinSpend] = useState(Number(customSettings.discount?.minSpend) || 50);
-  const [discountBadgeText, setDiscountBadgeText] = useState(() => {
-    const raw = customSettings.discount?.badgeText;
-    if (raw && !raw.includes("HALLOWEEN DEAL") && !raw.includes("FESTIVE DISCOUNT")) {
-      return raw;
-    }
-    return `${festival.emoji || "🎃"} 10% OFF`;
-  });
-  const [discountAutoApply, setDiscountAutoApply] = useState(customSettings.discount?.autoApply ?? true);
-  const [discountAudience, setDiscountAudience] = useState(customSettings.discount?.audience || "all");
-
-  // 📣 Announcement Bar Style (persisted inside customColors JSON as `bannerStyle`)
-  const [bannerStyle, setBannerStyle] = useState({
-    bgType: "theme",
-    bgColor: "#1A0A00",
-    bgColor2: "#FF7518",
-    gradientAngle: 90,
-    textColor: "#F1F5F9",
-    accentColor: "#FF7518",
-    borderColor: "",
-    showBorder: true,
-    fontSize: 13,
-    fontFamily: "inherit",
-    bold: false,
-    uppercase: false,
-    letterSpacing: 0,
-    size: "regular",
-    align: "center",
-    fullWidth: false,
-    sticky: false,
-    animation: "none",
-    ctaText: "",
-    ctaLink: "/collections/all",
-    showCoupon: true,
-    dismissible: true,
-    extraMessages: "",
-    rotateSeconds: 5,
-    showOn: "all",
-    hideOnMobile: false,
-    hideOnDesktop: false,
-    ...(customSettings.bannerStyle || {}),
-  });
-  const updateBanner = (key, val) => {
-    setBannerStyle((prev) => ({ ...prev, [key]: val }));
-    markDirty();
-  };
-
-  // ⏳ Urgency & Countdown Timers State
-  const [enableUrgencyTimer, setEnableUrgencyTimer] = useState(
-    customSettings.urgencyTimers?.enabled !== undefined ? Boolean(customSettings.urgencyTimers.enabled) : true
-  );
-  const [enableFestiveTimer, setEnableFestiveTimer] = useState(customSettings.urgencyTimers?.festiveTimer ?? true);
-  const [enableCartTimer, setEnableCartTimer] = useState(customSettings.urgencyTimers?.cartTimer ?? true);
-  const [enableProductTimer, setEnableProductTimer] = useState(customSettings.urgencyTimers?.productTimer ?? true);
-  const [cartTimerMinutes, setCartTimerMinutes] = useState(Number(customSettings.urgencyTimers?.cartMinutes) || 15);
-  const [cartTimerPosition, setCartTimerPosition] = useState(
-    customSettings.urgencyTimers?.cartPosition || "above_checkout"
-  );
-  const [cartTimerUrgencyText, setCartTimerUrgencyText] = useState(
-    customSettings.urgencyTimers?.cartText || "🔥 Items reserved in cart for [TIME] — checkout before deals expire!"
-  );
-
   // Scheduling & Autopilot
   const [scheduledStart, setScheduledStart] = useState(
     config.scheduledStart ? new Date(config.scheduledStart).toISOString().split("T")[0] : ""
@@ -2966,9 +2710,6 @@ export default function FestivalStudio() {
     setEnableBanner(true);
     setBannerText(festival.banner?.defaultText || `Happy ${festival.name}!`);
     setCustomPrimaryColor(festival.palette?.primary || "#FFD700");
-    setEnableDiscount(true);
-    setDiscountValue(10);
-    setEnableUrgencyTimer(true);
     markDirty();
   };
 
@@ -3019,27 +2760,6 @@ export default function FestivalStudio() {
         autopilotCalendar,
         zeroDayCleanup,
         safeZoneClearance,
-        discount: {
-          enabled: enableDiscount,
-          type: discountType,
-          value: discountValue,
-          scope: discountScope,
-          collection: discountCollection,
-          minSpend: discountMinSpend,
-          audience: discountAudience,
-          badgeText: discountBadgeText,
-          autoApply: discountAutoApply,
-        },
-        bannerStyle,
-        urgencyTimers: {
-          enabled: enableUrgencyTimer,
-          festiveTimer: enableFestiveTimer,
-          cartTimer: enableCartTimer,
-          cartPosition: cartTimerPosition,
-          productTimer: enableProductTimer,
-          cartMinutes: cartTimerMinutes,
-          cartText: cartTimerUrgencyText,
-        },
       });
       fd.append("customColors", customPayload);
 
@@ -3078,36 +2798,16 @@ export default function FestivalStudio() {
       autopilotCalendar,
       zeroDayCleanup,
       safeZoneClearance,
-      enableDiscount,
-      discountType,
-      discountValue,
-      discountScope,
-      discountCollection,
-      discountMinSpend,
-      discountAudience,
-      discountBadgeText,
-      discountAutoApply,
-      enableUrgencyTimer,
-      enableFestiveTimer,
-      enableCartTimer,
-      enableProductTimer,
-      cartTimerMinutes,
-      cartTimerPosition,
-      cartTimerUrgencyText,
-      bannerStyle,
       fetcher,
     ]
   );
 
   const terminology = getFestivalTerminology(festival?.id);
 
-  // 8 Merchant-Friendly Categories with Intuitive Plain-Language Labels
+  // 5 Pure Festive Visual Categories (Decor, Effects, Colors, Scheduling, Store Settings)
   const categories = [
     { id: "visual_decor", label: "Festive Visuals & Decor", badge: garlandLayout !== "off" ? terminology.headerBadge : "Off" },
     { id: "floating_effects", label: "Falling & Floating Effects", badge: enableEffects ? "Active" : "Off" },
-    { id: "discounts_offers", label: "Festival Discounts & Offers", badge: enableDiscount ? `${discountValue}% OFF` : "Off" },
-    { id: "urgency_timers", label: "Urgency & Countdown Timers", badge: enableUrgencyTimer ? "Active" : "Off" },
-    { id: "banner_announcements", label: "Announcement Banner", badge: enableBanner ? "Visible" : "Hidden" },
     { id: "theme_colors", label: "Colors & Atmosphere", badge: "WCAG AAA" },
     { id: "dates_schedule", label: "Dates & Scheduling", badge: scheduledStart ? "Scheduled" : "Manual" },
     { id: "store_settings", label: "Storefront & CTA Protection", badge: "Protected" },
@@ -3598,349 +3298,7 @@ export default function FestivalStudio() {
             </BlockStack>
           )}
 
-          {/* 3. FESTIVAL DISCOUNTS & OFFERS CATEGORY */}
-          {activeCategory === "discounts_offers" && (
-            <BlockStack gap="400">
-              <Box padding="300" background="bg-surface-secondary" borderRadius="200">
-                <ToggleSwitch
-                  label={`Enable ${festival.name} Event Discount`}
-                  checked={enableDiscount}
-                  onChange={(val) => { setEnableDiscount(val); markDirty(); }}
-                  helpText="Automatically displays discounted prices, sale badges, and promotional tags."
-                />
-              </Box>
-
-              {enableDiscount && (
-                <>
-                  <Select
-                    label="Discount Adjustment Type"
-                    options={[
-                      { label: "Percentage Off (e.g. 10%, 15%, 20%)", value: "percentage" },
-                      { label: "Fixed Money Amount Off (e.g. $10, $25 Off)", value: "fixed_amount" },
-                      { label: "Cart Spend Tier (Spend $X, Get Discount)", value: "cart_size" },
-                    ]}
-                    value={discountType}
-                    onChange={(val) => { setDiscountType(val); markDirty(); }}
-                  />
-
-                  <TextField
-                    label={discountType === "percentage" ? "Discount Percentage (%)" : "Discount Amount ($ / ₹)"}
-                    type="number"
-                    value={String(discountValue)}
-                    onChange={(val) => { setDiscountValue(Number(val) || 0); markDirty(); }}
-                    autoComplete="off"
-                    helpText={discountType === "percentage" ? "Example: 10 for 10% off items." : "Example: 15 for $15 off."}
-                  />
-
-                  <Select
-                    label="Applies To / Scope"
-                    options={[
-                      { label: "Specific Collection (Recommended — e.g. Snowboards)", value: "collection" },
-                      { label: "All Store Products", value: "all" },
-                      { label: "Featured Products Only", value: "specific_products" },
-                    ]}
-                    value={discountScope}
-                    onChange={(val) => { setDiscountScope(val); markDirty(); }}
-                  />
-
-                  {discountScope === "collection" && (
-                    <TextField
-                      label="Target Collection Name"
-                      value={discountCollection}
-                      onChange={(val) => { setDiscountCollection(val); markDirty(); }}
-                      autoComplete="off"
-                      helpText="Products matching this collection will display sale badges and discounts."
-                    />
-                  )}
-
-                  {discountType === "cart_size" && (
-                    <TextField
-                      label="Minimum Cart Spend ($ / ₹)"
-                      type="number"
-                      value={String(discountMinSpend)}
-                      onChange={(val) => { setDiscountMinSpend(Number(val) || 0); markDirty(); }}
-                      autoComplete="off"
-                      helpText="Discount activates when cart total exceeds this value (e.g. $50)."
-                    />
-                  )}
-
-                  <Select
-                    label="Target Audience (Who Sees This Discount)"
-                    options={[
-                      { label: "All Store Visitors (Default)", value: "all" },
-                      { label: "First-Time / New Visitors Only", value: "new_visitors" },
-                      { label: "Returning Loyal Shoppers Only", value: "returning" },
-                      { label: "High-Value Carts (Over Threshold)", value: "cart_threshold" },
-                    ]}
-                    value={discountAudience}
-                    onChange={(val) => { setDiscountAudience(val); markDirty(); }}
-                    helpText="Control which segment of shoppers receives this festive incentive."
-                  />
-
-                  <TextField
-                    label="Sale Badge Tag Text"
-                    value={discountBadgeText}
-                    onChange={(val) => { setDiscountBadgeText(val); markDirty(); }}
-                    autoComplete="off"
-                    helpText="Displayed as a festive badge on product cards and banner."
-                  />
-
-                  <ToggleSwitch
-                    label="Auto-Apply Discount at Checkout"
-                    checked={discountAutoApply}
-                    onChange={(val) => { setDiscountAutoApply(val); markDirty(); }}
-                    helpText="Applies coupon code directly to shopper's checkout link."
-                  />
-                </>
-              )}
-            </BlockStack>
-          )}
-
-          {/* 4. URGENCY & COUNTDOWN TIMERS CATEGORY */}
-          {activeCategory === "urgency_timers" && (
-            <BlockStack gap="400">
-              <Box padding="300" background="bg-surface-secondary" borderRadius="200">
-                <ToggleSwitch
-                  label="Enable Urgency & Countdown Timers"
-                  checked={enableUrgencyTimer}
-                  onChange={(val) => { setEnableUrgencyTimer(val); markDirty(); }}
-                  helpText="Creates psychological urgency with countdowns to boost conversion rates."
-                />
-              </Box>
-
-              {enableUrgencyTimer && (
-                <>
-                  <ToggleSwitch
-                    label="General Festive Holiday Countdown"
-                    checked={enableFestiveTimer}
-                    onChange={(val) => { setEnableFestiveTimer(val); markDirty(); }}
-                    helpText="Shows live ticking countdown in the announcement bar (e.g. 02d : 14h : 32m : 18s)."
-                  />
-
-                  <ToggleSwitch
-                    label="Add-to-Cart / Cart Reservation Timer"
-                    checked={enableCartTimer}
-                    onChange={(val) => { setEnableCartTimer(val); markDirty(); }}
-                    helpText="Displays a sleek reservation pill ('🔥 Items reserved in cart for 14:59') to drive fast checkout."
-                  />
-
-                  {enableCartTimer && (
-                    <>
-                      <Select
-                        label="Cart Reservation Duration"
-                        options={[
-                          { label: "10 Minutes (High Urgency)", value: 10 },
-                          { label: "15 Minutes (Recommended Balance)", value: 15 },
-                          { label: "30 Minutes (Relaxed Urgency)", value: 30 },
-                        ]}
-                        value={cartTimerMinutes}
-                        onChange={(val) => { setCartTimerMinutes(Number(val)); markDirty(); }}
-                      />
-
-                      <Select
-                        label="Cart Timer Placement"
-                        options={[
-                          { label: "Above Checkout Button (Inside Cart Drawer)", value: "above_checkout" },
-                          { label: "Above Subtotal Row (Inside Cart Drawer)", value: "above_subtotal" },
-                          { label: "Top of Cart Drawer (Header)", value: "drawer_top" },
-                          { label: "Bottom-Right Floating Pill", value: "floating_bottom_right" },
-                          { label: "Top-Right Floating Pill", value: "floating_top_right" },
-                        ]}
-                        value={cartTimerPosition}
-                        onChange={(val) => { setCartTimerPosition(val); markDirty(); }}
-                        helpText="Choose where the cart reservation timer appears so it never obstructs your checkout buttons."
-                      />
-
-                      <TextField
-                        label="Cart Urgency Banner Text"
-                        value={cartTimerUrgencyText}
-                        onChange={(val) => { setCartTimerUrgencyText(val); markDirty(); }}
-                        autoComplete="off"
-                        helpText="Use [TIME] as placeholder for live ticking minutes:seconds."
-                      />
-                    </>
-                  )}
-
-                  <ToggleSwitch
-                    label="Product Page Flash Deal Urgency"
-                    checked={enableProductTimer}
-                    onChange={(val) => { setEnableProductTimer(val); markDirty(); }}
-                    helpText="Shows live '⚡ Flash deal: 4 left in stock' indicators above purchase buttons."
-                  />
-                </>
-              )}
-            </BlockStack>
-          )}
-
-          {/* 5. ANNOUNCEMENT BANNER CATEGORY */}
-          {(activeCategory === "banner_announcements" || activeCategory === "banner_messaging") && (
-            <BlockStack gap="400">
-              <ToggleSwitch
-                label="Show Announcement Bar"
-                checked={enableBanner}
-                onChange={(val) => { setEnableBanner(val); markDirty(); }}
-                helpText="Displays a slim festive banner at the very top of your storefront."
-              />
-
-              {enableBanner && (
-                <>
-                  <Select
-                    label="Banner Greeting Language"
-                    options={[
-                      { label: "English", value: "en" },
-                      { label: "Hindi (हिंदी)", value: "hi" },
-                      { label: "Tamil (தமிழ்)", value: "ta" },
-                      { label: "Telugu (తెలుగు)", value: "te" },
-                      { label: "Bengali (বাংলা)", value: "bn" },
-                      { label: "Gujarati (ગુજરાતી)", value: "gu" },
-                      { label: "Malayalam (മലയാളം)", value: "ml" },
-                    ]}
-                    value={language}
-                    onChange={handleLanguageChange}
-                  />
-
-                  <TextField
-                    label="Announcement Bar Copy"
-                    value={bannerText}
-                    onChange={(val) => { setBannerText(val); markDirty(); }}
-                    multiline={2}
-                    autoComplete="off"
-                  />
-
-                  <TextField
-                    label="Festive Promo Code"
-                    value={promoCode}
-                    onChange={(val) => { setPromoCode(val); markDirty(); }}
-                    autoComplete="off"
-                    helpText="Displayed as a 1-click copy badge in the banner."
-                  />
-
-                  <Divider />
-                  <Text variant="headingSm" as="h3">Rotating Messages</Text>
-                  <TextField
-                    label="Extra Messages (one per line)"
-                    value={bannerStyle.extraMessages}
-                    onChange={(val) => updateBanner("extraMessages", val)}
-                    multiline={3}
-                    autoComplete="off"
-                    helpText="Optional. These rotate with the main copy, fading between messages."
-                  />
-                  {bannerStyle.extraMessages.trim() && (
-                    <LuxurySlider label="Seconds per message" value={Number(bannerStyle.rotateSeconds) || 5} min={2} max={15} step={1} unit="s" onChange={(v) => updateBanner("rotateSeconds", v)} />
-                  )}
-
-                  <Divider />
-                  <Text variant="headingSm" as="h3">Call-to-Action Button</Text>
-                  <TextField label="Button Text" value={bannerStyle.ctaText} onChange={(val) => updateBanner("ctaText", val)} autoComplete="off" helpText="Leave empty to hide the button." />
-                  {bannerStyle.ctaText && (
-                    <TextField label="Button Link" value={bannerStyle.ctaLink} onChange={(val) => updateBanner("ctaLink", val)} autoComplete="off" placeholder="/collections/all" />
-                  )}
-                  <ToggleSwitch label="Show Promo Code Badge" checked={bannerStyle.showCoupon !== false} onChange={(val) => updateBanner("showCoupon", val)} helpText="Hide the copy-code badge while keeping the code active." />
-
-                  <Divider />
-                  <Text variant="headingSm" as="h3">Colors & Background</Text>
-                  <Select
-                    label="Background Style"
-                    options={[
-                      { label: "Festival Theme Color (Default)", value: "theme" },
-                      { label: "Solid Color", value: "solid" },
-                      { label: "Two-Color Gradient", value: "gradient" },
-                    ]}
-                    value={bannerStyle.bgType}
-                    onChange={(val) => updateBanner("bgType", val)}
-                  />
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                    {[
-                      bannerStyle.bgType !== "theme" && ["bgColor", bannerStyle.bgType === "gradient" ? "Gradient Start" : "Background"],
-                      bannerStyle.bgType === "gradient" && ["bgColor2", "Gradient End"],
-                      ["textColor", "Text Color"],
-                      ["accentColor", "Button & Code Accent"],
-                    ].filter(Boolean).map(([key, label]) => (
-                      <label key={key} style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "12px", fontWeight: 600 }}>
-                        {label}
-                        <input type="color" value={bannerStyle[key] || "#000000"} onChange={(e) => updateBanner(key, e.target.value)} style={{ width: "100%", height: "34px", border: "1px solid #c9cccf", borderRadius: "8px", padding: "2px", background: "#fff", cursor: "pointer" }} />
-                      </label>
-                    ))}
-                  </div>
-                  {bannerStyle.bgType === "gradient" && (
-                    <LuxurySlider label="Gradient Angle" value={Number(bannerStyle.gradientAngle) || 90} min={0} max={360} step={15} unit="°" onChange={(v) => updateBanner("gradientAngle", v)} />
-                  )}
-                  <ToggleSwitch label="Bottom Border Line" checked={bannerStyle.showBorder !== false} onChange={(val) => updateBanner("showBorder", val)} />
-
-                  <Divider />
-                  <Text variant="headingSm" as="h3">Typography & Size</Text>
-                  <LuxurySlider label="Font Size" value={Number(bannerStyle.fontSize) || 13} min={10} max={22} step={1} unit="px" onChange={(v) => updateBanner("fontSize", v)} />
-                  <LuxurySlider label="Letter Spacing" value={Number(bannerStyle.letterSpacing) || 0} min={0} max={4} step={0.5} unit="px" onChange={(v) => updateBanner("letterSpacing", v)} />
-                  <Select
-                    label="Font"
-                    options={[
-                      { label: "Match My Store Theme", value: "inherit" },
-                      { label: "Modern Sans (System)", value: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" },
-                      { label: "Elegant Serif", value: "Georgia, 'Times New Roman', serif" },
-                      { label: "Monospace", value: "'Courier New', monospace" },
-                    ]}
-                    value={bannerStyle.fontFamily}
-                    onChange={(val) => updateBanner("fontFamily", val)}
-                  />
-                  <ToggleSwitch label="Bold Text" checked={Boolean(bannerStyle.bold)} onChange={(val) => updateBanner("bold", val)} />
-                  <ToggleSwitch label="UPPERCASE Text" checked={Boolean(bannerStyle.uppercase)} onChange={(val) => updateBanner("uppercase", val)} />
-                  <Select
-                    label="Bar Height"
-                    options={[
-                      { label: "Compact (Slim)", value: "compact" },
-                      { label: "Regular", value: "regular" },
-                      { label: "Large (Hero)", value: "large" },
-                    ]}
-                    value={bannerStyle.size}
-                    onChange={(val) => updateBanner("size", val)}
-                  />
-                  <Select
-                    label="Content Alignment"
-                    options={[
-                      { label: "Center", value: "center" },
-                      { label: "Left", value: "left" },
-                      { label: "Right", value: "right" },
-                    ]}
-                    value={bannerStyle.align}
-                    onChange={(val) => updateBanner("align", val)}
-                  />
-                  <ToggleSwitch label="Full-Width Content" checked={Boolean(bannerStyle.fullWidth)} onChange={(val) => updateBanner("fullWidth", val)} helpText="Off keeps content in a centered 1200px column." />
-
-                  <Divider />
-                  <Text variant="headingSm" as="h3">Motion & Behavior</Text>
-                  <Select
-                    label="Animation"
-                    options={[
-                      { label: "None", value: "none" },
-                      { label: "Scrolling Marquee", value: "marquee" },
-                      { label: "Shimmer Sweep (Festival Theme background)", value: "shimmer" },
-                      { label: "Gentle Pulse", value: "pulse" },
-                    ]}
-                    value={bannerStyle.animation}
-                    onChange={(val) => updateBanner("animation", val)}
-                  />
-                  <ToggleSwitch label="Stick to Top While Scrolling" checked={Boolean(bannerStyle.sticky)} onChange={(val) => updateBanner("sticky", val)} />
-                  <ToggleSwitch label="Allow Visitors to Close It" checked={bannerStyle.dismissible !== false} onChange={(val) => updateBanner("dismissible", val)} />
-
-                  <Divider />
-                  <Text variant="headingSm" as="h3">Where It Appears</Text>
-                  <Select
-                    label="Pages"
-                    options={[
-                      { label: "All Pages", value: "all" },
-                      { label: "Home Page Only", value: "home" },
-                    ]}
-                    value={bannerStyle.showOn}
-                    onChange={(val) => updateBanner("showOn", val)}
-                  />
-                  <ToggleSwitch label="Hide on Mobile" checked={Boolean(bannerStyle.hideOnMobile)} onChange={(val) => updateBanner("hideOnMobile", val)} />
-                  <ToggleSwitch label="Hide on Desktop" checked={Boolean(bannerStyle.hideOnDesktop)} onChange={(val) => updateBanner("hideOnDesktop", val)} />
-                </>
-              )}
-            </BlockStack>
-          )}
-
-          {/* 6. THEME COLORS & ATMOSPHERE CATEGORY */}
+          {/* 3. THEME COLORS & ATMOSPHERE CATEGORY */}
           {(activeCategory === "theme_colors" || activeCategory === "colors_materials") && (
             <BlockStack gap="400">
               <Box padding="300" background="bg-surface-secondary" borderRadius="200">
@@ -4200,20 +3558,6 @@ export default function FestivalStudio() {
                 customPrimaryColor={customPrimaryColor}
                 storeInfo={storeInfo}
                 storeProducts={storeProducts}
-                enableDiscount={enableDiscount}
-                discountType={discountType}
-                discountValue={discountValue}
-                discountScope={discountScope}
-                discountCollection={discountCollection}
-                discountBadgeText={discountBadgeText}
-                discountAudience={discountAudience}
-                enableUrgencyTimer={enableUrgencyTimer}
-                enableFestiveTimer={enableFestiveTimer}
-                enableCartTimer={enableCartTimer}
-                enableProductTimer={enableProductTimer}
-                cartTimerMinutes={cartTimerMinutes}
-                cartTimerUrgencyText={cartTimerUrgencyText}
-                bannerStyle={bannerStyle}
                 activeCategory={activeCategory}
               />
             )}
@@ -4239,20 +3583,6 @@ export default function FestivalStudio() {
                 customPrimaryColor={customPrimaryColor}
                 storeInfo={storeInfo}
                 storeProducts={storeProducts}
-                enableDiscount={enableDiscount}
-                discountType={discountType}
-                discountValue={discountValue}
-                discountScope={discountScope}
-                discountCollection={discountCollection}
-                discountBadgeText={discountBadgeText}
-                discountAudience={discountAudience}
-                enableUrgencyTimer={enableUrgencyTimer}
-                enableFestiveTimer={enableFestiveTimer}
-                enableCartTimer={enableCartTimer}
-                enableProductTimer={enableProductTimer}
-                cartTimerMinutes={cartTimerMinutes}
-                cartTimerUrgencyText={cartTimerUrgencyText}
-                bannerStyle={bannerStyle}
                 activeCategory={activeCategory}
               />
             )}
@@ -4289,20 +3619,6 @@ export default function FestivalStudio() {
                     customPrimaryColor={customPrimaryColor}
                     storeInfo={storeInfo}
                     storeProducts={storeProducts}
-                    enableDiscount={enableDiscount}
-                    discountType={discountType}
-                    discountValue={discountValue}
-                    discountScope={discountScope}
-                    discountCollection={discountCollection}
-                    discountBadgeText={discountBadgeText}
-                    discountAudience={discountAudience}
-                    enableUrgencyTimer={enableUrgencyTimer}
-                    enableFestiveTimer={enableFestiveTimer}
-                    enableCartTimer={enableCartTimer}
-                    enableProductTimer={enableProductTimer}
-                    cartTimerMinutes={cartTimerMinutes}
-                    cartTimerUrgencyText={cartTimerUrgencyText}
-                bannerStyle={bannerStyle}
                     activeCategory={activeCategory}
                   />
                 </div>
@@ -4327,20 +3643,6 @@ export default function FestivalStudio() {
                     customPrimaryColor={customPrimaryColor}
                     storeInfo={storeInfo}
                     storeProducts={storeProducts}
-                    enableDiscount={enableDiscount}
-                    discountType={discountType}
-                    discountValue={discountValue}
-                    discountScope={discountScope}
-                    discountCollection={discountCollection}
-                    discountBadgeText={discountBadgeText}
-                    discountAudience={discountAudience}
-                    enableUrgencyTimer={enableUrgencyTimer}
-                    enableFestiveTimer={enableFestiveTimer}
-                    enableCartTimer={enableCartTimer}
-                    enableProductTimer={enableProductTimer}
-                    cartTimerMinutes={cartTimerMinutes}
-                    cartTimerUrgencyText={cartTimerUrgencyText}
-                bannerStyle={bannerStyle}
                     activeCategory={activeCategory}
                   />
                 </div>

@@ -611,18 +611,6 @@ export default function FestivalLibrary() {
                     </BlockStack>
                   </Box>
                 </InlineGrid>
-
-                {/* Store Announcement Banner Preview */}
-                <Box padding="300" background="bg-surface-secondary" borderRadius="200">
-                  <BlockStack gap="100">
-                    <Text variant="bodyXs" fontWeight="bold" tone="subdued">
-                      STOREFRONT ANNOUNCEMENT BANNER
-                    </Text>
-                    <Text variant="bodySm">
-                      {previewFestival.banner.defaultText}
-                    </Text>
-                  </BlockStack>
-                </Box>
               </BlockStack>
             </Modal.Section>
           </Modal>
