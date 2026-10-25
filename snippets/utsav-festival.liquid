@@ -2464,33 +2464,33 @@ function buildSpiderWeb() {
           const tl = document.getElementById('utsavDiyaTL');
           const tr = document.getElementById('utsavDiyaTR');
 
-          const pos = config.diyaPosition;
-          const mX = config.diyaMarginX;
-          const mY = config.diyaMarginY;
+          const pos = config.diyaPosition || 'bottom_corners';
+          const isBottom = pos === 'bottom_corners' || pos === 'bottom_left' || pos === 'bottom_right' || pos === 'all_four' || pos === 'all_corners';
+          const isTop = pos === 'top_corners' || pos === 'top_left' || pos === 'top_right' || pos === 'all_four' || pos === 'all_corners';
 
           if (bl) {
             bl.innerHTML = cornerSvg;
             bl.style.bottom = mY + 'px';
             bl.style.left = mX + 'px';
-            bl.style.display = (pos === 'bottom_corners' || pos === 'bottom_left' || pos === 'all_four') ? 'block' : 'none';
+            bl.style.display = (pos === 'bottom_corners' || pos === 'bottom_left' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
           }
           if (br) {
             br.innerHTML = cornerSvg;
             br.style.bottom = mY + 'px';
             br.style.right = mX + 'px';
-            br.style.display = (pos === 'bottom_corners' || pos === 'bottom_right' || pos === 'all_four') ? 'block' : 'none';
+            br.style.display = (pos === 'bottom_corners' || pos === 'bottom_right' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
           }
           if (tl) {
             tl.innerHTML = cornerSvg;
             tl.style.top = mY + 'px';
             tl.style.left = mX + 'px';
-            tl.style.display = (pos === 'top_corners' || pos === 'top_left' || pos === 'all_four') ? 'block' : 'none';
+            tl.style.display = (pos === 'top_corners' || pos === 'top_left' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
           }
           if (tr) {
             tr.innerHTML = cornerSvg;
             tr.style.top = mY + 'px';
             tr.style.right = mX + 'px';
-            tr.style.display = (pos === 'top_corners' || pos === 'top_right' || pos === 'all_four') ? 'block' : 'none';
+            tr.style.display = (pos === 'top_corners' || pos === 'top_right' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
           }
         } else {
           diyaContainer.style.display = 'none';

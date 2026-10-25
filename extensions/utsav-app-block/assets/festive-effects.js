@@ -2311,7 +2311,11 @@ function buildSpiderWeb() {
         festivalId: previewFest,
         festivalName: initMeta.name || previewFest,
         festivalEmoji: initMeta.emoji || "✨",
-        enableEffects: true
+        enableEffects: true,
+        diyaPosition: "bottom_corners",
+        diyaSize: "medium",
+        diyaMarginX: 18,
+        diyaMarginY: 18
       }));
 
       fetch("https://utsav-shopify.onrender.com/api/active-theme?shop=" + encodeURIComponent(shopDomain) + "&preview=" + encodeURIComponent(previewFest) + "&_t=" + Date.now())
