@@ -138,23 +138,67 @@
     }
 
     // ─── 2. Inject Editorial Minimalist Banner ───────────────────────────────────
-    if (enableBanner && bannerText) {
+    const bs = config.bannerStyle || {};
+    const bannerPageOk = (bs.showOn || "all") === "all" || window.location.pathname === "/";
+    const bannerIsMobile = window.matchMedia("(max-width: 640px)").matches;
+    const bannerDeviceOk = !((bs.hideOnMobile && bannerIsMobile) || (bs.hideOnDesktop && !bannerIsMobile));
+    if (enableBanner && bannerText && bannerPageOk && bannerDeviceOk) {
+      const sizeMap = { compact: "5px 36px 5px 12px", regular: "8px 36px 8px 16px", large: "14px 40px 14px 20px" };
+      const alignMap = { left: "flex-start", center: "center", right: "flex-end" };
+      const accent = bs.accentColor || "#FF7518";
+      const textColor = bs.textColor || "#F1F5F9";
+      const esc = function (t) { return String(t).replace(/[&<>"']/g, function (c) { return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]; }); };
+
       const banner = document.createElement("div");
       banner.id = "utsav-festival-banner";
+      const bgType = bs.bgType || "theme";
+      if (bgType === "solid" && bs.bgColor) banner.style.background = bs.bgColor;
+      if (bgType === "gradient") banner.style.background = "linear-gradient(" + (bs.gradientAngle || 90) + "deg, " + (bs.bgColor || "#1A0A00") + ", " + (bs.bgColor2 || "#FF7518") + ")";
+      banner.style.padding = sizeMap[bs.size] || sizeMap.regular;
+      banner.style.fontSize = (Number(bs.fontSize) || 13) + "px";
+      banner.style.fontWeight = bs.bold ? "700" : "500";
+      if (bs.uppercase) banner.style.textTransform = "uppercase";
+      if (bs.letterSpacing) banner.style.letterSpacing = bs.letterSpacing + "px";
+      if (bs.fontFamily && bs.fontFamily !== "inherit") banner.style.fontFamily = bs.fontFamily;
+      if (bs.sticky) { banner.style.position = "sticky"; banner.style.top = "0"; }
+      if (bs.showBorder === false) { banner.style.borderBottom = "none"; }
+      else if (bs.borderColor) banner.style.borderBottom = "1px solid " + bs.borderColor;
+      if (bs.animation && bs.animation !== "none") banner.classList.add("utsav-banner--" + bs.animation);
+
+      const ctaHtml = bs.ctaText
+        ? `<a class="utsav-banner-cta" href="${esc(bs.ctaLink || "/collections/all")}" style="background:${accent}; color:#fff;">${esc(bs.ctaText)}</a>`
+        : "";
+      const couponHtml = couponCode && bs.showCoupon !== false
+        ? `<button class="utsav-coupon-pill" style="border-color:${accent}; color:${accent};" onclick="navigator.clipboard.writeText('${couponCode}'); this.textContent='✓ Copied!';">
+              <span>Code:</span> <strong>${couponCode}</strong>
+           </button>`
+        : "";
+      const closeHtml = bs.dismissible === false
+        ? ""
+        : `<button class="utsav-banner-close" onclick="document.getElementById('utsav-festival-banner').remove()" aria-label="Close">×</button>`;
+
       banner.innerHTML = `
-        <div class="utsav-banner-inner">
-          <span class="utsav-banner-text">${bannerText}</span>
-          ${
-            couponCode
-              ? `<button class="utsav-coupon-pill" onclick="navigator.clipboard.writeText('${couponCode}'); this.textContent='✓ Copied!';">
-                  <span>Code:</span> <strong>${couponCode}</strong>
-                 </button>`
-              : ""
-          }
-          <button class="utsav-banner-close" onclick="document.getElementById('utsav-festival-banner').remove()" aria-label="Close">×</button>
+        <div class="utsav-banner-inner" style="justify-content:${alignMap[bs.align] || "center"}; max-width:${bs.fullWidth ? "none" : "1200px"};">
+          <span class="utsav-banner-text${bs.animation === "marquee" ? " utsav-banner-text--marquee" : ""}" style="color:${textColor};"><span class="utsav-banner-msg">${bannerText}</span></span>
+          ${ctaHtml}
+          ${couponHtml}
+          ${closeHtml}
         </div>
       `;
       document.body.insertBefore(banner, document.body.firstChild);
+
+      // Rotating messages (extra lines in "extraMessages")
+      const extras = String(bs.extraMessages || "").split("\n").map(function (l) { return l.trim(); }).filter(Boolean);
+      if (extras.length) {
+        const all = [bannerText].concat(extras);
+        const msgEl = banner.querySelector(".utsav-banner-msg");
+        let mi = 0;
+        setInterval(function () {
+          mi = (mi + 1) % all.length;
+          msgEl.style.opacity = "0";
+          setTimeout(function () { msgEl.innerHTML = all[mi]; msgEl.style.opacity = "1"; }, 350);
+        }, (Number(bs.rotateSeconds) || 5) * 1000);
+      }
     }
 
     // ─── 3. Atmospheric Corner Vignette & Ambient Warmth ─────────────────────────

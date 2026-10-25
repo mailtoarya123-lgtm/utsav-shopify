@@ -2243,6 +2243,7 @@ function DeviceStorefrontMock({
   enableProductTimer = true,
   cartTimerMinutes = 15,
   cartTimerUrgencyText = "🔥 Items reserved in cart for [TIME] — checkout before deals expire!",
+  bannerStyle = {},
 }) {
   const isDesktop = deviceType === "desktop";
   const isMobile = deviceType === "mobile";
@@ -2353,22 +2354,32 @@ function DeviceStorefrontMock({
         {!showOriginal && enableBanner && (
           <div
             style={{
-              background: festival.palette?.background || "#1A0A00",
-              color: festival.palette?.highlight || "#FFF8DC",
-              padding: isMobile ? "3px 6px" : "5px 8px",
-              fontSize: isMobile ? "8px" : "9.5px",
+              background:
+                bannerStyle.bgType === "solid" ? (bannerStyle.bgColor || "#1A0A00")
+                : bannerStyle.bgType === "gradient" ? `linear-gradient(${bannerStyle.gradientAngle || 90}deg, ${bannerStyle.bgColor || "#1A0A00"}, ${bannerStyle.bgColor2 || "#FF7518"})`
+                : (festival.palette?.background || "#1A0A00"),
+              color: bannerStyle.textColor || festival.palette?.highlight || "#FFF8DC",
+              padding: ({ compact: isMobile ? "1px 6px" : "2px 8px", large: isMobile ? "7px 6px" : "10px 8px" })[bannerStyle.size] || (isMobile ? "3px 6px" : "5px 8px"),
+              fontSize: `${(Number(bannerStyle.fontSize) || 13) * (isMobile ? 0.62 : 0.73)}px`,
+              fontWeight: bannerStyle.bold ? 700 : 500,
+              textTransform: bannerStyle.uppercase ? "uppercase" : "none",
               textAlign: "center",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: ({ left: "flex-start", right: "flex-end" })[bannerStyle.align] || "center",
               gap: "6px",
-              borderBottom: `1px solid ${festival.palette?.glow || "rgba(212, 175, 55, 0.3)"}`,
+              borderBottom: bannerStyle.showBorder === false ? "none" : `1px solid ${bannerStyle.borderColor || festival.palette?.glow || "rgba(212, 175, 55, 0.3)"}`,
               flexShrink: 0,
             }}
           >
             <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {bannerText || festival.banner?.defaultText || `Happy ${festival.name}! Celebrate with special discounts.`}
             </span>
+            {bannerStyle.ctaText && (
+              <span style={{ background: bannerStyle.accentColor || "#FF7518", color: "#fff", borderRadius: "999px", padding: "0 6px", fontSize: "7.5px", fontWeight: 700, flexShrink: 0 }}>
+                {bannerStyle.ctaText}
+              </span>
+            )}
             <span
               style={{
                 background: "rgba(255, 255, 255, 0.2)",
@@ -2849,6 +2860,42 @@ export default function FestivalStudio() {
   const [discountAutoApply, setDiscountAutoApply] = useState(customSettings.discount?.autoApply ?? true);
   const [discountAudience, setDiscountAudience] = useState(customSettings.discount?.audience || "all");
 
+  // 📣 Announcement Bar Style (persisted inside customColors JSON as `bannerStyle`)
+  const [bannerStyle, setBannerStyle] = useState({
+    bgType: "theme",
+    bgColor: "#1A0A00",
+    bgColor2: "#FF7518",
+    gradientAngle: 90,
+    textColor: "#F1F5F9",
+    accentColor: "#FF7518",
+    borderColor: "",
+    showBorder: true,
+    fontSize: 13,
+    fontFamily: "inherit",
+    bold: false,
+    uppercase: false,
+    letterSpacing: 0,
+    size: "regular",
+    align: "center",
+    fullWidth: false,
+    sticky: false,
+    animation: "none",
+    ctaText: "",
+    ctaLink: "/collections/all",
+    showCoupon: true,
+    dismissible: true,
+    extraMessages: "",
+    rotateSeconds: 5,
+    showOn: "all",
+    hideOnMobile: false,
+    hideOnDesktop: false,
+    ...(customSettings.bannerStyle || {}),
+  });
+  const updateBanner = (key, val) => {
+    setBannerStyle((prev) => ({ ...prev, [key]: val }));
+    markDirty();
+  };
+
   // ⏳ Urgency & Countdown Timers State
   const [enableUrgencyTimer, setEnableUrgencyTimer] = useState(
     customSettings.urgencyTimers?.enabled !== undefined ? Boolean(customSettings.urgencyTimers.enabled) : true
@@ -2978,6 +3025,7 @@ export default function FestivalStudio() {
           badgeText: discountBadgeText,
           autoApply: discountAutoApply,
         },
+        bannerStyle,
         urgencyTimers: {
           enabled: enableUrgencyTimer,
           festiveTimer: enableFestiveTimer,
@@ -3039,6 +3087,7 @@ export default function FestivalStudio() {
       enableProductTimer,
       cartTimerMinutes,
       cartTimerUrgencyText,
+      bannerStyle,
       fetcher,
     ]
   );
@@ -3744,6 +3793,127 @@ export default function FestivalStudio() {
                     autoComplete="off"
                     helpText="Displayed as a 1-click copy badge in the banner."
                   />
+
+                  <Divider />
+                  <Text variant="headingSm" as="h3">Rotating Messages</Text>
+                  <TextField
+                    label="Extra Messages (one per line)"
+                    value={bannerStyle.extraMessages}
+                    onChange={(val) => updateBanner("extraMessages", val)}
+                    multiline={3}
+                    autoComplete="off"
+                    helpText="Optional. These rotate with the main copy, fading between messages."
+                  />
+                  {bannerStyle.extraMessages.trim() && (
+                    <LuxurySlider label="Seconds per message" value={Number(bannerStyle.rotateSeconds) || 5} min={2} max={15} step={1} unit="s" onChange={(v) => updateBanner("rotateSeconds", v)} />
+                  )}
+
+                  <Divider />
+                  <Text variant="headingSm" as="h3">Call-to-Action Button</Text>
+                  <TextField label="Button Text" value={bannerStyle.ctaText} onChange={(val) => updateBanner("ctaText", val)} autoComplete="off" helpText="Leave empty to hide the button." />
+                  {bannerStyle.ctaText && (
+                    <TextField label="Button Link" value={bannerStyle.ctaLink} onChange={(val) => updateBanner("ctaLink", val)} autoComplete="off" placeholder="/collections/all" />
+                  )}
+                  <ToggleSwitch label="Show Promo Code Badge" checked={bannerStyle.showCoupon !== false} onChange={(val) => updateBanner("showCoupon", val)} helpText="Hide the copy-code badge while keeping the code active." />
+
+                  <Divider />
+                  <Text variant="headingSm" as="h3">Colors & Background</Text>
+                  <Select
+                    label="Background Style"
+                    options={[
+                      { label: "Festival Theme Color (Default)", value: "theme" },
+                      { label: "Solid Color", value: "solid" },
+                      { label: "Two-Color Gradient", value: "gradient" },
+                    ]}
+                    value={bannerStyle.bgType}
+                    onChange={(val) => updateBanner("bgType", val)}
+                  />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                    {[
+                      bannerStyle.bgType !== "theme" && ["bgColor", bannerStyle.bgType === "gradient" ? "Gradient Start" : "Background"],
+                      bannerStyle.bgType === "gradient" && ["bgColor2", "Gradient End"],
+                      ["textColor", "Text Color"],
+                      ["accentColor", "Button & Code Accent"],
+                    ].filter(Boolean).map(([key, label]) => (
+                      <label key={key} style={{ display: "flex", flexDirection: "column", gap: "4px", fontSize: "12px", fontWeight: 600 }}>
+                        {label}
+                        <input type="color" value={bannerStyle[key] || "#000000"} onChange={(e) => updateBanner(key, e.target.value)} style={{ width: "100%", height: "34px", border: "1px solid #c9cccf", borderRadius: "8px", padding: "2px", background: "#fff", cursor: "pointer" }} />
+                      </label>
+                    ))}
+                  </div>
+                  {bannerStyle.bgType === "gradient" && (
+                    <LuxurySlider label="Gradient Angle" value={Number(bannerStyle.gradientAngle) || 90} min={0} max={360} step={15} unit="°" onChange={(v) => updateBanner("gradientAngle", v)} />
+                  )}
+                  <ToggleSwitch label="Bottom Border Line" checked={bannerStyle.showBorder !== false} onChange={(val) => updateBanner("showBorder", val)} />
+
+                  <Divider />
+                  <Text variant="headingSm" as="h3">Typography & Size</Text>
+                  <LuxurySlider label="Font Size" value={Number(bannerStyle.fontSize) || 13} min={10} max={22} step={1} unit="px" onChange={(v) => updateBanner("fontSize", v)} />
+                  <LuxurySlider label="Letter Spacing" value={Number(bannerStyle.letterSpacing) || 0} min={0} max={4} step={0.5} unit="px" onChange={(v) => updateBanner("letterSpacing", v)} />
+                  <Select
+                    label="Font"
+                    options={[
+                      { label: "Match My Store Theme", value: "inherit" },
+                      { label: "Modern Sans (System)", value: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" },
+                      { label: "Elegant Serif", value: "Georgia, 'Times New Roman', serif" },
+                      { label: "Monospace", value: "'Courier New', monospace" },
+                    ]}
+                    value={bannerStyle.fontFamily}
+                    onChange={(val) => updateBanner("fontFamily", val)}
+                  />
+                  <ToggleSwitch label="Bold Text" checked={Boolean(bannerStyle.bold)} onChange={(val) => updateBanner("bold", val)} />
+                  <ToggleSwitch label="UPPERCASE Text" checked={Boolean(bannerStyle.uppercase)} onChange={(val) => updateBanner("uppercase", val)} />
+                  <Select
+                    label="Bar Height"
+                    options={[
+                      { label: "Compact (Slim)", value: "compact" },
+                      { label: "Regular", value: "regular" },
+                      { label: "Large (Hero)", value: "large" },
+                    ]}
+                    value={bannerStyle.size}
+                    onChange={(val) => updateBanner("size", val)}
+                  />
+                  <Select
+                    label="Content Alignment"
+                    options={[
+                      { label: "Center", value: "center" },
+                      { label: "Left", value: "left" },
+                      { label: "Right", value: "right" },
+                    ]}
+                    value={bannerStyle.align}
+                    onChange={(val) => updateBanner("align", val)}
+                  />
+                  <ToggleSwitch label="Full-Width Content" checked={Boolean(bannerStyle.fullWidth)} onChange={(val) => updateBanner("fullWidth", val)} helpText="Off keeps content in a centered 1200px column." />
+
+                  <Divider />
+                  <Text variant="headingSm" as="h3">Motion & Behavior</Text>
+                  <Select
+                    label="Animation"
+                    options={[
+                      { label: "None", value: "none" },
+                      { label: "Scrolling Marquee", value: "marquee" },
+                      { label: "Shimmer Sweep (Festival Theme background)", value: "shimmer" },
+                      { label: "Gentle Pulse", value: "pulse" },
+                    ]}
+                    value={bannerStyle.animation}
+                    onChange={(val) => updateBanner("animation", val)}
+                  />
+                  <ToggleSwitch label="Stick to Top While Scrolling" checked={Boolean(bannerStyle.sticky)} onChange={(val) => updateBanner("sticky", val)} />
+                  <ToggleSwitch label="Allow Visitors to Close It" checked={bannerStyle.dismissible !== false} onChange={(val) => updateBanner("dismissible", val)} />
+
+                  <Divider />
+                  <Text variant="headingSm" as="h3">Where It Appears</Text>
+                  <Select
+                    label="Pages"
+                    options={[
+                      { label: "All Pages", value: "all" },
+                      { label: "Home Page Only", value: "home" },
+                    ]}
+                    value={bannerStyle.showOn}
+                    onChange={(val) => updateBanner("showOn", val)}
+                  />
+                  <ToggleSwitch label="Hide on Mobile" checked={Boolean(bannerStyle.hideOnMobile)} onChange={(val) => updateBanner("hideOnMobile", val)} />
+                  <ToggleSwitch label="Hide on Desktop" checked={Boolean(bannerStyle.hideOnDesktop)} onChange={(val) => updateBanner("hideOnDesktop", val)} />
                 </>
               )}
             </BlockStack>
@@ -4022,6 +4192,7 @@ export default function FestivalStudio() {
                 enableProductTimer={enableProductTimer}
                 cartTimerMinutes={cartTimerMinutes}
                 cartTimerUrgencyText={cartTimerUrgencyText}
+                bannerStyle={bannerStyle}
                 activeCategory={activeCategory}
               />
             )}
@@ -4060,6 +4231,7 @@ export default function FestivalStudio() {
                 enableProductTimer={enableProductTimer}
                 cartTimerMinutes={cartTimerMinutes}
                 cartTimerUrgencyText={cartTimerUrgencyText}
+                bannerStyle={bannerStyle}
                 activeCategory={activeCategory}
               />
             )}
@@ -4109,6 +4281,7 @@ export default function FestivalStudio() {
                     enableProductTimer={enableProductTimer}
                     cartTimerMinutes={cartTimerMinutes}
                     cartTimerUrgencyText={cartTimerUrgencyText}
+                bannerStyle={bannerStyle}
                     activeCategory={activeCategory}
                   />
                 </div>
@@ -4146,6 +4319,7 @@ export default function FestivalStudio() {
                     enableProductTimer={enableProductTimer}
                     cartTimerMinutes={cartTimerMinutes}
                     cartTimerUrgencyText={cartTimerUrgencyText}
+                bannerStyle={bannerStyle}
                     activeCategory={activeCategory}
                   />
                 </div>

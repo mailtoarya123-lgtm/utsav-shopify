@@ -324,6 +324,79 @@ form[action*="/cart/add"] button,
   z-index: 2 !important;
 }
 
+#utsav-festival-banner[style*="sticky"] {
+  z-index: 50 !important;
+}
+
+.utsav-banner-msg {
+  display: inline-block;
+  transition: opacity 0.35s ease;
+}
+
+.utsav-banner-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 0.92em;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.utsav-banner-cta:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.utsav-banner-text--marquee {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.utsav-banner-text--marquee .utsav-banner-msg {
+  padding-left: 100%;
+  animation: utsavBannerMarquee 16s linear infinite;
+}
+
+@keyframes utsavBannerMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+.utsav-banner--shimmer {
+  background-size: 200% 100% !important;
+  background-image: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.18) 50%, transparent 65%);
+  background-repeat: no-repeat;
+  animation: utsavBannerShimmer 3.5s ease-in-out infinite;
+}
+
+@keyframes utsavBannerShimmer {
+  from { background-position: 150% 0; }
+  to { background-position: -50% 0; }
+}
+
+.utsav-banner--pulse .utsav-banner-msg {
+  animation: utsavBannerPulse 2s ease-in-out infinite;
+}
+
+@keyframes utsavBannerPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .utsav-banner--shimmer,
+  .utsav-banner--pulse .utsav-banner-msg,
+  .utsav-banner-text--marquee .utsav-banner-msg {
+    animation: none !important;
+    padding-left: 0 !important;
+  }
+}
+
 body.utsav-cart-open #utsav-top-garland,
 body.utsav-cart-open .utsav-side-garland,
 body.utsav-cart-open #utsav-ghost-container,
