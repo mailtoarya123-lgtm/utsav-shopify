@@ -2201,11 +2201,18 @@ function buildSpiderWeb() {
       let cartTimerStart = Date.now();
       const cartMinutes = Number(timers.cartMinutes) || 15;
 
+      const cartPos = timers.cartPosition || "above_checkout";
+      const cartTextTpl = timers.cartText || "🔥 Items reserved in cart for [TIME] — checkout before deals expire!";
+
       function cartTimerHtml() {
         let rem = cartMinutes * 60 - Math.floor((Date.now() - cartTimerStart) / 1000);
         if (rem <= 0) { cartTimerStart = Date.now(); rem = cartMinutes * 60; }
         const pad = function (n) { return String(n).padStart(2, "0"); };
-        return '<span>🔥</span><span>Cart reserved for <strong style="color:#FFD700; font-family:monospace; font-size:12.5px;">' + pad(Math.floor(rem / 60)) + ':' + pad(rem % 60) + '</strong></span>';
+        const timeStr = '<strong style="color:#FFD700; font-family:monospace; font-size:12.5px;">' + pad(Math.floor(rem / 60)) + ':' + pad(rem % 60) + '</strong>';
+        if (cartTextTpl && cartTextTpl.includes("[TIME]")) {
+          return cartTextTpl.replace("[TIME]", timeStr);
+        }
+        return '<span>🔥</span><span>Cart reserved for ' + timeStr + '</span>';
       }
 
       function syncCartLayering() {
@@ -2220,7 +2227,26 @@ function buildSpiderWeb() {
           return;
         }
 
-        // Locate ideal host right above Subtotal or Checkout button inside the drawer/page
+        if (!pill) {
+          pill = document.createElement("div");
+          pill.id = "utsav-cart-urgency-pill";
+        }
+        pill.innerHTML = cartTimerHtml();
+
+        // 1. Floating modes
+        if (cartPos === "floating_bottom_right") {
+          pill.style.cssText = "position: fixed !important; bottom: 20px !important; right: 20px !important; display: flex !important; align-items: center; justify-content: center; gap: 6px; padding: 7px 14px !important; border-radius: 999px; background: rgba(26, 10, 0, 0.95) !important; color: #fff !important; border: 1px solid rgba(255,117,24,0.7) !important; font-size: 11.5px !important; font-weight: 600; z-index: 2147483647 !important; box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;";
+          if (pill.parentNode !== document.body) document.body.appendChild(pill);
+          return;
+        } else if (cartPos === "floating_top_right") {
+          pill.style.cssText = "position: fixed !important; top: 70px !important; right: 20px !important; display: flex !important; align-items: center; justify-content: center; gap: 6px; padding: 7px 14px !important; border-radius: 999px; background: rgba(26, 10, 0, 0.95) !important; color: #fff !important; border: 1px solid rgba(255,117,24,0.7) !important; font-size: 11.5px !important; font-weight: 600; z-index: 2147483647 !important; box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;";
+          if (pill.parentNode !== document.body) document.body.appendChild(pill);
+          return;
+        }
+
+        // 2. Inline modes (drawer_top, above_subtotal, above_checkout)
+        pill.style.cssText = "position: static !important; display: flex !important; align-items: center; justify-content: center; gap: 6px; margin: 8px auto 10px auto !important; padding: 6px 12px !important; border-radius: 8px; background: rgba(26, 10, 0, 0.95) !important; color: #fff !important; border: 1px solid rgba(255,117,24,0.65) !important; font-size: 11.5px !important; font-weight: 600; z-index: 10 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; box-sizing: border-box; width: calc(100% - 16px); max-width: 360px;";
+
         let host = null;
         let insertBeforeNode = null;
 
@@ -2228,8 +2254,15 @@ function buildSpiderWeb() {
           const footer = drawerEl.querySelector(".cart-drawer__footer, .drawer__footer, footer");
           const checkoutBtn = drawerEl.querySelector("button[name='checkout'], .cart__checkout-button, a[href*='/checkout']");
           const subtotalRow = drawerEl.querySelector(".totals, .cart-drawer__totals, [data-cart-subtotal], .drawer__footer-totals");
+          const header = drawerEl.querySelector(".cart-drawer__header, .drawer__header, header");
 
-          if (checkoutBtn) {
+          if (cartPos === "drawer_top" && header) {
+            host = header.parentNode;
+            insertBeforeNode = header.nextSibling;
+          } else if (cartPos === "above_subtotal" && subtotalRow) {
+            host = subtotalRow.parentNode;
+            insertBeforeNode = subtotalRow;
+          } else if (checkoutBtn) {
             host = checkoutBtn.parentNode;
             insertBeforeNode = checkoutBtn;
           } else if (subtotalRow) {
@@ -2246,7 +2279,10 @@ function buildSpiderWeb() {
           const subtotalRow = document.querySelector(".totals, .cart__subtotal, .cart__blocks");
           const cartFooter = document.querySelector(PAGE_SUBTOTAL_SEL);
 
-          if (checkoutBtn) {
+          if (cartPos === "above_subtotal" && subtotalRow) {
+            host = subtotalRow.parentNode;
+            insertBeforeNode = subtotalRow;
+          } else if (checkoutBtn) {
             host = checkoutBtn.parentNode;
             insertBeforeNode = checkoutBtn;
           } else if (subtotalRow) {
@@ -2259,13 +2295,6 @@ function buildSpiderWeb() {
         }
 
         if (!host) return;
-
-        if (!pill) {
-          pill = document.createElement("div");
-          pill.id = "utsav-cart-urgency-pill";
-        }
-        pill.style.cssText = "position: static !important; display: flex !important; align-items: center; justify-content: center; gap: 6px; margin: 8px auto 10px auto !important; padding: 6px 12px !important; border-radius: 8px; background: rgba(26, 10, 0, 0.95) !important; color: #fff !important; border: 1px solid rgba(255,117,24,0.65) !important; font-size: 11.5px !important; font-weight: 600; z-index: 10 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; box-sizing: border-box; width: calc(100% - 16px); max-width: 360px;";
-        pill.innerHTML = cartTimerHtml();
 
         if (insertBeforeNode && insertBeforeNode.parentNode === host) {
           if (pill.nextSibling !== insertBeforeNode) {

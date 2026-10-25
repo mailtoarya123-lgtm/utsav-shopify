@@ -2904,6 +2904,9 @@ export default function FestivalStudio() {
   const [enableCartTimer, setEnableCartTimer] = useState(customSettings.urgencyTimers?.cartTimer ?? true);
   const [enableProductTimer, setEnableProductTimer] = useState(customSettings.urgencyTimers?.productTimer ?? true);
   const [cartTimerMinutes, setCartTimerMinutes] = useState(Number(customSettings.urgencyTimers?.cartMinutes) || 15);
+  const [cartTimerPosition, setCartTimerPosition] = useState(
+    customSettings.urgencyTimers?.cartPosition || "above_checkout"
+  );
   const [cartTimerUrgencyText, setCartTimerUrgencyText] = useState(
     customSettings.urgencyTimers?.cartText || "🔥 Items reserved in cart for [TIME] — checkout before deals expire!"
   );
@@ -3030,6 +3033,7 @@ export default function FestivalStudio() {
           enabled: enableUrgencyTimer,
           festiveTimer: enableFestiveTimer,
           cartTimer: enableCartTimer,
+          cartPosition: cartTimerPosition,
           productTimer: enableProductTimer,
           cartMinutes: cartTimerMinutes,
           cartText: cartTimerUrgencyText,
@@ -3086,6 +3090,7 @@ export default function FestivalStudio() {
       enableCartTimer,
       enableProductTimer,
       cartTimerMinutes,
+      cartTimerPosition,
       cartTimerUrgencyText,
       bannerStyle,
       fetcher,
@@ -3728,6 +3733,20 @@ export default function FestivalStudio() {
                         ]}
                         value={cartTimerMinutes}
                         onChange={(val) => { setCartTimerMinutes(Number(val)); markDirty(); }}
+                      />
+
+                      <Select
+                        label="Cart Timer Placement"
+                        options={[
+                          { label: "Above Checkout Button (Inside Cart Drawer)", value: "above_checkout" },
+                          { label: "Above Subtotal Row (Inside Cart Drawer)", value: "above_subtotal" },
+                          { label: "Top of Cart Drawer (Header)", value: "drawer_top" },
+                          { label: "Bottom-Right Floating Pill", value: "floating_bottom_right" },
+                          { label: "Top-Right Floating Pill", value: "floating_top_right" },
+                        ]}
+                        value={cartTimerPosition}
+                        onChange={(val) => { setCartTimerPosition(val); markDirty(); }}
+                        helpText="Choose where the cart reservation timer appears so it never obstructs your checkout buttons."
                       />
 
                       <TextField
