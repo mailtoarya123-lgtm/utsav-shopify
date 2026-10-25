@@ -94,8 +94,9 @@
     const couponCode = config.couponCode || config.promoCode || "";
     const countdownTarget = config.countdownTarget || null;
 
-    // 🪔 Diya Customizations
-    const diyaStyle = config.diyaStyle || "royal_brass";
+    // 🪔 Diya / Corner Motif Customizations
+    const cornerMotif = (config.cornerMotif && config.cornerMotif !== "default") ? config.cornerMotif : (config.diyaStyle || "royal_brass");
+    const diyaStyle = cornerMotif;
     const flameGlow = config.flameGlow || "warm_radiance";
     const diyaSize = config.diyaSize || "medium";
     const diyaPosition = config.diyaPosition || "bottom_corners";
@@ -1356,13 +1357,63 @@ function buildSpiderWeb() {
         setTimeout(() => toast.remove(), 2700);
       }
 
-      function getEfCornerSVG(festId, width) {
+      function getEfCornerSVG(festId, width, motifChoice) {
         const fest = (festId || "").toLowerCase();
+        const motif = (motifChoice || cornerMotif || "").toLowerCase();
 
-        // 1. Halloween: Carved Jack-o'-Lantern
+        // 1. Halloween Motifs
         if (fest.includes("halloween")) {
+          if (motif === "ghost") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(224, 231, 255, 0.85));">
+                <circle cx="30" cy="30" r="22" fill="rgba(199, 210, 254, 0.35)"/>
+                <path d="M 16 34 C 16 16 44 16 44 34 C 44 48 38 52 35 48 C 32 44 28 54 24 48 C 20 44 16 52 16 34 Z" fill="#F1F5F9"/>
+                <ellipse cx="24" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
+                <ellipse cx="36" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
+                <ellipse cx="30" cy="38" rx="4" ry="6" fill="#0F172A"/>
+                <circle cx="25" cy="26" r="1.2" fill="#FFFFFF"/>
+                <circle cx="37" cy="26" r="1.2" fill="#FFFFFF"/>
+              </svg>
+            `;
+          }
+          if (motif === "bat") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 0.7)}" viewBox="0 0 70 50" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.75));">
+                <circle cx="35" cy="25" r="18" fill="rgba(147, 51, 234, 0.3)"/>
+                <path d="M 35 18 Q 42 6 56 10 Q 50 20 62 26 Q 48 28 42 38 Q 38 28 35 30 Q 32 28 28 38 Q 22 28 8 26 Q 20 20 14 10 Q 28 6 35 18 Z" fill="#18181B"/>
+                <circle cx="32" cy="22" r="1.5" fill="#EF4444"/>
+                <circle cx="38" cy="22" r="1.5" fill="#EF4444"/>
+              </svg>
+            `;
+          }
+          if (motif === "witch_hat") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(147, 51, 234, 0.8));">
+                <circle cx="30" cy="32" r="20" fill="rgba(147, 51, 234, 0.35)"/>
+                <ellipse cx="30" cy="46" rx="26" ry="6" fill="#18181B"/>
+                <path d="M 18 45 L 29 12 Q 33 6 42 8 Q 36 18 35 24 L 42 45 Z" fill="#27272A"/>
+                <path d="M 20 42 Q 30 40 40 42 L 41 45 Q 30 43 19 45 Z" fill="#9333EA"/>
+                <rect x="27" y="40.5" width="6" height="5" rx="1" fill="#FBBF24"/>
+              </svg>
+            `;
+          }
+          if (motif === "skull") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.75));">
+                <circle cx="30" cy="30" r="22" fill="rgba(251, 191, 36, 0.3)"/>
+                <path d="M 16 26 C 16 12 44 12 44 26 C 44 34 40 40 37 42 L 37 50 L 23 50 L 23 42 C 20 40 16 34 16 26 Z" fill="#F4F4F5"/>
+                <circle cx="23" cy="26" r="5" fill="#18181B"/>
+                <circle cx="37" cy="26" r="5" fill="#18181B"/>
+                <polygon points="30,32 27,38 33,38" fill="#18181B"/>
+                <line x1="26" y1="45" x2="26" y2="49" stroke="#18181B" stroke-width="1.5"/>
+                <line x1="30" y1="45" x2="30" y2="49" stroke="#18181B" stroke-width="1.5"/>
+                <line x1="34" y1="45" x2="34" y2="49" stroke="#18181B" stroke-width="1.5"/>
+              </svg>
+            `;
+          }
+          // Default: Carved Jack-o'-Lantern
           return `
-            <svg width="${width}" height="${Math.round(width * 0.92)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 117, 24, 0.7));">
+            <svg width="${width}" height="${Math.round(width * 0.92)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 117, 24, 0.75));">
               <circle cx="35" cy="36" r="24" fill="rgba(255, 117, 24, 0.45)"/>
               <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#2E7D32"/>
               <ellipse cx="35" cy="38" rx="28" ry="22" fill="#FF7518"/>
@@ -1379,8 +1430,54 @@ function buildSpiderWeb() {
           `;
         }
 
-        // 2. Christmas: Radiant Bethlehem Star
+        // 2. Christmas Motifs
         if (fest.includes("christmas")) {
+          if (motif === "wreath") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(46, 125, 50, 0.75));">
+                <circle cx="30" cy="30" r="22" fill="none" stroke="#2E7D32" stroke-width="8" stroke-dasharray="6 3"/>
+                <circle cx="30" cy="30" r="14" fill="none" stroke="#1B5E20" stroke-width="3"/>
+                <circle cx="22" cy="18" r="2.5" fill="#D32F2F"/>
+                <circle cx="38" cy="20" r="2.5" fill="#FFD700"/>
+                <circle cx="42" cy="34" r="2.5" fill="#D32F2F"/>
+                <circle cx="18" cy="36" r="2.5" fill="#FFD700"/>
+                <path d="M 25 44 C 20 48 23 54 27 52 L 30 46 L 33 52 C 37 54 40 48 35 44 Z" fill="#D32F2F"/>
+                <circle cx="30" cy="45" r="3" fill="#B71C1C"/>
+              </svg>
+            `;
+          }
+          if (motif === "jingle_bell") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.8));">
+                <circle cx="30" cy="30" r="20" fill="rgba(255, 215, 0, 0.35)"/>
+                <path d="M 20 38 C 20 20 40 20 40 38 Z" fill="#FFD700"/>
+                <rect x="17" y="38" width="26" height="5" rx="2" fill="#FFA000"/>
+                <circle cx="30" cy="46" r="3.5" fill="#FF8F00"/>
+                <path d="M 24 18 C 24 14 36 14 36 18 Z" fill="#D32F2F"/>
+              </svg>
+            `;
+          }
+          if (motif === "tree") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(46, 125, 50, 0.7));">
+                <polygon points="30,8 18,24 42,24" fill="#2E7D32"/>
+                <polygon points="30,18 14,36 46,36" fill="#1B5E20"/>
+                <polygon points="30,28 10,50 50,50" fill="#0D3B13"/>
+                <rect x="26" y="50" width="8" height="8" fill="#5D4037"/>
+                <circle cx="30" cy="8" r="3" fill="#FFD700"/>
+                <circle cx="24" cy="30" r="2" fill="#D32F2F"/>
+                <circle cx="36" cy="42" r="2" fill="#FFD700"/>
+              </svg>
+            `;
+          }
+          if (motif === "candy_cane") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(211, 47, 47, 0.7));">
+                <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none"/>
+                <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#D32F2F" stroke-width="8" stroke-dasharray="5 5" stroke-linecap="round" fill="none"/>
+              </svg>
+            `;
+          }
           return `
             <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));">
               <polygon points="30,4 37,21 56,21 41,33 47,52 30,40 13,52 19,33 4,21 23,21" fill="#FFD700"/>
@@ -1390,8 +1487,29 @@ function buildSpiderWeb() {
           `;
         }
 
-        // 3. Valentine's Day: Glowing Satin Heart
+        // 3. Valentine's Day Motifs
         if (fest.includes("valentines")) {
+          if (motif === "rose") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(225, 29, 72, 0.75));">
+                <circle cx="30" cy="30" r="20" fill="rgba(225, 29, 72, 0.3)"/>
+                <circle cx="30" cy="28" r="14" fill="#E11D48"/>
+                <path d="M 30 16 C 24 18 24 28 30 34 C 36 28 36 18 30 16 Z" fill="#BE123C"/>
+                <path d="M 24 22 Q 30 26 36 22" stroke="#FFF" stroke-width="1" fill="none" opacity="0.6"/>
+                <path d="M 30 42 L 30 52 M 30 46 Q 38 44 40 48" stroke="#15803D" stroke-width="2" fill="none"/>
+              </svg>
+            `;
+          }
+          if (motif === "cupid") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.65));">
+                <path d="M 16 12 Q 38 30 16 48" stroke="#F43F5E" stroke-width="3" fill="none"/>
+                <line x1="16" y1="12" x2="16" y2="48" stroke="#FDA4AF" stroke-width="1"/>
+                <line x1="12" y1="30" x2="44" y2="30" stroke="#E11D48" stroke-width="2.5"/>
+                <path d="M 44 30 C 44 26 50 24 52 28 C 54 24 60 26 60 30 C 60 36 52 40 52 40 C 52 40 44 36 44 30 Z" fill="#E11D48" transform="scale(0.7) translate(18, 5)"/>
+              </svg>
+            `;
+          }
           return `
             <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(233, 30, 99, 0.7));">
               <circle cx="30" cy="30" r="18" fill="rgba(233, 30, 99, 0.35)"/>
@@ -1401,8 +1519,27 @@ function buildSpiderWeb() {
           `;
         }
 
-        // 4. Lunar New Year: Red Silk Lantern
+        // 4. Lunar New Year Motifs
         if (fest.includes("lunar") || fest.includes("chinese")) {
+          if (motif === "sycee") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 0.85)}" viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.85));">
+                <ellipse cx="30" cy="20" rx="14" ry="7" fill="#FFE082"/>
+                <path d="M 10 22 C 16 38 44 38 50 22 C 56 16 48 10 42 16 C 36 12 24 12 18 16 C 12 10 4 16 10 22 Z" fill="#FFD700"/>
+                <ellipse cx="30" cy="20" rx="9" ry="4" fill="#FFC107"/>
+              </svg>
+            `;
+          }
+          if (motif === "hongbao") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.15)}" viewBox="0 0 50 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.75));">
+                <rect x="8" y="8" width="34" height="46" rx="4" fill="#DC2626"/>
+                <path d="M 8 8 Q 25 24 42 8" fill="#B91C1C"/>
+                <circle cx="25" cy="26" r="7" fill="#FBBF24"/>
+                <text x="25" y="30" font-size="8" font-weight="bold" fill="#B91C1C" text-anchor="middle">福</text>
+              </svg>
+            `;
+          }
           return `
             <svg width="${width}" height="${Math.round(width * 1.3)}" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.7));">
               <circle cx="30" cy="35" r="18" fill="rgba(211, 47, 47, 0.35)"/>
@@ -1755,7 +1892,7 @@ function buildSpiderWeb() {
         decor.title = "Tap for Festive Blessing ✨";
         decor.style.cssText = "position: fixed !important; display: block !important; width: " + sizePx + "px !important; height: auto !important; pointer-events: auto !important; cursor: pointer !important; z-index: 2147483640 !important; filter: drop-shadow(0 4px 16px var(--utsav-glow, rgba(255, 117, 24, 0.75))); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);";
         Object.assign(decor.style, coords);
-        decor.innerHTML = getEfCornerSVG(festivalId, sizePx);
+        decor.innerHTML = getEfCornerSVG(festivalId, sizePx, cornerMotif);
         decor.addEventListener("click", triggerBlessing);
         decor.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {

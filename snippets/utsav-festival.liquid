@@ -1702,11 +1702,61 @@ function buildSpiderWeb() {
     // ─── 4.5 Culturally Authentic Corner SVG Motifs for All 22 Festivals ────
     function getFestivalCornerSVG(festivalId, sizePx, config) {
       const fest = (festivalId || '').toLowerCase();
+      const cfg = config || {};
+      const motif = ((cfg.cornerMotif && cfg.cornerMotif !== 'default') ? cfg.cornerMotif : (cfg.diyaStyle || '')).toLowerCase();
       const width = sizePx;
       const height = Math.round(sizePx * 0.95);
 
-      // 1. Halloween: Jack-o'-Lantern
+      // 1. Halloween Motifs
       if (fest.includes('halloween')) {
+        if (motif === 'ghost') {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(224, 231, 255, 0.85));">
+              <circle cx="30" cy="30" r="22" fill="rgba(199, 210, 254, 0.35)"/>
+              <path d="M 16 34 C 16 16 44 16 44 34 C 44 48 38 52 35 48 C 32 44 28 54 24 48 C 20 44 16 52 16 34 Z" fill="#F1F5F9"/>
+              <ellipse cx="24" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
+              <ellipse cx="36" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
+              <ellipse cx="30" cy="38" rx="4" ry="6" fill="#0F172A"/>
+              <circle cx="25" cy="26" r="1.2" fill="#FFFFFF"/>
+              <circle cx="37" cy="26" r="1.2" fill="#FFFFFF"/>
+            </svg>
+          `;
+        }
+        if (motif === 'bat') {
+          return `
+            <svg width="${width}" height="${Math.round(width * 0.7)}" viewBox="0 0 70 50" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.75));">
+              <circle cx="35" cy="25" r="18" fill="rgba(147, 51, 234, 0.3)"/>
+              <path d="M 35 18 Q 42 6 56 10 Q 50 20 62 26 Q 48 28 42 38 Q 38 28 35 30 Q 32 28 28 38 Q 22 28 8 26 Q 20 20 14 10 Q 28 6 35 18 Z" fill="#18181B"/>
+              <circle cx="32" cy="22" r="1.5" fill="#EF4444"/>
+              <circle cx="38" cy="22" r="1.5" fill="#EF4444"/>
+            </svg>
+          `;
+        }
+        if (motif === 'witch_hat') {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(147, 51, 234, 0.8));">
+              <circle cx="30" cy="32" r="20" fill="rgba(147, 51, 234, 0.35)"/>
+              <ellipse cx="30" cy="46" rx="26" ry="6" fill="#18181B"/>
+              <path d="M 18 45 L 29 12 Q 33 6 42 8 Q 36 18 35 24 L 42 45 Z" fill="#27272A"/>
+              <path d="M 20 42 Q 30 40 40 42 L 41 45 Q 30 43 19 45 Z" fill="#9333EA"/>
+              <rect x="27" y="40.5" width="6" height="5" rx="1" fill="#FBBF24"/>
+            </svg>
+          `;
+        }
+        if (motif === 'skull') {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.75));">
+              <circle cx="30" cy="30" r="22" fill="rgba(251, 191, 36, 0.3)"/>
+              <path d="M 16 26 C 16 12 44 12 44 26 C 44 34 40 40 37 42 L 37 50 L 23 50 L 23 42 C 20 40 16 34 16 26 Z" fill="#F4F4F5"/>
+              <circle cx="23" cy="26" r="5" fill="#18181B"/>
+              <circle cx="37" cy="26" r="5" fill="#18181B"/>
+              <polygon points="30,32 27,38 33,38" fill="#18181B"/>
+              <line x1="26" y1="45" x2="26" y2="49" stroke="#18181B" stroke-width="1.5"/>
+              <line x1="30" y1="45" x2="30" y2="49" stroke="#18181B" stroke-width="1.5"/>
+              <line x1="34" y1="45" x2="34" y2="49" stroke="#18181B" stroke-width="1.5"/>
+            </svg>
+          `;
+        }
         return `
           <svg width="${width}" height="${Math.round(width * 0.92)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg">
             <circle cx="35" cy="36" r="24" fill="rgba(255, 117, 24, 0.45)"/>

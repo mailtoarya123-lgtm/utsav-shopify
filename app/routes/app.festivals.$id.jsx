@@ -395,6 +395,215 @@ const CATEGORY_ICONS = {
   ),
 };
 
+// ─── Festival Corner Motif Catalog (Multiple Iconic Motifs per Festival) ──
+export function getFestivalCornerMotifOptions(festivalId = "") {
+  const fest = (festivalId || "").toLowerCase();
+
+  // 1. Halloween
+  if (fest.includes("halloween")) {
+    return [
+      { label: "🎃 Jack-o'-Lantern (Carved Pumpkin)", value: "jack_o_lantern" },
+      { label: "👻 Spectral Ghost (Glowing Haunt)", value: "ghost" },
+      { label: "🦇 Vampire Bat (Winged Silhouette)", value: "bat" },
+      { label: "🧙‍♀️ Enchanted Witch Hat", value: "witch_hat" },
+      { label: "💀 Haunted Candy Skull", value: "skull" },
+    ];
+  }
+
+  // 2. Christmas
+  if (fest.includes("christmas")) {
+    return [
+      { label: "⭐ Radiant Bethlehem Star", value: "star" },
+      { label: "🌿 Pine Wreath & Red Ribbon", value: "wreath" },
+      { label: "🔔 Golden Holiday Jingle Bell", value: "jingle_bell" },
+      { label: "🎄 Evergreen Christmas Tree", value: "tree" },
+      { label: "🍬 Festive Peppermint Cane", value: "candy_cane" },
+    ];
+  }
+
+  // 3. Valentine's Day
+  if (fest.includes("valentines")) {
+    return [
+      { label: "💖 Glowing Satin Heart", value: "heart" },
+      { label: "🌹 Velvet Rose Blossom", value: "rose" },
+      { label: "🏹 Cupid's Bow & Heart Arrow", value: "cupid" },
+      { label: "✨ Dual Entwined Hearts", value: "double_heart" },
+    ];
+  }
+
+  // 4. Lunar New Year
+  if (fest.includes("lunar") || fest.includes("chinese")) {
+    return [
+      { label: "🏮 Red Silk Hanging Lantern", value: "lantern" },
+      { label: "🪙 Golden Sycee Yuanbao Ingot", value: "sycee" },
+      { label: "🧧 Auspicious Red Envelope (Hongbao)", value: "hongbao" },
+      { label: "🪢 Mystic Endless Lucky Knot", value: "lucky_knot" },
+    ];
+  }
+
+  // 5. Holi
+  if (fest.includes("holi")) {
+    return [
+      { label: "🎨 Brass Pichkari & Gulal Bowl", value: "pichkari_bowl" },
+      { label: "🌈 Sacred Gulal Color Thali", value: "gulal_thali" },
+      { label: "💧 Vibrant Water Balloon Splatter", value: "water_splatter" },
+    ];
+  }
+
+  // 6. Navratri
+  if (fest.includes("navratri")) {
+    return [
+      { label: "💃 Crossed Wooden Dandiya Sticks", value: "dandiya" },
+      { label: "🪔 Sacred Garba Clay Lamp", value: "garba_pot" },
+      { label: "🔱 Divine Durga Trishul & Crescent", value: "trishul" },
+    ];
+  }
+
+  // 7. Pongal
+  if (fest.includes("pongal")) {
+    return [
+      { label: "🌾 Boiling Clay Pongal Pot & Milk", value: "pongal_pot" },
+      { label: "🎋 Sweet Sugarcane Stalks", value: "sugarcane" },
+      { label: "☀️ Surya Bhagavan Sun Disc", value: "surya_sun" },
+    ];
+  }
+
+  // 8. Onam
+  if (fest.includes("onam")) {
+    return [
+      { label: "🌸 Pookalam Floral Carpet Ring", value: "pookalam" },
+      { label: "⛵ Aranmula Snake Boat (Vallam)", value: "snake_boat" },
+      { label: "🪔 Kerala Nilavilakku Brass Lamp", value: "nilavilakku" },
+    ];
+  }
+
+  // 9. Raksha Bandhan
+  if (fest.includes("raksha") || fest.includes("rakhi")) {
+    return [
+      { label: "🧵 Royal Zari Rosette Rakhi", value: "royal_rakhi" },
+      { label: "🦚 Peacock Feather Divine Rakhi", value: "peacock_rakhi" },
+      { label: "🎁 Festive Shagun Gift Box", value: "shagun_gift" },
+    ];
+  }
+
+  // 10. Ganesh Chaturthi
+  if (fest.includes("ganesh")) {
+    return [
+      { label: "🐘 Sacred Clay Ganesha Silhouette", value: "ganesha_clay" },
+      { label: "🥟 Golden Steamed Modak Prasadam", value: "modak_golden" },
+      { label: "🪷 Lotus Throne & Durva Grass", value: "lotus_modak" },
+    ];
+  }
+
+  // 11. Eid-ul-Fitr
+  if (fest.includes("eid")) {
+    return [
+      { label: "🏮 Damascus Brass Fanoos Lantern", value: "fanoos" },
+      { label: "🌙 Golden Hilal Crescent & Star", value: "crescent_star" },
+      { label: "🕌 Arabesque Minaret Silhouette", value: "minaret" },
+    ];
+  }
+
+  // 12. Thanksgiving
+  if (fest.includes("thanksgiving")) {
+    return [
+      { label: "🎃 Harvest Field Pumpkin", value: "harvest_pumpkin" },
+      { label: "🍂 Golden Autumn Maple Leaves & Acorn", value: "acorn_leaf" },
+      { label: "🌽 Cornucopia Horn of Plenty", value: "cornucopia" },
+    ];
+  }
+
+  // 13. Hanukkah
+  if (fest.includes("hanukkah")) {
+    return [
+      { label: "🕎 Classical Nine-Branch Menorah", value: "menorah" },
+      { label: "⭐ Radiant Star of David (Magen David)", value: "star_of_david" },
+      { label: "🪙 Golden Dreidel & Gelt Coin", value: "dreidel" },
+    ];
+  }
+
+  // 14. Vishu
+  if (fest.includes("vishu")) {
+    return [
+      { label: "🪔 Traditional Cast Nilavilakku Lamp", value: "nilavilakku" },
+      { label: "🌿 Golden Kanikonna Blossom Sprig", value: "kanikonna" },
+      { label: "✨ Auspicious Vishukkani Uruli", value: "kani_uruli" },
+    ];
+  }
+
+  // 15. New Year
+  if (fest.includes("new-year") || fest.includes("newyear")) {
+    return [
+      { label: "🥂 Crystal Champagne Flutes Toast", value: "champagne" },
+      { label: "⏰ Midnight Countdown Clock (12:00)", value: "clock" },
+      { label: "🎆 Midnight Radiant Sparkler Star", value: "sparkler" },
+    ];
+  }
+
+  // 16. Makar Sankranti
+  if (fest.includes("sankranti") || fest.includes("uttarayan")) {
+    return [
+      { label: "🪁 Diamond Fighter Kite (Patang)", value: "kite" },
+      { label: "🍯 Sweet Tilgul Sesame Bowl", value: "tilgul_pot" },
+      { label: "☀️ Golden Uttarayan Sun Wheel", value: "sun_wheel" },
+    ];
+  }
+
+  // 17. Dussehra
+  if (fest.includes("dussehra") || fest.includes("vijayadashami")) {
+    return [
+      { label: "🏹 Golden Kodanda Bow & Arrow", value: "bow_arrow" },
+      { label: "🌿 Auspicious Shami Sacred Leaves", value: "shami_leaf" },
+      { label: "✨ Radiant Triumphant Victory Torch", value: "victory_torch" },
+    ];
+  }
+
+  // 18. Easter
+  if (fest.includes("easter")) {
+    return [
+      { label: "🐣 Decorated Pastel Spring Egg", value: "easter_egg" },
+      { label: "🐰 Joyful Spring Easter Bunny", value: "bunny" },
+      { label: "🌸 White Easter Lily Blossom", value: "easter_lily" },
+    ];
+  }
+
+  // 19. Mid-Autumn
+  if (fest.includes("mid-autumn") || fest.includes("mooncake")) {
+    return [
+      { label: "🥮 Luminous Golden Mooncake", value: "mooncake" },
+      { label: "🌕 Full Harvest Moonlight Pearl", value: "harvest_moon" },
+      { label: "🏮 Floating Sky Lantern", value: "sky_lantern" },
+    ];
+  }
+
+  // 20. Vesak
+  if (fest.includes("vesak") || fest.includes("buddha")) {
+    return [
+      { label: "🪷 Blooming Sacred Pink Lotus", value: "sacred_lotus" },
+      { label: "☸️ Golden Eightfold Dhamma Wheel", value: "dhamma_wheel" },
+      { label: "✨ Meditative Bodhi Leaf Aura", value: "bodhi_leaf" },
+    ];
+  }
+
+  // 21. Durga Puja
+  if (fest.includes("durga")) {
+    return [
+      { label: "🔱 Clay Dhunachi Incense Burner", value: "dhunachi" },
+      { label: "🐚 Sacred White Shankha (Conch)", value: "shankha" },
+      { label: "🌾 Swaying Autumn Kash Reeds", value: "kash_reed" },
+    ];
+  }
+
+  // Default: Diwali & Indian Celebrations
+  return [
+    { label: "🪔 Royal Handcrafted Brass Diya", value: "royal_brass" },
+    { label: "🏺 Rustic Terracotta Clay Diya", value: "terracotta_clay" },
+    { label: "✨ Floating Marigold Floral Urli", value: "marigold_urli" },
+    { label: "🔥 Hammered Antique Copper Diya", value: "antique_copper" },
+    { label: "🌸 Auspicious Deepavali Rangoli Diya", value: "rangoli_diya" },
+  ];
+}
+
 // ─── Dynamic Festival Terminology Adapter ───────────────────────────────────
 export function getFestivalTerminology(festivalId = "") {
   const fest = (festivalId || "").toLowerCase();
@@ -414,9 +623,10 @@ export function getFestivalTerminology(festivalId = "") {
       dockingPositionLabel: "Web Docking Position",
       dockingHelp: "Prevents spiderwebs from obstructing your logo, navigation menu, or cart.",
       offsetLabel: "Vertical Alignment Fine-Tuning",
-      cornerName: "Jack-o'-Lantern",
-      cornerSizeLabel: "Corner Jack-o'-Lantern Size",
-      cornerPlacementLabel: "Corner Jack-o'-Lantern Placement",
+      cornerName: "Corner Motif Icon",
+      cornerMotifLabel: "Corner Halloween Motif / Icon",
+      cornerSizeLabel: "Corner Motif Size",
+      cornerPlacementLabel: "Corner Motif Placement",
       secondaryToggleLabel: "Enable Soft Eerie Glow & Mist",
       secondaryToggleHelp: "Atmospheric amber candlelight flicker and subtle misty twilight luminescence.",
       lightsThemeLabel: "Eerie Lighting Palette",
@@ -433,7 +643,7 @@ export function getFestivalTerminology(festivalId = "") {
       particleUnit: " ghosts/wisps",
       audioLabel: "Atmospheric Chime / Eerie Soundscape",
       audioHelp: "Plays a gentle, subtle atmospheric chime on shopper interaction. Muted by default.",
-      safeZoneHelp: "Prevents corner Jack-o'-Lanterns from colliding with mobile bottom navigation bars or chat widgets.",
+      safeZoneHelp: "Prevents corner motifs from colliding with mobile bottom navigation bars or chat widgets.",
     };
   }
 
@@ -1915,14 +2125,64 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
   );
 }
 
-// ─── Dynamic Corner Widget (22 Culturally Authentic Motifs) ──────────────────
-function DynamicCornerWidget({ festival, size = 32 }) {
+// ─── Dynamic Corner Widget (Multi-Motif Support Across All Festivals) ────────
+function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
   const festId = (festival.id || "").toLowerCase();
+  const motif = (cornerMotif || "").toLowerCase();
 
-  // 1. Halloween Jack-o'-Lantern
+  // 1. Halloween Motifs
   if (festId.includes("halloween")) {
+    if (motif === "ghost") {
+      return (
+        <svg width={size} height={Math.round(size * 1.05)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 10px rgba(224, 231, 255, 0.7))" }}>
+          <circle cx="30" cy="30" r="22" fill="rgba(199, 210, 254, 0.3)" />
+          <path d="M 16 34 C 16 16 44 16 44 34 C 44 48 38 52 35 48 C 32 44 28 54 24 48 C 20 44 16 52 16 34 Z" fill="#F1F5F9" />
+          <ellipse cx="24" cy="28" rx="3.5" ry="4.5" fill="#0F172A" />
+          <ellipse cx="36" cy="28" rx="3.5" ry="4.5" fill="#0F172A" />
+          <ellipse cx="30" cy="38" rx="4" ry="6" fill="#0F172A" />
+          <circle cx="25" cy="26" r="1.2" fill="#FFFFFF" />
+          <circle cx="37" cy="26" r="1.2" fill="#FFFFFF" />
+        </svg>
+      );
+    }
+    if (motif === "bat") {
+      return (
+        <svg width={size} height={Math.round(size * 0.7)} viewBox="0 0 70 50" style={{ filter: "drop-shadow(0 0 8px rgba(168, 85, 247, 0.6))" }}>
+          <circle cx="35" cy="25" r="18" fill="rgba(147, 51, 234, 0.25)" />
+          <path d="M 35 18 Q 42 6 56 10 Q 50 20 62 26 Q 48 28 42 38 Q 38 28 35 30 Q 32 28 28 38 Q 22 28 8 26 Q 20 20 14 10 Q 28 6 35 18 Z" fill="#18181B" />
+          <circle cx="32" cy="22" r="1.5" fill="#EF4444" />
+          <circle cx="38" cy="22" r="1.5" fill="#EF4444" />
+        </svg>
+      );
+    }
+    if (motif === "witch_hat") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(147, 51, 234, 0.7))" }}>
+          <circle cx="30" cy="32" r="20" fill="rgba(147, 51, 234, 0.3)" />
+          <ellipse cx="30" cy="46" rx="26" ry="6" fill="#18181B" />
+          <path d="M 18 45 L 29 12 Q 33 6 42 8 Q 36 18 35 24 L 42 45 Z" fill="#27272A" />
+          <path d="M 20 42 Q 30 40 40 42 L 41 45 Q 30 43 19 45 Z" fill="#9333EA" />
+          <rect x="27" y="40.5" width="6" height="5" rx="1" fill="#FBBF24" />
+        </svg>
+      );
+    }
+    if (motif === "skull") {
+      return (
+        <svg width={size} height={Math.round(size * 1.05)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 10px rgba(245, 158, 11, 0.6))" }}>
+          <circle cx="30" cy="30" r="22" fill="rgba(251, 191, 36, 0.25)" />
+          <path d="M 16 26 C 16 12 44 12 44 26 C 44 34 40 40 37 42 L 37 50 L 23 50 L 23 42 C 20 40 16 34 16 26 Z" fill="#F4F4F5" />
+          <circle cx="23" cy="26" r="5" fill="#18181B" />
+          <circle cx="37" cy="26" r="5" fill="#18181B" />
+          <polygon points="30,32 27,38 33,38" fill="#18181B" />
+          <line x1="26" y1="45" x2="26" y2="49" stroke="#18181B" strokeWidth="1.5" />
+          <line x1="30" y1="45" x2="30" y2="49" stroke="#18181B" strokeWidth="1.5" />
+          <line x1="34" y1="45" x2="34" y2="49" stroke="#18181B" strokeWidth="1.5" />
+        </svg>
+      );
+    }
+    // Default Halloween: Carved Jack-o'-Lantern
     return (
-      <svg width={size} height={Math.round(size * 0.92)} viewBox="0 0 70 65">
+      <svg width={size} height={Math.round(size * 0.92)} viewBox="0 0 70 65" style={{ filter: "drop-shadow(0 0 12px rgba(255, 117, 24, 0.75))" }}>
         <circle cx="35" cy="36" r="24" fill="rgba(255, 117, 24, 0.45)" />
         <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#2E7D32" />
         <ellipse cx="35" cy="38" rx="28" ry="22" fill="#FF7518" />
@@ -1939,20 +2199,89 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 2. Christmas Bethlehem Star
+  // 2. Christmas Motifs
   if (festId.includes("christmas")) {
+    if (motif === "wreath") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(46, 125, 50, 0.7))" }}>
+          <circle cx="30" cy="30" r="22" fill="none" stroke="#2E7D32" strokeWidth="8" strokeDasharray="6 3" />
+          <circle cx="30" cy="30" r="14" fill="none" stroke="#1B5E20" strokeWidth="3" />
+          <circle cx="22" cy="18" r="2.5" fill="#D32F2F" />
+          <circle cx="38" cy="20" r="2.5" fill="#FFD700" />
+          <circle cx="42" cy="34" r="2.5" fill="#D32F2F" />
+          <circle cx="18" cy="36" r="2.5" fill="#FFD700" />
+          <path d="M 25 44 C 20 48 23 54 27 52 L 30 46 L 33 52 C 37 54 40 48 35 44 Z" fill="#D32F2F" />
+          <circle cx="30" cy="45" r="3" fill="#B71C1C" />
+        </svg>
+      );
+    }
+    if (motif === "jingle_bell") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.75))" }}>
+          <circle cx="30" cy="30" r="20" fill="rgba(255, 215, 0, 0.3)" />
+          <path d="M 20 38 C 20 20 40 20 40 38 Z" fill="#FFD700" />
+          <rect x="17" y="38" width="26" height="5" rx="2" fill="#FFA000" />
+          <circle cx="30" cy="46" r="3.5" fill="#FF8F00" />
+          <path d="M 24 18 C 24 14 36 14 36 18 Z" fill="#D32F2F" />
+        </svg>
+      );
+    }
+    if (motif === "tree") {
+      return (
+        <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 10px rgba(46, 125, 50, 0.6))" }}>
+          <polygon points="30,8 18,24 42,24" fill="#2E7D32" />
+          <polygon points="30,18 14,36 46,36" fill="#1B5E20" />
+          <polygon points="30,28 10,50 50,50" fill="#0D3B13" />
+          <rect x="26" y="50" width="8" height="8" fill="#5D4037" />
+          <circle cx="30" cy="8" r="3" fill="#FFD700" />
+          <circle cx="24" cy="30" r="2" fill="#D32F2F" />
+          <circle cx="36" cy="42" r="2" fill="#FFD700" />
+        </svg>
+      );
+    }
+    if (motif === "candy_cane") {
+      return (
+        <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 10px rgba(211, 47, 47, 0.6))" }}>
+          <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round" fill="none" />
+          <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#D32F2F" strokeWidth="8" strokeDasharray="5 5" strokeLinecap="round" fill="none" />
+        </svg>
+      );
+    }
+    // Default: Bethlehem Star
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))" }}>
         <polygon points="30,4 37,21 56,21 41,33 47,52 30,40 13,52 19,33 4,21 23,21" fill="#FFD700" opacity="0.9" />
         <circle cx="30" cy="30" r="14" fill="rgba(255, 215, 0, 0.25)" />
       </svg>
     );
   }
 
-  // 3. Valentine's Day Glowing Heart
+  // 3. Valentine's Day Motifs
   if (festId.includes("valentines")) {
+    if (motif === "rose") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(225, 29, 72, 0.7))" }}>
+          <circle cx="30" cy="30" r="20" fill="rgba(225, 29, 72, 0.3)" />
+          <circle cx="30" cy="28" r="14" fill="#E11D48" />
+          <path d="M 30 16 C 24 18 24 28 30 34 C 36 28 36 18 30 16 Z" fill="#BE123C" />
+          <path d="M 24 22 Q 30 26 36 22" stroke="#FFF" strokeWidth="1" fill="none" opacity="0.6" />
+          <path d="M 30 42 L 30 52 M 30 46 Q 38 44 40 48" stroke="#15803D" strokeWidth="2" fill="none" />
+        </svg>
+      );
+    }
+    if (motif === "cupid") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(244, 63, 94, 0.6))" }}>
+          <path d="M 16 12 Q 38 30 16 48" stroke="#F43F5E" strokeWidth="3" fill="none" />
+          <line x1="16" y1="12" x2="16" y2="48" stroke="#FDA4AF" strokeWidth="1" />
+          <line x1="12" y1="30" x2="44" y2="30" stroke="#E11D48" strokeWidth="2.5" />
+          <path d="M 44 30 C 44 26 50 24 52 28 C 54 24 60 26 60 30 C 60 36 52 40 52 40 C 52 40 44 36 44 30 Z" fill="#E11D48" transform="scale(0.7) translate(18, 5)" />
+        </svg>
+      );
+    }
+    // Default Valentine: Glowing Satin Heart
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(233, 30, 99, 0.7))" }}>
         <circle cx="30" cy="30" r="18" fill="rgba(233, 30, 99, 0.35)" />
         <path d="M 30 16 C 26 8 14 10 14 22 C 14 34 30 46 30 46 C 30 46 46 34 46 22 C 46 10 34 8 30 16 Z" fill="#E91E63" />
         <path d="M 30 20 C 27 14 18 15 18 24 C 18 32 30 41 30 41 C 30 41 42 32 42 24 C 42 15 33 14 30 20 Z" fill="#FF4081" />
@@ -1960,10 +2289,30 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 4. Lunar New Year Red Silk Lantern
+  // 4. Lunar New Year Motifs
   if (festId.includes("lunar") || festId.includes("chinese")) {
+    if (motif === "sycee") {
+      return (
+        <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 60 50" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))" }}>
+          <ellipse cx="30" cy="20" rx="14" ry="7" fill="#FFE082" />
+          <path d="M 10 22 C 16 38 44 38 50 22 C 56 16 48 10 42 16 C 36 12 24 12 18 16 C 12 10 4 16 10 22 Z" fill="#FFD700" />
+          <ellipse cx="30" cy="20" rx="9" ry="4" fill="#FFC107" />
+        </svg>
+      );
+    }
+    if (motif === "hongbao") {
+      return (
+        <svg width={size} height={Math.round(size * 1.15)} viewBox="0 0 50 60" style={{ filter: "drop-shadow(0 0 10px rgba(220, 38, 38, 0.7))" }}>
+          <rect x="8" y="8" width="34" height="46" rx="4" fill="#DC2626" />
+          <path d="M 8 8 Q 25 24 42 8" fill="#B91C1C" />
+          <circle cx="25" cy="26" r="7" fill="#FBBF24" />
+          <text x="25" y="30" fontSize="8" fontWeight="bold" fill="#B91C1C" textAnchor="middle">福</text>
+        </svg>
+      );
+    }
+    // Default: Red Silk Lantern
     return (
-      <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 60 80">
+      <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 60 80" style={{ filter: "drop-shadow(0 0 10px rgba(211, 47, 47, 0.7))" }}>
         <circle cx="30" cy="35" r="18" fill="rgba(211, 47, 47, 0.35)" />
         <line x1="30" y1="5" x2="30" y2="16" stroke="#FFD700" strokeWidth="2" />
         <rect x="22" y="14" width="16" height="5" rx="2" fill="#FFD700" />
@@ -1976,10 +2325,22 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 5. Holi Brass Pichkari & Gulal Bowl
+  // 5. Holi Motifs
   if (festId.includes("holi")) {
+    if (motif === "gulal_thali") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(233, 30, 99, 0.6))" }}>
+          <circle cx="30" cy="30" r="22" fill="#D4AF37" />
+          <circle cx="30" cy="30" r="18" fill="#FFF8E1" />
+          <circle cx="24" cy="24" r="5" fill="#E91E63" />
+          <circle cx="36" cy="24" r="5" fill="#00E5FF" />
+          <circle cx="30" cy="36" r="6" fill="#FFD700" />
+        </svg>
+      );
+    }
+    // Default Holi: Brass Pichkari & Gulal Bowl
     return (
-      <svg width={size} height={Math.round(size * 0.9)} viewBox="0 0 70 65">
+      <svg width={size} height={Math.round(size * 0.9)} viewBox="0 0 70 65" style={{ filter: "drop-shadow(0 0 10px rgba(233, 30, 99, 0.5))" }}>
         <circle cx="35" cy="35" r="20" fill="rgba(233, 30, 99, 0.3)" />
         <ellipse cx="35" cy="46" rx="22" ry="8" fill="#D4AF37" />
         <circle cx="28" cy="44" r="6" fill="#E91E63" />
@@ -1991,10 +2352,23 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 6. Navratri Crossed Wooden Dandiya Sticks
+  // 6. Navratri Motifs
   if (festId.includes("navratri")) {
+    if (motif === "trishul") {
+      return (
+        <svg width={size} height={Math.round(size * 1.15)} viewBox="0 0 60 70" style={{ filter: "drop-shadow(0 0 10px rgba(255, 140, 0, 0.7))" }}>
+          <circle cx="30" cy="24" r="18" fill="rgba(255, 140, 0, 0.3)" />
+          <line x1="30" y1="8" x2="30" y2="62" stroke="#D4AF37" strokeWidth="3" />
+          <path d="M 18 16 Q 18 36 30 36 Q 42 36 42 16" stroke="#D4AF37" strokeWidth="3" fill="none" />
+          <polygon points="30,4 27,12 33,12" fill="#D4AF37" />
+          <polygon points="18,12 15,18 21,18" fill="#D4AF37" />
+          <polygon points="42,12 39,18 45,18" fill="#D4AF37" />
+        </svg>
+      );
+    }
+    // Default Navratri: Crossed Dandiya
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(255, 111, 0, 0.6))" }}>
         <circle cx="30" cy="30" r="18" fill="rgba(255, 111, 0, 0.3)" />
         <line x1="10" y1="50" x2="50" y2="10" stroke="#FF8F00" strokeWidth="4" strokeLinecap="round" />
         <line x1="10" y1="10" x2="50" y2="50" stroke="#D81B60" strokeWidth="4" strokeLinecap="round" />
@@ -2003,10 +2377,10 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 7. Pongal Clay Pot & Sugarcane
+  // 7. Pongal Motifs
   if (festId.includes("pongal")) {
     return (
-      <svg width={size} height={Math.round(size * 1.05)} viewBox="0 0 60 65">
+      <svg width={size} height={Math.round(size * 1.05)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 10px rgba(251, 192, 45, 0.6))" }}>
         <circle cx="30" cy="36" r="20" fill="rgba(251, 192, 45, 0.3)" />
         <ellipse cx="30" cy="42" rx="18" ry="14" fill="#8D4925" />
         <ellipse cx="30" cy="28" rx="14" ry="5" fill="#FFF8E1" />
@@ -2016,10 +2390,22 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 8. Onam Pookalam Floral Carpet
+  // 8. Onam Motifs
   if (festId.includes("onam")) {
+    if (motif === "snake_boat") {
+      return (
+        <svg width={size} height={Math.round(size * 0.75)} viewBox="0 0 70 50" style={{ filter: "drop-shadow(0 0 8px rgba(230, 81, 0, 0.6))" }}>
+          <path d="M 6 32 Q 35 44 64 22 Q 58 36 35 38 Q 12 36 6 32 Z" fill="#8D4925" />
+          <path d="M 62 22 Q 66 12 60 8 Q 56 14 58 24 Z" fill="#D4AF37" />
+          {[18, 26, 34, 42, 50].map((x) => (
+            <line key={x} x1={x} y1="34" x2={x + 4} y2="44" stroke="#D4AF37" strokeWidth="1.5" strokeLinecap="round" />
+          ))}
+        </svg>
+      );
+    }
+    // Default Onam: Pookalam Floral Carpet
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(230, 81, 0, 0.6))" }}>
         <circle cx="30" cy="30" r="26" fill="#E65100" />
         <circle cx="30" cy="30" r="21" fill="#FFB300" />
         <circle cx="30" cy="30" r="15" fill="#FFF8E1" />
@@ -2029,10 +2415,21 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 9. Raksha Bandhan Royal Golden Rakhi
+  // 9. Raksha Bandhan Motifs
   if (festId.includes("raksha") || festId.includes("rakhi")) {
+    if (motif === "peacock_rakhi") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(0, 150, 136, 0.7))" }}>
+          <line x1="4" y1="30" x2="56" y2="30" stroke="#FFD700" strokeWidth="2.5" />
+          <ellipse cx="30" cy="30" rx="14" ry="18" fill="#00897B" />
+          <ellipse cx="30" cy="30" rx="9" ry="12" fill="#1E88E5" />
+          <circle cx="30" cy="30" r="5" fill="#FFD700" />
+          <circle cx="30" cy="30" r="2.5" fill="#4A148C" />
+        </svg>
+      );
+    }
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(211, 47, 47, 0.6))" }}>
         <line x1="6" y1="30" x2="54" y2="30" stroke="#D32F2F" strokeWidth="3" />
         <circle cx="30" cy="30" r="15" fill="#FFD700" />
         <circle cx="30" cy="30" r="10" fill="#D32F2F" />
@@ -2041,10 +2438,21 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 10. Ganesh Chaturthi Clay Ganesha & Modak
+  // 10. Ganesh Chaturthi Motifs
   if (festId.includes("ganesh")) {
+    if (motif === "modak_golden") {
+      return (
+        <svg width={size} height={Math.round(size * 1.05)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))" }}>
+          <circle cx="30" cy="34" r="18" fill="rgba(255, 215, 0, 0.3)" />
+          <path d="M 30 10 C 20 24 16 38 18 48 C 22 52 38 52 42 48 C 44 38 40 24 30 10 Z" fill="#FFD700" />
+          <line x1="30" y1="12" x2="30" y2="48" stroke="#FFA000" strokeWidth="1.5" />
+          <line x1="24" y1="22" x2="24" y2="46" stroke="#FFA000" strokeWidth="1.2" />
+          <line x1="36" y1="22" x2="36" y2="46" stroke="#FFA000" strokeWidth="1.2" />
+        </svg>
+      );
+    }
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(255, 140, 0, 0.6))" }}>
         <circle cx="30" cy="30" r="20" fill="rgba(255, 140, 0, 0.3)" />
         <path d="M 30 14 Q 38 14 38 26 Q 38 42 30 46 Q 22 42 22 26 Z" fill="#E65100" />
         <circle cx="28" cy="22" r="2.5" fill="#FFFDE7" />
@@ -2053,10 +2461,19 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 11. Eid Damascus Brass Fanoos
+  // 11. Eid Damascus Brass Fanoos Motifs
   if (festId.includes("eid")) {
+    if (motif === "crescent_star") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.85))" }}>
+          <circle cx="30" cy="30" r="18" fill="rgba(255, 215, 0, 0.3)" />
+          <path d="M 34 14 C 20 14 16 36 32 46 C 18 42 16 22 34 14 Z" fill="#FFD700" />
+          <polygon points="36,22 38,28 44,28 39,32 41,38 36,34 31,38 33,32 28,28 34,28" fill="#FFFDE7" />
+        </svg>
+      );
+    }
     return (
-      <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 60 75">
+      <svg width={size} height={Math.round(size * 1.25)} viewBox="0 0 60 75" style={{ filter: "drop-shadow(0 0 12px rgba(212, 175, 55, 0.75))" }}>
         <circle cx="30" cy="36" r="18" fill="rgba(212, 175, 55, 0.35)" />
         <line x1="30" y1="4" x2="30" y2="14" stroke="#B78103" strokeWidth="1.5" />
         <polygon points="30,14 20,24 40,24" fill="#D4AF37" />
@@ -2067,10 +2484,20 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 12. Thanksgiving Harvest Pumpkin
+  // 12. Thanksgiving Harvest Motifs
   if (festId.includes("thanksgiving")) {
+    if (motif === "acorn_leaf") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(230, 81, 0, 0.6))" }}>
+          <circle cx="30" cy="30" r="18" fill="rgba(216, 67, 21, 0.3)" />
+          <path d="M 20 30 Q 14 14 30 14 Q 46 14 40 30 Q 30 46 20 30 Z" fill="#E65100" />
+          <path d="M 22 28 Q 30 32 38 28" stroke="#FFE082" strokeWidth="1.2" fill="none" />
+          <ellipse cx="30" cy="40" rx="8" ry="6" fill="#8D4925" />
+        </svg>
+      );
+    }
     return (
-      <svg width={size} height={Math.round(size * 0.9)} viewBox="0 0 70 65">
+      <svg width={size} height={Math.round(size * 0.9)} viewBox="0 0 70 65" style={{ filter: "drop-shadow(0 0 12px rgba(230, 81, 0, 0.65))" }}>
         <circle cx="35" cy="36" r="22" fill="rgba(230, 81, 0, 0.35)" />
         <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#4E342E" />
         <ellipse cx="35" cy="38" rx="28" ry="22" fill="#E65100" />
@@ -2083,8 +2510,18 @@ function DynamicCornerWidget({ festival, size = 32 }) {
 
   // 13. Hanukkah Menorah
   if (festId.includes("hanukkah")) {
+    if (motif === "star_of_david") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(33, 150, 243, 0.8))" }}>
+          <circle cx="30" cy="30" r="20" fill="rgba(33, 150, 243, 0.25)" />
+          <polygon points="30,10 46,38 14,38" stroke="#1976D2" strokeWidth="2.5" fill="none" />
+          <polygon points="30,50 46,22 14,22" stroke="#2196F3" strokeWidth="2.5" fill="none" />
+          <circle cx="30" cy="30" r="4" fill="#FFD700" />
+        </svg>
+      );
+    }
     return (
-      <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 70 75">
+      <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 70 75" style={{ filter: "drop-shadow(0 0 12px rgba(212, 175, 55, 0.75))" }}>
         <line x1="35" y1="20" x2="35" y2="65" stroke="#D4AF37" strokeWidth="3" />
         <ellipse cx="35" cy="65" rx="14" ry="4" fill="#D4AF37" />
         <path d="M 15 28 Q 15 48 35 48 Q 55 48 55 28" stroke="#D4AF37" strokeWidth="2" fill="none" />
@@ -2098,8 +2535,21 @@ function DynamicCornerWidget({ festival, size = 32 }) {
 
   // 14. Vishu Kerala Nilavilakku
   if (festId === "vishu") {
+    if (motif === "kanikonna") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))" }}>
+          <circle cx="30" cy="30" r="20" fill="rgba(255, 215, 0, 0.3)" />
+          <path d="M 16 12 Q 32 30 46 48" stroke="#388E3C" strokeWidth="2" fill="none" />
+          <circle cx="22" cy="18" r="4.5" fill="#FFD700" />
+          <circle cx="32" cy="24" r="5" fill="#FFFF00" />
+          <circle cx="26" cy="32" r="5.5" fill="#FFD700" />
+          <circle cx="38" cy="36" r="4.5" fill="#FFEA00" />
+          <circle cx="44" cy="46" r="3.5" fill="#FFD700" />
+        </svg>
+      );
+    }
     return (
-      <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 60 80">
+      <svg width={size} height={Math.round(size * 1.3)} viewBox="0 0 60 80" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.75))" }}>
         <circle cx="30" cy="16" r="16" fill="rgba(255, 215, 0, 0.3)" />
         <path d="M 30 4 C 26 10 24 14 30 19 C 36 14 34 10 30 4 Z" fill="#FF9100" />
         <ellipse cx="30" cy="20" rx="14" ry="4" fill="#D4AF37" />
@@ -2111,8 +2561,19 @@ function DynamicCornerWidget({ festival, size = 32 }) {
 
   // 15. New Year Champagne Flutes
   if (festId.includes("new-year") || festId.includes("newyear")) {
+    if (motif === "clock") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))" }}>
+          <circle cx="30" cy="30" r="22" fill="#18181B" stroke="#FFD700" strokeWidth="2.5" />
+          <circle cx="30" cy="30" r="18" fill="none" stroke="#FFE082" strokeWidth="0.8" />
+          <line x1="30" y1="30" x2="30" y2="16" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" />
+          <line x1="30" y1="30" x2="38" y2="22" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
+          <circle cx="30" cy="30" r="2.5" fill="#FFFFFF" />
+        </svg>
+      );
+    }
     return (
-      <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 60 65">
+      <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))" }}>
         <circle cx="30" cy="32" r="18" fill="rgba(255, 215, 0, 0.3)" />
         <path d="M 22 16 L 26 34 L 26 48 L 20 50 L 32 50 L 26 48 L 26 34 Z" fill="#FFD700" opacity="0.8" />
         <path d="M 38 16 L 34 34 L 34 48 L 28 50 L 40 50 L 34 48 L 34 34 Z" fill="#FFE082" opacity="0.8" />
@@ -2124,7 +2585,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
   // 16. Makar Sankranti Diamond Fighter Kite
   if (festId.includes("sankranti") || festId.includes("uttarayan")) {
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(0, 176, 255, 0.6))" }}>
         <circle cx="30" cy="30" r="18" fill="rgba(0, 176, 255, 0.3)" />
         <polygon points="30,8 50,30 30,52 10,30" fill="#FF6D00" />
         <line x1="30" y1="8" x2="30" y2="52" stroke="#FFFFFF" strokeWidth="1.5" />
@@ -2136,7 +2597,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
   // 17. Dussehra Golden Bow & Arrow
   if (festId.includes("dussehra") || festId.includes("vijayadashami")) {
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 140, 0, 0.7))" }}>
         <circle cx="30" cy="30" r="18" fill="rgba(255, 140, 0, 0.35)" />
         <path d="M 16 12 Q 38 30 16 48" stroke="#FFD700" strokeWidth="3" fill="none" />
         <line x1="16" y1="12" x2="16" y2="48" stroke="#FFE082" strokeWidth="1.2" />
@@ -2149,7 +2610,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
   // 18. Easter Decorated Pastel Egg
   if (festId.includes("easter")) {
     return (
-      <svg width={size} height={Math.round(size * 1.15)} viewBox="0 0 60 70">
+      <svg width={size} height={Math.round(size * 1.15)} viewBox="0 0 60 70" style={{ filter: "drop-shadow(0 0 10px rgba(248, 187, 208, 0.6))" }}>
         <circle cx="30" cy="38" r="18" fill="rgba(248, 187, 208, 0.35)" />
         <ellipse cx="30" cy="38" rx="20" ry="26" fill="#F8BBD0" stroke="#F48FB1" strokeWidth="1.5" />
         <path d="M 12 36 Q 30 46 48 36" stroke="#80DEEA" strokeWidth="2.5" fill="none" />
@@ -2161,10 +2622,10 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 19. Mid-Autumn Harvest Moon & Mooncake
+  // 19. Mid-Autumn Harvest Mooncake
   if (festId.includes("mid-autumn") || festId.includes("mooncake")) {
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60">
+      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 213, 79, 0.75))" }}>
         <circle cx="30" cy="30" r="24" fill="rgba(255, 213, 79, 0.35)" />
         <circle cx="30" cy="30" r="18" fill="#FFD54F" />
         <circle cx="30" cy="30" r="14" fill="#FFA000" stroke="#FFD54F" strokeWidth="1" />
@@ -2176,7 +2637,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
   // 20. Vesak Blooming Sacred Lotus
   if (festId.includes("vesak") || festId.includes("buddha")) {
     return (
-      <svg width={size} height={Math.round(size * 0.95)} viewBox="0 0 60 55">
+      <svg width={size} height={Math.round(size * 0.95)} viewBox="0 0 60 55" style={{ filter: "drop-shadow(0 0 12px rgba(248, 187, 208, 0.7))" }}>
         <circle cx="30" cy="30" r="18" fill="rgba(248, 187, 208, 0.35)" />
         <path d="M 30 10 C 24 22 22 36 30 44 C 38 36 36 22 30 10 Z" fill="#F48FB1" />
         <path d="M 22 22 C 14 28 14 38 24 44 C 28 38 26 28 22 22 Z" fill="#F8BBD0" />
@@ -2189,7 +2650,7 @@ function DynamicCornerWidget({ festival, size = 32 }) {
   // 21. Durga Puja Clay Dhunachi Incense Burner
   if (festId.includes("durga")) {
     return (
-      <svg width={size} height={Math.round(size * 1.2)} viewBox="0 0 60 72">
+      <svg width={size} height={Math.round(size * 1.2)} viewBox="0 0 60 72" style={{ filter: "drop-shadow(0 0 12px rgba(198, 40, 40, 0.65))" }}>
         <circle cx="30" cy="24" r="16" fill="rgba(198, 40, 40, 0.25)" />
         <path d="M 28 8 Q 24 16 32 20 Q 28 24 30 30" stroke="#ECEFF1" strokeWidth="2" fill="none" opacity="0.75" />
         <path d="M 32 10 Q 36 18 28 22 Q 32 26 30 30" stroke="#ECEFF1" strokeWidth="1.5" fill="none" opacity="0.6" />
@@ -2200,9 +2661,47 @@ function DynamicCornerWidget({ festival, size = 32 }) {
     );
   }
 
-  // 22. Classical Living Brass Diya (Diwali & Indian Festivals Default)
+  // 22. Diwali & Indian Celebrations (Living Brass, Clay, Marigold, Copper)
+  if (motif === "terracotta_clay") {
+    return (
+      <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(255, 117, 24, 0.8))" }}>
+        <circle cx="50" cy="30" r="22" fill="rgba(255, 117, 24, 0.45)" />
+        <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF5722" />
+        <path d="M 50 16 C 46 25 44 30 50 36 C 56 30 54 25 50 16 Z" fill="#FFFDE7" />
+        <ellipse cx="50" cy="46" rx="36" ry="9" fill="#E64A19" />
+        <path d="M 14 46 Q 16 68 50 70 Q 84 68 86 46 Z" fill="#BF360C" />
+        <ellipse cx="50" cy="70" rx="18" ry="3.5" fill="#3E2723" />
+      </svg>
+    );
+  }
+  if (motif === "marigold_urli") {
+    return (
+      <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.85))" }}>
+        <circle cx="50" cy="30" r="22" fill="rgba(255, 215, 0, 0.45)" />
+        <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF9800" />
+        <ellipse cx="50" cy="50" rx="42" ry="12" fill="#D4AF37" />
+        <circle cx="26" cy="50" r="5" fill="#E65100" />
+        <circle cx="38" cy="54" r="4.5" fill="#FFC107" />
+        <circle cx="62" cy="54" r="4.5" fill="#FFC107" />
+        <circle cx="74" cy="50" r="5" fill="#E65100" />
+      </svg>
+    );
+  }
+  if (motif === "antique_copper") {
+    return (
+      <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(216, 67, 21, 0.8))" }}>
+        <circle cx="50" cy="30" r="22" fill="rgba(216, 67, 21, 0.45)" />
+        <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF6B35" />
+        <ellipse cx="50" cy="46" rx="36" ry="9" fill="#D84315" />
+        <path d="M 14 46 Q 16 68 50 70 Q 84 68 86 46 Z" fill="#872900" />
+        <ellipse cx="50" cy="70" rx="18" ry="3.5" fill="#3E2723" />
+      </svg>
+    );
+  }
+
+  // Default: Classical Living Brass Diya
   return (
-    <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85">
+    <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.85))" }}>
       <circle cx="50" cy="30" r="24" fill="rgba(255, 215, 0, 0.45)" />
       <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF6B35" />
       <path d="M 50 16 C 46 25 44 30 50 36 C 56 30 54 25 50 16 Z" fill="#FFFDE7" />
@@ -2229,6 +2728,7 @@ function DeviceStorefrontMock({
   promoCode = "UTSAV26",
   diyaSize,
   diyaPosition,
+  cornerMotif,
   particleDensity,
   effectIntensity,
   customPrimaryColor,
@@ -2575,20 +3075,20 @@ function DeviceStorefrontMock({
               {(diyaPosition === "bottom_corners" || diyaPosition === "all_corners") && (
                 <>
                   <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", left: isMobile ? "6px" : "12px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} />
+                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
                   <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", right: isMobile ? "6px" : "12px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} />
+                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
                 </>
               )}
               {(diyaPosition === "top_corners" || diyaPosition === "all_corners") && (
                 <>
                   <div style={{ position: "absolute", top: isMobile ? "32px" : "44px", left: isMobile ? "6px" : "12px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} />
+                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
                   <div style={{ position: "absolute", top: isMobile ? "32px" : "44px", right: isMobile ? "6px" : "12px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} />
+                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
                 </>
               )}
@@ -2653,6 +3153,9 @@ export default function FestivalStudio() {
   const [motionSensitivity, setMotionSensitivity] = useState(customSettings.motionSensitivity ?? true);
   const [diyaSize, setDiyaSize] = useState(config.diyaSize || "medium");
   const [diyaPosition, setDiyaPosition] = useState(config.diyaPosition || "bottom_corners");
+  const [cornerMotif, setCornerMotif] = useState(
+    customSettings.cornerMotif || config.diyaStyle || "default"
+  );
 
   // Colors & Custom Styling
   const [customPrimaryColor, setCustomPrimaryColor] = useState(customSettings.customPrimaryColor || festival.palette?.primary || "#FFD700");
@@ -2712,6 +3215,7 @@ export default function FestivalStudio() {
     setParticleDensity(20);
     setDiyaSize("medium");
     setDiyaPosition("bottom_corners");
+    setCornerMotif("default");
     setGarlandLayout("top_and_sides");
     setGarlandPlacement("below_header");
     setGarlandOffset(0);
@@ -2729,6 +3233,7 @@ export default function FestivalStudio() {
     setEnableEffects(config.enableEffects ?? true);
     setDiyaSize(config.diyaSize || "medium");
     setDiyaPosition(config.diyaPosition || "bottom_corners");
+    setCornerMotif(customSettings.cornerMotif || config.diyaStyle || "default");
     setBannerText(config.bannerText || festival.banner?.defaultText || "");
     setHasUnsavedChanges(false);
   };
@@ -2761,6 +3266,7 @@ export default function FestivalStudio() {
         effectIntensity,
         particleDensity,
         motionSensitivity,
+        cornerMotif,
         customPrimaryColor,
         smartMatchMode,
         triggerEvent,
@@ -2788,6 +3294,7 @@ export default function FestivalStudio() {
       language,
       diyaSize,
       diyaPosition,
+      cornerMotif,
       bannerText,
       scheduledStart,
       scheduledEnd,
@@ -3224,6 +3731,14 @@ export default function FestivalStudio() {
                   />
 
                   <Select
+                    label={terminology.cornerMotifLabel || "Corner Motif Icon / Style"}
+                    options={getFestivalCornerMotifOptions(festival.id)}
+                    value={cornerMotif === "default" ? (getFestivalCornerMotifOptions(festival.id)[0]?.value || "default") : cornerMotif}
+                    onChange={(val) => { setCornerMotif(val); markDirty(); }}
+                    helpText="Choose which iconic festive symbol sits elegantly in the corners of your store."
+                  />
+
+                  <Select
                     label={terminology.cornerPlacementLabel || "Corner Motif Placement"}
                     options={[
                       { label: "Bottom Corners (Default — Elegant)", value: "bottom_corners" },
@@ -3563,6 +4078,7 @@ export default function FestivalStudio() {
                 promoCode={promoCode}
                 diyaSize={diyaSize}
                 diyaPosition={diyaPosition}
+                cornerMotif={cornerMotif}
                 particleDensity={particleDensity}
                 effectIntensity={effectIntensity}
                 customPrimaryColor={customPrimaryColor}
@@ -3588,6 +4104,7 @@ export default function FestivalStudio() {
                 promoCode={promoCode}
                 diyaSize={diyaSize}
                 diyaPosition={diyaPosition}
+                cornerMotif={cornerMotif}
                 particleDensity={particleDensity}
                 effectIntensity={effectIntensity}
                 customPrimaryColor={customPrimaryColor}
@@ -3624,6 +4141,7 @@ export default function FestivalStudio() {
                     promoCode={promoCode}
                     diyaSize={diyaSize}
                     diyaPosition={diyaPosition}
+                    cornerMotif={cornerMotif}
                     particleDensity={particleDensity}
                     effectIntensity={effectIntensity}
                     customPrimaryColor={customPrimaryColor}
@@ -3648,6 +4166,7 @@ export default function FestivalStudio() {
                     promoCode={promoCode}
                     diyaSize={diyaSize}
                     diyaPosition={diyaPosition}
+                    cornerMotif={cornerMotif}
                     particleDensity={particleDensity}
                     effectIntensity={effectIntensity}
                     customPrimaryColor={customPrimaryColor}
@@ -3728,6 +4247,7 @@ export default function FestivalStudio() {
                 bannerText={bannerText}
                 diyaSize={diyaSize}
                 diyaPosition={diyaPosition}
+                cornerMotif={cornerMotif}
                 particleDensity={particleDensity}
                 effectIntensity={effectIntensity}
                 customPrimaryColor={customPrimaryColor}
