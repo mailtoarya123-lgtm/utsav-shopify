@@ -143,7 +143,6 @@
       banner.id = "utsav-festival-banner";
       banner.innerHTML = `
         <div class="utsav-banner-inner">
-          <span class="utsav-banner-tag">${festivalEmoji} ${festivalName.split(" ")[0]}</span>
           <span class="utsav-banner-text">${bannerText}</span>
           ${
             couponCode
@@ -2110,6 +2109,16 @@ function buildSpiderWeb() {
       }
     }
 
+    // ─── CART LAYERING: keep cart drawer/page above festive decorations ─────────
+    (function watchCartLayering() {
+      const sel = "cart-drawer.active, cart-drawer[open], #CartDrawer.active, .cart-drawer.active, .drawer.active, [data-cart-drawer].is-open";
+      const isCart = window.location.pathname.includes("/cart");
+      setInterval(function () {
+        document.body.classList.toggle("utsav-cart-open", !!document.querySelector(sel));
+        document.body.classList.toggle("utsav-cart-page", isCart);
+      }, 300);
+    })();
+
     // ─── 8. URGENCY & COUNTDOWN TIMERS ENGINE ─────────────────────────────────
     if (config.urgencyTimers && config.urgencyTimers.enabled) {
       const timers = config.urgencyTimers;
@@ -2139,26 +2148,45 @@ function buildSpiderWeb() {
         }
       }
 
-      // B. Cart Urgency / Reservation Timer (ONLY on the Cart Page or Cart Drawer)
+      // B. Cart Urgency / Reservation Timer (inline inside Cart Page & Cart Drawer only)
       const isCartPage = window.location.pathname.includes("/cart");
-      if (timers.cartTimer && isCartPage && !document.getElementById("utsav-cart-urgency-pill")) {
-        const cartMinutes = Number(timers.cartMinutes) || 15;
-        let remainingCartSec = cartMinutes * 60;
-        const pill = document.createElement("div");
-        pill.id = "utsav-cart-urgency-pill";
+      const DRAWER_SEL = "cart-drawer.active, cart-drawer[open], #CartDrawer.active, .cart-drawer.active, .drawer.active, [data-cart-drawer].is-open";
+      const DRAWER_HOST_SEL = "cart-drawer-items, .cart-drawer__header, .drawer__header, .cart-drawer__body, .drawer__inner";
+      const PAGE_HOST_SEL = "cart-items, #main-cart-items, .cart__items, form[action*='/cart'], main";
+      let cartTimerStart = Date.now();
+      const cartMinutes = Number(timers.cartMinutes) || 15;
 
-        function updateCartTimer() {
-          if (remainingCartSec <= 0) remainingCartSec = cartMinutes * 60;
-          const m = Math.floor(remainingCartSec / 60);
-          const s = remainingCartSec % 60;
-          const pad = function (n) { return String(n).padStart(2, "0"); };
-          pill.innerHTML = '<span>🔥</span><span>Cart reserved for <strong style="color:#FFD700; font-family:monospace;">' + pad(m) + ':' + pad(s) + '</strong></span><a href="/checkout">Checkout</a>';
-          remainingCartSec--;
-        }
-        updateCartTimer();
-        setInterval(updateCartTimer, 1000);
-        document.body.appendChild(pill);
+      function cartTimerHtml() {
+        let rem = cartMinutes * 60 - Math.floor((Date.now() - cartTimerStart) / 1000);
+        if (rem <= 0) { cartTimerStart = Date.now(); rem = cartMinutes * 60; }
+        const pad = function (n) { return String(n).padStart(2, "0"); };
+        return '<span>🔥</span><span>Cart reserved for <strong style="color:#FFD700; font-family:monospace;">' + pad(Math.floor(rem / 60)) + ':' + pad(rem % 60) + '</strong></span>';
       }
+
+      function syncCartLayering() {
+        const drawerOpen = !!document.querySelector(DRAWER_SEL);
+        document.body.classList.toggle("utsav-cart-open", drawerOpen);
+        document.body.classList.toggle("utsav-cart-page", isCartPage);
+        if (!timers.cartTimer) return;
+        let pill = document.getElementById("utsav-cart-urgency-pill");
+        if (!drawerOpen && !isCartPage) { if (pill) pill.remove(); return; }
+        const drawerEl = document.querySelector(DRAWER_SEL);
+        const host = drawerOpen
+          ? ((drawerEl && drawerEl.querySelector(DRAWER_HOST_SEL)) || null)
+          : document.querySelector(PAGE_HOST_SEL);
+        if (!host) return;
+        if (!pill) {
+          pill = document.createElement("div");
+          pill.id = "utsav-cart-urgency-pill";
+        }
+        pill.style.cssText = "position: static !important; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 16px; padding: 9px 14px; border-radius: 10px; background: #1A0A00; color: #fff; border: 1px solid rgba(255,117,24,0.7); font-size: 13px; font-weight: 600; z-index: auto !important; box-shadow: none; animation: none;";
+        pill.innerHTML = cartTimerHtml();
+        if (pill.parentNode !== host.parentNode || pill.nextSibling !== host) {
+          host.parentNode.insertBefore(pill, host);
+        }
+      }
+      syncCartLayering();
+      setInterval(syncCartLayering, 500);
 
       // C. Product Flash Deal Urgency
       if (timers.productTimer) {

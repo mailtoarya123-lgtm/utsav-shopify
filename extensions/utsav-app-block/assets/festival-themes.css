@@ -319,6 +319,32 @@ form[action*="/cart/add"] button,
   pointer-events: none !important;
 }
 
+/* ─── Cart Always On Top: drawer & cart page sit above banner + decorations ─── */
+#utsav-festival-banner {
+  z-index: 2 !important;
+}
+
+body.utsav-cart-open #utsav-top-garland,
+body.utsav-cart-open .utsav-side-garland,
+body.utsav-cart-open #utsav-ghost-container,
+body.utsav-cart-open #utsav-effects-canvas,
+body.utsav-cart-open #utsav-corner-container,
+body.utsav-cart-open .utsav-corner-decor,
+body.utsav-cart-open .utsav-ambient-vignette,
+body.utsav-cart-open canvas[id^="utsav-"],
+body.utsav-cart-page #utsav-ghost-container,
+body.utsav-cart-page #utsav-effects-canvas,
+body.utsav-cart-page #utsav-corner-container,
+body.utsav-cart-page .utsav-corner-decor,
+body.utsav-cart-page .utsav-side-garland,
+body.utsav-cart-page canvas[id^="utsav-"] {
+  display: none !important;
+}
+
+body.utsav-cart-page #utsav-top-garland {
+  z-index: 1 !important;
+}
+
 /* ─── 10. Festive Discount Badges & Urgency Cart Reservation Pill ─────────── */
 .utsav-discount-badge {
   display: inline-flex;
