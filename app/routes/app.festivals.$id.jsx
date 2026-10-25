@@ -426,8 +426,11 @@ export function getFestivalTerminology(festivalId = "") {
         { label: "Phantom Emerald Slime", value: "phantom_green" },
         { label: "Moonlit Silver Fog", value: "pearl_white" },
       ],
-      particleLabel: "Spectral Particle Budget",
-      particleHelp: "Controls ghost silhouette and floating ember density at smooth 60 FPS.",
+      particleRadianceLabel: "Ghost Luminescence & Eerie Glow",
+      particleRadianceHelp: "Controls the atmospheric opacity and spectral glow of floating ghosts and candlelight embers.",
+      particleLabel: "Ghost Silhouette & Mist Density",
+      particleHelp: "Controls the count of drifting ghost silhouettes and atmospheric embers at smooth 60 FPS.",
+      particleUnit: " ghosts/wisps",
       audioLabel: "Atmospheric Chime / Eerie Soundscape",
       audioHelp: "Plays a gentle, subtle atmospheric chime on shopper interaction. Muted by default.",
       safeZoneHelp: "Prevents corner Jack-o'-Lanterns from colliding with mobile bottom navigation bars or chat widgets.",
@@ -1140,10 +1143,12 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
   if (festId.includes("halloween")) {
     return (
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {/* Spectral Ghosts hovering along safe gutters */}
         {[
-          { left: "6%", top: "25%", size: 21, delay: "0s", duration: "7s", opacity: 0.75 },
-          { left: "10%", top: "68%", size: 23, delay: "3.5s", duration: "8.5s", opacity: 0.7 },
-          { left: "90%", top: "22%", size: 19, delay: "1.8s", duration: "7.8s", opacity: 0.75 },
+          { left: "5%", top: "22%", size: 24, delay: "0s", duration: "7s", opacity: 0.8 },
+          { left: "8%", top: "65%", size: 26, delay: "3.5s", duration: "8.5s", opacity: 0.75 },
+          { left: "91%", top: "20%", size: 22, delay: "1.8s", duration: "7.8s", opacity: 0.8 },
+          { left: "93%", top: "70%", size: 28, delay: "4s", duration: "9s", opacity: 0.7 },
         ].map((g, idx) => (
           <div
             key={`ghost-${idx}`}
@@ -1152,9 +1157,9 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
               left: g.left,
               top: g.top,
               width: `${g.size}px`,
-              height: `${Math.round(g.size * 1.2)}px`,
+              height: `${Math.round(g.size * 1.25)}px`,
               opacity: g.opacity,
-              filter: "drop-shadow(0 0 8px rgba(255, 117, 24, 0.45))",
+              filter: "drop-shadow(0 0 10px rgba(255, 117, 24, 0.55))",
               animation: `utsavGhostFloat ${g.duration} ease-in-out infinite alternate`,
               animationDelay: g.delay,
               pointerEvents: "none",
@@ -1163,7 +1168,7 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
             <svg viewBox="0 0 32 38" width="100%" height="100%">
               <path
                 d="M 16 3 C 8 3 4 10 4 18 C 4 27 6 34 8 33 C 10 32 12 35 14 33 C 16 31 18 35 20 33 C 22 31 24 35 26 33 C 28 35 28 27 28 18 C 28 10 24 3 16 3 Z"
-                fill="rgba(240, 235, 255, 0.9)"
+                fill="rgba(240, 235, 255, 0.92)"
               />
               <ellipse cx="11" cy="14" rx="2.2" ry="3" fill="#1A1528" />
               <ellipse cx="21" cy="14" rx="2.2" ry="3" fill="#1A1528" />
@@ -1171,19 +1176,24 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
             </svg>
           </div>
         ))}
-        {[...Array(count)].map((_, i) => (
+
+        {/* Eerie Twilight Spectral Wisps (curved soft vapor instead of generic particles) */}
+        {[...Array(Math.min(count, 12))].map((_, i) => (
           <div
-            key={`ember-${i}`}
+            key={`wisp-${i}`}
             style={{
               position: "absolute",
-              left: `${(i * 17 + 5) % 90 + 5}%`,
-              top: `${(i * 23 + 11) % 85 + 8}%`,
-              width: `${(i % 3) + 2.5}px`,
-              height: `${(i % 3) + 2.5}px`,
+              left: `${(i * 19 + 7) % 88 + 6}%`,
+              top: `${(i * 23 + 13) % 82 + 10}%`,
+              width: `${(i % 3) * 6 + 18}px`,
+              height: `${(i % 2) * 4 + 8}px`,
               borderRadius: "50%",
-              background: i % 2 === 0 ? "#FF7518" : "#FFD700",
-              boxShadow: "0 0 5px rgba(255, 117, 24, 0.8)",
-              opacity: 0.8,
+              background: i % 2 === 0
+                ? "radial-gradient(ellipse, rgba(255, 117, 24, 0.45) 0%, transparent 70%)"
+                : "radial-gradient(ellipse, rgba(170, 0, 255, 0.35) 0%, transparent 70%)",
+              filter: "blur(2px)",
+              animation: `utsavEeriePulse ${(i % 3) + 4}s ease-in-out infinite alternate`,
+              pointerEvents: "none",
             }}
           />
         ))}
@@ -3254,14 +3264,14 @@ export default function FestivalStudio() {
               {enableSeriesLights && (
                 <>
                   <LuxurySlider
-                    label="Particle Radiance & Intensity"
+                    label={terminology.particleRadianceLabel || "Particle Radiance & Intensity"}
                     value={effectIntensity}
                     min={20}
                     max={100}
                     step={5}
                     unit="%"
                     onChange={(val) => { setEffectIntensity(val); markDirty(); }}
-                    helpText="Controls the opacity and glow intensity of floating ghosts and embers."
+                    helpText={terminology.particleRadianceHelp || "Controls the opacity and glow intensity of floating ghosts and embers."}
                   />
 
                   <LuxurySlider
@@ -3270,9 +3280,9 @@ export default function FestivalStudio() {
                     min={6}
                     max={36}
                     step={2}
-                    unit=" particles"
+                    unit={terminology.particleUnit || " particles"}
                     onChange={(val) => { setParticleDensity(val); markDirty(); }}
-                    helpText="Maintains smooth 60 FPS performance across mobile and desktop."
+                    helpText={terminology.particleHelp || "Maintains smooth 60 FPS performance across mobile and desktop."}
                   />
 
                   <Box padding="300" background="bg-surface-secondary" borderRadius="200">

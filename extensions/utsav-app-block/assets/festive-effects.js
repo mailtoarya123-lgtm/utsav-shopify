@@ -1753,7 +1753,7 @@ function buildSpiderWeb() {
         decor.setAttribute("tabindex", "0");
         decor.setAttribute("aria-label", `Tap for ${festivalName} festive greeting`);
         decor.title = "Tap for Festive Blessing ✨";
-        decor.style.cssText = "position: fixed !important; pointer-events: auto !important; cursor: pointer !important; z-index: 99996 !important; filter: drop-shadow(0 4px 16px var(--utsav-glow, rgba(255, 117, 24, 0.75))); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);";
+        decor.style.cssText = "position: fixed !important; display: block !important; width: " + sizePx + "px !important; height: auto !important; pointer-events: auto !important; cursor: pointer !important; z-index: 2147483640 !important; filter: drop-shadow(0 4px 16px var(--utsav-glow, rgba(255, 117, 24, 0.75))); transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);";
         Object.assign(decor.style, coords);
         decor.innerHTML = getEfCornerSVG(festivalId, sizePx);
         decor.addEventListener("click", triggerBlessing);
@@ -1766,20 +1766,17 @@ function buildSpiderWeb() {
         decorContainer.appendChild(decor);
       }
 
-      if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_left" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
-        attachCornerDecor({ bottom: diyaMarginY + "px", left: diyaMarginX + "px" });
+      const pos = (diyaPosition || "bottom_corners").toLowerCase();
+      if (pos.includes("bottom") || pos.includes("all")) {
+        if (pos !== "bottom_right") attachCornerDecor({ bottom: diyaMarginY + "px", left: diyaMarginX + "px" });
+        if (pos !== "bottom_left") attachCornerDecor({ bottom: diyaMarginY + "px", right: diyaMarginX + "px" });
       }
-      if (diyaPosition === "bottom_corners" || diyaPosition === "bottom_right" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
-        attachCornerDecor({ bottom: diyaMarginY + "px", right: diyaMarginX + "px" });
-      }
-      if (diyaPosition === "top_corners" || diyaPosition === "top_left" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
-        attachCornerDecor({ top: diyaMarginY + "px", left: diyaMarginX + "px" });
-      }
-      if (diyaPosition === "top_corners" || diyaPosition === "top_right" || diyaPosition === "all_four" || diyaPosition === "all_corners") {
-        attachCornerDecor({ top: diyaMarginY + "px", right: diyaMarginX + "px" });
+      if (pos.includes("top") || pos.includes("all")) {
+        if (pos !== "top_right") attachCornerDecor({ top: diyaMarginY + "px", left: diyaMarginX + "px" });
+        if (pos !== "top_left") attachCornerDecor({ top: diyaMarginY + "px", right: diyaMarginX + "px" });
       }
 
-      (document.documentElement || document.body).appendChild(decorContainer);
+      (document.body || document.documentElement).appendChild(decorContainer);
     }
 
     // ─── 4.4 HALLOWEEN: Floating Ghost Silhouettes & Ambient Eerie Mist ───────
@@ -1813,12 +1810,13 @@ function buildSpiderWeb() {
         ghostContainer.appendChild(ghostEl);
       });
 
-      // Floating Ember Particles
-      for (let i = 0; i < 16; i++) {
-        const ember = document.createElement("div");
-        const size = (i % 3) + 2.5;
-        ember.style.cssText = "position: absolute; left: " + ((i * 19 + 7) % 90 + 5) + "%; top: " + ((i * 23 + 11) % 85 + 8) + "%; width: " + size + "px; height: " + size + "px; border-radius: 50%; background: " + (i % 2 === 0 ? "#FF7518" : "#FFD700") + "; box-shadow: 0 0 6px rgba(255, 117, 24, 0.85); opacity: 0.8;";
-        ghostContainer.appendChild(ember);
+      // Ambient Spectral Wisps & Twilight Mist (Non-particle fluid atmospheric feel)
+      for (let i = 0; i < 8; i++) {
+        const wisp = document.createElement("div");
+        const w = (i % 3) * 12 + 28;
+        const h = (i % 2) * 6 + 14;
+        wisp.style.cssText = "position: absolute; left: " + ((i * 21 + 11) % 86 + 7) + "%; top: " + ((i * 23 + 15) % 80 + 10) + "%; width: " + w + "px; height: " + h + "px; border-radius: 50%; background: " + (i % 2 === 0 ? "radial-gradient(ellipse, rgba(255, 117, 24, 0.4) 0%, transparent 70%)" : "radial-gradient(ellipse, rgba(170, 0, 255, 0.3) 0%, transparent 70%)") + "; filter: blur(3px); animation: utsavEeriePulse " + ((i % 3) + 4) + "s ease-in-out infinite alternate; pointer-events: none;";
+        ghostContainer.appendChild(wisp);
       }
 
       document.body.appendChild(ghostContainer);
@@ -2095,6 +2093,7 @@ function buildSpiderWeb() {
       setInterval(function () {
         document.body.classList.toggle("utsav-cart-open", !!document.querySelector(sel));
         document.body.classList.toggle("utsav-cart-page", isCart);
+      }, 500);
     })();
   }
 

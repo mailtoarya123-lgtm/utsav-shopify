@@ -33,17 +33,18 @@
   width: 100vw !important;
   height: 100vh !important;
   pointer-events: none !important;
-  z-index: 99995 !important;
+  z-index: 2147483638 !important;
   overflow: visible !important;
 }
 
 .utsav-corner-decor {
   position: fixed !important;
-  z-index: 99996 !important;
+  display: block !important;
+  z-index: 2147483640 !important;
   pointer-events: auto !important;
   cursor: pointer !important;
   user-select: none;
-  filter: drop-shadow(0 4px 16px var(--utsav-glow));
+  filter: drop-shadow(0 4px 16px var(--utsav-glow, rgba(255, 117, 24, 0.75)));
 }
 
 .utsav-corner-bottom-left {
@@ -267,11 +268,8 @@
 /* Mobile responsiveness: gracefully scale corner decor down */
 @media (max-width: 640px) {
   .utsav-corner-decor {
-    transform: scale(0.75);
-    transform-origin: bottom right;
-  }
-  .utsav-corner-bottom-left {
-    display: none; /* Keep single corner on mobile for clean screen real estate */
+    transform: scale(0.72);
+    transform-origin: bottom center;
   }
   #utsav-countdown {
     right: 16px;
