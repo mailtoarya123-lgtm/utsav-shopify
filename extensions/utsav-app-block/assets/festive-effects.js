@@ -2195,8 +2195,9 @@ function buildSpiderWeb() {
       // B. Cart Urgency / Reservation Timer (inline inside Cart Page & Cart Drawer only)
       const isCartPage = window.location.pathname.includes("/cart");
       const DRAWER_SEL = "cart-drawer.active, cart-drawer[open], #CartDrawer.active, .cart-drawer.active, .drawer.active, [data-cart-drawer].is-open";
-      const DRAWER_HOST_SEL = "cart-drawer-items, .cart-drawer__header, .drawer__header, .cart-drawer__body, .drawer__inner";
-      const PAGE_HOST_SEL = "cart-items, #main-cart-items, .cart__items, form[action*='/cart'], main";
+      // Priority selectors for inserting right ABOVE the checkout button / subtotal area
+      const DRAWER_SUBTOTAL_SEL = ".cart-drawer__footer, .drawer__footer, [data-cart-subtotal], .cart__footer, .drawer__inner-empty, .cart-drawer__body";
+      const PAGE_SUBTOTAL_SEL = ".cart__footer, #main-cart-footer, .cart__blocks, .cart__subtotal, .cart__checkout-button";
       let cartTimerStart = Date.now();
       const cartMinutes = Number(timers.cartMinutes) || 15;
 
@@ -2204,29 +2205,74 @@ function buildSpiderWeb() {
         let rem = cartMinutes * 60 - Math.floor((Date.now() - cartTimerStart) / 1000);
         if (rem <= 0) { cartTimerStart = Date.now(); rem = cartMinutes * 60; }
         const pad = function (n) { return String(n).padStart(2, "0"); };
-        return '<span>🔥</span><span>Cart reserved for <strong style="color:#FFD700; font-family:monospace;">' + pad(Math.floor(rem / 60)) + ':' + pad(rem % 60) + '</strong></span>';
+        return '<span>🔥</span><span>Cart reserved for <strong style="color:#FFD700; font-family:monospace; font-size:12.5px;">' + pad(Math.floor(rem / 60)) + ':' + pad(rem % 60) + '</strong></span>';
       }
 
       function syncCartLayering() {
-        const drawerOpen = !!document.querySelector(DRAWER_SEL);
+        const drawerEl = document.querySelector(DRAWER_SEL);
+        const drawerOpen = !!(drawerEl && (drawerEl.classList.contains("active") || drawerEl.hasAttribute("open") || drawerEl.offsetParent !== null));
         document.body.classList.toggle("utsav-cart-open", drawerOpen);
         document.body.classList.toggle("utsav-cart-page", isCartPage);
-        if (!timers.cartTimer) return;
+
         let pill = document.getElementById("utsav-cart-urgency-pill");
-        if (!drawerOpen && !isCartPage) { if (pill) pill.remove(); return; }
-        const drawerEl = document.querySelector(DRAWER_SEL);
-        const host = drawerOpen
-          ? ((drawerEl && drawerEl.querySelector(DRAWER_HOST_SEL)) || null)
-          : document.querySelector(PAGE_HOST_SEL);
+        if (!timers.cartTimer || (!drawerOpen && !isCartPage)) {
+          if (pill) pill.remove();
+          return;
+        }
+
+        // Locate ideal host right above Subtotal or Checkout button inside the drawer/page
+        let host = null;
+        let insertBeforeNode = null;
+
+        if (drawerOpen && drawerEl) {
+          const footer = drawerEl.querySelector(".cart-drawer__footer, .drawer__footer, footer");
+          const checkoutBtn = drawerEl.querySelector("button[name='checkout'], .cart__checkout-button, a[href*='/checkout']");
+          const subtotalRow = drawerEl.querySelector(".totals, .cart-drawer__totals, [data-cart-subtotal], .drawer__footer-totals");
+
+          if (checkoutBtn) {
+            host = checkoutBtn.parentNode;
+            insertBeforeNode = checkoutBtn;
+          } else if (subtotalRow) {
+            host = subtotalRow.parentNode;
+            insertBeforeNode = subtotalRow;
+          } else if (footer) {
+            host = footer;
+            insertBeforeNode = footer.firstChild;
+          } else {
+            host = drawerEl.querySelector(DRAWER_SUBTOTAL_SEL) || drawerEl;
+          }
+        } else if (isCartPage) {
+          const checkoutBtn = document.querySelector("button[name='checkout'], .cart__checkout-button, a[href*='/checkout']");
+          const subtotalRow = document.querySelector(".totals, .cart__subtotal, .cart__blocks");
+          const cartFooter = document.querySelector(PAGE_SUBTOTAL_SEL);
+
+          if (checkoutBtn) {
+            host = checkoutBtn.parentNode;
+            insertBeforeNode = checkoutBtn;
+          } else if (subtotalRow) {
+            host = subtotalRow.parentNode;
+            insertBeforeNode = subtotalRow;
+          } else if (cartFooter) {
+            host = cartFooter;
+            insertBeforeNode = cartFooter.firstChild;
+          }
+        }
+
         if (!host) return;
+
         if (!pill) {
           pill = document.createElement("div");
           pill.id = "utsav-cart-urgency-pill";
         }
-        pill.style.cssText = "position: static !important; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 10px 16px; padding: 9px 14px; border-radius: 10px; background: #1A0A00; color: #fff; border: 1px solid rgba(255,117,24,0.7); font-size: 13px; font-weight: 600; z-index: auto !important; box-shadow: none; animation: none;";
+        pill.style.cssText = "position: static !important; display: flex !important; align-items: center; justify-content: center; gap: 6px; margin: 8px auto 10px auto !important; padding: 6px 12px !important; border-radius: 8px; background: rgba(26, 10, 0, 0.95) !important; color: #fff !important; border: 1px solid rgba(255,117,24,0.65) !important; font-size: 11.5px !important; font-weight: 600; z-index: 10 !important; box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important; box-sizing: border-box; width: calc(100% - 16px); max-width: 360px;";
         pill.innerHTML = cartTimerHtml();
-        if (pill.parentNode !== host.parentNode || pill.nextSibling !== host) {
-          host.parentNode.insertBefore(pill, host);
+
+        if (insertBeforeNode && insertBeforeNode.parentNode === host) {
+          if (pill.nextSibling !== insertBeforeNode) {
+            host.insertBefore(pill, insertBeforeNode);
+          }
+        } else if (pill.parentNode !== host) {
+          host.appendChild(pill);
         }
       }
       syncCartLayering();
