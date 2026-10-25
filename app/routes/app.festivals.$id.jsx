@@ -2617,8 +2617,8 @@ export default function FestivalStudio() {
   const [showOriginal, setShowOriginal] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Responsive Navigation Collapse
-  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
+  // Responsive Navigation Collapse (Collapsed by default)
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
 
   // Draft Form State
   const [isActive, setIsActive] = useState(config.isActive);
