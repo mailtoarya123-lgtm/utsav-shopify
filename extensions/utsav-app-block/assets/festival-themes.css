@@ -397,6 +397,7 @@ form[action*="/cart/add"] button,
   }
 }
 
+body.utsav-cart-open #utsav-festival-banner,
 body.utsav-cart-open #utsav-top-garland,
 body.utsav-cart-open .utsav-side-garland,
 body.utsav-cart-open #utsav-ghost-container,
@@ -412,6 +413,13 @@ body.utsav-cart-page .utsav-corner-decor,
 body.utsav-cart-page .utsav-side-garland,
 body.utsav-cart-page canvas[id^="utsav-"] {
   display: none !important;
+}
+
+body.utsav-cart-open cart-drawer,
+body.utsav-cart-open #CartDrawer,
+body.utsav-cart-open .cart-drawer,
+body.utsav-cart-open .drawer {
+  z-index: 2147483647 !important;
 }
 
 body.utsav-cart-page #utsav-top-garland {
