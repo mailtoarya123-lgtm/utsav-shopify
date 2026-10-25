@@ -1699,349 +1699,538 @@ function buildSpiderWeb() {
           ${bodyMarkup}
         </svg>
       `;
+    }
+
     // ─── 4.5 Culturally Authentic Corner SVG Motifs for All 22 Festivals ────
     function getFestivalCornerSVG(festivalId, sizePx, config) {
       const fest = (festivalId || '').toLowerCase();
       const cfg = config || {};
       const motif = ((cfg.cornerMotif && cfg.cornerMotif !== 'default') ? cfg.cornerMotif : (cfg.diyaStyle || '')).toLowerCase();
       const width = sizePx;
-      const height = Math.round(sizePx * 0.95);
+        
+        
 
-      // 1. Halloween Motifs
-      if (fest.includes('halloween')) {
-        if (motif === 'ghost') {
+        // 1. Halloween Motifs
+        if (fest.includes("halloween")) {
+          if (motif === "ghost") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(224, 231, 255, 0.85));">
+                <circle cx="30" cy="30" r="22" fill="rgba(199, 210, 254, 0.35)"/>
+                <path d="M 16 34 C 16 16 44 16 44 34 C 44 48 38 52 35 48 C 32 44 28 54 24 48 C 20 44 16 52 16 34 Z" fill="#F1F5F9"/>
+                <ellipse cx="24" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
+                <ellipse cx="36" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
+                <ellipse cx="30" cy="38" rx="4" ry="6" fill="#0F172A"/>
+                <circle cx="25" cy="26" r="1.2" fill="#FFFFFF"/>
+                <circle cx="37" cy="26" r="1.2" fill="#FFFFFF"/>
+              </svg>
+            `;
+          }
+          if (motif === "bat") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 0.7)}" viewBox="0 0 70 50" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.75));">
+                <circle cx="35" cy="25" r="18" fill="rgba(147, 51, 234, 0.3)"/>
+                <path d="M 35 18 Q 42 6 56 10 Q 50 20 62 26 Q 48 28 42 38 Q 38 28 35 30 Q 32 28 28 38 Q 22 28 8 26 Q 20 20 14 10 Q 28 6 35 18 Z" fill="#18181B"/>
+                <circle cx="32" cy="22" r="1.5" fill="#EF4444"/>
+                <circle cx="38" cy="22" r="1.5" fill="#EF4444"/>
+              </svg>
+            `;
+          }
+          if (motif === "witch_hat") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(147, 51, 234, 0.8));">
+                <circle cx="30" cy="32" r="20" fill="rgba(147, 51, 234, 0.35)"/>
+                <ellipse cx="30" cy="46" rx="26" ry="6" fill="#18181B"/>
+                <path d="M 18 45 L 29 12 Q 33 6 42 8 Q 36 18 35 24 L 42 45 Z" fill="#27272A"/>
+                <path d="M 20 42 Q 30 40 40 42 L 41 45 Q 30 43 19 45 Z" fill="#9333EA"/>
+                <rect x="27" y="40.5" width="6" height="5" rx="1" fill="#FBBF24"/>
+              </svg>
+            `;
+          }
+          if (motif === "skull") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.75));">
+                <circle cx="30" cy="30" r="22" fill="rgba(251, 191, 36, 0.3)"/>
+                <path d="M 16 26 C 16 12 44 12 44 26 C 44 34 40 40 37 42 L 37 50 L 23 50 L 23 42 C 20 40 16 34 16 26 Z" fill="#F4F4F5"/>
+                <circle cx="23" cy="26" r="5" fill="#18181B"/>
+                <circle cx="37" cy="26" r="5" fill="#18181B"/>
+                <polygon points="30,32 27,38 33,38" fill="#18181B"/>
+                <line x1="26" y1="45" x2="26" y2="49" stroke="#18181B" stroke-width="1.5"/>
+                <line x1="30" y1="45" x2="30" y2="49" stroke="#18181B" stroke-width="1.5"/>
+                <line x1="34" y1="45" x2="34" y2="49" stroke="#18181B" stroke-width="1.5"/>
+              </svg>
+            `;
+          }
+          // Default: Carved Jack-o'-Lantern
           return `
-            <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(224, 231, 255, 0.85));">
-              <circle cx="30" cy="30" r="22" fill="rgba(199, 210, 254, 0.35)"/>
-              <path d="M 16 34 C 16 16 44 16 44 34 C 44 48 38 52 35 48 C 32 44 28 54 24 48 C 20 44 16 52 16 34 Z" fill="#F1F5F9"/>
-              <ellipse cx="24" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
-              <ellipse cx="36" cy="28" rx="3.5" ry="4.5" fill="#0F172A"/>
-              <ellipse cx="30" cy="38" rx="4" ry="6" fill="#0F172A"/>
-              <circle cx="25" cy="26" r="1.2" fill="#FFFFFF"/>
-              <circle cx="37" cy="26" r="1.2" fill="#FFFFFF"/>
+            <svg width="${width}" height="${Math.round(width * 0.92)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 117, 24, 0.75));">
+              <circle cx="35" cy="36" r="24" fill="rgba(255, 117, 24, 0.45)"/>
+              <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#2E7D32"/>
+              <ellipse cx="35" cy="38" rx="28" ry="22" fill="#FF7518"/>
+              <ellipse cx="23" cy="38" rx="16" ry="21" fill="#E65100" opacity="0.35"/>
+              <ellipse cx="47" cy="38" rx="16" ry="21" fill="#E65100" opacity="0.35"/>
+              <ellipse cx="35" cy="38" rx="12" ry="21" fill="#FFA726" opacity="0.4"/>
+              <polygon points="24,28 30,34 22,35" fill="#FFF59D"/>
+              <polygon points="46,28 48,35 40,34" fill="#FFF59D"/>
+              <polygon points="35,34 38,39 32,39" fill="#FFF59D"/>
+              <path d="M 21 44 Q 35 55 49 44 Q 44 51 35 51 Q 26 51 21 44 Z" fill="#FFF59D"/>
+              <rect x="29" y="46" width="3" height="3" fill="#BF360C"/>
+              <rect x="38" y="48" width="3" height="3" fill="#BF360C"/>
             </svg>
           `;
         }
-        if (motif === 'bat') {
+
+        // 2. Christmas Motifs
+        if (fest.includes("christmas")) {
+          if (motif === "wreath") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(46, 125, 50, 0.75));">
+                <circle cx="30" cy="30" r="22" fill="none" stroke="#2E7D32" stroke-width="8" stroke-dasharray="6 3"/>
+                <circle cx="30" cy="30" r="14" fill="none" stroke="#1B5E20" stroke-width="3"/>
+                <circle cx="22" cy="18" r="2.5" fill="#D32F2F"/>
+                <circle cx="38" cy="20" r="2.5" fill="#FFD700"/>
+                <circle cx="42" cy="34" r="2.5" fill="#D32F2F"/>
+                <circle cx="18" cy="36" r="2.5" fill="#FFD700"/>
+                <path d="M 25 44 C 20 48 23 54 27 52 L 30 46 L 33 52 C 37 54 40 48 35 44 Z" fill="#D32F2F"/>
+                <circle cx="30" cy="45" r="3" fill="#B71C1C"/>
+              </svg>
+            `;
+          }
+          if (motif === "jingle_bell") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.8));">
+                <circle cx="30" cy="30" r="20" fill="rgba(255, 215, 0, 0.35)"/>
+                <path d="M 20 38 C 20 20 40 20 40 38 Z" fill="#FFD700"/>
+                <rect x="17" y="38" width="26" height="5" rx="2" fill="#FFA000"/>
+                <circle cx="30" cy="46" r="3.5" fill="#FF8F00"/>
+                <path d="M 24 18 C 24 14 36 14 36 18 Z" fill="#D32F2F"/>
+              </svg>
+            `;
+          }
+          if (motif === "tree") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(46, 125, 50, 0.7));">
+                <polygon points="30,8 18,24 42,24" fill="#2E7D32"/>
+                <polygon points="30,18 14,36 46,36" fill="#1B5E20"/>
+                <polygon points="30,28 10,50 50,50" fill="#0D3B13"/>
+                <rect x="26" y="50" width="8" height="8" fill="#5D4037"/>
+                <circle cx="30" cy="8" r="3" fill="#FFD700"/>
+                <circle cx="24" cy="30" r="2" fill="#D32F2F"/>
+                <circle cx="36" cy="42" r="2" fill="#FFD700"/>
+              </svg>
+            `;
+          }
+          if (motif === "candy_cane") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(211, 47, 47, 0.7));">
+                <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none"/>
+                <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#D32F2F" stroke-width="8" stroke-dasharray="5 5" stroke-linecap="round" fill="none"/>
+              </svg>
+            `;
+          }
           return `
-            <svg width="${width}" height="${Math.round(width * 0.7)}" viewBox="0 0 70 50" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.75));">
-              <circle cx="35" cy="25" r="18" fill="rgba(147, 51, 234, 0.3)"/>
-              <path d="M 35 18 Q 42 6 56 10 Q 50 20 62 26 Q 48 28 42 38 Q 38 28 35 30 Q 32 28 28 38 Q 22 28 8 26 Q 20 20 14 10 Q 28 6 35 18 Z" fill="#18181B"/>
-              <circle cx="32" cy="22" r="1.5" fill="#EF4444"/>
-              <circle cx="38" cy="22" r="1.5" fill="#EF4444"/>
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));">
+              <polygon points="30,4 37,21 56,21 41,33 47,52 30,40 13,52 19,33 4,21 23,21" fill="#FFD700"/>
+              <polygon points="30,12 35,23 47,23 37,30 41,42 30,35 19,42 23,30 13,23 25,23" fill="#FFFDE7"/>
+              <circle cx="30" cy="30" r="14" fill="rgba(255, 215, 0, 0.3)"/>
             </svg>
           `;
         }
-        if (motif === 'witch_hat') {
+
+        // 3. Valentine's Day Motifs
+        if (fest.includes("valentines")) {
+          if (motif === "rose") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(225, 29, 72, 0.75));">
+                <circle cx="30" cy="30" r="20" fill="rgba(225, 29, 72, 0.3)"/>
+                <circle cx="30" cy="28" r="14" fill="#E11D48"/>
+                <path d="M 30 16 C 24 18 24 28 30 34 C 36 28 36 18 30 16 Z" fill="#BE123C"/>
+                <path d="M 24 22 Q 30 26 36 22" stroke="#FFF" stroke-width="1" fill="none" opacity="0.6"/>
+                <path d="M 30 42 L 30 52 M 30 46 Q 38 44 40 48" stroke="#15803D" stroke-width="2" fill="none"/>
+              </svg>
+            `;
+          }
+          if (motif === "cupid") {
+            return `
+              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.65));">
+                <path d="M 16 12 Q 38 30 16 48" stroke="#F43F5E" stroke-width="3" fill="none"/>
+                <line x1="16" y1="12" x2="16" y2="48" stroke="#FDA4AF" stroke-width="1"/>
+                <line x1="12" y1="30" x2="44" y2="30" stroke="#E11D48" stroke-width="2.5"/>
+                <path d="M 44 30 C 44 26 50 24 52 28 C 54 24 60 26 60 30 C 60 36 52 40 52 40 C 52 40 44 36 44 30 Z" fill="#E11D48" transform="scale(0.7) translate(18, 5)"/>
+              </svg>
+            `;
+          }
           return `
-            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(147, 51, 234, 0.8));">
-              <circle cx="30" cy="32" r="20" fill="rgba(147, 51, 234, 0.35)"/>
-              <ellipse cx="30" cy="46" rx="26" ry="6" fill="#18181B"/>
-              <path d="M 18 45 L 29 12 Q 33 6 42 8 Q 36 18 35 24 L 42 45 Z" fill="#27272A"/>
-              <path d="M 20 42 Q 30 40 40 42 L 41 45 Q 30 43 19 45 Z" fill="#9333EA"/>
-              <rect x="27" y="40.5" width="6" height="5" rx="1" fill="#FBBF24"/>
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(233, 30, 99, 0.7));">
+              <circle cx="30" cy="30" r="18" fill="rgba(233, 30, 99, 0.35)"/>
+              <path d="M 30 16 C 26 8 14 10 14 22 C 14 34 30 46 30 46 C 30 46 46 34 46 22 C 46 10 34 8 30 16 Z" fill="#E91E63"/>
+              <path d="M 30 20 C 27 14 18 15 18 24 C 18 32 30 41 30 41 C 30 41 42 32 42 24 C 42 15 33 14 30 20 Z" fill="#FF4081"/>
             </svg>
           `;
         }
-        if (motif === 'skull') {
+
+        // 4. Lunar New Year Motifs
+        if (fest.includes("lunar") || fest.includes("chinese")) {
+          if (motif === "sycee") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 0.85)}" viewBox="0 0 60 50" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.85));">
+                <ellipse cx="30" cy="20" rx="14" ry="7" fill="#FFE082"/>
+                <path d="M 10 22 C 16 38 44 38 50 22 C 56 16 48 10 42 16 C 36 12 24 12 18 16 C 12 10 4 16 10 22 Z" fill="#FFD700"/>
+                <ellipse cx="30" cy="20" rx="9" ry="4" fill="#FFC107"/>
+              </svg>
+            `;
+          }
+          if (motif === "hongbao") {
+            return `
+              <svg width="${width}" height="${Math.round(width * 1.15)}" viewBox="0 0 50 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.75));">
+                <rect x="8" y="8" width="34" height="46" rx="4" fill="#DC2626"/>
+                <path d="M 8 8 Q 25 24 42 8" fill="#B91C1C"/>
+                <circle cx="25" cy="26" r="7" fill="#FBBF24"/>
+                <text x="25" y="30" font-size="8" font-weight="bold" fill="#B91C1C" text-anchor="middle">福</text>
+              </svg>
+            `;
+          }
           return `
-            <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.75));">
-              <circle cx="30" cy="30" r="22" fill="rgba(251, 191, 36, 0.3)"/>
-              <path d="M 16 26 C 16 12 44 12 44 26 C 44 34 40 40 37 42 L 37 50 L 23 50 L 23 42 C 20 40 16 34 16 26 Z" fill="#F4F4F5"/>
-              <circle cx="23" cy="26" r="5" fill="#18181B"/>
-              <circle cx="37" cy="26" r="5" fill="#18181B"/>
-              <polygon points="30,32 27,38 33,38" fill="#18181B"/>
-              <line x1="26" y1="45" x2="26" y2="49" stroke="#18181B" stroke-width="1.5"/>
-              <line x1="30" y1="45" x2="30" y2="49" stroke="#18181B" stroke-width="1.5"/>
-              <line x1="34" y1="45" x2="34" y2="49" stroke="#18181B" stroke-width="1.5"/>
+            <svg width="${width}" height="${Math.round(width * 1.3)}" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.7));">
+              <circle cx="30" cy="35" r="18" fill="rgba(211, 47, 47, 0.35)"/>
+              <line x1="30" y1="5" x2="30" y2="16" stroke="#FFD700" stroke-width="2"/>
+              <rect x="22" y="14" width="16" height="5" rx="2" fill="#FFD700"/>
+              <ellipse cx="30" cy="36" rx="18" ry="17" fill="#D32F2F"/>
+              <line x1="22" y1="19" x2="22" y2="53" stroke="#FFD700" stroke-width="1" opacity="0.6"/>
+              <line x1="38" y1="19" x2="38" y2="53" stroke="#FFD700" stroke-width="1" opacity="0.6"/>
+              <rect x="22" y="53" width="16" height="5" rx="2" fill="#FFD700"/>
+              <line x1="30" y1="58" x2="30" y2="76" stroke="#FFD700" stroke-width="2.5"/>
             </svg>
           `;
         }
+
+        // 5. Holi: Brass Pichkari & Gulal Bowl
+        if (fest.includes("holi")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 0.9)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(233, 30, 99, 0.5));">
+              <circle cx="35" cy="35" r="20" fill="rgba(233, 30, 99, 0.3)"/>
+              <ellipse cx="35" cy="46" rx="22" ry="8" fill="#D4AF37"/>
+              <circle cx="28" cy="44" r="6" fill="#E91E63"/>
+              <circle cx="42" cy="44" r="6" fill="#00E5FF"/>
+              <circle cx="35" cy="41" r="5" fill="#FFEB3B"/>
+              <line x1="14" y1="46" x2="48" y2="12" stroke="#B78103" stroke-width="4" stroke-linecap="round"/>
+              <line x1="48" y1="12" x2="56" y2="6" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          `;
+        }
+
+        // 6. Navratri: Crossed Wooden Dandiya Sticks
+        if (fest.includes("navratri")) {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(255, 111, 0, 0.6));">
+              <circle cx="30" cy="30" r="18" fill="rgba(255, 111, 0, 0.3)"/>
+              <line x1="10" y1="50" x2="50" y2="10" stroke="#FF8F00" stroke-width="4" stroke-linecap="round"/>
+              <line x1="10" y1="10" x2="50" y2="50" stroke="#D81B60" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="30" cy="30" r="4" fill="#FFD700"/>
+            </svg>
+          `;
+        }
+
+        // 7. Pongal: Clay Pot with Froth & Sugarcane
+        if (fest.includes("pongal")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(251, 192, 45, 0.5));">
+              <circle cx="30" cy="36" r="20" fill="rgba(251, 192, 45, 0.3)"/>
+              <ellipse cx="30" cy="42" rx="18" ry="14" fill="#8D4925"/>
+              <ellipse cx="30" cy="28" rx="14" ry="5" fill="#FFF8E1"/>
+              <path d="M 22 26 Q 30 14 38 26" fill="#FFFFFF"/>
+              <line x1="44" y1="56" x2="54" y2="10" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          `;
+        }
+
+        // 8. Onam: Pookalam Floral Carpet
+        if (fest.includes("onam")) {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(230, 81, 0, 0.6));">
+              <circle cx="30" cy="30" r="26" fill="#E65100"/>
+              <circle cx="30" cy="30" r="21" fill="#FFB300"/>
+              <circle cx="30" cy="30" r="15" fill="#FFF8E1"/>
+              <circle cx="30" cy="30" r="9" fill="#2E7D32"/>
+              <circle cx="30" cy="30" r="4" fill="#D84315"/>
+            </svg>
+          `;
+        }
+
+        // 9. Raksha Bandhan: Royal Golden Rakhi Rosette
+        if (fest.includes("raksha") || fest.includes("rakhi")) {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.6));">
+              <line x1="6" y1="30" x2="54" y2="30" stroke="#D32F2F" stroke-width="3"/>
+              <circle cx="30" cy="30" r="15" fill="#FFD700"/>
+              <circle cx="30" cy="30" r="10" fill="#D32F2F"/>
+              <circle cx="30" cy="30" r="5" fill="#FFF8E1"/>
+            </svg>
+          `;
+        }
+
+        // 10. Ganesh Chaturthi: Clay Ganesha & Modak
+        if (fest.includes("ganesh")) {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.6));">
+              <circle cx="30" cy="30" r="20" fill="rgba(255, 140, 0, 0.3)"/>
+              <path d="M 30 14 Q 38 14 38 26 Q 38 42 30 46 Q 22 42 22 26 Z" fill="#E65100"/>
+              <circle cx="28" cy="22" r="2.5" fill="#FFFDE7"/>
+              <path d="M 30 26 Q 34 34 40 34" stroke="#FFD700" stroke-width="2.5" fill="none"/>
+            </svg>
+          `;
+        }
+
+        // 11. Eid: Damascus Brass Fanoos Lantern
+        if (fest.includes("eid")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.25)}" viewBox="0 0 60 75" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.7));">
+              <circle cx="30" cy="36" r="18" fill="rgba(212, 175, 55, 0.35)"/>
+              <line x1="30" y1="4" x2="30" y2="14" stroke="#B78103" stroke-width="1.5"/>
+              <polygon points="30,14 20,24 40,24" fill="#D4AF37"/>
+              <rect x="22" y="24" width="16" height="24" fill="#D4AF37" stroke="#996515" stroke-width="0.8"/>
+              <circle cx="30" cy="36" r="3.5" fill="#FFD700"/>
+              <polygon points="22,48 38,48 30,58" fill="#B78103"/>
+            </svg>
+          `;
+        }
+
+        // 12. Thanksgiving: Harvest Pumpkin
+        if (fest.includes("thanksgiving")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 0.9)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(230, 81, 0, 0.6));">
+              <circle cx="35" cy="36" r="22" fill="rgba(230, 81, 0, 0.35)"/>
+              <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#4E342E"/>
+              <ellipse cx="35" cy="38" rx="28" ry="22" fill="#E65100"/>
+              <ellipse cx="23" cy="38" rx="16" ry="21" fill="#BF360C" opacity="0.35"/>
+              <ellipse cx="47" cy="38" rx="16" ry="21" fill="#BF360C" opacity="0.35"/>
+              <ellipse cx="35" cy="38" rx="12" ry="21" fill="#F57C00" opacity="0.5"/>
+            </svg>
+          `;
+        }
+
+        // 13. Hanukkah: Nine-Branch Menorah
+        if (fest.includes("hanukkah")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 70 75" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));">
+              <line x1="35" y1="20" x2="35" y2="65" stroke="#D4AF37" stroke-width="3"/>
+              <ellipse cx="35" cy="65" rx="14" ry="4" fill="#D4AF37"/>
+              <path d="M 15 28 Q 15 48 35 48 Q 55 48 55 28" stroke="#D4AF37" stroke-width="2" fill="none"/>
+              <path d="M 22 34 Q 22 44 35 44 Q 48 44 48 34" stroke="#D4AF37" stroke-width="1.6" fill="none"/>
+              ${[15, 22, 29, 35, 41, 48, 55].map((x) => `
+                <circle cx="${x}" cy="${x === 35 ? 16 : 24}" r="2" fill="#FFF59D"/>
+              `).join('')}
+            </svg>
+          `;
+        }
+
+        // 14. Vishu: Kerala Nilavilakku Oil Lamp
+        if (fest === "vishu") {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.3)}" viewBox="0 0 60 85" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.75));">
+              <circle cx="30" cy="18" r="20" fill="rgba(255, 215, 0, 0.35)"/>
+              <path d="M 30 4 C 26 10 24 15 30 20 C 36 15 34 10 30 4 Z" fill="#FF9100"/>
+              <path d="M 30 9 C 28 12 27 15 30 18 C 33 15 32 12 30 9 Z" fill="#FFFDE7"/>
+              <ellipse cx="30" cy="22" rx="15" ry="4.5" fill="#D4AF37"/>
+              <rect x="27" y="22" width="6" height="42" fill="#B78103" rx="2"/>
+              <ellipse cx="30" cy="64" rx="20" ry="5.5" fill="#D4AF37"/>
+              <ellipse cx="30" cy="72" rx="24" ry="7" fill="#996515"/>
+            </svg>
+          `;
+        }
+
+        // 15. New Year: Champagne Flutes
+        if (fest.includes("new-year") || fest.includes("newyear")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));">
+              <circle cx="30" cy="32" r="18" fill="rgba(255, 215, 0, 0.3)"/>
+              <path d="M 22 16 L 26 34 L 26 48 L 20 50 L 32 50 L 26 48 L 26 34 Z" fill="#FFD700" opacity="0.8"/>
+              <path d="M 38 16 L 34 34 L 34 48 L 28 50 L 40 50 L 34 48 L 34 34 Z" fill="#FFE082" opacity="0.8"/>
+              <circle cx="30" cy="22" r="3" fill="#FFFFFF"/>
+            </svg>
+          `;
+        }
+
+        // 16. Makar Sankranti: Diamond Fighter Kite
+        if (fest.includes("sankranti") || fest.includes("uttarayan")) {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(0, 176, 255, 0.6));">
+              <circle cx="30" cy="30" r="18" fill="rgba(0, 176, 255, 0.3)"/>
+              <polygon points="30,8 50,30 30,52 10,30" fill="#FF6D00"/>
+              <line x1="30" y1="8" x2="30" y2="52" stroke="#FFFFFF" stroke-width="1.5"/>
+              <path d="M 10 30 Q 30 18 50 30" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
+            </svg>
+          `;
+        }
+
+        // 17. Dussehra: Golden Bow & Arrow
+        if (fest.includes("dussehra") || fest.includes("vijayadashami")) {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.7));">
+              <circle cx="30" cy="30" r="18" fill="rgba(255, 140, 0, 0.35)"/>
+              <path d="M 16 12 Q 38 30 16 48" stroke="#FFD700" stroke-width="3" fill="none"/>
+              <line x1="16" y1="12" x2="16" y2="48" stroke="#FFE082" stroke-width="1.2"/>
+              <line x1="12" y1="30" x2="48" y2="30" stroke="#FF6D00" stroke-width="2.5"/>
+              <polygon points="48,30 40,26 40,34" fill="#FFD700"/>
+            </svg>
+          `;
+        }
+
+        // 18. Easter: Decorated Pastel Egg
+        if (fest.includes("easter")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.15)}" viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(248, 187, 208, 0.6));">
+              <circle cx="30" cy="38" r="18" fill="rgba(248, 187, 208, 0.35)"/>
+              <ellipse cx="30" cy="38" rx="20" ry="26" fill="#F8BBD0" stroke="#F48FB1" stroke-width="1.5"/>
+              <path d="M 12 36 Q 30 46 48 36" stroke="#80DEEA" stroke-width="2.5" fill="none"/>
+              <path d="M 14 26 Q 30 36 46 26" stroke="#FFF59D" stroke-width="2.5" fill="none"/>
+              <circle cx="30" cy="46" r="3" fill="#CE93D8"/>
+              <circle cx="22" cy="42" r="2.5" fill="#C8E6C9"/>
+              <circle cx="38" cy="42" r="2.5" fill="#C8E6C9"/>
+            </svg>
+          `;
+        }
+
+        // 19. Mid-Autumn: Harvest Moon & Mooncake
+        if (fest.includes("mid-autumn") || fest.includes("mooncake")) {
+          return `
+            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 213, 79, 0.7));">
+              <circle cx="30" cy="30" r="24" fill="rgba(255, 213, 79, 0.35)"/>
+              <circle cx="30" cy="30" r="18" fill="#FFD54F"/>
+              <circle cx="30" cy="30" r="14" fill="#FFA000" stroke="#FFD54F" stroke-width="1"/>
+              <path d="M 24 24 Q 30 20 36 24 Q 40 30 36 36 Q 30 40 24 36 Q 20 30 24 24 Z" fill="#FF8F00" opacity="0.6"/>
+            </svg>
+          `;
+        }
+
+        // 20. Vesak: Blooming Sacred Lotus
+        if (fest.includes("vesak") || fest.includes("buddha")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 0.95)}" viewBox="0 0 60 55" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(248, 187, 208, 0.7));">
+              <circle cx="30" cy="30" r="18" fill="rgba(248, 187, 208, 0.35)"/>
+              <path d="M 30 10 C 24 22 22 36 30 44 C 38 36 36 22 30 10 Z" fill="#F48FB1"/>
+              <path d="M 22 22 C 14 28 14 38 24 44 C 28 38 26 28 22 22 Z" fill="#F8BBD0"/>
+              <path d="M 38 22 C 46 28 46 38 36 44 C 32 38 34 28 38 22 Z" fill="#F8BBD0"/>
+              <circle cx="30" cy="44" r="3" fill="#FFD54F"/>
+            </svg>
+          `;
+        }
+
+        // 21. Durga Puja: Clay Dhunachi Incense Burner
+        if (fest.includes("durga")) {
+          return `
+            <svg width="${width}" height="${Math.round(width * 1.2)}" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(198, 40, 40, 0.7));">
+              <circle cx="30" cy="24" r="16" fill="rgba(198, 40, 40, 0.25)"/>
+              <path d="M 28 8 Q 24 16 32 20 Q 28 24 30 30" stroke="#ECEFF1" stroke-width="2" fill="none" opacity="0.75"/>
+              <path d="M 32 10 Q 36 18 28 22 Q 32 26 30 30" stroke="#ECEFF1" stroke-width="1.5" fill="none" opacity="0.6"/>
+              <polygon points="16,30 44,30 38,48 22,48" fill="#C85A27" stroke="#8D3B16" stroke-width="1"/>
+              <rect x="27" y="48" width="6" height="14" fill="#8D3B16"/>
+              <ellipse cx="30" cy="62" rx="14" ry="4" fill="#C85A27"/>
+            </svg>
+          `;
+        }
+
+        // 22. Diwali / Default: Living Brass Diya
+        let body = "";
+        if (cfg.diyaStyle === "terracotta_clay") {
+          body = `
+            <ellipse cx="60" cy="58" rx="42" ry="11" fill="#E07A5F"/>
+            <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavClayGrad)"/>
+            <path d="M 28 58 Q 60 63 92 58" stroke="#8D3B16" stroke-width="1.6" fill="none"/>
+            <ellipse cx="60" cy="86" rx="22" ry="4" fill="#541F09"/>
+          `;
+        } else if (cfg.diyaStyle === "antique_copper") {
+          body = `
+            <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FF8A65"/>
+            <path d="M 18 58 Q 20 84 60 86 Q 100 84 102 58 Z" fill="url(#utsavCopperGrad)"/>
+            <path d="M 22 60 Q 32 66 42 60 Q 52 66 62 60 Q 72 66 82 60 Q 92 66 98 60" stroke="#BF360C" stroke-width="1.3" fill="none" opacity="0.85"/>
+            <ellipse cx="60" cy="86" rx="22" ry="4" fill="#3E2723"/>
+          `;
+        } else if (cfg.diyaStyle === "minimal_contemporary") {
+          body = `
+            <ellipse cx="60" cy="58" rx="40" ry="8" fill="#424242"/>
+            <path d="M 20 58 Q 22 83 60 85 Q 98 83 100 58 Z" fill="url(#utsavMinimalGrad)"/>
+            <path d="M 20 58 Q 60 62 100 58" stroke="#D4AF37" stroke-width="1.2" fill="none"/>
+            <ellipse cx="60" cy="85" rx="16" ry="3" fill="#111111"/>
+          `;
+        } else if (cfg.diyaStyle === "marigold_urli" || cfg.diyaStyle === "festive_ornamental") {
+          body = `
+            <ellipse cx="60" cy="62" rx="48" ry="14" fill="#E5C158"/>
+            <ellipse cx="60" cy="62" rx="44" ry="12" fill="#2E1B0E"/>
+            <circle cx="26" cy="62" r="7" fill="#FF9800"/>
+            <circle cx="36" cy="69" r="6" fill="#FFC107"/>
+            <circle cx="84" cy="69" r="6" fill="#FFC107"/>
+            <circle cx="94" cy="62" r="7" fill="#FF9800"/>
+            <circle cx="60" cy="71" r="6.5" fill="#FF5722"/>
+            <path d="M 40 60 Q 42 78 60 80 Q 78 78 80 60 Z" fill="url(#utsavBrassGrad)"/>
+            <ellipse cx="60" cy="81" rx="18" ry="3.5" fill="#5D4037"/>
+          `;
+        } else {
+          body = `
+            <ellipse cx="60" cy="58" rx="42" ry="10" fill="#FFE082"/>
+            <path d="M 18 58 Q 20 83 60 85 Q 100 83 102 58 Z" fill="url(#utsavBrassGrad)"/>
+            <path d="M 24 61 Q 33 67 42 61 Q 51 67 60 61 Q 69 67 78 61 Q 87 67 96 61" stroke="#FFE082" stroke-width="1.2" fill="none" opacity="0.75"/>
+            <ellipse cx="60" cy="85" rx="22" ry="4" fill="#5D4037"/>
+          `;
+        }
+
+        const glowFilter = cfg.flameGlow === "divine_aura"
+          ? "drop-shadow(0 0 20px rgba(255, 170, 0, 0.95))"
+          : cfg.flameGlow === "sparkling_wick"
+          ? "drop-shadow(0 0 14px rgba(255, 230, 90, 0.9))"
+          : "drop-shadow(0 0 10px rgba(255, 140, 0, 0.82))";
+
+        const height = Math.round(width * 0.82);
+
         return `
-          <svg width="${width}" height="${Math.round(width * 0.92)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="35" cy="36" r="24" fill="rgba(255, 117, 24, 0.45)"/>
-            <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#2E7D32"/>
-            <ellipse cx="35" cy="38" rx="28" ry="22" fill="#FF7518"/>
-            <ellipse cx="23" cy="38" rx="16" ry="21" fill="#E65100" opacity="0.35"/>
-            <ellipse cx="47" cy="38" rx="16" ry="21" fill="#E65100" opacity="0.35"/>
-            <ellipse cx="35" cy="38" rx="12" ry="21" fill="#FFA726" opacity="0.4"/>
-            <polygon points="24,28 30,34 22,35" fill="#FFF59D"/>
-            <polygon points="46,28 48,35 40,34" fill="#FFF59D"/>
-            <polygon points="35,34 38,39 32,39" fill="#FFF59D"/>
-            <path d="M 21 44 Q 35 55 49 44 Q 44 51 35 51 Q 26 51 21 44 Z" fill="#FFF59D"/>
-            <rect x="29" y="46" width="3" height="3" fill="#BF360C"/>
-            <rect x="38" y="48" width="3" height="3" fill="#BF360C"/>
+          <svg class="utsav-diya-svg" viewBox="0 0 120 100" width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg" style="filter: ${glowFilter};">
+            <defs>
+              <radialGradient id="utsavAura" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFD700" stop-opacity="0.9"/>
+                <stop offset="60%" stop-color="#FF6B35" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#FF6B35" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="utsavFlameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#FF3D00"/>
+                <stop offset="35%" stop-color="#FF9100"/>
+                <stop offset="75%" stop-color="#FFD700"/>
+                <stop offset="100%" stop-color="#FFFFFF"/>
+              </linearGradient>
+              <linearGradient id="utsavBrassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFF59D"/>
+                <stop offset="35%" stop-color="#D4AF37"/>
+                <stop offset="75%" stop-color="#996515"/>
+                <stop offset="100%" stop-color="#4E342E"/>
+              </linearGradient>
+              <linearGradient id="utsavClayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#E07A5F"/>
+                <stop offset="40%" stop-color="#C85A27"/>
+                <stop offset="80%" stop-color="#8D3B16"/>
+                <stop offset="100%" stop-color="#4E2310"/>
+              </linearGradient>
+              <linearGradient id="utsavCopperGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFAB91"/>
+                <stop offset="35%" stop-color="#D84315"/>
+                <stop offset="75%" stop-color="#872900"/>
+                <stop offset="100%" stop-color="#3E2723"/>
+              </linearGradient>
+              <linearGradient id="utsavMinimalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#D4AF37"/>
+                <stop offset="25%" stop-color="#2C2C2C"/>
+                <stop offset="85%" stop-color="#1A1A1A"/>
+                <stop offset="100%" stop-color="#0A0A0A"/>
+              </linearGradient>
+            </defs>
+            <circle cx="60" cy="36" r="${cfg.flameGlow === 'divine_aura' ? 44 : 32}" fill="url(#utsavAura)"/>
+            <g class="utsav-diya-flame">
+              <path d="M 60 8 C 52 24 47 36 47 45 C 47 54 53 58 60 58 C 67 58 73 54 73 45 C 73 36 68 24 60 8 Z" fill="url(#utsavFlameGrad)"/>
+              <path d="M 60 18 C 55 28 52 37 52 44 C 52 50 55 54 60 54 C 65 54 68 50 68 44 C 68 37 65 28 60 18 Z" fill="#FFFDE7" opacity="0.95"/>
+              <line x1="60" y1="45" x2="60" y2="58" stroke="#3E2723" stroke-width="2.6" stroke-linecap="round"/>
+              <circle cx="60" cy="45" r="1.5" fill="#FF5252"/>
+            </g>
+            ${body}
           </svg>
         `;
       }
-
-      // 2. Christmas: Radiant Bethlehem Star
-      if (fest.includes('christmas')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));">
-            <polygon points="30,4 37,21 56,21 41,33 47,52 30,40 13,52 19,33 4,21 23,21" fill="#FFD700"/>
-            <polygon points="30,12 35,23 47,23 37,30 41,42 30,35 19,42 23,30 13,23 25,23" fill="#FFFDE7"/>
-            <circle cx="30" cy="30" r="14" fill="rgba(255, 215, 0, 0.3)"/>
-          </svg>
-        `;
-      }
-
-      // 3. Valentine's Day: Glowing Satin Heart
-      if (fest.includes('valentines')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(233, 30, 99, 0.7));">
-            <circle cx="30" cy="30" r="18" fill="rgba(233, 30, 99, 0.35)"/>
-            <path d="M 30 16 C 26 8 14 10 14 22 C 14 34 30 46 30 46 C 30 46 46 34 46 22 C 46 10 34 8 30 16 Z" fill="#E91E63"/>
-            <path d="M 30 20 C 27 14 18 15 18 24 C 18 32 30 41 30 41 C 30 41 42 32 42 24 C 42 15 33 14 30 20 Z" fill="#FF4081"/>
-          </svg>
-        `;
-      }
-
-      // 4. Lunar New Year: Red Silk Lantern
-      if (fest.includes('lunar') || fest.includes('chinese')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.3)}" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.7));">
-            <circle cx="30" cy="35" r="18" fill="rgba(211, 47, 47, 0.35)"/>
-            <line x1="30" y1="5" x2="30" y2="16" stroke="#FFD700" stroke-width="2"/>
-            <rect x="22" y="14" width="16" height="5" rx="2" fill="#FFD700"/>
-            <ellipse cx="30" cy="36" rx="18" ry="17" fill="#D32F2F"/>
-            <line x1="22" y1="19" x2="22" y2="53" stroke="#FFD700" stroke-width="1" opacity="0.6"/>
-            <line x1="38" y1="19" x2="38" y2="53" stroke="#FFD700" stroke-width="1" opacity="0.6"/>
-            <rect x="22" y="53" width="16" height="5" rx="2" fill="#FFD700"/>
-            <line x1="30" y1="58" x2="30" y2="76" stroke="#FFD700" stroke-width="2.5"/>
-          </svg>
-        `;
-      }
-
-      // 5. Holi: Brass Pichkari & Gulal Bowl
-      if (fest.includes('holi')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 0.9)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(233, 30, 99, 0.5));">
-            <circle cx="35" cy="35" r="20" fill="rgba(233, 30, 99, 0.3)"/>
-            <ellipse cx="35" cy="46" rx="22" ry="8" fill="#D4AF37"/>
-            <circle cx="28" cy="44" r="6" fill="#E91E63"/>
-            <circle cx="42" cy="44" r="6" fill="#00E5FF"/>
-            <circle cx="35" cy="41" r="5" fill="#FFEB3B"/>
-            <line x1="14" y1="46" x2="48" y2="12" stroke="#B78103" stroke-width="4" stroke-linecap="round"/>
-            <line x1="48" y1="12" x2="56" y2="6" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-        `;
-      }
-
-      // 6. Navratri: Crossed Wooden Dandiya Sticks
-      if (fest.includes('navratri')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(255, 111, 0, 0.6));">
-            <circle cx="30" cy="30" r="18" fill="rgba(255, 111, 0, 0.3)"/>
-            <line x1="10" y1="50" x2="50" y2="10" stroke="#FF8F00" stroke-width="4" stroke-linecap="round"/>
-            <line x1="10" y1="10" x2="50" y2="50" stroke="#D81B60" stroke-width="4" stroke-linecap="round"/>
-            <circle cx="30" cy="30" r="4" fill="#FFD700"/>
-          </svg>
-        `;
-      }
-
-      // 7. Pongal: Clay Pot with Froth & Sugarcane
-      if (fest.includes('pongal')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.05)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(251, 192, 45, 0.5));">
-            <circle cx="30" cy="36" r="20" fill="rgba(251, 192, 45, 0.3)"/>
-            <ellipse cx="30" cy="42" rx="18" ry="14" fill="#8D4925"/>
-            <ellipse cx="30" cy="28" rx="14" ry="5" fill="#FFF8E1"/>
-            <path d="M 22 26 Q 30 14 38 26" fill="#FFFFFF"/>
-            <line x1="44" y1="56" x2="54" y2="10" stroke="#2E7D32" stroke-width="3" stroke-linecap="round"/>
-          </svg>
-        `;
-      }
-
-      // 8. Onam: Pookalam Floral Carpet
-      if (fest.includes('onam')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(230, 81, 0, 0.6));">
-            <circle cx="30" cy="30" r="26" fill="#E65100"/>
-            <circle cx="30" cy="30" r="21" fill="#FFB300"/>
-            <circle cx="30" cy="30" r="15" fill="#FFF8E1"/>
-            <circle cx="30" cy="30" r="9" fill="#2E7D32"/>
-            <circle cx="30" cy="30" r="4" fill="#D84315"/>
-          </svg>
-        `;
-      }
-
-      // 9. Raksha Bandhan: Royal Golden Rakhi Rosette
-      if (fest.includes('raksha') || fest.includes('rakhi')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(211, 47, 47, 0.6));">
-            <line x1="6" y1="30" x2="54" y2="30" stroke="#D32F2F" stroke-width="3"/>
-            <circle cx="30" cy="30" r="15" fill="#FFD700"/>
-            <circle cx="30" cy="30" r="10" fill="#D32F2F"/>
-            <circle cx="30" cy="30" r="5" fill="#FFF8E1"/>
-          </svg>
-        `;
-      }
-
-      // 10. Ganesh Chaturthi: Clay Ganesha & Modak
-      if (fest.includes('ganesh')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.6));">
-            <circle cx="30" cy="30" r="20" fill="rgba(255, 140, 0, 0.3)"/>
-            <path d="M 30 14 Q 38 14 38 26 Q 38 42 30 46 Q 22 42 22 26 Z" fill="#E65100"/>
-            <circle cx="28" cy="22" r="2.5" fill="#FFFDE7"/>
-            <path d="M 30 26 Q 34 34 40 34" stroke="#FFD700" stroke-width="2.5" fill="none"/>
-          </svg>
-        `;
-      }
-
-      // 11. Eid: Damascus Brass Fanoos Lantern
-      if (fest.includes('eid')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.25)}" viewBox="0 0 60 75" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.7));">
-            <circle cx="30" cy="36" r="18" fill="rgba(212, 175, 55, 0.35)"/>
-            <line x1="30" y1="4" x2="30" y2="14" stroke="#B78103" stroke-width="1.5"/>
-            <polygon points="30,14 20,24 40,24" fill="#D4AF37"/>
-            <rect x="22" y="24" width="16" height="24" fill="#D4AF37" stroke="#996515" stroke-width="0.8"/>
-            <circle cx="30" cy="36" r="3.5" fill="#FFD700"/>
-            <polygon points="22,48 38,48 30,58" fill="#B78103"/>
-          </svg>
-        `;
-      }
-
-      // 12. Thanksgiving: Harvest Pumpkin & Wheat
-      if (fest.includes('thanksgiving')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 0.9)}" viewBox="0 0 70 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(230, 81, 0, 0.6));">
-            <circle cx="35" cy="36" r="22" fill="rgba(230, 81, 0, 0.35)"/>
-            <path d="M 33 14 C 33 8 36 3 41 2 C 39 6 38 10 36 14 Z" fill="#4E342E"/>
-            <ellipse cx="35" cy="38" rx="28" ry="22" fill="#E65100"/>
-            <ellipse cx="23" cy="38" rx="16" ry="21" fill="#BF360C" opacity="0.35"/>
-            <ellipse cx="47" cy="38" rx="16" ry="21" fill="#BF360C" opacity="0.35"/>
-            <ellipse cx="35" cy="38" rx="12" ry="21" fill="#F57C00" opacity="0.5"/>
-          </svg>
-        `;
-      }
-
-      // 13. Hanukkah: Nine-Branch Menorah
-      if (fest.includes('hanukkah')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 70 75" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));">
-            <line x1="35" y1="20" x2="35" y2="65" stroke="#D4AF37" stroke-width="3"/>
-            <ellipse cx="35" cy="65" rx="14" ry="4" fill="#D4AF37"/>
-            <path d="M 15 28 Q 15 48 35 48 Q 55 48 55 28" stroke="#D4AF37" stroke-width="2" fill="none"/>
-            <path d="M 22 34 Q 22 44 35 44 Q 48 44 48 34" stroke="#D4AF37" stroke-width="1.6" fill="none"/>
-            ${[15, 22, 29, 35, 41, 48, 55].map((x) => `
-              <circle cx="${x}" cy="${x === 35 ? 16 : 24}" r="2" fill="#FFF59D"/>
-            `).join('')}
-          </svg>
-        `;
-      }
-
-      // 14. Vishu: Kerala Nilavilakku Oil Lamp
-      if (fest === 'vishu') {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.3)}" viewBox="0 0 60 85" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.75));">
-            <circle cx="30" cy="18" r="20" fill="rgba(255, 215, 0, 0.35)"/>
-            <path d="M 30 4 C 26 10 24 15 30 20 C 36 15 34 10 30 4 Z" fill="#FF9100"/>
-            <path d="M 30 9 C 28 12 27 15 30 18 C 33 15 32 12 30 9 Z" fill="#FFFDE7"/>
-            <ellipse cx="30" cy="22" rx="15" ry="4.5" fill="#D4AF37"/>
-            <rect x="27" y="22" width="6" height="42" fill="#B78103" rx="2"/>
-            <ellipse cx="30" cy="64" rx="20" ry="5.5" fill="#D4AF37"/>
-            <ellipse cx="30" cy="72" rx="24" ry="7" fill="#996515"/>
-          </svg>
-        `;
-      }
-
-      // 15. New Year: Champagne Flutes & Clock
-      if (fest.includes('new-year') || fest.includes('newyear')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.7));">
-            <circle cx="30" cy="32" r="18" fill="rgba(255, 215, 0, 0.3)"/>
-            <path d="M 22 16 L 26 34 L 26 48 L 20 50 L 32 50 L 26 48 L 26 34 Z" fill="#FFD700" opacity="0.8"/>
-            <path d="M 38 16 L 34 34 L 34 48 L 28 50 L 40 50 L 34 48 L 34 34 Z" fill="#FFE082" opacity="0.8"/>
-            <circle cx="30" cy="22" r="3" fill="#FFFFFF"/>
-          </svg>
-        `;
-      }
-
-      // 16. Makar Sankranti: Diamond Fighter Kite
-      if (fest.includes('sankranti') || fest.includes('uttarayan')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(0, 176, 255, 0.6));">
-            <circle cx="30" cy="30" r="18" fill="rgba(0, 176, 255, 0.3)"/>
-            <polygon points="30,8 50,30 30,52 10,30" fill="#FF6D00"/>
-            <line x1="30" y1="8" x2="30" y2="52" stroke="#FFFFFF" stroke-width="1.5"/>
-            <path d="M 10 30 Q 30 18 50 30" stroke="#FFFFFF" stroke-width="1.5" fill="none"/>
-          </svg>
-        `;
-      }
-
-      // 17. Dussehra: Golden Bow & Arrow
-      if (fest.includes('dussehra') || fest.includes('vijayadashami')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 140, 0, 0.7));">
-            <circle cx="30" cy="30" r="18" fill="rgba(255, 140, 0, 0.35)"/>
-            <path d="M 16 12 Q 38 30 16 48" stroke="#FFD700" stroke-width="3" fill="none"/>
-            <line x1="16" y1="12" x2="16" y2="48" stroke="#FFE082" stroke-width="1.2"/>
-            <line x1="12" y1="30" x2="48" y2="30" stroke="#FF6D00" stroke-width="2.5"/>
-            <polygon points="48,30 40,26 40,34" fill="#FFD700"/>
-          </svg>
-        `;
-      }
-
-      // 18. Easter: Decorated Pastel Egg
-      if (fest.includes('easter')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.15)}" viewBox="0 0 60 70" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 10px rgba(248, 187, 208, 0.6));">
-            <circle cx="30" cy="38" r="18" fill="rgba(248, 187, 208, 0.35)"/>
-            <ellipse cx="30" cy="38" rx="20" ry="26" fill="#F8BBD0" stroke="#F48FB1" stroke-width="1.5"/>
-            <path d="M 12 36 Q 30 46 48 36" stroke="#80DEEA" stroke-width="2.5" fill="none"/>
-            <path d="M 14 26 Q 30 36 46 26" stroke="#FFF59D" stroke-width="2.5" fill="none"/>
-            <circle cx="30" cy="46" r="3" fill="#CE93D8"/>
-            <circle cx="22" cy="42" r="2.5" fill="#C8E6C9"/>
-            <circle cx="38" cy="42" r="2.5" fill="#C8E6C9"/>
-          </svg>
-        `;
-      }
-
-      // 19. Mid-Autumn: Harvest Moon & Mooncake
-      if (fest.includes('mid-autumn') || fest.includes('mooncake')) {
-        return `
-          <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 213, 79, 0.7));">
-            <circle cx="30" cy="30" r="24" fill="rgba(255, 213, 79, 0.35)"/>
-            <circle cx="30" cy="30" r="18" fill="#FFD54F"/>
-            <circle cx="30" cy="30" r="14" fill="#FFA000" stroke="#FFD54F" stroke-width="1"/>
-            <path d="M 24 24 Q 30 20 36 24 Q 40 30 36 36 Q 30 40 24 36 Q 20 30 24 24 Z" fill="#FF8F00" opacity="0.6"/>
-          </svg>
-        `;
-      }
-
-      // 20. Vesak: Blooming Sacred Lotus
-      if (fest.includes('vesak') || fest.includes('buddha')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 0.95)}" viewBox="0 0 60 55" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(248, 187, 208, 0.7));">
-            <circle cx="30" cy="30" r="18" fill="rgba(248, 187, 208, 0.35)"/>
-            <path d="M 30 10 C 24 22 22 36 30 44 C 38 36 36 22 30 10 Z" fill="#F48FB1"/>
-            <path d="M 22 22 C 14 28 14 38 24 44 C 28 38 26 28 22 22 Z" fill="#F8BBD0"/>
-            <path d="M 38 22 C 46 28 46 38 36 44 C 32 38 34 28 38 22 Z" fill="#F8BBD0"/>
-            <circle cx="30" cy="44" r="3" fill="#FFD54F"/>
-          </svg>
-        `;
-      }
-
-      // 21. Durga Puja: Clay Dhunachi Incense Burner
-      if (fest.includes('durga')) {
-        return `
-          <svg width="${width}" height="${Math.round(width * 1.2)}" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(198, 40, 40, 0.7));">
-            <circle cx="30" cy="24" r="16" fill="rgba(198, 40, 40, 0.25)"/>
-            <path d="M 28 8 Q 24 16 32 20 Q 28 24 30 30" stroke="#ECEFF1" stroke-width="2" fill="none" opacity="0.75"/>
-            <path d="M 32 10 Q 36 18 28 22 Q 32 26 30 30" stroke="#ECEFF1" stroke-width="1.5" fill="none" opacity="0.6"/>
-            <polygon points="16,30 44,30 38,48 22,48" fill="#C85A27" stroke="#8D3B16" stroke-width="1"/>
-            <rect x="27" y="48" width="6" height="14" fill="#8D3B16"/>
-            <ellipse cx="30" cy="62" rx="14" ry="4" fill="#C85A27"/>
-          </svg>
-        `;
-      }
-
-      // 22. Diwali / Default: Living Brass Diya
-      return getDiyaSVG(config.diyaStyle, sizePx, config.flameGlow);
-    }
 
     // ─── 5. Web Audio Auspicious Bell Synthesizer ───────────────────────────
     function playTempleBell() {
@@ -2638,6 +2827,7 @@ function buildSpiderWeb() {
         }
         banner.style.display = 'flex';
       }
+    }
 
     function hideAllEffects() {
       const topContainer = document.getElementById('utsav-top-garland');
