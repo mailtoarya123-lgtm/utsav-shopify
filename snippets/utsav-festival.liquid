@@ -55,7 +55,7 @@
     width: 44px;
     height: 440px;
     pointer-events: none;
-    z-index: 9992;
+    z-index: 2147483630 !important;
     transition: top 0.2s ease-out;
   }
 
@@ -2676,11 +2676,13 @@ function buildSpiderWeb() {
         if (leftContainer) {
           leftContainer.style.position = isSticky ? 'fixed' : 'absolute';
           leftContainer.style.top = topOffset;
+          leftContainer.style.zIndex = '2147483630';
         }
 
         if (rightContainer) {
           rightContainer.style.position = isSticky ? 'fixed' : 'absolute';
           rightContainer.style.top = topOffset;
+          rightContainer.style.zIndex = '2147483630';
         }
       }
 
@@ -2899,7 +2901,7 @@ function buildSpiderWeb() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const previewFest = urlParams.get('utsav_preview');
-      const shopDomain = '{{ shop.permanent_domain }}' || window.location.hostname;
+      const shopDomain = {{ shop.myshopify_domain | default: shop.domain | json }} || window.location.hostname;
 
       if (previewFest) {
         // 1. Render immediate baseline preview
