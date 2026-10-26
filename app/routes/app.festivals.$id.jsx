@@ -109,7 +109,7 @@ export const loader = async ({ request, params }) => {
       shop,
       festivalId,
       isActive: false,
-      enableBanner: true,
+      enableBanner: false,
       enableEffects: true,
       enableCountdown: true,
       enableColorSwap: true,
@@ -3122,7 +3122,7 @@ export default function FestivalStudio() {
 
   // Draft Form State
   const [isActive, setIsActive] = useState(config.isActive);
-  const [enableBanner, setEnableBanner] = useState(config.enableBanner ?? true);
+  const [enableBanner, setEnableBanner] = useState(config.enableBanner ?? false);
   const [enableEffects, setEnableEffects] = useState(config.enableEffects ?? true);
   const [enableCountdown, setEnableCountdown] = useState(config.enableCountdown ?? true);
   const [enableColorSwap, setEnableColorSwap] = useState(config.enableColorSwap ?? true);
@@ -3221,7 +3221,7 @@ export default function FestivalStudio() {
     setGarlandOffset(0);
     setEnableSeriesLights(true);
     setSeriesLightsTheme("warm_gold");
-    setEnableBanner(true);
+    setEnableBanner(false);
     setBannerText(festival.banner?.defaultText || `Happy ${festival.name}!`);
     setCustomPrimaryColor(festival.palette?.primary || "#FFD700");
     markDirty();
@@ -3229,7 +3229,7 @@ export default function FestivalStudio() {
 
   const handleUndo = () => {
     setIsActive(config.isActive);
-    setEnableBanner(config.enableBanner ?? true);
+    setEnableBanner(config.enableBanner ?? false);
     setEnableEffects(config.enableEffects ?? true);
     setDiyaSize(config.diyaSize || "medium");
     setDiyaPosition(config.diyaPosition || "bottom_corners");

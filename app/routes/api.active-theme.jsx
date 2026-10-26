@@ -75,7 +75,7 @@ export const loader = async ({ request }) => {
           festivalEmoji: festival ? festival.emoji : "🪔",
           palette: festival ? festival.palette : undefined,
           enableEffects: true,
-          enableBanner: true,
+          enableBanner: false,
           garlandLayout: "top_and_sides",
           garlandPlacement: "below_header",
           garlandScrollMode: "natural_scroll",

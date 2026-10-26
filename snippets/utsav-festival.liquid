@@ -2789,10 +2789,11 @@ function buildSpiderWeb() {
         vignette.style.display = isDiwali ? 'block' : 'none';
       }
 
-      // ─── E. BANNER (Culturally Authentic Greetings for All 22 Festivals) ────
+      // ─── E. BANNER (Only if explicitly enabled in merchant config) ────
       const banner = document.getElementById('utsavBanner');
       const bannerTextEl = document.getElementById('utsavBannerText');
-      if (banner && bannerTextEl) {
+      const isBannerActive = config.enableBanner === true;
+      if (banner && bannerTextEl && isBannerActive) {
         if (config.bannerText) {
           bannerTextEl.textContent = config.bannerText;
         } else if (isHalloween) {
@@ -2841,6 +2842,8 @@ function buildSpiderWeb() {
           bannerTextEl.textContent = '🪔 Shubh Deepavali! May the divine light bring prosperity and joy ✨';
         }
         banner.style.display = 'flex';
+      } else if (banner) {
+        banner.style.display = 'none';
       }
     }
 
