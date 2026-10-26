@@ -19,7 +19,8 @@
     enableSeriesLights: {{ block.settings.enable_series_lights | default: true | json }},
     seriesLightsTheme: {{ block.settings.series_lights_theme | default: "warm_gold" | json }},
     seriesLightsMode: {{ block.settings.series_lights_mode | default: "twinkle" | json }},
-    diyaStyle: {{ block.settings.diya_style | default: "royal_brass" | json }},
+    cornerMotif: {{ block.settings.diya_style | default: "marigold_urli" | json }},
+    diyaStyle: {{ block.settings.diya_style | default: "marigold_urli" | json }},
     flameGlow: {{ block.settings.flame_glow | default: "warm_radiance" | json }},
     diyaSize: {{ block.settings.diya_size | default: "medium" | json }},
     diyaPosition: {{ block.settings.diya_position | default: "bottom_corners" | json }},
@@ -157,7 +158,7 @@
         { "value": "antique_copper", "label": "🔥 Handcrafted Earthen Diya (Painted)" },
         { "value": "royal_brass", "label": "🪙 Classical Golden Brass Diya (Temple)" }
       ],
-      "default": "royal_crimson"
+      "default": "marigold_urli"
     },
     {
       "type": "select",

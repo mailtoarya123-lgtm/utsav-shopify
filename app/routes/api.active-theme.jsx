@@ -49,6 +49,8 @@ export const loader = async ({ request }) => {
           config: {
             ...previewConfig,
             ...custom,
+            cornerMotif: custom.cornerMotif || custom.diyaStyle || previewConfig.diyaStyle || "marigold_urli",
+            diyaStyle: custom.cornerMotif || custom.diyaStyle || previewConfig.diyaStyle || "marigold_urli",
             festivalName: festival ? festival.name : undefined,
             festivalEmoji: festival ? festival.emoji : undefined,
             palette: festival ? festival.palette : undefined,
@@ -82,7 +84,8 @@ export const loader = async ({ request }) => {
           enableSeriesLights: previewId.includes("diwali"),
           seriesLightsTheme: "warm_gold",
           seriesLightsMode: "twinkle",
-          diyaStyle: "royal_brass",
+          cornerMotif: "marigold_urli",
+          diyaStyle: "marigold_urli",
           flameGlow: "sacred_flicker",
           diyaSize: "medium",
           diyaPosition: "bottom_corners",
@@ -154,6 +157,8 @@ export const loader = async ({ request }) => {
       config: {
         ...activeConfig,
         ...custom,
+        cornerMotif: custom.cornerMotif || custom.diyaStyle || activeConfig.diyaStyle || "marigold_urli",
+        diyaStyle: custom.cornerMotif || custom.diyaStyle || activeConfig.diyaStyle || "marigold_urli",
         festivalName: festival ? festival.name : undefined,
         festivalEmoji: festival ? festival.emoji : undefined,
         palette: festival ? festival.palette : undefined,

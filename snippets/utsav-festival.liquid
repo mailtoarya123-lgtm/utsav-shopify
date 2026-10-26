@@ -598,15 +598,15 @@
             <use href="#utsavRealFlowerYellow"/>
           </g>
 
-          <!-- Real Photographic Cutout Mango Leaves (Stem at top, pointing down, NO drop shadows) -->
+          <!-- Real Photographic Cutout Mango Leaves (Equal size authentic leaves, stem at top, pointing down) -->
           <g id="utsavMangoLeaf1">
-            <image href="${REAL_LEAVES.real_mango_leaf_1}" x="-10" y="0" width="20" height="58" preserveAspectRatio="xMidYMin meet"/>
+            <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="xMidYMin meet"/>
           </g>
           <g id="utsavMangoLeaf2">
-            <image href="${REAL_LEAVES.real_mango_leaf_2}" x="-7" y="0" width="14" height="58" preserveAspectRatio="xMidYMin meet"/>
+            <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="xMidYMin meet"/>
           </g>
           <g id="utsavMangoLeaf3">
-            <image href="${REAL_LEAVES.real_mango_leaf_3}" x="-12" y="0" width="24" height="58" preserveAspectRatio="xMidYMin meet"/>
+            <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="xMidYMin meet"/>
           </g>
           <g id="utsavMangoLeaf">
             <use href="#utsavMangoLeaf1"/>
@@ -1219,13 +1219,13 @@ function buildSpiderWeb() {
             <!-- Top Kalawa Binding Cord -->
             <rect x="0" y="0" width="160" height="4" fill="url(#utsavKalawaRope)"/>
 
-            <!-- Hanging Real Mango Leaves (Randomized authentic real leaves, stem at top, pointing down) -->
-            <use href="#utsavMangoLeaf1" x="12" y="2" transform="rotate(-7 12 2)"/>
-            <use href="#utsavMangoLeaf3" x="38" y="2" transform="rotate(-3 38 2)"/>
-            <use href="#utsavMangoLeaf2" x="64" y="2" transform="rotate(1 64 2)"/>
+            <!-- Hanging Real Mango Leaves (Equal size authentic leaves, stem at top, pointing down) -->
+            <use href="#utsavMangoLeaf1" x="12" y="2" transform="rotate(-6 12 2)"/>
+            <use href="#utsavMangoLeaf1" x="38" y="2" transform="rotate(-3 38 2)"/>
+            <use href="#utsavMangoLeaf1" x="64" y="2" transform="rotate(1 64 2)"/>
             <use href="#utsavMangoLeaf1" x="96" y="2" transform="rotate(-1 96 2)"/>
-            <use href="#utsavMangoLeaf2" x="122" y="2" transform="rotate(4 122 2)"/>
-            <use href="#utsavMangoLeaf3" x="148" y="2" transform="rotate(7 148 2)"/>
+            <use href="#utsavMangoLeaf1" x="122" y="2" transform="rotate(3 122 2)"/>
+            <use href="#utsavMangoLeaf1" x="148" y="2" transform="rotate(6 148 2)"/>
 
             <!-- Scalloped Floral Marigold Garland (Genda Phool Mala) -->
             <path d="M 0 6 Q 80 48 160 6" stroke="#C62828" stroke-width="2" fill="none" opacity="0.7"/>
@@ -1593,7 +1593,7 @@ function buildSpiderWeb() {
           glowColor = 'rgba(255, 255, 255, 0.95)';
         }
 
-        const yPositions = [32, 62, 92, 122, 152, 182, 212, 242, 272, 302, 332, 362];
+        const yPositions = [28, 52, 76, 100, 124, 148, 172, 196, 220, 244, 268, 292, 316, 340, 364];
         const multiColors = ['#FF9100', '#FF1744', '#00E676', '#FFD700', '#00E5FF', '#FF4081'];
 
         sideBulbs = yPositions.map((y, idx) => {
@@ -1611,6 +1611,11 @@ function buildSpiderWeb() {
         }).join('');
       }
 
+      // Dense marigold flowers: 16 blooms at 24px step for full, zero-gap lush garland
+      const sideFlowerPositions = [16, 40, 64, 88, 112, 136, 160, 184, 208, 232, 256, 280, 304, 328, 352, 376];
+      // Equal-size mango leaves alternating left and right behind the flowers
+      const sideLeafPositions = [28, 64, 100, 136, 172, 208, 244, 280, 316, 352];
+
       return `
         <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
           <defs>
@@ -1622,31 +1627,32 @@ function buildSpiderWeb() {
           </defs>
 
           <!-- 1. Vertical Hanging Kalawa Sacred Cord (BEHIND FLOWERS) -->
-          <line x1="22" y1="0" x2="22" y2="420" stroke="url(#utsavSideKalawa_${isLeft ? 'L' : 'R'})" stroke-width="2.5"/>
+          <line x1="22" y1="0" x2="22" y2="408" stroke="url(#utsavSideKalawa_${isLeft ? 'L' : 'R'})" stroke-width="2.8"/>
 
           <!-- 2. Realistic Series Lights Wiring (BEHIND FLOWERS) -->
           ${hasSeriesLights ? `
-            <path d="M 22 10 Q 8 70 22 130 Q 36 190 22 250 Q 8 310 22 370" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.95"/>
-            <path d="M 22 12 Q 10 72 22 132 Q 34 192 22 252 Q 10 312 22 372" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.8"/>
+            <path d="M 22 10 Q 8 60 22 110 Q 36 160 22 210 Q 8 260 22 310 Q 36 360 22 385" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.95"/>
+            <path d="M 22 12 Q 10 62 22 112 Q 34 162 22 212 Q 10 262 22 312 Q 34 362 22 387" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.8"/>
           ` : ''}
 
-          <!-- 3. Fresh Mango Leaves (Randomized 3 authentic real leaf variants, BEHIND FLOWERS, NO drop shadow) -->
-          ${[16, 54, 92, 130, 168, 206, 244, 282, 320, 358].map((y, i) => {
-            const leafId = ['#utsavMangoLeaf1', '#utsavMangoLeaf2', '#utsavMangoLeaf3'][i % 3];
-            const angle = i % 2 === 0 ? -30 : 30;
-            return `<use href="${leafId}" x="22" y="${y - 8}" transform="rotate(${angle} 22 ${y - 8})"/>`;
+          <!-- 3. Fresh Mango Leaves (Equal size authentic leaves, BEHIND FLOWERS, NO drop shadow) -->
+          ${sideLeafPositions.map((y, i) => {
+            const angle = i % 2 === 0 ? -32 : 32;
+            return `<use href="#utsavMangoLeaf1" x="22" y="${y - 8}" transform="rotate(${angle} 22 ${y - 8})"/>`;
           }).join('')}
 
           <!-- 4. Series Lights Bulbs (nestled along the wire) -->
           ${hasSeriesLights ? sideBulbs : ''}
 
-          <!-- 5. Real Photographic Flower Blooms (ON TOP of thread and wiring) -->
-          ${[16, 54, 92, 130, 168, 206, 244, 282, 320, 358].map((y, i) => `
+          <!-- 5. Real Photographic Flower Blooms (Dense, zero-gap garland ON TOP of thread and wiring) -->
+          ${sideFlowerPositions.map((y, i) => `
             <use href="${getFlowerHref(garlandStyle, i)}" x="22" y="${y}"/>
           `).join('')}
 
-          <!-- 6. Auspicious Brass Bell Finial -->
-          <use href="#utsavBrassBell" x="22" y="398" transform="scale(1.2) translate(-3, -2)"/>
+          <!-- 6. Auspicious Brass Bell Finial connected directly to bottom flower -->
+          <line x1="22" y1="376" x2="22" y2="408" stroke="#D32F2F" stroke-width="3"/>
+          <circle cx="22" cy="402" r="3.2" fill="#D4AF37" stroke="#996515" stroke-width="0.8"/>
+          <use href="#utsavBrassBell" x="22" y="405" transform="scale(1.2) translate(-3, -2)"/>
         </svg>
       `;
     }
@@ -1663,13 +1669,14 @@ function buildSpiderWeb() {
 
       const width = sizePx;
       const height = Math.round(sizePx * 0.82);
-      const diyaKey = (style || "royal_crimson").toLowerCase();
+      const diyaKey = (style && style !== "default" ? style : "marigold_urli").toLowerCase();
       const imgSrc = REAL_DIYAS[diyaKey] || (
         diyaKey === "terracotta_clay" ? REAL_DIYAS.terracotta_clay :
         diyaKey === "marigold_urli" || diyaKey === "festive_ornamental" || diyaKey === "rangoli_diya" ? REAL_DIYAS.marigold_urli :
         diyaKey === "antique_copper" ? REAL_DIYAS.antique_copper :
         diyaKey === "royal_brass" ? REAL_DIYAS.royal_brass :
-        REAL_DIYAS.royal_crimson
+        diyaKey === "royal_crimson" ? REAL_DIYAS.royal_crimson :
+        REAL_DIYAS.marigold_urli
       );
 
       return `
@@ -1683,7 +1690,9 @@ function buildSpiderWeb() {
     function getFestivalCornerSVG(festivalId, sizePx, config) {
       const fest = (festivalId || '').toLowerCase();
       const cfg = config || {};
-      const motif = ((cfg.cornerMotif && cfg.cornerMotif !== 'default') ? cfg.cornerMotif : (cfg.diyaStyle || '')).toLowerCase();
+      const motif = ((cfg.cornerMotif && cfg.cornerMotif !== 'default') 
+        ? cfg.cornerMotif 
+        : (cfg.diyaStyle && cfg.diyaStyle !== 'default' ? cfg.diyaStyle : 'marigold_urli')).toLowerCase();
       const width = sizePx;
         
 
@@ -2456,7 +2465,8 @@ function buildSpiderWeb() {
         enableSeriesLights: userConfig.enableSeriesLights !== undefined ? userConfig.enableSeriesLights : (userConfig.seriesLightsTheme !== 'off'),
         seriesLightsTheme: userConfig.seriesLightsTheme || 'warm_gold',
         seriesLightsMode: userConfig.seriesLightsMode || 'twinkle',
-        diyaStyle: userConfig.diyaStyle || 'royal_brass',
+        cornerMotif: userConfig.cornerMotif || userConfig.diyaStyle || 'marigold_urli',
+        diyaStyle: userConfig.cornerMotif || userConfig.diyaStyle || 'marigold_urli',
         flameGlow: userConfig.flameGlow || 'sacred_flicker',
         diyaSize: userConfig.diyaSize || 'medium',
         diyaPosition: userConfig.diyaPosition || 'bottom_corners',
@@ -2468,6 +2478,13 @@ function buildSpiderWeb() {
         fireworksSound: userConfig.fireworksSound || 'muted',
         bannerText: userConfig.bannerText || null
       };
+
+      Object.assign(config, userConfig);
+      const effectiveMotif = (userConfig.cornerMotif && userConfig.cornerMotif !== 'default')
+        ? userConfig.cornerMotif
+        : (userConfig.diyaStyle && userConfig.diyaStyle !== 'default' ? userConfig.diyaStyle : config.cornerMotif);
+      config.cornerMotif = effectiveMotif;
+      config.diyaStyle = effectiveMotif;
 
       // ─── A. GARLANDS (Distinct Visual Styling per Festival) ───────────────
       const topContainer = document.getElementById('utsav-top-garland');
@@ -2751,20 +2768,64 @@ function buildSpiderWeb() {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const previewFest = urlParams.get('utsav_preview');
+      const urlDiya = urlParams.get('diya') || urlParams.get('utsav_diya') || urlParams.get('corner_motif') || urlParams.get('diya_style');
       const shopDomain = {{ shop.myshopify_domain | default: shop.domain | json }} || window.location.hostname;
 
+      // ─── Real-time Live Sync across tabs / windows ───────────
+      try {
+        if (typeof BroadcastChannel !== 'undefined') {
+          const syncChannel = new BroadcastChannel('utsav_preview_sync');
+          syncChannel.onmessage = function(ev) {
+            if (ev && ev.data && (ev.data.cornerMotif || ev.data.diyaStyle || ev.data.garlandStyle || ev.data.garlandLayout)) {
+              const incoming = ev.data;
+              applyFestival(incoming.festivalId || previewFest || 'diwali', incoming);
+            }
+          };
+        }
+      } catch (_) {}
+
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'utsav_preview_sync' && e.newValue) {
+          try {
+            const data = JSON.parse(e.newValue);
+            if (data && (data.cornerMotif || data.diyaStyle)) {
+              applyFestival(data.festivalId || previewFest || 'diwali', data);
+            }
+          } catch (_) {}
+        }
+        if (e.key === 'utsav_preview_corner_motif' && e.newValue) {
+          applyFestival(previewFest || 'diwali', { cornerMotif: e.newValue, diyaStyle: e.newValue });
+        }
+      });
+
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'UTSAV_CONFIG_UPDATE') {
+          applyFestival(e.data.festivalId || previewFest || 'diwali', e.data);
+        }
+      });
+
       if (previewFest) {
-        // 1. Render immediate baseline preview
-        applyFestival(previewFest.toLowerCase(), {});
+        // 1. Render immediate baseline preview (with urlDiya if specified in URL)
+        const initConfig = {};
+        if (urlDiya) {
+          initConfig.cornerMotif = urlDiya;
+          initConfig.diyaStyle = urlDiya;
+        }
+        applyFestival(previewFest.toLowerCase(), initConfig);
 
         // 2. Query cloud for the merchant's saved customizations for this festival
         fetch('https://utsav-shopify.onrender.com/api/active-theme?shop=' + encodeURIComponent(shopDomain) + '&preview=' + encodeURIComponent(previewFest) + '&_t=' + Date.now())
           .then(r => r.json())
           .then(data => {
             if (data && data.active && data.config) {
-              applyFestival(data.festivalId || previewFest.toLowerCase(), Object.assign({}, data.config, {
+              const merged = Object.assign({}, data.config, {
                 enableEffects: true
-              }));
+              });
+              if (urlDiya) {
+                merged.cornerMotif = urlDiya;
+                merged.diyaStyle = urlDiya;
+              }
+              applyFestival(data.festivalId || previewFest.toLowerCase(), merged);
             }
           })
           .catch(() => {});
@@ -2776,7 +2837,12 @@ function buildSpiderWeb() {
         .then(r => r.json())
         .then(data => {
           if (data && data.active === true && data.config) {
-            applyFestival(data.festivalId || 'diwali', data.config);
+            const activeConfig = Object.assign({}, data.config);
+            if (urlDiya) {
+              activeConfig.cornerMotif = urlDiya;
+              activeConfig.diyaStyle = urlDiya;
+            }
+            applyFestival(data.festivalId || 'diwali', activeConfig);
           } else {
             hideAllEffects();
           }

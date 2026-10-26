@@ -115,7 +115,7 @@
     const countdownTarget = config.countdownTarget || null;
 
     // 🪔 Diya / Corner Motif Customizations
-    const cornerMotif = (config.cornerMotif && config.cornerMotif !== "default") ? config.cornerMotif : (config.diyaStyle || "royal_brass");
+    const cornerMotif = (config.cornerMotif && config.cornerMotif !== "default") ? config.cornerMotif : (config.diyaStyle && config.diyaStyle !== "default" ? config.diyaStyle : "marigold_urli");
     const diyaStyle = cornerMotif;
     const flameGlow = config.flameGlow || "warm_radiance";
     const diyaSize = config.diyaSize || "medium";
@@ -814,13 +814,13 @@ function buildSpiderWeb() {
             </g>
 
             <g id="utsavEfMangoLeaf1">
-              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="58" preserveAspectRatio="none"/>
+              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="none"/>
             </g>
             <g id="utsavEfMangoLeaf2">
-              <image href="${REAL_LEAVES.real_mango_leaf_2 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="58" preserveAspectRatio="none"/>
+              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="none"/>
             </g>
             <g id="utsavEfMangoLeaf3">
-              <image href="${REAL_LEAVES.real_mango_leaf_3 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="58" preserveAspectRatio="none"/>
+              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="none"/>
             </g>
             <g id="utsavEfMangoLeaf">
               <use href="#utsavEfMangoLeaf1"/>
@@ -847,11 +847,11 @@ function buildSpiderWeb() {
             <pattern id="utsavEfToranUnit" width="160" height="68" patternUnits="userSpaceOnUse">
               <rect x="0" y="0" width="160" height="4" fill="url(#utsavEfKalawaRope)"/>
               <use href="#utsavEfMangoLeaf1" x="12" y="2" transform="rotate(-6 12 2)"/>
-              <use href="#utsavEfMangoLeaf3" x="38" y="2" transform="rotate(-3 38 2)"/>
-              <use href="#utsavEfMangoLeaf2" x="64" y="2" transform="rotate(0 64 2)"/>
+              <use href="#utsavEfMangoLeaf1" x="38" y="2" transform="rotate(-3 38 2)"/>
+              <use href="#utsavEfMangoLeaf1" x="64" y="2" transform="rotate(0 64 2)"/>
               <use href="#utsavEfMangoLeaf1" x="96" y="2" transform="rotate(0 96 2)"/>
-              <use href="#utsavEfMangoLeaf2" x="122" y="2" transform="rotate(3 122 2)"/>
-              <use href="#utsavEfMangoLeaf3" x="148" y="2" transform="rotate(6 148 2)"/>
+              <use href="#utsavEfMangoLeaf1" x="122" y="2" transform="rotate(3 122 2)"/>
+              <use href="#utsavEfMangoLeaf1" x="148" y="2" transform="rotate(6 148 2)"/>
               <path d="M 0 8 Q 80 48 160 8" stroke="#E65100" stroke-width="2.5" fill="none" opacity="0.6"/>
               <use href="${getFlowerHref(garlandStyle, 0)}" x="0" y="14"/>
               <use href="${getFlowerHref(garlandStyle, 1)}" x="24" y="26"/>
@@ -1309,13 +1309,13 @@ function buildSpiderWeb() {
             </g>
 
             <g id="utsavEfMangoLeafSide1">
-              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="58" preserveAspectRatio="none"/>
+              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="xMidYMin meet"/>
             </g>
             <g id="utsavEfMangoLeafSide2">
-              <image href="${REAL_LEAVES.real_mango_leaf_2 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="58" preserveAspectRatio="none"/>
+              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="xMidYMin meet"/>
             </g>
             <g id="utsavEfMangoLeafSide3">
-              <image href="${REAL_LEAVES.real_mango_leaf_3 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="58" preserveAspectRatio="none"/>
+              <image href="${REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}" x="-10" y="0" width="20" height="56" preserveAspectRatio="xMidYMin meet"/>
             </g>
             <g id="utsavEfMangoLeafSide">
               <use href="#utsavEfMangoLeafSide1"/>
@@ -1328,33 +1328,38 @@ function buildSpiderWeb() {
           </defs>
         `;
 
+        const efSideFlowers = [16, 40, 64, 88, 112, 136, 160, 184, 208, 232, 256, 280, 304, 328, 352, 376];
+        const efSideLeaves = [28, 64, 100, 136, 172, 208, 244, 280, 316, 352];
+
         return `
           <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
             ${getDefs()}
             <!-- 1. Vertical Hanging Kalawa Cord (BEHIND FLOWERS) -->
-            <line x1="22" y1="0" x2="22" y2="400" stroke="#D32F2F" stroke-width="2.5"/>
+            <line x1="22" y1="0" x2="22" y2="408" stroke="#D32F2F" stroke-width="2.8"/>
 
             <!-- 2. Series Lights Wiring (BEHIND FLOWERS) -->
             ${hasLights ? `
-              <path d="M 22 10 Q 8 70 22 130 Q 36 190 22 250 Q 8 310 22 370" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.95"/>
-              <path d="M 22 12 Q 10 72 22 132 Q 34 192 22 252 Q 10 312 22 372" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.8"/>
+              <path d="M 22 10 Q 8 60 22 110 Q 36 160 22 210 Q 8 260 22 310 Q 36 360 22 385" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.95"/>
+              <path d="M 22 12 Q 10 62 22 112 Q 34 162 22 212 Q 10 262 22 312 Q 34 362 22 387" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.8"/>
             ` : ""}
 
-            <!-- 3. Mango Leaves (BEHIND FLOWERS) -->
-            <use href="#utsavEfMangoLeafSide1" x="22" y="68" transform="rotate(-35 22 68)"/>
-            <use href="#utsavEfMangoLeafSide2" x="22" y="158" transform="rotate(35 22 158)"/>
-            <use href="#utsavEfMangoLeafSide3" x="22" y="248" transform="rotate(-35 22 248)"/>
+            <!-- 3. Mango Leaves (Equal size authentic leaves, BEHIND FLOWERS) -->
+            ${efSideLeaves.map((y, i) => `
+              <use href="#utsavEfMangoLeafSide1" x="22" y="${y - 8}" transform="rotate(${i % 2 === 0 ? -32 : 32} 22 ${y - 8})"/>
+            `).join('')}
 
             <!-- 4. Series Lights Bulbs -->
             ${hasLights ? sideBulbs : ""}
 
-            <!-- 5. Real Cutout Flowers (ON TOP of thread and wiring) -->
-            ${[16, 46, 76, 106, 136, 166, 196, 226, 256, 286, 316, 346, 374, 392].map((y, i) => `
+            <!-- 5. Real Cutout Flowers (Dense, zero-gap garland ON TOP of thread and wiring) -->
+            ${efSideFlowers.map((y, i) => `
               <use href="${getFlowerHref(garlandStyle, i)}" x="22" y="${y}"/>
             `).join('')}
 
-            <!-- 6. Brass Bell Finial -->
-            <use href="#utsavEfBrassBellSide" x="22" y="406"/>
+            <!-- 6. Brass Bell Finial connected directly to bottom flower -->
+            <line x1="22" y1="376" x2="22" y2="408" stroke="#D32F2F" stroke-width="3"/>
+            <circle cx="22" cy="402" r="3.2" fill="#D4AF37" stroke="#996515" stroke-width="0.8"/>
+            <use href="#utsavEfBrassBellSide" x="22" y="405" transform="scale(1.2) translate(-3, -2)"/>
           </svg>
         `;
       }
@@ -1963,13 +1968,14 @@ function buildSpiderWeb() {
         }
 
         // 22. Diwali / Default: Authentic Real Diya (Living Flame & Glow)
-        const diyaKey = (motif || diyaStyle || "royal_crimson").toLowerCase();
+        const diyaKey = (motif && motif !== "default" ? motif : (diyaStyle && diyaStyle !== "default" ? diyaStyle : "marigold_urli")).toLowerCase();
         const imgSrc = REAL_DIYAS[diyaKey] || (
           diyaKey === "terracotta_clay" ? REAL_DIYAS.terracotta_clay :
           diyaKey === "marigold_urli" || diyaKey === "festive_ornamental" || diyaKey === "rangoli_diya" ? REAL_DIYAS.marigold_urli :
           diyaKey === "antique_copper" ? REAL_DIYAS.antique_copper :
           diyaKey === "royal_brass" ? REAL_DIYAS.royal_brass :
-          REAL_DIYAS.royal_crimson
+          diyaKey === "royal_crimson" ? REAL_DIYAS.royal_crimson :
+          REAL_DIYAS.marigold_urli
         );
 
         const glowFilter = flameGlow === "divine_aura"
@@ -2347,10 +2353,77 @@ function buildSpiderWeb() {
       window.location.hostname;
     const urlParams = new URLSearchParams(window.location.search);
     const previewFest = urlParams.get("utsav_preview");
+    const urlDiya = urlParams.get("diya") || urlParams.get("utsav_diya") || urlParams.get("corner_motif") || urlParams.get("diya_style");
+
+    // ─── Real-time Live Sync across tabs / windows ───────────
+    try {
+      if (typeof BroadcastChannel !== "undefined") {
+        const syncChannel = new BroadcastChannel("utsav_preview_sync");
+        syncChannel.onmessage = function (ev) {
+          if (ev && ev.data && (ev.data.cornerMotif || ev.data.diyaStyle || ev.data.garlandStyle || ev.data.garlandLayout)) {
+            const incoming = ev.data;
+            const targetFest = incoming.festivalId || previewFest || "diwali";
+            const meta = FESTIVAL_META[targetFest.toLowerCase()] || {};
+            const merged = Object.assign({}, window.__UTSAV_CONFIG__, incoming, {
+              festivalId: targetFest,
+              festivalName: meta.name || targetFest,
+              festivalEmoji: meta.emoji || "✨",
+              enableEffects: true
+            });
+            startFestiveEngine(merged);
+          }
+        };
+      }
+    } catch (_) {}
+
+    window.addEventListener("storage", function (e) {
+      if (e.key === "utsav_preview_sync" && e.newValue) {
+        try {
+          const data = JSON.parse(e.newValue);
+          if (data && (data.cornerMotif || data.diyaStyle)) {
+            const targetFest = data.festivalId || previewFest || "diwali";
+            const meta = FESTIVAL_META[targetFest.toLowerCase()] || {};
+            const merged = Object.assign({}, window.__UTSAV_CONFIG__, data, {
+              festivalId: targetFest,
+              festivalName: meta.name || targetFest,
+              festivalEmoji: meta.emoji || "✨",
+              enableEffects: true
+            });
+            startFestiveEngine(merged);
+          }
+        } catch (_) {}
+      }
+      if (e.key === "utsav_preview_corner_motif" && e.newValue) {
+        const targetFest = previewFest || "diwali";
+        const meta = FESTIVAL_META[targetFest.toLowerCase()] || {};
+        startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, {
+          festivalId: targetFest,
+          festivalName: meta.name || targetFest,
+          festivalEmoji: meta.emoji || "✨",
+          enableEffects: true,
+          cornerMotif: e.newValue,
+          diyaStyle: e.newValue
+        }));
+      }
+    });
+
+    window.addEventListener("message", function (e) {
+      if (e.data && e.data.type === "UTSAV_CONFIG_UPDATE") {
+        const targetFest = e.data.festivalId || previewFest || "diwali";
+        const meta = FESTIVAL_META[targetFest.toLowerCase()] || {};
+        const merged = Object.assign({}, window.__UTSAV_CONFIG__, e.data, {
+          festivalId: targetFest,
+          festivalName: meta.name || targetFest,
+          festivalEmoji: meta.emoji || "✨",
+          enableEffects: true
+        });
+        startFestiveEngine(merged);
+      }
+    });
 
     if (previewFest) {
       const initMeta = FESTIVAL_META[previewFest.toLowerCase()] || {};
-      startFestiveEngine(Object.assign({}, window.__UTSAV_CONFIG__, {
+      const initCfg = Object.assign({}, window.__UTSAV_CONFIG__, {
         festivalId: previewFest,
         festivalName: initMeta.name || previewFest,
         festivalEmoji: initMeta.emoji || "✨",
@@ -2359,7 +2432,12 @@ function buildSpiderWeb() {
         diyaSize: "medium",
         diyaMarginX: 18,
         diyaMarginY: 18
-      }));
+      });
+      if (urlDiya) {
+        initCfg.cornerMotif = urlDiya;
+        initCfg.diyaStyle = urlDiya;
+      }
+      startFestiveEngine(initCfg);
 
       fetch("https://utsav-shopify.onrender.com/api/active-theme?shop=" + encodeURIComponent(shopDomain) + "&preview=" + encodeURIComponent(previewFest) + "&_t=" + Date.now())
         .then(function (res) { return res.json(); })
@@ -2374,6 +2452,10 @@ function buildSpiderWeb() {
               festivalEmoji: (data.config && data.config.festivalEmoji) || festInfo.emoji || meta.emoji,
               palette: (data.config && data.config.palette) || festInfo.palette,
             });
+            if (urlDiya) {
+              merged.cornerMotif = urlDiya;
+              merged.diyaStyle = urlDiya;
+            }
             startFestiveEngine(merged);
           }
         })
@@ -2392,15 +2474,29 @@ function buildSpiderWeb() {
               festivalEmoji: (data.config && data.config.festivalEmoji) || festInfo.emoji || meta.emoji,
               palette: (data.config && data.config.palette) || festInfo.palette,
             });
+            if (urlDiya) {
+              merged.cornerMotif = urlDiya;
+              merged.diyaStyle = urlDiya;
+            }
             startFestiveEngine(merged);
           } else if (data && data.active === false) {
             teardownExistingEffects();
           } else {
-            startFestiveEngine(window.__UTSAV_CONFIG__ || {});
+            const defCfg = Object.assign({}, window.__UTSAV_CONFIG__ || {});
+            if (urlDiya) {
+              defCfg.cornerMotif = urlDiya;
+              defCfg.diyaStyle = urlDiya;
+            }
+            startFestiveEngine(defCfg);
           }
         })
         .catch(function () {
-          startFestiveEngine(window.__UTSAV_CONFIG__ || {});
+          const defCfg = Object.assign({}, window.__UTSAV_CONFIG__ || {});
+          if (urlDiya) {
+            defCfg.cornerMotif = urlDiya;
+            defCfg.diyaStyle = urlDiya;
+          }
+          startFestiveEngine(defCfg);
         });
     }
   }

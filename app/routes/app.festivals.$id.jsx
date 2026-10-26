@@ -154,7 +154,15 @@ export const action = async ({ request, params }) => {
     const diyaPosition = formData.get("diyaPosition") || "bottom_corners";
     const fireworksFrequency = formData.get("fireworksFrequency") || "subtle";
     const bannerText = formData.get("bannerText") || "";
-    const customColors = formData.get("customColors") || null;
+    let customColors = formData.get("customColors") || null;
+    const cornerMotifForm = formData.get("cornerMotif") || formData.get("diyaStyle");
+    if (cornerMotifForm) {
+      let parsed = {};
+      try { parsed = customColors ? JSON.parse(customColors) : {}; } catch(_) {}
+      parsed.cornerMotif = cornerMotifForm;
+      parsed.diyaStyle = cornerMotifForm;
+      customColors = JSON.stringify(parsed);
+    }
     const scheduledStartStr = formData.get("scheduledStart") || null;
     const scheduledEndStr = formData.get("scheduledEnd") || null;
 
@@ -2727,8 +2735,8 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
         {[0, 112, 224, 336, 448].map((startX, idx) => (
           <g key={idx} transform={`translate(${startX}, 0)`}>
             <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={6} y={0} width={14} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(-5 13 0)" />
-            <image href={REAL_LEAVES.real_mango_leaf_2 || REAL_LEAVES.real_mango_leaf} x={32} y={0} width={11} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(-2 37 0)" />
-            <image href={REAL_LEAVES.real_mango_leaf_3 || REAL_LEAVES.real_mango_leaf} x={58} y={0} width={15} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(2 65 0)" />
+            <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={32} y={0} width={14} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(-2 39 0)" />
+            <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={58} y={0} width={14} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(2 65 0)" />
             <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={84} y={0} width={14} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(5 91 0)" />
 
             <path d="M 0 5 Q 56 34 112 5" stroke="#C62828" strokeWidth="1.6" fill="none" opacity="0.7" />
@@ -3418,27 +3426,42 @@ function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft =
           </g>
         )}
 
-        {/* 3. Real Mango Leaves (BEHIND FLOWERS) */}
-        <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={12} y={64} width={18} height={48} transform="rotate(-30 22 88)" preserveAspectRatio="xMidYMin meet" />
-        <image href={REAL_LEAVES.real_mango_leaf_2 || REAL_LEAVES.real_mango_leaf} x={15} y={154} width={14} height={48} transform="rotate(30 22 178)" preserveAspectRatio="xMidYMin meet" />
-        <image href={REAL_LEAVES.real_mango_leaf_3 || REAL_LEAVES.real_mango_leaf} x={10} y={244} width={20} height={48} transform="rotate(-30 22 268)" preserveAspectRatio="xMidYMin meet" />
+        {/* 3. Real Mango Leaves (Equal Size, BEHIND FLOWERS) */}
+        {[28, 64, 100, 136, 172, 208, 244, 280, 316, 352].map((y, i) => (
+          <image
+            key={i}
+            href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf}
+            x={12}
+            y={y - 8}
+            width={18}
+            height={50}
+            transform={`rotate(${i % 2 === 0 ? -32 : 32} 22 ${y - 8})`}
+            preserveAspectRatio="xMidYMin meet"
+          />
+        ))}
 
-        {/* 4. Real Cutout Photographic Flowers (ON TOP of thread and wiring) */}
-        {[16, 46, 76, 106, 136, 166, 196, 226, 256, 286, 316, 346, 374, 392].map((y, i) => (
+        {/* 4. Real Cutout Photographic Flowers (Dense, zero-gap continuous garland ON TOP of thread and wiring) */}
+        {[16, 40, 64, 88, 112, 136, 160, 184, 208, 232, 256, 280, 304, 328, 352, 376].map((y, i) => (
           <image
             key={i}
             href={getFlowerSrc(garlandStyle, i)}
-            x={10}
-            y={y - 12}
-            width={24}
-            height={24}
+            x={9}
+            y={y - 13}
+            width={26}
+            height={26}
             preserveAspectRatio="xMidYMid meet"
           />
         ))}
 
-        {/* 5. Brass Bell Finial */}
-        <path d="M 16 406 C 17 412 14 417 14 419 L 30 419 C 30 417 27 412 28 406 Z" fill="#D4AF37" />
-        <circle cx="22" cy="422" r="2.5" fill="#FFE082" />
+        {/* 5. Auspicious Brass Bell Finial connected directly to bottom flower */}
+        <line x1="22" y1="376" x2="22" y2="408" stroke="#D32F2F" strokeWidth="3" />
+        <circle cx="22" cy="402" r="3.2" fill="#D4AF37" stroke="#996515" strokeWidth="0.8" />
+        <g transform="translate(0, 4)">
+          <path d="M 15 401 C 16 408 13 413 13 415 L 31 415 C 31 413 28 408 29 401 Z" fill="#D4AF37" />
+          <circle cx="22" cy="417" r="2.5" fill="#FFE082" />
+          <line x1="22" y1="415" x2="22" y2="421" stroke="#D32F2F" strokeWidth="1.5" />
+          <circle cx="22" cy="422" r="1.5" fill="#D32F2F" />
+        </g>
       </svg>
     </div>
   );
@@ -3943,6 +3966,43 @@ export default function FestivalStudio() {
 
   const markDirty = () => setHasUnsavedChanges(true);
 
+  // Cross-tab real-time sync with storefront preview
+  const broadcastPreviewUpdate = (overrides = {}) => {
+    const payload = {
+      type: "UTSAV_CONFIG_UPDATE",
+      festivalId: festival.id,
+      cornerMotif: overrides.cornerMotif !== undefined ? overrides.cornerMotif : cornerMotif,
+      diyaStyle: overrides.cornerMotif !== undefined ? overrides.cornerMotif : (overrides.diyaStyle !== undefined ? overrides.diyaStyle : cornerMotif),
+      diyaSize: overrides.diyaSize !== undefined ? overrides.diyaSize : diyaSize,
+      diyaPosition: overrides.diyaPosition !== undefined ? overrides.diyaPosition : diyaPosition,
+      garlandLayout: overrides.garlandLayout !== undefined ? overrides.garlandLayout : garlandLayout,
+      garlandStyle: overrides.garlandStyle !== undefined ? overrides.garlandStyle : garlandStyle,
+      garlandPlacement: overrides.garlandPlacement !== undefined ? overrides.garlandPlacement : garlandPlacement,
+      garlandOffset: overrides.garlandOffset !== undefined ? overrides.garlandOffset : garlandOffset,
+      enableSeriesLights: overrides.enableSeriesLights !== undefined ? overrides.enableSeriesLights : enableSeriesLights,
+      seriesLightsTheme: overrides.seriesLightsTheme !== undefined ? overrides.seriesLightsTheme : seriesLightsTheme,
+    };
+    try {
+      if (typeof BroadcastChannel !== "undefined") {
+        const channel = new BroadcastChannel("utsav_preview_sync");
+        channel.postMessage(payload);
+        channel.close();
+      }
+    } catch (_) {}
+    try {
+      localStorage.setItem("utsav_preview_sync", JSON.stringify(payload));
+      if (payload.cornerMotif) {
+        localStorage.setItem("utsav_preview_corner_motif", payload.cornerMotif);
+      }
+    } catch (_) {}
+    try {
+      window.postMessage(payload, "*");
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage(payload, "*");
+      }
+    } catch (_) {}
+  };
+
   // Handle ESC key for fullscreen
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -4009,6 +4069,8 @@ export default function FestivalStudio() {
       fd.append("language", language);
       fd.append("diyaSize", diyaSize);
       fd.append("diyaPosition", diyaPosition);
+      fd.append("diyaStyle", cornerMotif);
+      fd.append("cornerMotif", cornerMotif);
       fd.append("bannerText", bannerText);
       fd.append("scheduledStart", scheduledStart);
       fd.append("scheduledEnd", scheduledEnd);
@@ -4024,6 +4086,7 @@ export default function FestivalStudio() {
         particleDensity,
         motionSensitivity,
         cornerMotif,
+        diyaStyle: cornerMotif,
         customPrimaryColor,
         smartMatchMode,
         triggerEvent,
@@ -4037,6 +4100,7 @@ export default function FestivalStudio() {
       fd.append("customColors", customPayload);
 
       fetcher.submit(fd, { method: "post" });
+      broadcastPreviewUpdate({ cornerMotif, diyaStyle: cornerMotif });
       if (newActiveState !== null) setIsActive(newActiveState);
       setHasUnsavedChanges(false);
     },
@@ -4249,11 +4313,11 @@ export default function FestivalStudio() {
           </a>
 
           <a
-            href={`https://${shop}/?utsav_preview=${festival.id}`}
+            href={`https://${shop}/?utsav_preview=${festival.id}&diya=${cornerMotif}&diya_style=${cornerMotif}&corner_motif=${cornerMotif}`}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => {
-              const liveUrl = `https://${shop}/?utsav_preview=${festival.id}`;
+              const liveUrl = `https://${shop}/?utsav_preview=${festival.id}&diya=${cornerMotif}&diya_style=${cornerMotif}&corner_motif=${cornerMotif}`;
               try {
                 if (window.shopify && typeof window.shopify.open === "function") {
                   e.preventDefault();
@@ -4501,21 +4565,33 @@ export default function FestivalStudio() {
                     options={getFestivalCornerMotifOptions(festival.id)}
                     festival={festival}
                     value={cornerMotif === "default" ? (getFestivalCornerMotifOptions(festival.id)[0]?.value || "default") : cornerMotif}
-                    onChange={(val) => { setCornerMotif(val); markDirty(); }}
+                    onChange={(val) => { 
+                      setCornerMotif(val); 
+                      markDirty(); 
+                      broadcastPreviewUpdate({ cornerMotif: val, diyaStyle: val }); 
+                    }}
                     helpText="Choose which iconic festive symbol sits elegantly in the corners of your store."
                   />
 
                   <VisualPlacementSelector
                     label={terminology.cornerPlacementLabel || "Corner Motif Placement"}
                     value={diyaPosition}
-                    onChange={(val) => { setDiyaPosition(val); markDirty(); }}
+                    onChange={(val) => { 
+                      setDiyaPosition(val); 
+                      markDirty(); 
+                      broadcastPreviewUpdate({ diyaPosition: val }); 
+                    }}
                     helpText="Select whether motifs sit in both bottom corners, one corner, or remain hidden."
                   />
 
                   <VisualSizeSelector
                     label={terminology.cornerSizeLabel || "Corner Motif Size"}
                     value={diyaSize}
-                    onChange={(val) => { setDiyaSize(val); markDirty(); }}
+                    onChange={(val) => { 
+                      setDiyaSize(val); 
+                      markDirty(); 
+                      broadcastPreviewUpdate({ diyaSize: val }); 
+                    }}
                     helpText="Balanced (76px) is recommended for desktop and automatically scales for mobile."
                   />
                 </>
