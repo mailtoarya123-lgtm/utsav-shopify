@@ -2759,6 +2759,13 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
             <image href={getFlowerSrc(garlandStyle, 2)} x={48} y={18} width={17} height={17} preserveAspectRatio="xMidYMid meet" />
             <image href={getFlowerSrc(garlandStyle, 3)} x={76} y={11} width={16} height={16} preserveAspectRatio="xMidYMid meet" />
             <image href={getFlowerSrc(garlandStyle, 4)} x={104} y={-2} width={15} height={15} preserveAspectRatio="xMidYMid meet" />
+
+            {/* Auspicious Brass Bell Hanging in between the Arcs */}
+            <line x1={0} y1={5} x2={0} y2={18} stroke="#D32F2F" strokeWidth={1.2} />
+            <circle cx={0} cy={17} r={1.5} fill="#D4AF37" />
+            <path d="M -3 18 C -2.5 21 -4 23.5 -4 25 L 4 25 C 4 23.5 2.5 21 3 18 Z" fill="#D4AF37" />
+            <circle cx={0} cy={26} r={1} fill="#FFE082" />
+            <line x1={0} y1={26.5} x2={0} y2={30} stroke="#D32F2F" strokeWidth={0.8} />
           </g>
         ))}
       </svg>

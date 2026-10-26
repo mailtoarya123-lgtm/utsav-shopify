@@ -1215,7 +1215,7 @@ function buildSpiderWeb() {
       return `
         <svg width="100%" height="68" xmlns="http://www.w3.org/2000/svg" style="display:block; overflow:visible;">
           ${getFestiveDefs()}
-          <pattern id="utsavToranUnit" width="160" height="68" patternUnits="userSpaceOnUse">
+          <pattern id="utsavToranUnit" width="160" height="68" patternUnits="userSpaceOnUse" overflow="visible">
             <!-- Top Kalawa Binding Cord -->
             <rect x="0" y="0" width="160" height="4" fill="url(#utsavKalawaRope)"/>
 
@@ -1241,8 +1241,14 @@ function buildSpiderWeb() {
             <use href="${getFlowerHref(garlandStyle, 7)}" x="142" y="16"/>
             <use href="${getFlowerHref(garlandStyle, 8)}" x="160" y="6"/>
 
-            <!-- Center Hanging Auspicious Brass Bell -->
-            <use href="#utsavBrassBell" x="80" y="37"/>
+            <!-- Auspicious Brass Bells Hanging in between the Arcs (At the garland tie-points) -->
+            <line x1="0" y1="6" x2="0" y2="26" stroke="#D32F2F" stroke-width="2"/>
+            <circle cx="0" cy="24" r="2.2" fill="#D4AF37"/>
+            <use href="#utsavBrassBell" x="0" y="26"/>
+
+            <line x1="160" y1="6" x2="160" y2="26" stroke="#D32F2F" stroke-width="2"/>
+            <circle cx="160" cy="24" r="2.2" fill="#D4AF37"/>
+            <use href="#utsavBrassBell" x="160" y="26"/>
           </pattern>
           <!-- Series Lights Wire Swag -->
           ${overlayLights ? `<g id="utsavSeriesLightsOverlay">${overlayLights}</g>` : ''}
