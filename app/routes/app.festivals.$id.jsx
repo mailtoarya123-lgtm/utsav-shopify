@@ -20,6 +20,7 @@ import {
   CalendarIcon,
   LockIcon,
 } from "@shopify/polaris-icons";
+import { REAL_FLOWERS } from "../assets/flowers/realFlowers.js";
 import { authenticate } from "../shopify.server";
 import prisma from "../db.server";
 import {
@@ -514,6 +515,16 @@ function VisualSizeSelector({ label, value, onChange, helpText }) {
   );
 }
 
+
+function getFlowerSrc(style, i) {
+  const s = (style || "real_blend").toLowerCase();
+  if (s === "real_marigold_orange") return REAL_FLOWERS.real_marigold_orange;
+  if (s === "real_marigold_yellow") return REAL_FLOWERS.real_marigold_yellow;
+  if (s === "real_blossom_pink") return REAL_FLOWERS.real_blossom_pink;
+  if (s === "real_dahlia_sunset") return REAL_FLOWERS.real_dahlia_sunset;
+  return (i % 2 === 0) ? REAL_FLOWERS.real_marigold_orange : REAL_FLOWERS.real_marigold_yellow;
+}
+
 // ─── Visual Selector Card: Garland Architecture ────────────────────────────
 function VisualGarlandLayoutSelector({ label, value, onChange, helpText }) {
   const options = [
@@ -647,6 +658,126 @@ function VisualGarlandLayoutSelector({ label, value, onChange, helpText }) {
       {helpText && (
         <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
       )}
+    </div>
+  );
+}
+
+
+// ─── Visual Selector Card: Real Flower Style ───────────────────────────────
+function VisualFlowerSelector({ label, value, onChange, helpText }) {
+  const flowerOptions = [
+    {
+      value: "real_blend",
+      title: "Auspicious Blend",
+      subtitle: "Marigold & Daisy",
+      badge: "Classic",
+      preview: (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", position: "relative" }}>
+          <img src={REAL_FLOWERS.real_marigold_orange} alt="Orange" style={{ width: "30px", height: "30px", objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.25))", position: "relative", zIndex: 1, marginRight: "-10px" }} />
+          <img src={REAL_FLOWERS.real_marigold_yellow} alt="Yellow" style={{ width: "30px", height: "30px", objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.25))", position: "relative", zIndex: 2 }} />
+        </div>
+      ),
+    },
+    {
+      value: "real_marigold_orange",
+      title: "Royal Saffron",
+      subtitle: "Orange Marigold",
+      preview: (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+          <img src={REAL_FLOWERS.real_marigold_orange} alt="Royal Saffron" style={{ width: "32px", height: "32px", objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.25))" }} />
+        </div>
+      ),
+    },
+    {
+      value: "real_marigold_yellow",
+      title: "Golden Sunburst",
+      subtitle: "Yellow Daisy",
+      preview: (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+          <img src={REAL_FLOWERS.real_marigold_yellow} alt="Golden Daisy" style={{ width: "32px", height: "32px", objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.25))" }} />
+        </div>
+      ),
+    },
+    {
+      value: "real_blossom_pink",
+      title: "Blush Blossom",
+      subtitle: "Pastel Blossom",
+      preview: (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+          <img src={REAL_FLOWERS.real_blossom_pink} alt="Blush Blossom" style={{ width: "32px", height: "32px", objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.25))" }} />
+        </div>
+      ),
+    },
+    {
+      value: "real_dahlia_sunset",
+      title: "Sunset Dahlia",
+      subtitle: "Magenta & Gold",
+      preview: (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+          <img src={REAL_FLOWERS.real_dahlia_sunset} alt="Sunset Dahlia" style={{ width: "32px", height: "32px", objectFit: "contain", filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.25))" }} />
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "6px 0" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label || "Real Flower Style"}</span>
+        {helpText && <span style={{ fontSize: "11px", color: "#6D7175" }}>{helpText}</span>}
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: "8px" }}>
+        {flowerOptions.map((opt) => {
+          const isSelected = value === opt.value;
+          return (
+            <div
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              style={{
+                borderRadius: "8px",
+                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
+                background: isSelected ? "#F0FDF4" : "#FFFFFF",
+                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
+                padding: "8px 10px",
+                cursor: "pointer",
+                transition: "all 0.18s ease-in-out",
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+              }}
+            >
+              <div
+                style={{
+                  height: "44px",
+                  borderRadius: "5px",
+                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
+                  border: isSelected ? "1px solid #A5D6A7" : "1px solid #E4E5E7",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {opt.preview}
+              </div>
+
+              <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
+                    {opt.title}
+                  </span>
+                  {opt.badge && (
+                    <span style={{ fontSize: "9px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
+                      {opt.badge}
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontSize: "10px", color: "#6D7175", marginTop: "2px" }}>
+                  {opt.subtitle}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -2139,7 +2270,7 @@ function buildSpiderWeb() {
   return out;
 }
 
-function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLights = true, lightsTheme = "warm_gold" }) {
+function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLights = true, lightsTheme = "warm_gold", garlandStyle = "real_blend" }) {
   const festId = (festival.id || "").toLowerCase();
 
   // 1. Halloween Spiderweb Lace & Mist (Responsive Corner Cobwebs & Active Alive Arachnid Rig)
@@ -2612,12 +2743,12 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
               </g>
             )}
 
-            {/* Realistic Ruffled Marigold Flowers along the arc (ON TOP of wire) */}
-            <g transform="translate(0, 5)"><circle cx="0" cy="0" r="5" fill="#E65100" /><circle cx="0" cy="0" r="3" fill="#FB8C00" /><circle cx="0" cy="0" r="1.5" fill="#FFE082" /></g>
-            <g transform="translate(28, 18)"><circle cx="0" cy="0" r="5.5" fill="#FF8F00" /><circle cx="0" cy="0" r="3.4" fill="#FFB300" /><circle cx="0" cy="0" r="1.6" fill="#FFF9C4" /></g>
-            <g transform="translate(56, 26)"><circle cx="0" cy="0" r="6.5" fill="#E65100" /><circle cx="0" cy="0" r="4.2" fill="#FB8C00" /><circle cx="0" cy="0" r="2" fill="#FFE082" /></g>
-            <g transform="translate(84, 18)"><circle cx="0" cy="0" r="5.5" fill="#FF8F00" /><circle cx="0" cy="0" r="3.4" fill="#FFB300" /><circle cx="0" cy="0" r="1.6" fill="#FFF9C4" /></g>
-            <g transform="translate(112, 5)"><circle cx="0" cy="0" r="5" fill="#E65100" /><circle cx="0" cy="0" r="3" fill="#FB8C00" /><circle cx="0" cy="0" r="1.5" fill="#FFE082" /></g>
+            {/* Real Cutout Photographic Flowers along the arc (ON TOP of wire) */}
+            <image href={getFlowerSrc(garlandStyle, 0)} x={-7} y={-2} width={15} height={15} preserveAspectRatio="xMidYMid meet" />
+            <image href={getFlowerSrc(garlandStyle, 1)} x={20} y={11} width={16} height={16} preserveAspectRatio="xMidYMid meet" />
+            <image href={getFlowerSrc(garlandStyle, 2)} x={48} y={18} width={17} height={17} preserveAspectRatio="xMidYMid meet" />
+            <image href={getFlowerSrc(garlandStyle, 3)} x={76} y={11} width={16} height={16} preserveAspectRatio="xMidYMid meet" />
+            <image href={getFlowerSrc(garlandStyle, 4)} x={104} y={-2} width={15} height={15} preserveAspectRatio="xMidYMid meet" />
           </g>
         ))}
       </svg>
@@ -3213,7 +3344,7 @@ function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
 }
 
 // ─── Dynamic Side Cascade Widget (Vertical Hanging Pillars) ────────────────
-function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft = true, withLights = true, lightsTheme = "warm_gold" }) {
+function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft = true, withLights = true, lightsTheme = "warm_gold", garlandStyle = "real_blend" }) {
   const festId = (festival?.id || "").toLowerCase();
   const isDiwali = festId.includes("diwali");
 
@@ -3316,21 +3447,18 @@ function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft =
         <path d="M 22 158 C 15 170 16 186 22 200 C 28 186 29 170 22 158 Z" fill="#1B5E20" transform="rotate(35 22 158)" />
         <path d="M 22 248 C 15 260 16 276 22 290 C 28 276 29 260 22 248 Z" fill="#1B5E20" transform="rotate(-35 22 248)" />
 
-        {/* 4. Realistic Fluffy Indian Marigolds (ON TOP of thread and wiring) */}
-        <use href="#dynSideGendaYellow" x="22" y="16" />
-        <use href="#dynSideGendaOrange" x="22" y="46" />
-        <use href="#dynSideGendaYellow" x="22" y="76" />
-        <use href="#dynSideGendaOrange" x="22" y="106" />
-        <use href="#dynSideGendaYellow" x="22" y="136" />
-        <use href="#dynSideGendaOrange" x="22" y="166" />
-        <use href="#dynSideGendaYellow" x="22" y="196" />
-        <use href="#dynSideGendaOrange" x="22" y="226" />
-        <use href="#dynSideGendaYellow" x="22" y="256" />
-        <use href="#dynSideGendaOrange" x="22" y="286" />
-        <use href="#dynSideGendaYellow" x="22" y="316" />
-        <use href="#dynSideGendaOrange" x="22" y="346" />
-        <use href="#dynSideGendaYellow" x="22" y="374" />
-        <use href="#dynSideGendaOrange" x="22" y="392" />
+        {/* 4. Real Cutout Photographic Flowers (ON TOP of thread and wiring) */}
+        {[16, 46, 76, 106, 136, 166, 196, 226, 256, 286, 316, 346, 374, 392].map((y, i) => (
+          <image
+            key={i}
+            href={getFlowerSrc(garlandStyle, i)}
+            x={10}
+            y={y - 12}
+            width={24}
+            height={24}
+            preserveAspectRatio="xMidYMid meet"
+          />
+        ))}
 
         {/* 5. Brass Bell Finial */}
         <path d="M 16 406 C 17 412 14 417 14 419 L 30 419 C 30 417 27 412 28 406 Z" fill="#D4AF37" />
@@ -3348,6 +3476,7 @@ function DeviceStorefrontMock({
   enableEffects,
   garlandPlacement,
   garlandLayout,
+  garlandStyle = "real_blend",
   garlandOffset,
   enableSeriesLights,
   seriesLightsTheme,
@@ -3480,6 +3609,7 @@ function DeviceStorefrontMock({
               height={isMobile ? 20 : 32}
               withLights={enableSeriesLights}
               lightsTheme={seriesLightsTheme}
+              garlandStyle={garlandStyle}
             />
           </div>
         )}
@@ -3548,6 +3678,7 @@ function DeviceStorefrontMock({
                   height={isMobile ? 22 : 36}
                   withLights={enableSeriesLights}
                   lightsTheme={seriesLightsTheme}
+                  garlandStyle={garlandStyle}
                 />
               </div>
             )}
@@ -3708,6 +3839,7 @@ function DeviceStorefrontMock({
                   isLeft={true}
                   withLights={enableSeriesLights}
                   lightsTheme={seriesLightsTheme}
+                  garlandStyle={garlandStyle}
                 />
               </div>
               <div style={{ position: "absolute", top: 0, right: isMobile ? "2px" : "6px", zIndex: 26, pointerEvents: "none" }}>
@@ -3718,6 +3850,7 @@ function DeviceStorefrontMock({
                   isLeft={false}
                   withLights={enableSeriesLights}
                   lightsTheme={seriesLightsTheme}
+                  garlandStyle={garlandStyle}
                 />
               </div>
             </>
@@ -3784,6 +3917,7 @@ export default function FestivalStudio() {
 
   // Garland & Series Lights
   const [garlandLayout, setGarlandLayout] = useState(customSettings.garlandLayout || "top_and_sides");
+  const [garlandStyle, setGarlandStyle] = useState(customSettings.garlandStyle || "real_blend");
   const [garlandPlacement, setGarlandPlacement] = useState(customSettings.garlandPlacement || "below_header");
   const [garlandOffset, setGarlandOffset] = useState(customSettings.garlandOffset || 0);
   const [enableSeriesLights, setEnableSeriesLights] = useState(
@@ -3861,6 +3995,7 @@ export default function FestivalStudio() {
     setDiyaPosition("bottom_corners");
     setCornerMotif("default");
     setGarlandLayout("top_and_sides");
+    setGarlandStyle("real_blend");
     setGarlandPlacement("below_header");
     setGarlandOffset(0);
     setEnableSeriesLights(true);
@@ -3879,6 +4014,7 @@ export default function FestivalStudio() {
     setDiyaPosition(config.diyaPosition || "bottom_corners");
     setCornerMotif(customSettings.cornerMotif || config.diyaStyle || "default");
     setBannerText(config.bannerText || festival.banner?.defaultText || "");
+    setGarlandStyle(customSettings.garlandStyle || "real_blend");
     setHasUnsavedChanges(false);
   };
 
@@ -3903,6 +4039,7 @@ export default function FestivalStudio() {
 
       const customPayload = JSON.stringify({
         garlandLayout,
+        garlandStyle,
         garlandPlacement,
         garlandOffset,
         enableSeriesLights,
@@ -3943,6 +4080,7 @@ export default function FestivalStudio() {
       scheduledStart,
       scheduledEnd,
       garlandLayout,
+      garlandStyle,
       garlandPlacement,
       garlandOffset,
       enableSeriesLights,
@@ -4355,6 +4493,15 @@ export default function FestivalStudio() {
                     helpText="Choose how festive framing drapes across your storefront."
                   />
 
+                  {garlandLayout !== "off" && !["halloween", "christmas", "thanksgiving", "hanukkah"].some(f => (festival?.id || "").toLowerCase().includes(f)) && (
+                    <VisualFlowerSelector
+                      label={terminology.flowerStyleLabel || "Real Flower Style"}
+                      value={garlandStyle}
+                      onChange={(val) => { setGarlandStyle(val); markDirty(); }}
+                      helpText={terminology.flowerStyleHelp || "Authentic photographic flowers running over the sacred hanging thread."}
+                    />
+                  )}
+
                   <VisualDockingSelector
                     label={terminology.dockingPositionLabel || "Framing Docking Position"}
                     value={garlandPlacement}
@@ -4706,6 +4853,7 @@ export default function FestivalStudio() {
                 enableEffects={enableEffects}
                 garlandPlacement={garlandPlacement}
                 garlandLayout={garlandLayout}
+                garlandStyle={garlandStyle}
                 garlandOffset={garlandOffset}
                 enableSeriesLights={enableSeriesLights}
                 seriesLightsTheme={seriesLightsTheme}
@@ -4732,6 +4880,7 @@ export default function FestivalStudio() {
                 enableEffects={enableEffects}
                 garlandPlacement={garlandPlacement}
                 garlandLayout={garlandLayout}
+                garlandStyle={garlandStyle}
                 garlandOffset={garlandOffset}
                 enableSeriesLights={enableSeriesLights}
                 seriesLightsTheme={seriesLightsTheme}
@@ -4769,6 +4918,7 @@ export default function FestivalStudio() {
                     enableEffects={enableEffects}
                     garlandPlacement={garlandPlacement}
                     garlandLayout={garlandLayout}
+                garlandStyle={garlandStyle}
                     garlandOffset={garlandOffset}
                     enableSeriesLights={enableSeriesLights}
                     seriesLightsTheme={seriesLightsTheme}
@@ -4794,6 +4944,7 @@ export default function FestivalStudio() {
                     enableEffects={enableEffects}
                     garlandPlacement={garlandPlacement}
                     garlandLayout={garlandLayout}
+                garlandStyle={garlandStyle}
                     garlandOffset={garlandOffset}
                     enableSeriesLights={enableSeriesLights}
                     seriesLightsTheme={seriesLightsTheme}
@@ -4876,6 +5027,7 @@ export default function FestivalStudio() {
                 enableEffects={enableEffects}
                 garlandPlacement={garlandPlacement}
                 garlandLayout={garlandLayout}
+                garlandStyle={garlandStyle}
                 garlandOffset={garlandOffset}
                 enableSeriesLights={enableSeriesLights}
                 seriesLightsTheme={seriesLightsTheme}
