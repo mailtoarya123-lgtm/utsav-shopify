@@ -232,7 +232,7 @@ export default function Dashboard() {
                 {totalFestivalsCount}
               </Text>
               <Text variant="bodyXs" tone="subdued">
-                {isPremium ? "All 22 themes unlocked" : `${freeCount} Free included • 17 Pro themes`}
+                All 22 themes free & unlocked
               </Text>
             </BlockStack>
           </Card>

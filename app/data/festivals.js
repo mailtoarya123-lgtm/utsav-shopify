@@ -399,7 +399,7 @@ export const FESTIVALS = [
     nativeName: "गणपती बाप्पा मोरया",
     emoji: "🌺",
     region: "Pan-India (Maharashtra, Karnataka, Telangana)",
-    tier: "premium",
+    tier: "free",
     description: "Ten-day festival celebrating the birth of Lord Ganesha, the harbinger of wisdom, prosperity, and remover of obstacles.",
     approximateMonth: 8, // September
     approximateDay: 7,
@@ -527,7 +527,7 @@ export const FESTIVALS = [
     nativeName: "Merry Christmas",
     emoji: "⭐",
     region: "Global & Indian Coastal/Northeast (Goa, Kerala, Meghalaya)",
-    tier: "premium",
+    tier: "free",
     description: "Celebration of love, generosity, and peace, adorned with fragrant evergreen pine, delicate snowfall, and twinkling lights.",
     approximateMonth: 11, // December
     approximateDay: 25,
@@ -591,7 +591,7 @@ export const FESTIVALS = [
     nativeName: "Happy Halloween",
     emoji: "🎃",
     region: "Global",
-    tier: "premium",
+    tier: "free",
     description: "Autumn evening celebration of mystery, costumes, and folklore with playful eerie ambiance.",
     approximateMonth: 9, // October
     approximateDay: 31,
@@ -655,7 +655,7 @@ export const FESTIVALS = [
     nativeName: "Valentine's Day",
     emoji: "💝",
     region: "Global",
-    tier: "premium",
+    tier: "free",
     description: "Celebration of romantic love, deep companionship, and cherished personal bonds.",
     approximateMonth: 1, // February
     approximateDay: 14,
@@ -719,7 +719,7 @@ export const FESTIVALS = [
     nativeName: "新年快乐 / 春节",
     emoji: "🏮",
     region: "East Asia, Southeast Asia & Global",
-    tier: "premium",
+    tier: "free",
     description: "Grand spring celebration of family reunion, good fortune, and new beginnings marked by the lunar calendar.",
     approximateMonth: 0, // January/February
     approximateDay: 29,
@@ -783,7 +783,7 @@ export const FESTIVALS = [
     nativeName: "חֲנֻכָּה שַׂמֵחַ",
     emoji: "🕎",
     region: "Jewish Diaspora & Global",
-    tier: "premium",
+    tier: "free",
     description: "Eight-day Jewish Festival of Lights celebrating the miracle of the oil that burned for eight days in the Holy Temple.",
     approximateMonth: 11, // December (Hebrew Kislev)
     approximateDay: 14,
@@ -847,7 +847,7 @@ export const FESTIVALS = [
     nativeName: "Happy Easter",
     emoji: "🌸",
     region: "Global",
-    tier: "premium",
+    tier: "free",
     description: "Joyful celebration of rebirth, hope, and new beginnings accompanying the arrival of spring.",
     approximateMonth: 3, // March/April
     approximateDay: 12,
@@ -911,7 +911,7 @@ export const FESTIVALS = [
     nativeName: "Happy Thanksgiving",
     emoji: "🍁",
     region: "North America & Global",
-    tier: "premium",
+    tier: "free",
     description: "Annual day of giving thanks for the blessings of harvest, family warmth, and community.",
     approximateMonth: 10, // November
     approximateDay: 28,
@@ -975,7 +975,7 @@ export const FESTIVALS = [
     nativeName: "Happy New Year",
     emoji: "🎉",
     region: "Global & Pan-India",
-    tier: "premium",
+    tier: "free",
     description: "Ringing in fresh beginnings and resolutions worldwide at midnight with dazzling lights and celebration.",
     approximateMonth: 11, // December 31 / Jan 1
     approximateDay: 31,
@@ -1039,7 +1039,7 @@ export const FESTIVALS = [
     nativeName: "中秋节快乐 / 추석",
     emoji: "🥮",
     region: "East & Southeast Asia",
-    tier: "premium",
+    tier: "free",
     description: "Celebration of family togetherness, gratitude, and the full harvest moon, accompanied by lanterns and mooncakes.",
     approximateMonth: 8, // September/October
     approximateDay: 17,
@@ -1103,7 +1103,7 @@ export const FESTIVALS = [
     nativeName: "Buddha Jayanti / വസന്ത്",
     emoji: "🪷",
     region: "South & Southeast Asia & Global",
-    tier: "premium",
+    tier: "free",
     description: "The most sacred Buddhist festival commemorating the birth, enlightenment (Bodhi), and Parinirvana of Gautama Buddha.",
     approximateMonth: 4, // May full moon
     approximateDay: 23,
@@ -1167,7 +1167,7 @@ export const FESTIVALS = [
     nativeName: "വിഷു ആശംസകൾ",
     emoji: "🌟",
     region: "Kerala & Malayali Diaspora",
-    tier: "premium",
+    tier: "free",
     description: "Kerala's astrological New Year marking the spring equinox, celebrated by viewing the auspicious Vishukkani at dawn.",
     approximateMonth: 3, // April
     approximateDay: 14,
@@ -1231,7 +1231,7 @@ export const FESTIVALS = [
     nativeName: "শুভ শারদীয়া",
     emoji: "🔱",
     region: "Bengal, Odisha, Assam & Global",
-    tier: "premium",
+    tier: "free",
     description: "Grand ten-day celebration of the victory of Goddess Durga, revered for majestic pandals, art, and devotional Dhunachi dance.",
     approximateMonth: 9, // October
     approximateDay: 8,
@@ -1295,7 +1295,7 @@ export const FESTIVALS = [
     nativeName: "ઉત્તરાયણ / సంక్రాంతి",
     emoji: "🪁",
     region: "Gujarat, Maharashtra, Rajasthan & Pan-India",
-    tier: "premium",
+    tier: "free",
     description: "Sun-transit festival welcoming longer sunny days with vibrant kite-flying battles and sweet sesame treats.",
     approximateMonth: 0, // January
     approximateDay: 14,

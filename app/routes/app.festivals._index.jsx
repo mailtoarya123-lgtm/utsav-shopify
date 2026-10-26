@@ -143,8 +143,6 @@ export default function FestivalLibrary() {
 
   const tabs = [
     { id: "all", content: `All Festivals (${FESTIVALS.length})` },
-    { id: "free", content: `Free Included (${getFreeFestivals().length})` },
-    { id: "premium", content: `Premium Catalog (${getPremiumFestivals().length})` },
     { id: "active", content: `Active on Store (${activeFestivalId ? 1 : 0})` },
   ];
 
@@ -164,9 +162,7 @@ export default function FestivalLibrary() {
     let list = [...FESTIVALS];
 
     // Tab filter
-    if (selectedTab === 1) list = list.filter((f) => f.tier === "free");
-    else if (selectedTab === 2) list = list.filter((f) => f.tier === "premium");
-    else if (selectedTab === 3) list = list.filter((f) => f.id === activeFestivalId);
+    if (selectedTab === 1) list = list.filter((f) => f.id === activeFestivalId);
 
     // Region filter
     if (selectedRegion !== "all") {
@@ -193,8 +189,6 @@ export default function FestivalLibrary() {
       list.sort((a, b) => getDaysUntilFestival(a) - getDaysUntilFestival(b));
     } else if (sortBy === "name") {
       list.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortBy === "tier") {
-      list.sort((a, b) => a.tier.localeCompare(b.tier));
     }
 
     return list;
@@ -205,6 +199,7 @@ export default function FestivalLibrary() {
       title="Festival Catalog"
       subtitle="Explore 22 authentic Indian festival experiences with curated visual effects and cultural traditions"
       backAction={{ content: "Dashboard", url: "/app" }}
+      fullWidth
       primaryAction={{
         content: "View Schedule Calendar",
         onAction: () => navigate("/app/schedule"),
@@ -242,7 +237,6 @@ export default function FestivalLibrary() {
                 options={[
                   { label: "Sort: Upcoming Soonest", value: "upcoming" },
                   { label: "Sort: Alphabetical (A-Z)", value: "name" },
-                  { label: "Sort: Tier (Free / Pro)", value: "tier" },
                 ]}
                 value={sortBy}
                 onChange={setSortBy}
@@ -273,7 +267,7 @@ export default function FestivalLibrary() {
             </BlockStack>
           </Card>
         ) : (
-          <InlineGrid columns={{ xs: 1, sm: 2, md: 3 }} gap="400">
+          <InlineGrid columns={{ xs: 1, sm: 2, md: 3, lg: 4 }} gap="400">
             {filteredFestivals.map((festival) => {
               const isActive = activeFestivalId === festival.id;
               const isLocked = festival.tier === "premium" && !isPremium;
