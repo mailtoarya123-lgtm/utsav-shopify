@@ -2753,9 +2753,6 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
             <image href={getFlowerSrc(garlandStyle, 4)} x={104} y={-2} width={15} height={15} preserveAspectRatio="xMidYMid meet" />
           </g>
         ))}
-        {/* Top Left & Right Corner Mango Leaf Bunches */}
-        <image href={REAL_LEAVES.real_leaf_bunch_left} x={0} y={0} width={42} height={42} preserveAspectRatio="xMidYMid meet" />
-        <image href={REAL_LEAVES.real_leaf_bunch_right} x={518} y={0} width={42} height={42} preserveAspectRatio="xMidYMid meet" />
       </svg>
     </div>
   );
@@ -3454,9 +3451,6 @@ function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft =
             ))}
           </g>
         )}
-
-        {/* Corner Mango Leaf Bunch Anchor */}
-        <image href={isLeft ? REAL_LEAVES.real_leaf_bunch_left : REAL_LEAVES.real_leaf_bunch_right} x={isLeft ? 0 : 8} y={-4} width={34} height={34} preserveAspectRatio="xMidYMid meet" />
 
         {/* 3. Real Mango Leaves (BEHIND FLOWERS) */}
         <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={12} y={64} width={18} height={48} transform="rotate(-30 22 88)" preserveAspectRatio="xMidYMin meet" />
