@@ -706,32 +706,79 @@ function buildSpiderWeb() {
 
         const getDefs = () => `
           <defs>
+            <!-- Realistic Indian Marigold (Genda Phool) 3D Radial Gradients -->
+            <radialGradient id="utsavEfGendaOrangeGrad" cx="38%" cy="32%" r="68%">
+              <stop offset="0%" stop-color="#FFE082"/>
+              <stop offset="22%" stop-color="#FFA726"/>
+              <stop offset="52%" stop-color="#FB8C00"/>
+              <stop offset="82%" stop-color="#E65100"/>
+              <stop offset="100%" stop-color="#BF360C"/>
+            </radialGradient>
+            <radialGradient id="utsavEfGendaYellowGrad" cx="38%" cy="32%" r="68%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="20%" stop-color="#FFF9C4"/>
+              <stop offset="48%" stop-color="#FFEB3B"/>
+              <stop offset="78%" stop-color="#FFB300"/>
+              <stop offset="100%" stop-color="#E65100"/>
+            </radialGradient>
+
+            <!-- Realistic Ruffled Marigold Petal with Crenated Tip -->
+            <path id="utsavEfRuffledPetal" d="M 0 0 C -3.2 -4 -4.8 -9 -2.5 -13.5 C -1 -14.2 0 -13.5 0 -14.5 C 0 -13.5 1 -14.2 2.5 -13.5 C 4.8 -9 3.2 -4 0 0 Z"/>
+
+            <g id="utsavEfPetalQuad">
+              <use href="#utsavEfRuffledPetal"/>
+              <use href="#utsavEfRuffledPetal" transform="rotate(90)"/>
+              <use href="#utsavEfRuffledPetal" transform="rotate(180)"/>
+              <use href="#utsavEfRuffledPetal" transform="rotate(270)"/>
+            </g>
+
+            <g id="utsavEfPetalTier16">
+              <use href="#utsavEfPetalQuad"/>
+              <use href="#utsavEfPetalQuad" transform="rotate(22.5)"/>
+              <use href="#utsavEfPetalQuad" transform="rotate(45)"/>
+              <use href="#utsavEfPetalQuad" transform="rotate(67.5)"/>
+            </g>
+
+            <!-- Realistic Saffron Marigold -->
             <g id="utsavEfGendaOrange">
-              <circle cx="0" cy="0" r="11" fill="#E65100"/>
-              <circle cx="-5" cy="-4" r="5.5" fill="#F57C00"/>
-              <circle cx="5" cy="-4" r="5.5" fill="#FB8C00"/>
-              <circle cx="-5" cy="4" r="5.5" fill="#E65100"/>
-              <circle cx="5" cy="4" r="5.5" fill="#F57C00"/>
-              <circle cx="0" cy="-6" r="5" fill="#FFA726"/>
-              <circle cx="0" cy="6" r="5" fill="#FB8C00"/>
-              <circle cx="-6" cy="0" r="5" fill="#F57C00"/>
-              <circle cx="6" cy="0" r="5" fill="#FFA726"/>
-              <circle cx="0" cy="0" r="6" fill="#FFB74D"/>
-              <circle cx="0" cy="0" r="3" fill="#FFE082"/>
+              <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9"/>
+              <g fill="url(#utsavEfGendaOrangeGrad)" stroke="#A72A00" stroke-width="0.35">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <g fill="#FF8F00" stroke="#B73200" stroke-width="0.3" transform="scale(0.82) rotate(11.25)">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <g fill="#FFA726" stroke="#D84315" stroke-width="0.3" transform="scale(0.63) rotate(22.5)">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <g fill="#FFB74D" transform="scale(0.44) rotate(33.75)">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <circle cx="0" cy="0" r="3.6" fill="#BF360C"/>
+              <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFE082"/>
+              <circle cx="0" cy="0" r="1.1" fill="#FF9800"/>
             </g>
+
+            <!-- Realistic Golden Yellow Marigold -->
             <g id="utsavEfGendaYellow">
-              <circle cx="0" cy="0" r="11" fill="#FF8F00"/>
-              <circle cx="-5" cy="-4" r="5.5" fill="#FFA000"/>
-              <circle cx="5" cy="-4" r="5.5" fill="#FFB300"/>
-              <circle cx="-5" cy="4" r="5.5" fill="#FF8F00"/>
-              <circle cx="5" cy="4" r="5.5" fill="#FFA000"/>
-              <circle cx="0" cy="-6" r="5" fill="#FFC107"/>
-              <circle cx="0" cy="6" r="5" fill="#FFB300"/>
-              <circle cx="-6" cy="0" r="5" fill="#FFA000"/>
-              <circle cx="6" cy="0" r="5" fill="#FFD54F"/>
-              <circle cx="0" cy="0" r="6" fill="#FFEB3B"/>
-              <circle cx="0" cy="0" r="3" fill="#FFFDE7"/>
+              <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9"/>
+              <g fill="url(#utsavEfGendaYellowGrad)" stroke="#B77300" stroke-width="0.35">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <g fill="#FFC107" stroke="#C67D00" stroke-width="0.3" transform="scale(0.82) rotate(11.25)">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <g fill="#FFD54F" stroke="#E69500" stroke-width="0.3" transform="scale(0.63) rotate(22.5)">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <g fill="#FFF59D" transform="scale(0.44) rotate(33.75)">
+                <use href="#utsavEfPetalTier16"/>
+              </g>
+              <circle cx="0" cy="0" r="3.6" fill="#E65100"/>
+              <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFFFFF"/>
+              <circle cx="0" cy="0" r="1.1" fill="#FFCA28"/>
             </g>
+
             <g id="utsavEfMangoLeaf">
               <path d="M 0 0 C -7 12 -6 28 0 42 C 6 28 7 12 0 0 Z" fill="#1B5E20"/>
               <path d="M 0 2 L 0 39" stroke="#81C784" stroke-width="1.2" stroke-linecap="round"/>
@@ -753,6 +800,8 @@ function buildSpiderWeb() {
         return `
           <svg width="100%" height="68" xmlns="http://www.w3.org/2000/svg" style="display:block;">
             ${getDefs()}
+            <!-- Series Lights Wire Swag (BEHIND the flowers) -->
+            ${overlayLights ? `<g id="utsavEfSeriesLightsOverlay">${overlayLights}</g>` : ""}
             <pattern id="utsavEfToranUnit" width="160" height="68" patternUnits="userSpaceOnUse">
               <rect x="0" y="0" width="160" height="4" fill="url(#utsavEfKalawaRope)"/>
               <use href="#utsavEfMangoLeaf" x="12" y="2" transform="rotate(-6 12 2)"/>
@@ -775,7 +824,6 @@ function buildSpiderWeb() {
               <use href="#utsavEfBrassBell" x="160" y="38"/>
             </pattern>
             <rect width="100%" height="68" fill="url(#utsavEfToranUnit)"/>
-            ${overlayLights ? `<g id="utsavEfSeriesLightsOverlay">${overlayLights}</g>` : ""}
           </svg>
         `;
       }
@@ -1128,7 +1176,7 @@ function buildSpiderWeb() {
           sideBulbs = yPositions.map((y, idx) => {
             const color = seriesLightsTheme === "festive_multicolor" ? multiColors[idx % multiColors.length] : bulbColor;
             const animClass = (idx % 2 === 0) ? "utsav-bulb-twinkle-1" : "utsav-bulb-twinkle-2";
-            const xOffset = (idx % 2 === 0) ? 14 : 28;
+            const xOffset = (idx % 2 === 0) ? 8 : 36;
             return `
               <g class="${animClass}" style="--utsav-bulb-glow:${glowColor};">
                 <rect x="${xOffset - 1.5}" y="${y - 4}" width="3" height="3.5" rx="0.6" fill="#0A1F12" stroke="#143D23" stroke-width="0.5"/>
@@ -1142,18 +1190,75 @@ function buildSpiderWeb() {
 
         const getDefs = () => `
           <defs>
+            <radialGradient id="utsavEfSideGendaOrangeGrad" cx="38%" cy="32%" r="68%">
+              <stop offset="0%" stop-color="#FFE082"/>
+              <stop offset="22%" stop-color="#FFA726"/>
+              <stop offset="52%" stop-color="#FB8C00"/>
+              <stop offset="82%" stop-color="#E65100"/>
+              <stop offset="100%" stop-color="#BF360C"/>
+            </radialGradient>
+            <radialGradient id="utsavEfSideGendaYellowGrad" cx="38%" cy="32%" r="68%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="20%" stop-color="#FFF9C4"/>
+              <stop offset="48%" stop-color="#FFEB3B"/>
+              <stop offset="78%" stop-color="#FFB300"/>
+              <stop offset="100%" stop-color="#E65100"/>
+            </radialGradient>
+
+            <path id="utsavEfSideRuffledPetal" d="M 0 0 C -3.2 -4 -4.8 -9 -2.5 -13.5 C -1 -14.2 0 -13.5 0 -14.5 C 0 -13.5 1 -14.2 2.5 -13.5 C 4.8 -9 3.2 -4 0 0 Z"/>
+
+            <g id="utsavEfSidePetalQuad">
+              <use href="#utsavEfSideRuffledPetal"/>
+              <use href="#utsavEfSideRuffledPetal" transform="rotate(90)"/>
+              <use href="#utsavEfSideRuffledPetal" transform="rotate(180)"/>
+              <use href="#utsavEfSideRuffledPetal" transform="rotate(270)"/>
+            </g>
+
+            <g id="utsavEfSidePetalTier16">
+              <use href="#utsavEfSidePetalQuad"/>
+              <use href="#utsavEfSidePetalQuad" transform="rotate(22.5)"/>
+              <use href="#utsavEfSidePetalQuad" transform="rotate(45)"/>
+              <use href="#utsavEfSidePetalQuad" transform="rotate(67.5)"/>
+            </g>
+
             <g id="utsavEfGendaOrangeSide">
-              <circle cx="0" cy="0" r="11" fill="#E65100"/>
-              <circle cx="-5" cy="-4" r="5.5" fill="#F57C00"/>
-              <circle cx="5" cy="-4" r="5.5" fill="#FB8C00"/>
-              <circle cx="0" cy="0" r="6" fill="#FFB74D"/>
+              <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9"/>
+              <g fill="url(#utsavEfSideGendaOrangeGrad)" stroke="#A72A00" stroke-width="0.35">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <g fill="#FF8F00" stroke="#B73200" stroke-width="0.3" transform="scale(0.82) rotate(11.25)">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <g fill="#FFA726" stroke="#D84315" stroke-width="0.3" transform="scale(0.63) rotate(22.5)">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <g fill="#FFB74D" transform="scale(0.44) rotate(33.75)">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <circle cx="0" cy="0" r="3.6" fill="#BF360C"/>
+              <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFE082"/>
+              <circle cx="0" cy="0" r="1.1" fill="#FF9800"/>
             </g>
+
             <g id="utsavEfGendaYellowSide">
-              <circle cx="0" cy="0" r="11" fill="#FF8F00"/>
-              <circle cx="-5" cy="-4" r="5.5" fill="#FFA000"/>
-              <circle cx="5" cy="-4" r="5.5" fill="#FFB300"/>
-              <circle cx="0" cy="0" r="6" fill="#FFEB3B"/>
+              <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9"/>
+              <g fill="url(#utsavEfSideGendaYellowGrad)" stroke="#B77300" stroke-width="0.35">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <g fill="#FFC107" stroke="#C67D00" stroke-width="0.3" transform="scale(0.82) rotate(11.25)">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <g fill="#FFD54F" stroke="#E69500" stroke-width="0.3" transform="scale(0.63) rotate(22.5)">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <g fill="#FFF59D" transform="scale(0.44) rotate(33.75)">
+                <use href="#utsavEfSidePetalTier16"/>
+              </g>
+              <circle cx="0" cy="0" r="3.6" fill="#E65100"/>
+              <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFFFFF"/>
+              <circle cx="0" cy="0" r="1.1" fill="#FFCA28"/>
             </g>
+
             <g id="utsavEfMangoLeafSide">
               <path d="M 0 0 C -7 12 -6 28 0 42 C 6 28 7 12 0 0 Z" fill="#1B5E20"/>
               <path d="M 0 2 L 0 39" stroke="#81C784" stroke-width="1.2" stroke-linecap="round"/>
@@ -1169,30 +1274,41 @@ function buildSpiderWeb() {
         return `
           <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
             ${getDefs()}
+            <!-- 1. Vertical Hanging Kalawa Cord (BEHIND FLOWERS) -->
             <line x1="22" y1="0" x2="22" y2="400" stroke="#D32F2F" stroke-width="2.5"/>
+
+            <!-- 2. Series Lights Wiring (BEHIND FLOWERS) -->
+            ${hasLights ? `
+              <path d="M 22 10 Q 8 70 22 130 Q 36 190 22 250 Q 8 310 22 370" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.95"/>
+              <path d="M 22 12 Q 10 72 22 132 Q 34 192 22 252 Q 10 312 22 372" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.8"/>
+            ` : ""}
+
+            <!-- 3. Mango Leaves (BEHIND FLOWERS) -->
+            <use href="#utsavEfMangoLeafSide" x="22" y="68" transform="rotate(-35 22 68)"/>
+            <use href="#utsavEfMangoLeafSide" x="22" y="158" transform="rotate(35 22 158)"/>
+            <use href="#utsavEfMangoLeafSide" x="22" y="248" transform="rotate(-35 22 248)"/>
+
+            <!-- 4. Series Lights Bulbs -->
+            ${hasLights ? sideBulbs : ""}
+
+            <!-- 5. Realistic Fluffy Marigolds (ON TOP of thread and wiring) -->
             <use href="#utsavEfGendaYellowSide" x="22" y="16"/>
             <use href="#utsavEfGendaOrangeSide" x="22" y="46"/>
-            <use href="#utsavEfMangoLeafSide" x="22" y="68" transform="rotate(-35 22 68)"/>
             <use href="#utsavEfGendaYellowSide" x="22" y="76"/>
             <use href="#utsavEfGendaOrangeSide" x="22" y="106"/>
             <use href="#utsavEfGendaYellowSide" x="22" y="136"/>
-            <use href="#utsavEfMangoLeafSide" x="22" y="158" transform="rotate(35 22 158)"/>
             <use href="#utsavEfGendaOrangeSide" x="22" y="166"/>
             <use href="#utsavEfGendaYellowSide" x="22" y="196"/>
             <use href="#utsavEfGendaOrangeSide" x="22" y="226"/>
-            <use href="#utsavEfMangoLeafSide" x="22" y="248" transform="rotate(-35 22 248)"/>
             <use href="#utsavEfGendaYellowSide" x="22" y="256"/>
             <use href="#utsavEfGendaOrangeSide" x="22" y="286"/>
             <use href="#utsavEfGendaYellowSide" x="22" y="316"/>
             <use href="#utsavEfGendaOrangeSide" x="22" y="346"/>
             <use href="#utsavEfGendaYellowSide" x="22" y="374"/>
             <use href="#utsavEfGendaOrangeSide" x="22" y="392"/>
+
+            <!-- 6. Brass Bell Finial -->
             <use href="#utsavEfBrassBellSide" x="22" y="406"/>
-            ${hasLights ? `
-              <path d="M 22 10 Q 10 70 22 130 Q 34 190 22 250 Q 10 310 22 370" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.9"/>
-              <path d="M 22 12 Q 12 72 22 132 Q 32 192 22 252 Q 12 312 22 372" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.7"/>
-              ${sideBulbs}
-            ` : ""}
           </svg>
         `;
       }

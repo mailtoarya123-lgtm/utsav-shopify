@@ -2599,15 +2599,11 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
             <path d="M 90 3 C 85 14 84 22 90 32 C 96 22 95 14 90 3 Z" fill="#2E7D32" />
 
             <path d="M 0 5 Q 56 34 112 5" stroke="#C62828" strokeWidth="1.6" fill="none" opacity="0.7" />
-            <circle cx="0" cy="5" r="5" fill="#E65100" />
-            <circle cx="28" cy="18" r="5.5" fill="#FF8F00" />
-            <circle cx="56" cy="26" r="6.5" fill="#FFB300" />
-            <circle cx="84" cy="18" r="5.5" fill="#FF8F00" />
-            <circle cx="112" cy="5" r="5" fill="#E65100" />
 
+            {/* Series Lights Wire Swag (BEHIND the flowers) */}
             {withLights && (
               <g>
-                <path d="M 0 8 Q 56 37 112 8" stroke="#0D2B17" strokeWidth="1.2" fill="none" />
+                <path d="M 0 8 Q 56 37 112 8" stroke="#0D2B17" strokeWidth="1.4" fill="none" opacity="0.9" />
                 <circle cx="14" cy="14" r="2.8" fill={lightsTheme === "festive_multicolor" ? "#FF5252" : "#FFD700"} />
                 <circle cx="38" cy="24" r="2.8" fill={lightsTheme === "festive_multicolor" ? "#00E676" : "#FFD700"} />
                 <circle cx="56" cy="28" r="3.2" fill={lightsTheme === "festive_multicolor" ? "#FFD700" : "#FFF9C4"} />
@@ -2615,6 +2611,13 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
                 <circle cx="98" cy="14" r="2.8" fill={lightsTheme === "festive_multicolor" ? "#E040FB" : "#FFD700"} />
               </g>
             )}
+
+            {/* Realistic Ruffled Marigold Flowers along the arc (ON TOP of wire) */}
+            <g transform="translate(0, 5)"><circle cx="0" cy="0" r="5" fill="#E65100" /><circle cx="0" cy="0" r="3" fill="#FB8C00" /><circle cx="0" cy="0" r="1.5" fill="#FFE082" /></g>
+            <g transform="translate(28, 18)"><circle cx="0" cy="0" r="5.5" fill="#FF8F00" /><circle cx="0" cy="0" r="3.4" fill="#FFB300" /><circle cx="0" cy="0" r="1.6" fill="#FFF9C4" /></g>
+            <g transform="translate(56, 26)"><circle cx="0" cy="0" r="6.5" fill="#E65100" /><circle cx="0" cy="0" r="4.2" fill="#FB8C00" /><circle cx="0" cy="0" r="2" fill="#FFE082" /></g>
+            <g transform="translate(84, 18)"><circle cx="0" cy="0" r="5.5" fill="#FF8F00" /><circle cx="0" cy="0" r="3.4" fill="#FFB300" /><circle cx="0" cy="0" r="1.6" fill="#FFF9C4" /></g>
+            <g transform="translate(112, 5)"><circle cx="0" cy="0" r="5" fill="#E65100" /><circle cx="0" cy="0" r="3" fill="#FB8C00" /><circle cx="0" cy="0" r="1.5" fill="#FFE082" /></g>
           </g>
         ))}
       </svg>
@@ -3217,40 +3220,121 @@ function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft =
   return (
     <div style={{ width: `${width}px`, height: `${height}px`, overflow: "hidden", pointerEvents: "none" }}>
       <svg width={width} height={height} viewBox="0 0 44 440" style={{ display: "block", width: "100%", height: "100%" }}>
+        <defs>
+          <radialGradient id="dynSideOrangeGrad" cx="38%" cy="32%" r="68%">
+            <stop offset="0%" stopColor="#FFE082" />
+            <stop offset="22%" stopColor="#FFA726" />
+            <stop offset="52%" stopColor="#FB8C00" />
+            <stop offset="82%" stopColor="#E65100" />
+            <stop offset="100%" stopColor="#BF360C" />
+          </radialGradient>
+          <radialGradient id="dynSideYellowGrad" cx="38%" cy="32%" r="68%">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="20%" stopColor="#FFF9C4" />
+            <stop offset="48%" stopColor="#FFEB3B" />
+            <stop offset="78%" stopColor="#FFB300" />
+            <stop offset="100%" stopColor="#E65100" />
+          </radialGradient>
+
+          <path id="dynSidePetal" d="M 0 0 C -3.2 -4 -4.8 -9 -2.5 -13.5 C -1 -14.2 0 -13.5 0 -14.5 C 0 -13.5 1 -14.2 2.5 -13.5 C 4.8 -9 3.2 -4 0 0 Z" />
+
+          <g id="dynSidePetalQuad">
+            <use href="#dynSidePetal" />
+            <use href="#dynSidePetal" transform="rotate(90)" />
+            <use href="#dynSidePetal" transform="rotate(180)" />
+            <use href="#dynSidePetal" transform="rotate(270)" />
+          </g>
+
+          <g id="dynSidePetalTier16">
+            <use href="#dynSidePetalQuad" />
+            <use href="#dynSidePetalQuad" transform="rotate(22.5)" />
+            <use href="#dynSidePetalQuad" transform="rotate(45)" />
+            <use href="#dynSidePetalQuad" transform="rotate(67.5)" />
+          </g>
+
+          <g id="dynSideGendaOrange">
+            <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9" />
+            <g fill="url(#dynSideOrangeGrad)" stroke="#A72A00" strokeWidth="0.35">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <g fill="#FF8F00" stroke="#B73200" strokeWidth="0.3" transform="scale(0.82) rotate(11.25)">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <g fill="#FFA726" stroke="#D84315" strokeWidth="0.3" transform="scale(0.63) rotate(22.5)">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <g fill="#FFB74D" transform="scale(0.44) rotate(33.75)">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <circle cx="0" cy="0" r="3.6" fill="#BF360C" />
+            <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFE082" />
+            <circle cx="0" cy="0" r="1.1" fill="#FF9800" />
+          </g>
+
+          <g id="dynSideGendaYellow">
+            <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9" />
+            <g fill="url(#dynSideYellowGrad)" stroke="#B77300" strokeWidth="0.35">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <g fill="#FFC107" stroke="#C67D00" strokeWidth="0.3" transform="scale(0.82) rotate(11.25)">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <g fill="#FFD54F" stroke="#E69500" strokeWidth="0.3" transform="scale(0.63) rotate(22.5)">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <g fill="#FFF59D" transform="scale(0.44) rotate(33.75)">
+              <use href="#dynSidePetalTier16" />
+            </g>
+            <circle cx="0" cy="0" r="3.6" fill="#E65100" />
+            <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFFFFF" />
+            <circle cx="0" cy="0" r="1.1" fill="#FFCA28" />
+          </g>
+        </defs>
+
+        {/* 1. Vertical Sacred Hanging Cord (BEHIND FLOWERS) */}
         <line x1="22" y1="0" x2="22" y2="400" stroke="#D32F2F" strokeWidth="2.5" />
-        <circle cx="22" cy="16" r="10" fill="#FF8F00" />
-        <circle cx="22" cy="46" r="10" fill="#E65100" />
-        <path d="M 22 68 C 15 80 16 96 22 110 C 28 96 29 80 22 68 Z" fill="#1B5E20" transform="rotate(-35 22 68)" />
-        <circle cx="22" cy="76" r="10" fill="#FF8F00" />
-        <circle cx="22" cy="106" r="10" fill="#E65100" />
-        <circle cx="22" cy="136" r="10" fill="#FF8F00" />
-        <path d="M 22 158 C 15 170 16 186 22 200 C 28 186 29 170 22 158 Z" fill="#1B5E20" transform="rotate(35 22 158)" />
-        <circle cx="22" cy="166" r="10" fill="#E65100" />
-        <circle cx="22" cy="196" r="10" fill="#FF8F00" />
-        <circle cx="22" cy="226" r="10" fill="#E65100" />
-        <path d="M 22 248 C 15 260 16 276 22 290 C 28 276 29 260 22 248 Z" fill="#1B5E20" transform="rotate(-35 22 248)" />
-        <circle cx="22" cy="256" r="10" fill="#FF8F00" />
-        <circle cx="22" cy="286" r="10" fill="#E65100" />
-        <circle cx="22" cy="316" r="10" fill="#FF8F00" />
-        <circle cx="22" cy="346" r="10" fill="#E65100" />
-        <circle cx="22" cy="374" r="10" fill="#FF8F00" />
-        <circle cx="22" cy="392" r="9" fill="#E65100" />
-        <path d="M 16 406 C 17 412 14 417 14 419 L 30 419 C 30 417 27 412 28 406 Z" fill="#D4AF37" />
-        <circle cx="22" cy="422" r="2.5" fill="#FFE082" />
+
+        {/* 2. Series Lights Wire & Bulbs (BEHIND FLOWERS) */}
         {withLights && isDiwali && (
           <g>
-            <path d="M 22 10 Q 10 70 22 130 Q 34 190 22 250 Q 10 310 22 370" stroke="#0D2B17" strokeWidth="1.8" fill="none" opacity="0.9" />
+            <path d="M 22 10 Q 8 70 22 130 Q 36 190 22 250 Q 8 310 22 370" stroke="#0D2B17" strokeWidth="1.8" fill="none" opacity="0.95" />
+            <path d="M 22 12 Q 10 72 22 132 Q 34 192 22 252 Q 10 312 22 372" stroke="#1B4D2E" strokeWidth="1.2" fill="none" opacity="0.8" />
             {[32, 72, 112, 152, 192, 232, 272, 312, 352].map((y, idx) => (
               <circle
                 key={idx}
-                cx={idx % 2 === 0 ? 14 : 30}
+                cx={idx % 2 === 0 ? 8 : 36}
                 cy={y}
-                r={3.2}
+                r={3.4}
                 fill={lightsTheme === "festive_multicolor" ? (["#FF5252", "#00E676", "#FFD700", "#448AFF", "#E040FB"][idx % 5]) : "#FFD700"}
               />
             ))}
           </g>
         )}
+
+        {/* 3. Mango Leaves (BEHIND FLOWERS) */}
+        <path d="M 22 68 C 15 80 16 96 22 110 C 28 96 29 80 22 68 Z" fill="#1B5E20" transform="rotate(-35 22 68)" />
+        <path d="M 22 158 C 15 170 16 186 22 200 C 28 186 29 170 22 158 Z" fill="#1B5E20" transform="rotate(35 22 158)" />
+        <path d="M 22 248 C 15 260 16 276 22 290 C 28 276 29 260 22 248 Z" fill="#1B5E20" transform="rotate(-35 22 248)" />
+
+        {/* 4. Realistic Fluffy Indian Marigolds (ON TOP of thread and wiring) */}
+        <use href="#dynSideGendaYellow" x="22" y="16" />
+        <use href="#dynSideGendaOrange" x="22" y="46" />
+        <use href="#dynSideGendaYellow" x="22" y="76" />
+        <use href="#dynSideGendaOrange" x="22" y="106" />
+        <use href="#dynSideGendaYellow" x="22" y="136" />
+        <use href="#dynSideGendaOrange" x="22" y="166" />
+        <use href="#dynSideGendaYellow" x="22" y="196" />
+        <use href="#dynSideGendaOrange" x="22" y="226" />
+        <use href="#dynSideGendaYellow" x="22" y="256" />
+        <use href="#dynSideGendaOrange" x="22" y="286" />
+        <use href="#dynSideGendaYellow" x="22" y="316" />
+        <use href="#dynSideGendaOrange" x="22" y="346" />
+        <use href="#dynSideGendaYellow" x="22" y="374" />
+        <use href="#dynSideGendaOrange" x="22" y="392" />
+
+        {/* 5. Brass Bell Finial */}
+        <path d="M 16 406 C 17 412 14 417 14 419 L 30 419 C 30 417 27 412 28 406 Z" fill="#D4AF37" />
+        <circle cx="22" cy="422" r="2.5" fill="#FFE082" />
       </svg>
     </div>
   );

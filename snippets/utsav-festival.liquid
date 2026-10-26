@@ -550,34 +550,91 @@
     function getFestiveDefs() {
       return `
         <defs>
-          <!-- Deep Saffron Orange Marigold (Genda Phool) -->
-          <g id="utsavGendaOrange">
-            <circle cx="0" cy="0" r="11" fill="#E65100"/>
-            <circle cx="-5" cy="-4" r="5.5" fill="#F57C00"/>
-            <circle cx="5" cy="-4" r="5.5" fill="#FB8C00"/>
-            <circle cx="-5" cy="4" r="5.5" fill="#E65100"/>
-            <circle cx="5" cy="4" r="5.5" fill="#F57C00"/>
-            <circle cx="0" cy="-6" r="5" fill="#FFA726"/>
-            <circle cx="0" cy="6" r="5" fill="#FB8C00"/>
-            <circle cx="-6" cy="0" r="5" fill="#F57C00"/>
-            <circle cx="6" cy="0" r="5" fill="#FFA726"/>
-            <circle cx="0" cy="0" r="6" fill="#FFB74D"/>
-            <circle cx="0" cy="0" r="3" fill="#FFE082"/>
+          <!-- Realistic Indian Marigold (Genda Phool) 3D Radial Gradients -->
+          <radialGradient id="utsavGendaOrangeGrad" cx="38%" cy="32%" r="68%">
+            <stop offset="0%" stop-color="#FFE082"/>
+            <stop offset="22%" stop-color="#FFA726"/>
+            <stop offset="52%" stop-color="#FB8C00"/>
+            <stop offset="82%" stop-color="#E65100"/>
+            <stop offset="100%" stop-color="#BF360C"/>
+          </radialGradient>
+          <radialGradient id="utsavGendaYellowGrad" cx="38%" cy="32%" r="68%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="20%" stop-color="#FFF9C4"/>
+            <stop offset="48%" stop-color="#FFEB3B"/>
+            <stop offset="78%" stop-color="#FFB300"/>
+            <stop offset="100%" stop-color="#E65100"/>
+          </radialGradient>
+
+          <!-- Realistic Ruffled Marigold Petal with Crenated Tip -->
+          <path id="utsavRuffledPetal" d="M 0 0 C -3.2 -4 -4.8 -9 -2.5 -13.5 C -1 -14.2 0 -13.5 0 -14.5 C 0 -13.5 1 -14.2 2.5 -13.5 C 4.8 -9 3.2 -4 0 0 Z"/>
+
+          <!-- 4-Petal Cross Cluster -->
+          <g id="utsavPetalQuad">
+            <use href="#utsavRuffledPetal"/>
+            <use href="#utsavRuffledPetal" transform="rotate(90)"/>
+            <use href="#utsavRuffledPetal" transform="rotate(180)"/>
+            <use href="#utsavRuffledPetal" transform="rotate(270)"/>
           </g>
 
-          <!-- Golden Yellow Marigold (Peela Genda) -->
+          <!-- 16-Petal Interlocking Rosette Tier -->
+          <g id="utsavPetalTier16">
+            <use href="#utsavPetalQuad"/>
+            <use href="#utsavPetalQuad" transform="rotate(22.5)"/>
+            <use href="#utsavPetalQuad" transform="rotate(45)"/>
+            <use href="#utsavPetalQuad" transform="rotate(67.5)"/>
+          </g>
+
+          <!-- Authentic Deep Saffron Orange Marigold (Narangi Genda Phool) -->
+          <g id="utsavGendaOrange">
+            <!-- Calyx / Sepal Base -->
+            <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9"/>
+            <!-- Tier 1: Outer ruffled skirt (16 petals) -->
+            <g fill="url(#utsavGendaOrangeGrad)" stroke="#A72A00" stroke-width="0.35">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Tier 2: Mid ruffled layer (16 petals, scaled 0.82, rotated 11.25) -->
+            <g fill="#FF8F00" stroke="#B73200" stroke-width="0.3" transform="scale(0.82) rotate(11.25)">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Tier 3: Inner ruffled layer (16 petals, scaled 0.63, rotated 22.5) -->
+            <g fill="#FFA726" stroke="#D84315" stroke-width="0.3" transform="scale(0.63) rotate(22.5)">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Tier 4: Dense crimped core (16 petals, scaled 0.44, rotated 33.75) -->
+            <g fill="#FFB74D" transform="scale(0.44) rotate(33.75)">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Center Velvet Rosette & Sunlight Highlight -->
+            <circle cx="0" cy="0" r="3.6" fill="#BF360C"/>
+            <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFE082"/>
+            <circle cx="0" cy="0" r="1.1" fill="#FF9800"/>
+          </g>
+
+          <!-- Authentic Golden Yellow Marigold (Peela Genda Phool) -->
           <g id="utsavGendaYellow">
-            <circle cx="0" cy="0" r="11" fill="#FF8F00"/>
-            <circle cx="-5" cy="-4" r="5.5" fill="#FFA000"/>
-            <circle cx="5" cy="-4" r="5.5" fill="#FFB300"/>
-            <circle cx="-5" cy="4" r="5.5" fill="#FF8F00"/>
-            <circle cx="5" cy="4" r="5.5" fill="#FFA000"/>
-            <circle cx="0" cy="-6" r="5" fill="#FFCA28"/>
-            <circle cx="0" cy="6" r="5" fill="#FFB300"/>
-            <circle cx="-6" cy="0" r="5" fill="#FFA000"/>
-            <circle cx="6" cy="0" r="5" fill="#FFCA28"/>
-            <circle cx="0" cy="0" r="6" fill="#FFE082"/>
-            <circle cx="0" cy="0" r="3" fill="#FFF8E1"/>
+            <!-- Calyx / Sepal Base -->
+            <path d="M -5 -3 L -13 0 L -5 3 L 0 6 L 5 3 L 13 0 L 5 -3 L 0 -6 Z" fill="#1B5E20" opacity="0.9"/>
+            <!-- Tier 1: Outer ruffled skirt (16 petals) -->
+            <g fill="url(#utsavGendaYellowGrad)" stroke="#B77300" stroke-width="0.35">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Tier 2: Mid ruffled layer (16 petals, scaled 0.82, rotated 11.25) -->
+            <g fill="#FFC107" stroke="#C67D00" stroke-width="0.3" transform="scale(0.82) rotate(11.25)">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Tier 3: Inner ruffled layer (16 petals, scaled 0.63, rotated 22.5) -->
+            <g fill="#FFD54F" stroke="#E69500" stroke-width="0.3" transform="scale(0.63) rotate(22.5)">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Tier 4: Dense crimped core (16 petals, scaled 0.44, rotated 33.75) -->
+            <g fill="#FFF59D" transform="scale(0.44) rotate(33.75)">
+              <use href="#utsavPetalTier16"/>
+            </g>
+            <!-- Center Velvet Rosette & Sunlight Highlight -->
+            <circle cx="0" cy="0" r="3.6" fill="#E65100"/>
+            <circle cx="-0.8" cy="-0.8" r="2.2" fill="#FFFFFF"/>
+            <circle cx="0" cy="0" r="1.1" fill="#FFCA28"/>
           </g>
 
           <!-- Fresh Mango Leaf (Aam ka Patta) -->
@@ -1221,8 +1278,9 @@ function buildSpiderWeb() {
             <!-- Center Hanging Auspicious Brass Bell -->
             <use href="#utsavBrassBell" x="80" y="37"/>
           </pattern>
-          <rect width="100%" height="68" fill="url(#utsavToranUnit)"/>
+          <!-- Series Lights Wire Swag (BEHIND the flowers) -->
           ${overlayLights ? `<g id="utsavSeriesLightsOverlay">${overlayLights}</g>` : ''}
+          <rect width="100%" height="68" fill="url(#utsavToranUnit)"/>
         </svg>
       `;
     }
@@ -1574,7 +1632,7 @@ function buildSpiderWeb() {
         sideBulbs = yPositions.map((y, idx) => {
           const color = seriesLightsTheme === 'festive_multicolor' ? multiColors[idx % multiColors.length] : bulbColor;
           const animClass = (idx % 2 === 0) ? 'utsav-bulb-twinkle-1' : 'utsav-bulb-twinkle-2';
-          const xOffset = (idx % 2 === 0) ? 14 : 28;
+          const xOffset = (idx % 2 === 0) ? 8 : 36;
           return `
             <g class="${animClass}" style="--utsav-bulb-glow:${glowColor};">
               <rect x="${xOffset - 1.5}" y="${y - 4}" width="3" height="3.5" rx="0.6" fill="#0A1F12" stroke="#143D23" stroke-width="0.5"/>
@@ -1596,24 +1654,30 @@ function buildSpiderWeb() {
             </linearGradient>
           </defs>
 
-          <!-- Vertical Hanging Kalawa Sacred Cord -->
+          <!-- 1. Vertical Hanging Kalawa Sacred Cord (BEHIND FLOWERS) -->
           <line x1="22" y1="0" x2="22" y2="420" stroke="url(#utsavSideKalawa_${isLeft ? 'L' : 'R'})" stroke-width="2.5"/>
 
-          <!-- 10 Pairs of Saffron & Golden Marigolds with Mango Leaves -->
+          <!-- 2. Realistic Series Lights Wiring (BEHIND FLOWERS) -->
+          ${hasSeriesLights ? `
+            <path d="M 22 10 Q 8 70 22 130 Q 36 190 22 250 Q 8 310 22 370" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.95"/>
+            <path d="M 22 12 Q 10 72 22 132 Q 34 192 22 252 Q 10 312 22 372" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.8"/>
+          ` : ''}
+
+          <!-- 3. Fresh Mango Leaves (BEHIND FLOWERS) -->
           ${[16, 54, 92, 130, 168, 206, 244, 282, 320, 358].map((y, i) => `
             <use href="#utsavMangoLeaf" x="22" y="${y - 8}" transform="rotate(${i % 2 === 0 ? '-35' : '35'} 22 ${y - 8})"/>
+          `).join('')}
+
+          <!-- 4. Series Lights Bulbs (nestled along the wire) -->
+          ${hasSeriesLights ? sideBulbs : ''}
+
+          <!-- 5. Realistic Fluffy Indian Marigolds (ON TOP of thread and wiring) -->
+          ${[16, 54, 92, 130, 168, 206, 244, 282, 320, 358].map((y, i) => `
             <use href="${i % 2 === 0 ? '#utsavGendaOrange' : '#utsavGendaYellow'}" x="22" y="${y}"/>
           `).join('')}
 
-          <!-- Auspicious Brass Bell Finial -->
+          <!-- 6. Auspicious Brass Bell Finial -->
           <use href="#utsavBrassBell" x="22" y="398" transform="scale(1.2) translate(-3, -2)"/>
-
-          <!-- Realistic Series Lights Wiring (Diwali Only) -->
-          ${hasSeriesLights ? `
-            <path d="M 22 10 Q 10 70 22 130 Q 34 190 22 250 Q 10 310 22 370" stroke="#0D2B17" stroke-width="1.8" fill="none" opacity="0.9"/>
-            <path d="M 22 12 Q 12 72 22 132 Q 32 192 22 252 Q 12 312 22 372" stroke="#1B4D2E" stroke-width="1.2" fill="none" opacity="0.7"/>
-            ${sideBulbs}
-          ` : ''}
         </svg>
       `;
     }
