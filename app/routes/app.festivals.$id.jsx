@@ -2712,6 +2712,53 @@ function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
   );
 }
 
+// ─── Dynamic Side Cascade Widget (Vertical Hanging Pillars) ────────────────
+function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft = true, withLights = true, lightsTheme = "warm_gold" }) {
+  const festId = (festival?.id || "").toLowerCase();
+  const isDiwali = festId.includes("diwali");
+
+  return (
+    <div style={{ width: `${width}px`, height: `${height}px`, overflow: "hidden", pointerEvents: "none" }}>
+      <svg width={width} height={height} viewBox="0 0 44 440" style={{ display: "block", width: "100%", height: "100%" }}>
+        <line x1="22" y1="0" x2="22" y2="400" stroke="#D32F2F" strokeWidth="2.5" />
+        <circle cx="22" cy="16" r="10" fill="#FF8F00" />
+        <circle cx="22" cy="46" r="10" fill="#E65100" />
+        <path d="M 22 68 C 15 80 16 96 22 110 C 28 96 29 80 22 68 Z" fill="#1B5E20" transform="rotate(-35 22 68)" />
+        <circle cx="22" cy="76" r="10" fill="#FF8F00" />
+        <circle cx="22" cy="106" r="10" fill="#E65100" />
+        <circle cx="22" cy="136" r="10" fill="#FF8F00" />
+        <path d="M 22 158 C 15 170 16 186 22 200 C 28 186 29 170 22 158 Z" fill="#1B5E20" transform="rotate(35 22 158)" />
+        <circle cx="22" cy="166" r="10" fill="#E65100" />
+        <circle cx="22" cy="196" r="10" fill="#FF8F00" />
+        <circle cx="22" cy="226" r="10" fill="#E65100" />
+        <path d="M 22 248 C 15 260 16 276 22 290 C 28 276 29 260 22 248 Z" fill="#1B5E20" transform="rotate(-35 22 248)" />
+        <circle cx="22" cy="256" r="10" fill="#FF8F00" />
+        <circle cx="22" cy="286" r="10" fill="#E65100" />
+        <circle cx="22" cy="316" r="10" fill="#FF8F00" />
+        <circle cx="22" cy="346" r="10" fill="#E65100" />
+        <circle cx="22" cy="374" r="10" fill="#FF8F00" />
+        <circle cx="22" cy="392" r="9" fill="#E65100" />
+        <path d="M 16 406 C 17 412 14 417 14 419 L 30 419 C 30 417 27 412 28 406 Z" fill="#D4AF37" />
+        <circle cx="22" cy="422" r="2.5" fill="#FFE082" />
+        {withLights && isDiwali && (
+          <g>
+            <path d="M 22 10 Q 10 70 22 130 Q 34 190 22 250 Q 10 310 22 370" stroke="#0D2B17" strokeWidth="1.8" fill="none" opacity="0.9" />
+            {[32, 72, 112, 152, 192, 232, 272, 312, 352].map((y, idx) => (
+              <circle
+                key={idx}
+                cx={idx % 2 === 0 ? 14 : 30}
+                cy={y}
+                r={3.2}
+                fill={lightsTheme === "festive_multicolor" ? (["#FF5252", "#00E676", "#FFD700", "#448AFF", "#E040FB"][idx % 5]) : "#FFD700"}
+              />
+            ))}
+          </g>
+        )}
+      </svg>
+    </div>
+  );
+}
+
 // ─── Single Device Preview Frame ────────────────────────────────────────────
 function DeviceStorefrontMock({
   deviceType,
@@ -3069,25 +3116,51 @@ function DeviceStorefrontMock({
             </div>
           </div>
 
+          {/* Side Cascade Garlands (Left & Right Hanging Pillars) */}
+          {!showOriginal && enableEffects && (garlandLayout === "top_and_sides" || garlandLayout === "sides_only") && (
+            <>
+              <div style={{ position: "absolute", top: 0, left: isMobile ? "2px" : "6px", zIndex: 26, pointerEvents: "none" }}>
+                <DynamicSideCascadeWidget
+                  festival={festival}
+                  height={isMobile ? 120 : 190}
+                  width={isMobile ? 15 : 22}
+                  isLeft={true}
+                  withLights={enableSeriesLights}
+                  lightsTheme={seriesLightsTheme}
+                />
+              </div>
+              <div style={{ position: "absolute", top: 0, right: isMobile ? "2px" : "6px", zIndex: 26, pointerEvents: "none" }}>
+                <DynamicSideCascadeWidget
+                  festival={festival}
+                  height={isMobile ? 120 : 190}
+                  width={isMobile ? 15 : 22}
+                  isLeft={false}
+                  withLights={enableSeriesLights}
+                  lightsTheme={seriesLightsTheme}
+                />
+              </div>
+            </>
+          )}
+
           {/* Living Diya / Corner Elements */}
           {!showOriginal && enableEffects && (
-            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 25 }}>
+            <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 27 }}>
               {(diyaPosition === "bottom_corners" || diyaPosition === "all_corners") && (
                 <>
-                  <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", left: isMobile ? "6px" : "12px" }}>
+                  <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", left: isMobile ? "8px" : "14px" }}>
                     <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
-                  <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", right: isMobile ? "6px" : "12px" }}>
+                  <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", right: isMobile ? "8px" : "14px" }}>
                     <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
                 </>
               )}
               {(diyaPosition === "top_corners" || diyaPosition === "all_corners") && (
                 <>
-                  <div style={{ position: "absolute", top: isMobile ? "32px" : "44px", left: isMobile ? "6px" : "12px" }}>
+                  <div style={{ position: "absolute", top: isMobile ? "10px" : "16px", left: isMobile ? "8px" : "14px" }}>
                     <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
-                  <div style={{ position: "absolute", top: isMobile ? "32px" : "44px", right: isMobile ? "6px" : "12px" }}>
+                  <div style={{ position: "absolute", top: isMobile ? "10px" : "16px", right: isMobile ? "8px" : "14px" }}>
                     <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
                   </div>
                 </>

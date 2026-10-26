@@ -514,6 +514,7 @@
 <canvas id="utsav-fireworks-canvas"></canvas>
 
 <script>
+  window.__UTSAV_SNIPPET_ACTIVE__ = true;
   (function() {
     // ─── 1. Shared Festive Master SVG Definitions ───────────────────────────
     function getFestiveDefs() {
@@ -2641,14 +2642,15 @@ function buildSpiderWeb() {
           }
         }
 
+        const topOffset = isSticky ? (topContainer && topContainer.style.top ? topContainer.style.top : (dockTop + 'px')) : (dockTop + 'px');
         if (leftContainer) {
           leftContainer.style.position = isSticky ? 'fixed' : 'absolute';
-          leftContainer.style.top = (isSticky ? (topContainer ? topContainer.style.top : dockTop + 'px') : (dockTop + 'px'));
+          leftContainer.style.top = topOffset;
         }
 
         if (rightContainer) {
           rightContainer.style.position = isSticky ? 'fixed' : 'absolute';
-          rightContainer.style.top = (isSticky ? (topContainer ? topContainer.style.top : dockTop + 'px') : (dockTop + 'px'));
+          rightContainer.style.top = topOffset;
         }
       }
 
@@ -2878,7 +2880,9 @@ function buildSpiderWeb() {
           .then(r => r.json())
           .then(data => {
             if (data && data.active && data.config) {
-              applyFestival(data.festivalId || previewFest.toLowerCase(), data.config);
+              applyFestival(data.festivalId || previewFest.toLowerCase(), Object.assign({}, data.config, {
+                enableEffects: true
+              }));
             }
           })
           .catch(() => {});

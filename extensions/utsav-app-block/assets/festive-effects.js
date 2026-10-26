@@ -8,6 +8,9 @@
   "use strict";
 
   function teardownExistingEffects() {
+    if (window.__UTSAV_SNIPPET_ACTIVE__) {
+      return;
+    }
     [
       "utsav-festival-banner",
       "utsav-ambient-vignette",
@@ -2236,6 +2239,9 @@ function buildSpiderWeb() {
 
   // ─── BOOTSTRAPPER: Cloud Fetch + Local Config Merge (DOM Safe) ─────────────
   function bootstrapper() {
+    if (window.__UTSAV_SNIPPET_ACTIVE__) {
+      return;
+    }
     const shopDomain =
       (window.Shopify && window.Shopify.shop) ||
       (window.__UTSAV_CONFIG__ && window.__UTSAV_CONFIG__.shopDomain) ||
