@@ -3142,28 +3142,18 @@ function DeviceStorefrontMock({
             </>
           )}
 
-          {/* Living Diya / Corner Elements */}
+          {/* Living Diya / Corner Elements (Bottom Corners Only) */}
           {!showOriginal && enableEffects && (
             <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 27 }}>
-              {(diyaPosition === "bottom_corners" || diyaPosition === "all_corners") && (
-                <>
-                  <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", left: isMobile ? "8px" : "14px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
-                  </div>
-                  <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", right: isMobile ? "8px" : "14px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
-                  </div>
-                </>
+              {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_left") && (
+                <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", left: isMobile ? "8px" : "14px" }}>
+                  <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
+                </div>
               )}
-              {(diyaPosition === "top_corners" || diyaPosition === "all_corners") && (
-                <>
-                  <div style={{ position: "absolute", top: isMobile ? "10px" : "16px", left: isMobile ? "8px" : "14px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
-                  </div>
-                  <div style={{ position: "absolute", top: isMobile ? "10px" : "16px", right: isMobile ? "8px" : "14px" }}>
-                    <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
-                  </div>
-                </>
+              {(diyaPosition === "bottom_corners" || diyaPosition === "bottom_right") && (
+                <div style={{ position: "absolute", bottom: isMobile ? "8px" : "12px", right: isMobile ? "8px" : "14px" }}>
+                  <DynamicCornerWidget festival={festival} size={numDiyaSize} cornerMotif={cornerMotif} />
+                </div>
               )}
             </div>
           )}
@@ -3822,9 +3812,10 @@ export default function FestivalStudio() {
                   <Select
                     label={terminology.cornerPlacementLabel || "Corner Motif Placement"}
                     options={[
-                      { label: "Bottom Corners (Default — Elegant)", value: "bottom_corners" },
-                      { label: "Top Corners", value: "top_corners" },
-                      { label: "All 4 Corners", value: "all_corners" },
+                      { label: "Both Bottom Corners (Default — Elegant)", value: "bottom_corners" },
+                      { label: "Bottom-Left Corner Only", value: "bottom_left" },
+                      { label: "Bottom-Right Corner Only", value: "bottom_right" },
+                      { label: "Off (No Corner Motifs)", value: "off" },
                     ]}
                     value={diyaPosition}
                     onChange={(val) => { setDiyaPosition(val); markDirty(); }}

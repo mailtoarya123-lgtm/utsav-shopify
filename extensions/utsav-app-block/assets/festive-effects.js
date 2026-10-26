@@ -1200,7 +1200,7 @@ function buildSpiderWeb() {
       if (garlandLayout === "top_and_sides" || garlandLayout === "top_only") {
         const topGarland = document.createElement("div");
         topGarland.id = "utsav-top-garland";
-        topGarland.style.cssText = "position: relative; width: 100%; height: 0 !important; overflow: visible !important; z-index: 9998; pointer-events: none !important; display: block; background: transparent !important;";
+        topGarland.style.cssText = "position: relative; width: 100%; height: 0 !important; overflow: visible !important; z-index: 12 !important; pointer-events: none !important; display: block; background: transparent !important;";
         topGarland.innerHTML = getEfTopSVG(festivalId);
 
         const header = document.querySelector("sticky-header, .header-wrapper, #shopify-section-header, header.header, .shopify-section-group-header-group, header");
@@ -1279,13 +1279,13 @@ function buildSpiderWeb() {
 
         if (leftEl) {
           leftEl.style.position = isSticky ? "fixed" : "absolute";
-          leftEl.style.zIndex = "9997";
+          leftEl.style.zIndex = "12";
           leftEl.style.pointerEvents = "none";
           leftEl.style.top = (isSticky ? (topEl ? topEl.style.top : dockTop + "px") : (dockTop + "px"));
         }
         if (rightEl) {
           rightEl.style.position = isSticky ? "fixed" : "absolute";
-          rightEl.style.zIndex = "9997";
+          rightEl.style.zIndex = "12";
           rightEl.style.pointerEvents = "none";
           rightEl.style.top = (isSticky ? (topEl ? topEl.style.top : dockTop + "px") : (dockTop + "px"));
         }
@@ -1924,13 +1924,11 @@ function buildSpiderWeb() {
       }
 
       const pos = (diyaPosition || "bottom_corners").toLowerCase();
-      if (pos.includes("bottom") || pos.includes("all")) {
-        if (pos !== "bottom_right") attachCornerDecor({ bottom: diyaMarginY + "px", left: diyaMarginX + "px" });
-        if (pos !== "bottom_left") attachCornerDecor({ bottom: diyaMarginY + "px", right: diyaMarginX + "px" });
+      if (pos === "bottom_corners" || pos === "bottom_left") {
+        attachCornerDecor({ bottom: diyaMarginY + "px", left: diyaMarginX + "px" });
       }
-      if (pos.includes("top") || pos.includes("all")) {
-        if (pos !== "top_right") attachCornerDecor({ top: diyaMarginY + "px", left: diyaMarginX + "px" });
-        if (pos !== "top_left") attachCornerDecor({ top: diyaMarginY + "px", right: diyaMarginX + "px" });
+      if (pos === "bottom_corners" || pos === "bottom_right") {
+        attachCornerDecor({ bottom: diyaMarginY + "px", right: diyaMarginX + "px" });
       }
 
       getOverlayHost().appendChild(decorContainer);

@@ -17,6 +17,19 @@
     --utsav-bulb-glow: rgba(255, 215, 0, 0.95);
   }
 
+  /* Ensure Shopify sticky header stays firmly above the scrolling garland */
+  #shopify-section-header,
+  .shopify-section-header,
+  .section-header,
+  .header-wrapper,
+  sticky-header,
+  header.header,
+  .header,
+  .shopify-section-group-header-group,
+  .site-header {
+    z-index: 9999 !important;
+  }
+
   /* ─── Top Toran Garland & Side Garlands (Never blocks clicks) ─────────────── */
   #utsav-top-garland {
     display: none;
@@ -24,7 +37,7 @@
     width: 100%;
     height: 0 !important;
     pointer-events: none !important;
-    z-index: 9993;
+    z-index: 10 !important;
     overflow: visible !important;
     background: transparent !important;
   }
@@ -55,7 +68,7 @@
     width: 44px;
     height: 440px;
     pointer-events: none;
-    z-index: 2147483630 !important;
+    z-index: 10 !important;
     transition: top 0.2s ease-out;
   }
 
@@ -301,7 +314,7 @@
 
   .utsav-corner-decor {
     position: fixed !important;
-    display: block !important;
+    display: block;
     pointer-events: auto !important;
     cursor: pointer !important;
     z-index: 2147483640 !important;
@@ -321,16 +334,6 @@
 
   .utsav-corner-bottom-right {
     bottom: 16px;
-    right: 18px;
-  }
-
-  .utsav-corner-top-left {
-    top: 60px;
-    left: 18px;
-  }
-
-  .utsav-corner-top-right {
-    top: 60px;
     right: 18px;
   }
 
@@ -502,12 +505,10 @@
 <!-- 5. Ambient Lighting Vignette (Diwali Only) -->
 <div class="utsav-ambient-vignette" id="utsavVignette"></div>
 
-<!-- 6. Corner Diyas Container (Diwali Only) -->
+<!-- 6. Corner Motifs Container (Bottom Corners Only) -->
 <div id="utsav-corner-container">
   <div class="utsav-corner-decor utsav-corner-bottom-left" id="utsavDiyaBL" title="Tap for Festive Blessing ✨"></div>
   <div class="utsav-corner-decor utsav-corner-bottom-right" id="utsavDiyaBR" title="Tap for Festive Blessing ✨"></div>
-  <div class="utsav-corner-decor utsav-corner-top-left" id="utsavDiyaTL" style="display:none;" title="Tap for Festive Blessing ✨"></div>
-  <div class="utsav-corner-decor utsav-corner-top-right" id="utsavDiyaTR" style="display:none;" title="Tap for Festive Blessing ✨"></div>
 </div>
 
 <!-- 7. Aerial Fireworks Engine (Diwali Only) -->
@@ -2535,7 +2536,7 @@ function buildSpiderWeb() {
     }
 
     // Tap-to-bless interaction (Click & Keyboard Accessible)
-    ['utsavDiyaBL', 'utsavDiyaBR', 'utsavDiyaTL', 'utsavDiyaTR'].forEach(id => {
+    ['utsavDiyaBL', 'utsavDiyaBR'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.setAttribute('role', 'button');
@@ -2663,6 +2664,7 @@ function buildSpiderWeb() {
 
         if (topContainer) {
           topContainer.style.position = isSticky ? 'fixed' : 'absolute';
+          topContainer.style.zIndex = '10';
           if (isSticky) {
             const header = document.querySelector('sticky-header, .header-wrapper, header.header');
             const hRect = header ? header.getBoundingClientRect() : null;
@@ -2676,13 +2678,13 @@ function buildSpiderWeb() {
         if (leftContainer) {
           leftContainer.style.position = isSticky ? 'fixed' : 'absolute';
           leftContainer.style.top = topOffset;
-          leftContainer.style.zIndex = '2147483630';
+          leftContainer.style.zIndex = '10';
         }
 
         if (rightContainer) {
           rightContainer.style.position = isSticky ? 'fixed' : 'absolute';
           rightContainer.style.top = topOffset;
-          rightContainer.style.zIndex = '2147483630';
+          rightContainer.style.zIndex = '10';
         }
       }
 
@@ -2762,42 +2764,38 @@ function buildSpiderWeb() {
 
           const bl = document.getElementById('utsavDiyaBL');
           const br = document.getElementById('utsavDiyaBR');
-          const tl = document.getElementById('utsavDiyaTL');
-          const tr = document.getElementById('utsavDiyaTR');
 
           const pos = config.diyaPosition || 'bottom_corners';
-          const isBottom = pos === 'bottom_corners' || pos === 'bottom_left' || pos === 'bottom_right' || pos === 'all_four' || pos === 'all_corners';
-          const isTop = pos === 'top_corners' || pos === 'top_left' || pos === 'top_right' || pos === 'all_four' || pos === 'all_corners';
+          const showBL = (pos === 'bottom_corners' || pos === 'bottom_left');
+          const showBR = (pos === 'bottom_corners' || pos === 'bottom_right');
 
           if (bl) {
-            bl.innerHTML = cornerSvg;
-            bl.style.bottom = mY + 'px';
-            bl.style.left = mX + 'px';
-            bl.style.display = (pos === 'bottom_corners' || pos === 'bottom_left' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
+            if (showBL) {
+              bl.innerHTML = cornerSvg;
+              bl.style.bottom = mY + 'px';
+              bl.style.left = mX + 'px';
+              bl.style.setProperty('display', 'block', 'important');
+            } else {
+              bl.innerHTML = '';
+              bl.style.setProperty('display', 'none', 'important');
+            }
           }
           if (br) {
-            br.innerHTML = cornerSvg;
-            br.style.bottom = mY + 'px';
-            br.style.right = mX + 'px';
-            br.style.display = (pos === 'bottom_corners' || pos === 'bottom_right' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
-          }
-          if (tl) {
-            tl.innerHTML = cornerSvg;
-            tl.style.top = mY + 'px';
-            tl.style.left = mX + 'px';
-            tl.style.display = (pos === 'top_corners' || pos === 'top_left' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
-          }
-          if (tr) {
-            tr.innerHTML = cornerSvg;
-            tr.style.top = mY + 'px';
-            tr.style.right = mX + 'px';
-            tr.style.display = (pos === 'top_corners' || pos === 'top_right' || pos === 'all_four' || pos === 'all_corners') ? 'block' : 'none';
+            if (showBR) {
+              br.innerHTML = cornerSvg;
+              br.style.bottom = mY + 'px';
+              br.style.right = mX + 'px';
+              br.style.setProperty('display', 'block', 'important');
+            } else {
+              br.innerHTML = '';
+              br.style.setProperty('display', 'none', 'important');
+            }
           }
         } else {
-          diyaContainer.style.display = 'none';
-          ['utsavDiyaBL', 'utsavDiyaBR', 'utsavDiyaTL', 'utsavDiyaTR'].forEach(id => {
+          diyaContainer.style.setProperty('display', 'none', 'important');
+          ['utsavDiyaBL', 'utsavDiyaBR'].forEach(id => {
             const el = document.getElementById(id);
-            if (el) { el.innerHTML = ''; el.style.display = 'none'; }
+            if (el) { el.innerHTML = ''; el.style.setProperty('display', 'none', 'important'); }
           });
         }
       }
@@ -2889,7 +2887,11 @@ function buildSpiderWeb() {
       const rightContainer = document.getElementById('utsav-garland-right');
       if (rightContainer) { rightContainer.style.display = 'none'; rightContainer.innerHTML = ''; }
       const diyaContainer = document.getElementById('utsav-corner-container');
-      if (diyaContainer) { diyaContainer.style.display = 'none'; }
+      if (diyaContainer) { diyaContainer.style.setProperty('display', 'none', 'important'); }
+      ['utsavDiyaBL', 'utsavDiyaBR'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.innerHTML = ''; el.style.setProperty('display', 'none', 'important'); }
+      });
       stopFireworks();
       const vignette = document.getElementById('utsavVignette');
       if (vignette) vignette.style.display = 'none';
