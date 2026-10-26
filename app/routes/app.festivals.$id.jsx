@@ -22,6 +22,7 @@ import {
 } from "@shopify/polaris-icons";
 import { REAL_FLOWERS } from "../assets/flowers/realFlowers.js";
 import { REAL_LEAVES } from "../assets/leaves/realLeaves.js";
+import { REAL_DIYAS } from "../assets/diyas/realDiyas.js";
 import { authenticate } from "../shopify.server";
 import prisma from "../db.server";
 import {
@@ -1223,14 +1224,13 @@ export function getFestivalCornerMotifOptions(festivalId = "") {
     ];
   }
 
-  // Default: Diwali & Indian Celebrations
+  // Default: Diwali & Indian Celebrations (Authentic Real Diyas Only)
   return [
-    { label: "🌿 Auspicious Mango Leaf Bunch", value: "mango_bunch" },
-    { label: "🪔 Royal Handcrafted Brass Diya", value: "royal_brass" },
+    { label: "🪔 Royal Handcrafted Crimson Diya", value: "royal_crimson" },
     { label: "🏺 Rustic Terracotta Clay Diya", value: "terracotta_clay" },
     { label: "✨ Floating Marigold Floral Urli", value: "marigold_urli" },
-    { label: "🔥 Hammered Antique Copper Diya", value: "antique_copper" },
-    { label: "🌸 Auspicious Deepavali Rangoli Diya", value: "rangoli_diya" },
+    { label: "🔥 Handcrafted Earthen Diya", value: "antique_copper" },
+    { label: "🪙 Classical Golden Brass Diya", value: "royal_brass" },
   ];
 }
 
@@ -2763,14 +2763,6 @@ function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
   const festId = (festival.id || "").toLowerCase();
   const motif = (cornerMotif || "").toLowerCase();
 
-  if (motif === "mango_bunch" || motif === "leaves_bunch" || motif === "mango_leaves") {
-    return (
-      <div style={{ width: `${size}px`, height: `${size}px`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <img src={REAL_LEAVES.real_leaf_bunch_motif} alt="Auspicious Mango Leaf Bunch" style={{ width: "100%", height: "100%", objectFit: "contain", filter: "none" }} />
-      </div>
-    );
-  }
-
   // 1. Halloween Motifs
   if (festId.includes("halloween")) {
     if (motif === "ghost") {
@@ -3302,54 +3294,28 @@ function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
     );
   }
 
-  // 22. Diwali & Indian Celebrations (Living Brass, Clay, Marigold, Copper)
-  if (motif === "terracotta_clay") {
-    return (
-      <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(255, 117, 24, 0.8))" }}>
-        <circle cx="50" cy="30" r="22" fill="rgba(255, 117, 24, 0.45)" />
-        <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF5722" />
-        <path d="M 50 16 C 46 25 44 30 50 36 C 56 30 54 25 50 16 Z" fill="#FFFDE7" />
-        <ellipse cx="50" cy="46" rx="36" ry="9" fill="#E64A19" />
-        <path d="M 14 46 Q 16 68 50 70 Q 84 68 86 46 Z" fill="#BF360C" />
-        <ellipse cx="50" cy="70" rx="18" ry="3.5" fill="#3E2723" />
-      </svg>
-    );
-  }
-  if (motif === "marigold_urli") {
-    return (
-      <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.85))" }}>
-        <circle cx="50" cy="30" r="22" fill="rgba(255, 215, 0, 0.45)" />
-        <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF9800" />
-        <ellipse cx="50" cy="50" rx="42" ry="12" fill="#D4AF37" />
-        <circle cx="26" cy="50" r="5" fill="#E65100" />
-        <circle cx="38" cy="54" r="4.5" fill="#FFC107" />
-        <circle cx="62" cy="54" r="4.5" fill="#FFC107" />
-        <circle cx="74" cy="50" r="5" fill="#E65100" />
-      </svg>
-    );
-  }
-  if (motif === "antique_copper") {
-    return (
-      <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(216, 67, 21, 0.8))" }}>
-        <circle cx="50" cy="30" r="22" fill="rgba(216, 67, 21, 0.45)" />
-        <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF6B35" />
-        <ellipse cx="50" cy="46" rx="36" ry="9" fill="#D84315" />
-        <path d="M 14 46 Q 16 68 50 70 Q 84 68 86 46 Z" fill="#872900" />
-        <ellipse cx="50" cy="70" rx="18" ry="3.5" fill="#3E2723" />
-      </svg>
-    );
-  }
+  // 22. Diwali & Indian Celebrations (Authentic Real Diyas Only)
+  const diyaImg = REAL_DIYAS[motif] || (
+    motif === "terracotta_clay" ? REAL_DIYAS.terracotta_clay :
+    motif === "marigold_urli" || motif === "festive_ornamental" || motif === "rangoli_diya" ? REAL_DIYAS.marigold_urli :
+    motif === "antique_copper" ? REAL_DIYAS.antique_copper :
+    motif === "royal_brass" ? REAL_DIYAS.royal_brass :
+    REAL_DIYAS.royal_crimson
+  );
 
-  // Default: Classical Living Brass Diya
   return (
-    <svg width={size} height={Math.round(size * 0.85)} viewBox="0 0 100 85" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.85))" }}>
-      <circle cx="50" cy="30" r="24" fill="rgba(255, 215, 0, 0.45)" />
-      <path d="M 50 8 C 43 22 40 32 50 42 C 60 32 57 22 50 8 Z" fill="#FF6B35" />
-      <path d="M 50 16 C 46 25 44 30 50 36 C 56 30 54 25 50 16 Z" fill="#FFFDE7" />
-      <ellipse cx="50" cy="46" rx="36" ry="9" fill="#FFE082" />
-      <path d="M 14 46 Q 16 68 50 70 Q 84 68 86 46 Z" fill="#D4AF37" />
-      <ellipse cx="50" cy="70" rx="18" ry="3.5" fill="#5D4037" />
-    </svg>
+    <div style={{ width: `${size}px`, height: `${Math.round(size * 0.85)}px`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <img
+        src={diyaImg}
+        alt="Authentic Festive Diya"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          filter: "drop-shadow(0 0 8px rgba(255, 170, 0, 0.7))",
+        }}
+      />
+    </div>
   );
 }
 
