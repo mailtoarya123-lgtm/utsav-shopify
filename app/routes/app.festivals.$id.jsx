@@ -314,6 +314,503 @@ function ToggleSwitch({ label, checked, onChange, helpText, disabled }) {
   );
 }
 
+// ─── Visual Selector Card: Corner Placement ─────────────────────────────────
+function VisualPlacementSelector({ label, value, onChange, helpText }) {
+  const options = [
+    {
+      value: "bottom_corners",
+      title: "Both Bottom",
+      subtitle: "Left & Right",
+      badge: "Popular",
+      leftDot: true,
+      rightDot: true,
+    },
+    {
+      value: "bottom_left",
+      title: "Left Corner",
+      subtitle: "Bottom-Left only",
+      leftDot: true,
+      rightDot: false,
+    },
+    {
+      value: "bottom_right",
+      title: "Right Corner",
+      subtitle: "Bottom-Right only",
+      leftDot: false,
+      rightDot: true,
+    },
+    {
+      value: "off",
+      title: "Off",
+      subtitle: "No corner motifs",
+      isOff: true,
+    },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+        {options.map((opt) => {
+          const isSelected = value === opt.value;
+          return (
+            <div
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              style={{
+                borderRadius: "8px",
+                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
+                background: isSelected ? "#F0FDF4" : "#FFFFFF",
+                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
+                padding: "8px 10px",
+                cursor: "pointer",
+                transition: "all 0.18s ease-in-out",
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+              }}
+            >
+              {/* Mini Browser Screen Schematic */}
+              <div
+                style={{
+                  height: "38px",
+                  borderRadius: "5px",
+                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
+                  border: isSelected ? "1px solid #A5D6A7" : "1px solid #E4E5E7",
+                  position: "relative",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  padding: "3px 4px",
+                }}
+              >
+                <div style={{ height: "4px", background: "#D1D5DB", borderRadius: "2px", width: "100%", opacity: 0.7 }} />
+                {opt.isOff ? (
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#9CA3AF", fontSize: "14px", fontWeight: 700 }}>
+                    ⊘
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", paddingBottom: "1px" }}>
+                    {opt.leftDot ? (
+                      <div
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          background: "#FF9800",
+                          boxShadow: "0 0 6px #FF9800, 0 0 10px #FFD54F",
+                          border: "1px solid #FFE082",
+                        }}
+                      />
+                    ) : <span />}
+                    {opt.rightDot ? (
+                      <div
+                        style={{
+                          width: "8px",
+                          height: "8px",
+                          borderRadius: "50%",
+                          background: "#FF9800",
+                          boxShadow: "0 0 6px #FF9800, 0 0 10px #FFD54F",
+                          border: "1px solid #FFE082",
+                        }}
+                      />
+                    ) : <span />}
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
+                    {opt.title}
+                  </span>
+                  {opt.badge && (
+                    <span style={{ fontSize: "9px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
+                      {opt.badge}
+                    </span>
+                  )}
+                </div>
+                <span style={{ fontSize: "10px", color: "#6D7175" }}>{opt.subtitle}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {helpText && (
+        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+      )}
+    </div>
+  );
+}
+
+// ─── Visual Selector Card: Corner Motif Size ────────────────────────────────
+function VisualSizeSelector({ label, value, onChange, helpText }) {
+  const options = [
+    { value: "small", label: "Small", px: "56px", iconScale: 16, detail: "Subtle" },
+    { value: "medium", label: "Medium", px: "76px", iconScale: 22, detail: "Standard", badge: "Default" },
+    { value: "large", label: "Large", px: "96px", iconScale: 28, detail: "Majestic" },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
+      <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+        {options.map((opt) => {
+          const isSelected = value === opt.value;
+          return (
+            <div
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              style={{
+                borderRadius: "8px",
+                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
+                background: isSelected ? "#F0FDF4" : "#FFFFFF",
+                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
+                padding: "8px 6px",
+                cursor: "pointer",
+                transition: "all 0.18s ease-in-out",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                gap: "5px",
+              }}
+            >
+              <div
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <span style={{ fontSize: `${opt.iconScale}px`, lineHeight: 1 }}>🪔</span>
+              </div>
+              <div>
+                <div style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
+                  {opt.label}
+                </div>
+                <div style={{ fontSize: "9.5px", color: "#6D7175" }}>{opt.px}</div>
+              </div>
+              {opt.badge && (
+                <span style={{ fontSize: "8.5px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
+                  {opt.badge}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      {helpText && (
+        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+      )}
+    </div>
+  );
+}
+
+// ─── Visual Selector Card: Garland Architecture ────────────────────────────
+function VisualGarlandLayoutSelector({ label, value, onChange, helpText }) {
+  const options = [
+    {
+      value: "top_and_sides",
+      title: "Top & Both Sides",
+      subtitle: "Full Framing",
+      badge: "Popular",
+      topGarland: true,
+      sideGarlands: true,
+    },
+    {
+      value: "top_only",
+      title: "Top Toran Only",
+      subtitle: "Header Arch",
+      topGarland: true,
+      sideGarlands: false,
+    },
+    {
+      value: "sides_only",
+      title: "Side Cascades Only",
+      subtitle: "Screen Margins",
+      topGarland: false,
+      sideGarlands: true,
+    },
+    {
+      value: "off",
+      title: "Off",
+      subtitle: "No Framing",
+      isOff: true,
+    },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
+      <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+        {options.map((opt) => {
+          const isSelected = value === opt.value;
+          return (
+            <div
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              style={{
+                borderRadius: "8px",
+                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
+                background: isSelected ? "#F0FDF4" : "#FFFFFF",
+                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
+                padding: "8px 10px",
+                cursor: "pointer",
+                transition: "all 0.18s ease-in-out",
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+              }}
+            >
+              {/* Mini Schematic */}
+              <div
+                style={{
+                  height: "38px",
+                  borderRadius: "5px",
+                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
+                  border: isSelected ? "1px solid #A5D6A7" : "1px solid #E4E5E7",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {opt.topGarland && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "5px",
+                      background: "linear-gradient(90deg, #FF9800, #FFD54F, #FF9800)",
+                      boxShadow: "0 1px 3px rgba(255,152,0,0.5)",
+                    }}
+                  />
+                )}
+                {opt.sideGarlands && (
+                  <>
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "5px",
+                        left: "2px",
+                        width: "3px",
+                        bottom: "3px",
+                        background: "linear-gradient(180deg, #2E7D32, #FF9800, #2E7D32)",
+                        borderRadius: "1px",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "5px",
+                        right: "2px",
+                        width: "3px",
+                        bottom: "3px",
+                        background: "linear-gradient(180deg, #2E7D32, #FF9800, #2E7D32)",
+                        borderRadius: "1px",
+                      }}
+                    />
+                  </>
+                )}
+                {opt.isOff && (
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#9CA3AF", fontSize: "14px", fontWeight: 700 }}>
+                    ⊘
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
+                    {opt.title}
+                  </span>
+                  {opt.badge && (
+                    <span style={{ fontSize: "9px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
+                      {opt.badge}
+                    </span>
+                  )}
+                </div>
+                <span style={{ fontSize: "10px", color: "#6D7175" }}>{opt.subtitle}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {helpText && (
+        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+      )}
+    </div>
+  );
+}
+
+// ─── Visual Selector Card: Toran Docking Position ───────────────────────────
+function VisualDockingSelector({ label, value, onChange, helpText }) {
+  const options = [
+    {
+      value: "below_header",
+      title: "Below Navigation",
+      subtitle: "Recommended — 100% Transparent",
+      badge: "Standard",
+      isBelow: true,
+    },
+    {
+      value: "top_fixed",
+      title: "Top of Screen",
+      subtitle: "Fixed 0px Ceiling",
+      isBelow: false,
+    },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
+      <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+        {options.map((opt) => {
+          const isSelected = value === opt.value;
+          return (
+            <div
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              style={{
+                borderRadius: "8px",
+                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
+                background: isSelected ? "#F0FDF4" : "#FFFFFF",
+                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
+                padding: "8px 10px",
+                cursor: "pointer",
+                transition: "all 0.18s ease-in-out",
+                display: "flex",
+                flexDirection: "column",
+                gap: "6px",
+              }}
+            >
+              {/* Mini Schematic */}
+              <div
+                style={{
+                  height: "36px",
+                  borderRadius: "5px",
+                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
+                  border: isSelected ? "1px solid #A5D6A7" : "1px solid #E4E5E7",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                {opt.isBelow ? (
+                  <>
+                    <div style={{ height: "12px", background: "#18181B", width: "100%", display: "flex", alignItems: "center", padding: "0 4px" }}>
+                      <div style={{ width: "12px", height: "3px", background: "#FFFFFF", borderRadius: "1px", opacity: 0.8 }} />
+                    </div>
+                    <div style={{ height: "4px", background: "linear-gradient(90deg, #FF9800, #FFD54F, #FF9800)", width: "100%" }} />
+                  </>
+                ) : (
+                  <>
+                    <div style={{ height: "4px", background: "linear-gradient(90deg, #FF9800, #FFD54F, #FF9800)", width: "100%" }} />
+                    <div style={{ height: "12px", background: "#18181B", width: "100%", display: "flex", alignItems: "center", padding: "0 4px" }}>
+                      <div style={{ width: "12px", height: "3px", background: "#FFFFFF", borderRadius: "1px", opacity: 0.8 }} />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <span style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
+                    {opt.title}
+                  </span>
+                  {opt.badge && (
+                    <span style={{ fontSize: "9px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
+                      {opt.badge}
+                    </span>
+                  )}
+                </div>
+                <span style={{ fontSize: "10px", color: "#6D7175" }}>{opt.subtitle}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {helpText && (
+        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+      )}
+    </div>
+  );
+}
+
+// ─── Visual Selector Card: Corner Motif Style ───────────────────────────────
+function VisualMotifSelector({ label, value, options = [], festival, onChange, helpText }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
+      <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+        {options.map((opt) => {
+          const isSelected = value === opt.value;
+          return (
+            <div
+              key={opt.value}
+              onClick={() => onChange(opt.value)}
+              style={{
+                borderRadius: "8px",
+                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
+                background: isSelected ? "#F0FDF4" : "#FFFFFF",
+                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
+                padding: "8px",
+                cursor: "pointer",
+                transition: "all 0.18s ease-in-out",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <div
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "6px",
+                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                  overflow: "hidden",
+                }}
+              >
+                <DynamicCornerWidget festival={festival} size={28} cornerMotif={opt.value} />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+                <span
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: isSelected ? 700 : 600,
+                    color: isSelected ? "#008060" : "#202223",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                  title={opt.label}
+                >
+                  {opt.label.replace(/^[^\s]+\s*/, "")}
+                </span>
+                <span style={{ fontSize: "9.5px", color: "#6D7175" }}>Authentic Symbol</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {helpText && (
+        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+      )}
+    </div>
+  );
+}
+
 // ─── Category Navigation Icons ──────────────────────────────────────────────
 const CATEGORY_ICONS = {
   // New Merchant-Friendly Categories
@@ -3767,27 +4264,18 @@ export default function FestivalStudio() {
 
               {enableEffects && (
                 <>
-                  <Select
+                  <VisualGarlandLayoutSelector
                     label={terminology.headerArchitectureLabel || "Spiderweb & Garland Architecture"}
-                    options={terminology.headerArchitectureOptions || [
-                      { label: "Top Spiderweb & Side Web Cascades", value: "top_and_sides" },
-                      { label: "Top Spiderweb Only (Header Arch)", value: "top_only" },
-                      { label: "Side Cascades Only (Screen Margins)", value: "sides_only" },
-                      { label: "Off (No Web Framing)", value: "off" },
-                    ]}
                     value={garlandLayout}
                     onChange={(val) => { setGarlandLayout(val); markDirty(); }}
+                    helpText="Choose how festive framing drapes across your storefront."
                   />
 
-                  <Select
+                  <VisualDockingSelector
                     label={terminology.dockingPositionLabel || "Framing Docking Position"}
-                    helpText={terminology.dockingHelp || "Prevents framing from obstructing your logo or navigation menu."}
-                    options={[
-                      { label: "Below Navigation (Recommended — 100% Transparent)", value: "below_header" },
-                      { label: "Top of Screen (Fixed 0px)", value: "top_fixed" },
-                    ]}
                     value={garlandPlacement}
                     onChange={(val) => { setGarlandPlacement(val); markDirty(); }}
+                    helpText={terminology.dockingHelp || "Prevents framing from obstructing your logo or navigation menu."}
                   />
 
                   <LuxurySlider
@@ -3801,35 +4289,27 @@ export default function FestivalStudio() {
                     helpText="Nudge the framing up or down in pixels to match your theme's exact header."
                   />
 
-                  <Select
+                  <VisualMotifSelector
                     label={terminology.cornerMotifLabel || "Corner Motif Icon / Style"}
                     options={getFestivalCornerMotifOptions(festival.id)}
+                    festival={festival}
                     value={cornerMotif === "default" ? (getFestivalCornerMotifOptions(festival.id)[0]?.value || "default") : cornerMotif}
                     onChange={(val) => { setCornerMotif(val); markDirty(); }}
                     helpText="Choose which iconic festive symbol sits elegantly in the corners of your store."
                   />
 
-                  <Select
+                  <VisualPlacementSelector
                     label={terminology.cornerPlacementLabel || "Corner Motif Placement"}
-                    options={[
-                      { label: "Both Bottom Corners (Default — Elegant)", value: "bottom_corners" },
-                      { label: "Bottom-Left Corner Only", value: "bottom_left" },
-                      { label: "Bottom-Right Corner Only", value: "bottom_right" },
-                      { label: "Off (No Corner Motifs)", value: "off" },
-                    ]}
                     value={diyaPosition}
                     onChange={(val) => { setDiyaPosition(val); markDirty(); }}
+                    helpText="Select whether motifs sit in both bottom corners, one corner, or remain hidden."
                   />
 
-                  <Select
+                  <VisualSizeSelector
                     label={terminology.cornerSizeLabel || "Corner Motif Size"}
-                    options={[
-                      { label: "Subtle (Small)", value: "small" },
-                      { label: "Balanced (Medium — Recommended)", value: "medium" },
-                      { label: "Grand (Large)", value: "large" },
-                    ]}
                     value={diyaSize}
                     onChange={(val) => { setDiyaSize(val); markDirty(); }}
+                    helpText="Balanced (76px) is recommended for desktop and automatically scales for mobile."
                   />
                 </>
               )}
