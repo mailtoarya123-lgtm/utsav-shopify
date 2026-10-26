@@ -2726,10 +2726,10 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
         <rect x="0" y="0" width="100%" height="3" fill="#C62828" />
         {[0, 112, 224, 336, 448].map((startX, idx) => (
           <g key={idx} transform={`translate(${startX}, 0)`}>
-            <image href={REAL_LEAVES.real_mango_leaf} x={6} y={0} width={12} height={34} preserveAspectRatio="none" />
-            <image href={REAL_LEAVES.real_mango_leaf} x={32} y={0} width={12} height={34} preserveAspectRatio="none" />
-            <image href={REAL_LEAVES.real_mango_leaf} x={58} y={0} width={12} height={34} preserveAspectRatio="none" />
-            <image href={REAL_LEAVES.real_mango_leaf} x={84} y={0} width={12} height={34} preserveAspectRatio="none" />
+            <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={6} y={0} width={14} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(-5 13 0)" />
+            <image href={REAL_LEAVES.real_mango_leaf_2 || REAL_LEAVES.real_mango_leaf} x={32} y={0} width={11} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(-2 37 0)" />
+            <image href={REAL_LEAVES.real_mango_leaf_3 || REAL_LEAVES.real_mango_leaf} x={58} y={0} width={15} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(2 65 0)" />
+            <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={84} y={0} width={14} height={36} preserveAspectRatio="xMidYMin meet" transform="rotate(5 91 0)" />
 
             <path d="M 0 5 Q 56 34 112 5" stroke="#C62828" strokeWidth="1.6" fill="none" opacity="0.7" />
 
@@ -2769,7 +2769,7 @@ function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
   if (motif === "mango_bunch" || motif === "leaves_bunch" || motif === "mango_leaves") {
     return (
       <div style={{ width: `${size}px`, height: `${size}px`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <img src={REAL_LEAVES.real_leaf_bunch_motif} alt="Auspicious Mango Leaf Bunch" style={{ width: "100%", height: "100%", objectFit: "contain", filter: "drop-shadow(0 4px 10px rgba(0, 60, 15, 0.45))" }} />
+        <img src={REAL_LEAVES.real_leaf_bunch_motif} alt="Auspicious Mango Leaf Bunch" style={{ width: "100%", height: "100%", objectFit: "contain", filter: "none" }} />
       </div>
     );
   }
@@ -3459,9 +3459,9 @@ function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft =
         <image href={isLeft ? REAL_LEAVES.real_leaf_bunch_left : REAL_LEAVES.real_leaf_bunch_right} x={isLeft ? 0 : 8} y={-4} width={34} height={34} preserveAspectRatio="xMidYMid meet" />
 
         {/* 3. Real Mango Leaves (BEHIND FLOWERS) */}
-        <image href={REAL_LEAVES.real_mango_leaf} x={12} y={64} width={18} height={48} transform="rotate(-35 22 88)" preserveAspectRatio="none" />
-        <image href={REAL_LEAVES.real_mango_leaf} x={12} y={154} width={18} height={48} transform="rotate(35 22 178)" preserveAspectRatio="none" />
-        <image href={REAL_LEAVES.real_mango_leaf} x={12} y={244} width={18} height={48} transform="rotate(-35 22 268)" preserveAspectRatio="none" />
+        <image href={REAL_LEAVES.real_mango_leaf_1 || REAL_LEAVES.real_mango_leaf} x={12} y={64} width={18} height={48} transform="rotate(-30 22 88)" preserveAspectRatio="xMidYMin meet" />
+        <image href={REAL_LEAVES.real_mango_leaf_2 || REAL_LEAVES.real_mango_leaf} x={15} y={154} width={14} height={48} transform="rotate(30 22 178)" preserveAspectRatio="xMidYMin meet" />
+        <image href={REAL_LEAVES.real_mango_leaf_3 || REAL_LEAVES.real_mango_leaf} x={10} y={244} width={20} height={48} transform="rotate(-30 22 268)" preserveAspectRatio="xMidYMin meet" />
 
         {/* 4. Real Cutout Photographic Flowers (ON TOP of thread and wiring) */}
         {[16, 46, 76, 106, 136, 166, 196, 226, 256, 286, 316, 346, 374, 392].map((y, i) => (
