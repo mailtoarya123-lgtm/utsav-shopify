@@ -516,6 +516,35 @@
 <script>
   window.__UTSAV_SNIPPET_ACTIVE__ = true;
   (function() {
+    // ─── 0. Overlay Hoisting ───────────────────────────────────────────────
+    // Themes often wrap content in elements with transform / filter / contain,
+    // which turns position:fixed into "relative to that wrapper". That pushes the
+    // corner diyas to the bottom of the page (off-screen) and offsets side cascades.
+    // Re-parent every overlay directly under <body> (or <html> if body itself traps).
+    function utsavCreatesContainingBlock(el) {
+      if (!el || !window.getComputedStyle) return false;
+      const cs = window.getComputedStyle(el);
+      return (cs.transform && cs.transform !== 'none') ||
+        (cs.filter && cs.filter !== 'none') ||
+        (cs.perspective && cs.perspective !== 'none') ||
+        (cs.backdropFilter && cs.backdropFilter !== 'none') ||
+        /paint|layout|strict|content/.test(cs.contain || '') ||
+        /transform|filter|perspective/.test(cs.willChange || '');
+    }
+    function utsavHoistOverlays() {
+      const body = document.body;
+      if (!body) return;
+      const host = utsavCreatesContainingBlock(body) ? document.documentElement : body;
+      ['utsav-top-garland', 'utsav-garland-left', 'utsav-garland-right', 'utsav-corner-container', 'utsavVignette', 'utsav-fireworks-canvas'].forEach(function (id) {
+        const el = document.getElementById(id);
+        if (el && el.parentNode !== host) host.appendChild(el);
+      });
+    }
+    utsavHoistOverlays();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', utsavHoistOverlays);
+    }
+    window.addEventListener('load', utsavHoistOverlays);
     // ─── 1. Shared Festive Master SVG Definitions ───────────────────────────
     function getFestiveDefs() {
       return `
@@ -2542,6 +2571,7 @@ function buildSpiderWeb() {
 
     // ─── 8. Master Strict Festival Applicator (Zero Effect Mixing) ───────────
     function applyFestival(festivalId, userConfig) {
+      utsavHoistOverlays();
       const fest = (festivalId || 'diwali').toLowerCase();
       const isDiwali = fest.includes('diwali');
       const isChristmas = fest.includes('christmas');

@@ -3392,6 +3392,14 @@ export default function FestivalStudio() {
     ]
   );
 
+  // Auto-save: persist edits shortly after the merchant stops changing settings,
+  // so the live storefront never silently keeps an older config (e.g. "Top Toran Only").
+  useEffect(() => {
+    if (!hasUnsavedChanges || isSaving) return undefined;
+    const t = setTimeout(() => handleSave(), 1000);
+    return () => clearTimeout(t);
+  }, [hasUnsavedChanges, isSaving, handleSave]);
+
   const terminology = getFestivalTerminology(festival?.id);
 
   // 5 Pure Festive Visual Categories (Decor, Effects, Colors, Scheduling, Store Settings)

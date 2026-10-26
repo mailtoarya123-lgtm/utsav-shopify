@@ -32,6 +32,23 @@
     });
   }
 
+  // Returns a parent for fixed/absolute overlays that is not trapped by theme
+  // transforms/filters (which would make position:fixed relative to a wrapper).
+  function getOverlayHost() {
+    const body = document.body;
+    if (!body) return document.documentElement;
+    const cs = window.getComputedStyle ? window.getComputedStyle(body) : null;
+    const traps = cs && (
+      (cs.transform && cs.transform !== "none") ||
+      (cs.filter && cs.filter !== "none") ||
+      (cs.perspective && cs.perspective !== "none") ||
+      (cs.backdropFilter && cs.backdropFilter !== "none") ||
+      /paint|layout|strict|content/.test(cs.contain || "") ||
+      /transform|filter|perspective/.test(cs.willChange || "")
+    );
+    return traps ? document.documentElement : body;
+  }
+
   const FESTIVAL_META = {
     "halloween": { name: "Halloween", emoji: "🎃", defaultBanner: "🎃 Spooktacular Deals! Treat yourself to enchanting Halloween savings! 👻" },
     "christmas": { name: "Christmas", emoji: "🎄", defaultBanner: "⭐ Merry Christmas! Celebrate the season of warmth, peace, and holiday gifting! 🎄" },
@@ -1201,13 +1218,13 @@ function buildSpiderWeb() {
         leftGarland.id = "utsav-garland-left";
         leftGarland.className = "utsav-side-garland";
         leftGarland.innerHTML = getEfSideSVG(festivalId, true);
-        document.body.appendChild(leftGarland);
+        getOverlayHost().appendChild(leftGarland);
 
         const rightGarland = document.createElement("div");
         rightGarland.id = "utsav-garland-right";
         rightGarland.className = "utsav-side-garland";
         rightGarland.innerHTML = getEfSideSVG(festivalId, false);
-        document.body.appendChild(rightGarland);
+        getOverlayHost().appendChild(rightGarland);
       }
 
       function computeHeaderDockOffset() {
@@ -1916,7 +1933,7 @@ function buildSpiderWeb() {
         if (pos !== "top_left") attachCornerDecor({ top: diyaMarginY + "px", right: diyaMarginX + "px" });
       }
 
-      (document.body || document.documentElement).appendChild(decorContainer);
+      getOverlayHost().appendChild(decorContainer);
     }
 
     // ─── 4.4 HALLOWEEN: Floating Ghost Silhouettes & Ambient Eerie Mist ───────
