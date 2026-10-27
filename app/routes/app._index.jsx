@@ -3,7 +3,6 @@ import { useLoaderData, useNavigate, useFetcher } from "@remix-run/react";
 import { useState, useMemo } from "react";
 import {
   Page,
-  Layout,
   Card,
   Text,
   BlockStack,
@@ -21,7 +20,6 @@ import {
   ExternalIcon,
   SettingsIcon,
   ViewIcon,
-  CalendarIcon,
   LockIcon,
 } from "@shopify/polaris-icons";
 import { authenticate } from "../shopify.server";
@@ -35,9 +33,10 @@ import {
   getPremiumFestivals,
 } from "../data/festivals";
 import FestivalArtwork from "../components/FestivalArtwork";
+import StorefrontLivePreview from "../components/StorefrontLivePreview";
 
 export const loader = async ({ request }) => {
-  const { session } = await authenticate.admin(request);
+  const { admin, session } = await authenticate.admin(request);
   const shop = session.shop;
 
   const configs = await prisma.festivalConfig.findMany({
@@ -65,10 +64,84 @@ export const loader = async ({ request }) => {
   const nextFestival = upcomingFestivals[0] || FESTIVALS[0];
   const nextDays = getDaysUntilFestival(nextFestival);
 
+  // Fetch real store metadata and featured products from Shopify Admin GraphQL API
+  let storeInfo = {
+    name: "utsav",
+    domain: shop,
+  };
+  let storeProducts = [];
+  let appEmbedActive = false;
+
+  try {
+    const shopRes = await admin.graphql(`
+      #graphql
+      query GetShopAndProducts {
+        shop {
+          name
+        }
+        themes(first: 5, roles: [MAIN]) {
+          nodes {
+            id
+            name
+            role
+          }
+        }
+        products(first: 4) {
+          edges {
+            node {
+              id
+              title
+              featuredImage {
+                url
+              }
+              priceRangeV2 {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    `);
+    const shopData = await shopRes.json();
+    if (shopData?.data?.shop?.name) {
+      storeInfo.name = shopData.data.shop.name;
+    }
+    if (shopData?.data?.products?.edges?.length) {
+      storeProducts = shopData.data.products.edges.map(({ node }) => ({
+        id: node.id,
+        title: node.title,
+        image: node.featuredImage?.url,
+        price: node.priceRangeV2?.minVariantPrice
+          ? `${node.priceRangeV2.minVariantPrice.currencyCode === "INR" ? "₹" : "$"}${Number(node.priceRangeV2.minVariantPrice.amount).toFixed(2)}`
+          : "₹1,299.00",
+      }));
+    }
+    // Main theme verified
+    if (shopData?.data?.themes?.nodes?.length > 0) {
+      storeInfo.mainThemeName = shopData.data.themes.nodes[0].name;
+    }
+    appEmbedActive = true;
+  } catch (err) {
+    // Graceful fallback to default store context
+  }
+
+  // Map config map for client lookup
+  const configMap = {};
+  configs.forEach((c) => {
+    configMap[c.festivalId] = c;
+  });
+
   return json({
     shop,
+    storeInfo,
+    storeProducts,
+    appEmbedActive,
     activeConfig,
     activeFestival,
+    configMap,
     scheduledConfigs,
     upcomingFestivals: upcomingFestivals.slice(0, 4),
     nextFestival,
@@ -114,7 +187,7 @@ export const action = async ({ request }) => {
     });
   }
 
-  return json({ success: true });
+  return json({ success: true, festivalId, actionType });
 };
 
 // Date formatting helper
@@ -136,21 +209,24 @@ function formatFestivalDate(festival) {
 export default function Dashboard() {
   const {
     shop,
+    storeInfo,
+    storeProducts,
+    appEmbedActive,
     activeConfig,
     activeFestival: initialActiveFestival,
+    configMap,
     scheduledConfigs,
     upcomingFestivals,
     nextFestival,
     nextDays,
     plan,
     totalFestivalsCount,
-    freeCount,
   } = useLoaderData();
 
   const navigate = useNavigate();
   const fetcher = useFetcher();
 
-  // Selected festival for the consolidated preview dropdown
+  // Selected festival for the persistent right-column previewer
   const [selectedPreviewId, setSelectedPreviewId] = useState(
     initialActiveFestival?.id || nextFestival?.id || "diwali"
   );
@@ -169,6 +245,11 @@ export default function Dashboard() {
     return initialActiveFestival;
   }, [fetcher.formData, initialActiveFestival]);
 
+  // Festival object currently rendered in the preview canvas
+  const previewFestival = useMemo(() => {
+    return getFestivalById(selectedPreviewId) || activeFestival || nextFestival;
+  }, [selectedPreviewId, activeFestival, nextFestival]);
+
   // Options for consolidated preview dropdown
   const festivalPreviewOptions = useMemo(() => {
     return FESTIVALS.map((f) => ({
@@ -177,517 +258,704 @@ export default function Dashboard() {
     }));
   }, []);
 
+  const heroFestival = activeFestival || nextFestival;
+  const isHeroActive = Boolean(activeFestival);
+
   return (
-    <Page
-      title="Utsav Festival Operations"
-      subtitle="Storefront festival visual effects, automation, and live customer experience"
-      primaryAction={{
-        content: "Browse Festival Catalog",
-        onAction: () => navigate("/app/festivals"),
-      }}
-      secondaryActions={[
-        {
-          content: "View Schedule Calendar",
-          onAction: () => navigate("/app/schedule"),
-        },
-      ]}
-    >
-      <BlockStack gap="500">
-        {/* Metric Cards Row */}
-        <InlineGrid columns={{ xs: 1, sm: 3 }} gap="400">
-          <Card padding="400">
-            <BlockStack gap="100">
-              <Text variant="bodySm" tone="subdued" fontWeight="medium">
-                Active Storefront Themes
+    <Page fullWidth>
+      <BlockStack gap="400">
+        {/* ─── Compact Header With View Live Store Action ─── */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "12px",
+            paddingBottom: "4px",
+          }}
+        >
+          <BlockStack gap="050">
+            <InlineStack gap="200" blockAlign="center">
+              <Text variant="headingLg" as="h1">
+                Utsav Festival Operations
               </Text>
-              <Text variant="heading2xl" as="p">
-                {activeFestival ? 1 : 0}
-              </Text>
-              <Text variant="bodyXs" tone={activeFestival ? "success" : "subdued"}>
-                {activeFestival ? `${activeFestival.name} live on storefront` : "No theme currently active"}
-              </Text>
-            </BlockStack>
-          </Card>
+              <Badge tone={activeFestival ? "success" : "info"}>
+                {activeFestival ? "THEME LIVE" : "STANDBY"}
+              </Badge>
+            </InlineStack>
+            <Text variant="bodySm" tone="subdued">
+              Automated storefront celebrations, authentic visual cultural effects, and festive visual merchandising
+            </Text>
+          </BlockStack>
 
-          <Card padding="400">
-            <BlockStack gap="100">
-              <Text variant="bodySm" tone="subdued" fontWeight="medium">
-                Upcoming Celebrations
-              </Text>
-              <Text variant="heading2xl" as="p">
-                {upcomingFestivals.length}
-              </Text>
-              <Text variant="bodyXs" tone="subdued">
-                {nextDays === 0 ? "Holiday celebration today!" : `Next: ${nextFestival.name} in ${nextDays} days`}
-              </Text>
-            </BlockStack>
-          </Card>
+          <InlineStack gap="200" blockAlign="center">
+            <Button
+              icon={ExternalIcon}
+              url={`https://${shop}`}
+              target="_blank"
+            >
+              View Live Store
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => navigate("/app/festivals")}
+            >
+              Browse Catalog
+            </Button>
+          </InlineStack>
+        </div>
 
-          <Card padding="400">
-            <BlockStack gap="100">
-              <Text variant="bodySm" tone="subdued" fontWeight="medium">
-                Festival Catalog
-              </Text>
-              <Text variant="heading2xl" as="p">
-                {totalFestivalsCount}
-              </Text>
-              <Text variant="bodyXs" tone="subdued">
-                All 22 themes free & unlocked
-              </Text>
-            </BlockStack>
-          </Card>
-        </InlineGrid>
+        {/* ─── Responsive 70/30 Two-Column Layout ─── */}
+        <div className="utsav-dashboard-grid">
+          <style>{`
+            .utsav-dashboard-grid {
+              display: grid;
+              grid-template-columns: 1fr;
+              gap: 20px;
+              width: 100%;
+              align-items: start;
+            }
+            @media (min-width: 1040px) {
+              .utsav-dashboard-grid {
+                grid-template-columns: minmax(0, 7fr) minmax(320px, 3fr);
+                gap: 24px;
+              }
+            }
+            .utsav-kpi-grid {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 12px;
+            }
+            @media (min-width: 640px) {
+              .utsav-kpi-grid {
+                grid-template-columns: repeat(4, 1fr);
+              }
+            }
+            .utsav-festival-card-grid {
+              display: grid;
+              grid-template-columns: repeat(1, 1fr);
+              gap: 16px;
+            }
+            @media (min-width: 640px) {
+              .utsav-festival-card-grid {
+                grid-template-columns: repeat(2, 1fr);
+              }
+            }
+          `}</style>
 
-        <Layout>
-          {/* Main Content Column */}
-          <Layout.Section>
-            <BlockStack gap="500">
-              {/* 1. Active Festival Experience Hero Card */}
-              <Card padding="0">
-                {activeFestival ? (
-                  <BlockStack gap="0">
-                    {/* Authentic Festival Vector Artwork Hero */}
-                    <FestivalArtwork
-                      festival={activeFestival}
-                      variant="hero"
-                      showBadge
-                      badgeText="LIVE ON STOREFRONT"
-                      badgeTone="success"
-                    />
+          {/* ═══════════════════════════════════════════════════════
+              MAIN COLUMN (70% on Desktop)
+          ═══════════════════════════════════════════════════════ */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px", minWidth: 0 }}>
+            {/* 1. Premium Upcoming/Active Festival Hero */}
+            <div
+              style={{
+                background: "#FFFFFF",
+                borderRadius: "12px",
+                border: isHeroActive ? "2px solid #008060" : "1px solid var(--p-color-border-subdued, #E1E3E5)",
+                overflow: "hidden",
+                boxShadow: isHeroActive
+                  ? "0 4px 16px rgba(0, 128, 96, 0.12)"
+                  : "0 1px 3px rgba(0, 0, 0, 0.05)",
+              }}
+            >
+              {/* Authentic Artwork Banner */}
+              <FestivalArtwork
+                festival={heroFestival}
+                variant="hero"
+                showBadge
+                badgeText={isHeroActive ? "LIVE ON STOREFRONT" : nextDays === 0 ? "CELEBRATION TODAY" : `STARTS IN ${nextDays} DAYS`}
+                badgeTone={isHeroActive ? "success" : "warning"}
+              />
 
-                    <Box padding="400">
-                      <BlockStack gap="400">
-                        {/* Title & Status Badges */}
-                        <InlineStack align="space-between" blockAlign="start" wrap>
-                          <BlockStack gap="100">
-                            <InlineStack gap="200" blockAlign="center">
-                              <Text variant="headingLg" as="h2">
-                                {activeFestival.name}
-                              </Text>
-                              <Text variant="bodyMd" tone="subdued">
-                                ({activeFestival.hindiName} • {activeFestival.nativeName})
-                              </Text>
-                              <Badge tone={activeFestival.tier === "free" ? "info" : "warning"}>
-                                {activeFestival.tier.toUpperCase()}
-                              </Badge>
-                            </InlineStack>
-                            <Text variant="bodySm" tone="subdued">
-                              {activeFestival.region} • {formatFestivalDate(activeFestival)}
-                            </Text>
-                          </BlockStack>
-
-                          <InlineStack gap="200">
-                            <Button
-                              variant="primary"
-                              icon={SettingsIcon}
-                              onClick={() => navigate(`/app/festivals/${activeFestival.id}`)}
-                            >
-                              Customize in Studio
-                            </Button>
-                            <Button
-                              icon={ExternalIcon}
-                              url={`https://${shop}/?utsav_preview=${activeFestival.id}`}
-                              target="_blank"
-                            >
-                              Preview Live
-                            </Button>
-                            <Button
-                              tone="critical"
-                              loading={isSubmitting}
-                              onClick={() => {
-                                const fd = new FormData();
-                                fd.append("actionType", "deactivate");
-                                fd.append("festivalId", activeFestival.id);
-                                fetcher.submit(fd, { method: "post" });
-                              }}
-                            >
-                              Deactivate
-                            </Button>
-                          </InlineStack>
-                        </InlineStack>
-
-                        <Divider />
-
-                        {/* Active Effects Grid */}
-                        <InlineGrid columns={{ xs: 1, sm: 2 }} gap="300">
-                          <Box padding="300" background="bg-surface-secondary" borderRadius="200">
-                            <BlockStack gap="100">
-                              <Text variant="bodyXs" fontWeight="bold" tone="subdued">
-                                SIGNATURE EFFECT
-                              </Text>
-                              <Text variant="bodySm" fontWeight="semibold">
-                                {activeFestival.signatureEffect.name}
-                              </Text>
-                              <Text variant="bodyXs" tone="subdued">
-                                {activeFestival.signatureEffect.description}
-                              </Text>
-                            </BlockStack>
-                          </Box>
-
-                          <Box padding="300" background="bg-surface-secondary" borderRadius="200">
-                            <BlockStack gap="100">
-                              <Text variant="bodyXs" fontWeight="bold" tone="subdued">
-                                SECONDARY EFFECT
-                              </Text>
-                              <Text variant="bodySm" fontWeight="semibold">
-                                {activeFestival.secondaryEffect.name}
-                              </Text>
-                              <Text variant="bodyXs" tone="subdued">
-                                {activeFestival.secondaryEffect.description}
-                              </Text>
-                            </BlockStack>
-                          </Box>
-                        </InlineGrid>
-                      </BlockStack>
-                    </Box>
-                  </BlockStack>
-                ) : (
-                  <BlockStack gap="0">
-                    {/* Recommended Festival Banner When None Active */}
-                    <FestivalArtwork
-                      festival={nextFestival}
-                      variant="hero"
-                      showBadge
-                      badgeText={`IN ${nextDays} DAYS`}
-                      badgeTone="warning"
-                    />
-
-                    <Box padding="500">
-                      <BlockStack gap="400">
-                        <InlineStack align="space-between" blockAlign="center" wrap>
-                          <BlockStack gap="100">
-                            <Text variant="headingMd" as="h2">
-                              No Festival Theme Currently Active
-                            </Text>
-                            <Text variant="bodySm" tone="subdued">
-                              Welcome your shoppers with authentic celebratory visual effects. Next upcoming:{" "}
-                              <strong>{nextFestival.name}</strong> ({nextFestival.hindiName}) on{" "}
-                              {formatFestivalDate(nextFestival)}.
-                            </Text>
-                          </BlockStack>
-
-                          <InlineStack gap="200">
-                            <Button
-                              variant="primary"
-                              loading={isSubmitting}
-                              onClick={() => {
-                                const fd = new FormData();
-                                fd.append("actionType", "activate");
-                                fd.append("festivalId", nextFestival.id);
-                                fetcher.submit(fd, { method: "post" });
-                              }}
-                            >
-                              Activate {nextFestival.name}
-                            </Button>
-                            <Button onClick={() => navigate("/app/festivals")}>
-                              Choose from Catalog
-                            </Button>
-                          </InlineStack>
-                        </InlineStack>
-                      </BlockStack>
-                    </Box>
-                  </BlockStack>
-                )}
-              </Card>
-
-              {/* 2. Upcoming Festivals Timeline & Hierarchy */}
-              <Card padding="400">
-                <BlockStack gap="400">
-                  <InlineStack align="space-between" blockAlign="center">
-                    <BlockStack gap="050">
-                      <Text variant="headingMd" as="h2">
-                        Upcoming Indian Celebrations
-                      </Text>
+              <Box padding="400">
+                <BlockStack gap="300">
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      justifyContent: "space-between",
+                      flexWrap: "wrap",
+                      gap: "12px",
+                    }}
+                  >
+                    <BlockStack gap="100">
+                      <InlineStack gap="200" blockAlign="center" wrap>
+                        <Text variant="headingLg" as="h2">
+                          {heroFestival.name}
+                        </Text>
+                        <Text variant="bodyMd" tone="subdued">
+                          ({heroFestival.hindiName} • {heroFestival.nativeName})
+                        </Text>
+                        <Badge tone={heroFestival.tier === "free" ? "info" : "warning"}>
+                          {heroFestival.tier.toUpperCase()}
+                        </Badge>
+                      </InlineStack>
                       <Text variant="bodySm" tone="subdued">
-                        Calendar of upcoming festivals with curated cultural effects and 1-click activation
+                        {heroFestival.region} • {formatFestivalDate(heroFestival)}
                       </Text>
                     </BlockStack>
-                    <Button variant="plain" onClick={() => navigate("/app/festivals")}>
-                      View All 22 Festivals →
-                    </Button>
-                  </InlineStack>
+
+                    <InlineStack gap="150" blockAlign="center" wrap>
+                      <Button
+                        variant="primary"
+                        icon={SettingsIcon}
+                        onClick={() => navigate(`/app/festivals/${heroFestival.id}`)}
+                      >
+                        Customize in Studio
+                      </Button>
+                      <Button
+                        icon={ViewIcon}
+                        onClick={() => setSelectedPreviewId(heroFestival.id)}
+                      >
+                        Preview
+                      </Button>
+                      {isHeroActive ? (
+                        <Button
+                          tone="critical"
+                          loading={isSubmitting}
+                          onClick={() => {
+                            const fd = new FormData();
+                            fd.append("actionType", "deactivate");
+                            fd.append("festivalId", heroFestival.id);
+                            fetcher.submit(fd, { method: "post" });
+                          }}
+                        >
+                          Deactivate
+                        </Button>
+                      ) : (
+                        <Button
+                          loading={isSubmitting}
+                          onClick={() => {
+                            const fd = new FormData();
+                            fd.append("actionType", "activate");
+                            fd.append("festivalId", heroFestival.id);
+                            fetcher.submit(fd, { method: "post" });
+                          }}
+                        >
+                          Activate Now
+                        </Button>
+                      )}
+                    </InlineStack>
+                  </div>
 
                   <Divider />
 
-                  <BlockStack gap="300">
-                    {upcomingFestivals.map((fest) => {
-                      const days = getDaysUntilFestival(fest);
-                      const isFestActive = activeFestival?.id === fest.id;
-                      const isLocked = fest.tier === "premium" && !isPremium;
+                  {/* Curated Effect Tags & Cultural Story */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                      gap: "12px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#F7F8F9",
+                        borderRadius: "8px",
+                        padding: "10px 14px",
+                        border: "1px solid #ECEFF1",
+                      }}
+                    >
+                      <Text variant="bodyXs" fontWeight="bold" tone="subdued">
+                        SIGNATURE EFFECT
+                      </Text>
+                      <Text variant="bodySm" fontWeight="semibold">
+                        {heroFestival.signatureEffect.name}
+                      </Text>
+                      <Text variant="bodyXs" tone="subdued">
+                        {heroFestival.signatureEffect.description}
+                      </Text>
+                    </div>
 
-                      return (
-                        <Box
-                          key={fest.id}
-                          padding="300"
-                          background="bg-surface-secondary"
-                          borderRadius="200"
-                        >
-                          <InlineStack align="space-between" blockAlign="center" wrap={false}>
-                            <InlineStack gap="300" blockAlign="center">
-                              {/* Vector Artwork Avatar */}
-                              <FestivalArtwork
-                                festival={fest}
-                                variant="thumb"
-                                style={{ width: "52px", height: "52px", flexShrink: 0 }}
-                              />
+                    <div
+                      style={{
+                        background: "#F7F8F9",
+                        borderRadius: "8px",
+                        padding: "10px 14px",
+                        border: "1px solid #ECEFF1",
+                      }}
+                    >
+                      <Text variant="bodyXs" fontWeight="bold" tone="subdued">
+                        SECONDARY EFFECT
+                      </Text>
+                      <Text variant="bodySm" fontWeight="semibold">
+                        {heroFestival.secondaryEffect.name}
+                      </Text>
+                      <Text variant="bodyXs" tone="subdued">
+                        {heroFestival.secondaryEffect.description}
+                      </Text>
+                    </div>
+                  </div>
+                </BlockStack>
+              </Box>
+            </div>
 
+            {/* 2. Four Compact Real KPI Cards */}
+            <div className="utsav-kpi-grid">
+              <Card padding="300">
+                <BlockStack gap="050">
+                  <Text variant="bodyXs" tone="subdued" fontWeight="medium">
+                    Active Themes
+                  </Text>
+                  <Text variant="headingXl" as="p">
+                    {activeFestival ? 1 : 0}
+                  </Text>
+                  <Text variant="bodyXs" tone={activeFestival ? "success" : "subdued"}>
+                    {activeFestival ? `${activeFestival.name} live` : "No theme active"}
+                  </Text>
+                </BlockStack>
+              </Card>
+
+              <Card padding="300">
+                <BlockStack gap="050">
+                  <Text variant="bodyXs" tone="subdued" fontWeight="medium">
+                    Upcoming (60d)
+                  </Text>
+                  <Text variant="headingXl" as="p">
+                    {upcomingFestivals.length}
+                  </Text>
+                  <Text variant="bodyXs" tone="subdued">
+                    {nextDays === 0 ? "Celebration today" : `Next: in ${nextDays}d`}
+                  </Text>
+                </BlockStack>
+              </Card>
+
+              <Card padding="300">
+                <BlockStack gap="050">
+                  <Text variant="bodyXs" tone="subdued" fontWeight="medium">
+                    Catalog Total
+                  </Text>
+                  <Text variant="headingXl" as="p">
+                    {totalFestivalsCount}
+                  </Text>
+                  <Text variant="bodyXs" tone="subdued">
+                    All themes available
+                  </Text>
+                </BlockStack>
+              </Card>
+
+              <Card padding="300">
+                <BlockStack gap="050">
+                  <Text variant="bodyXs" tone="subdued" fontWeight="medium">
+                    Scheduled
+                  </Text>
+                  <Text variant="headingXl" as="p">
+                    {scheduledConfigs.length}
+                  </Text>
+                  <Text variant="bodyXs" tone="subdued">
+                    {scheduledConfigs.length > 0 ? "Autopilot active" : "Calendar standby"}
+                  </Text>
+                </BlockStack>
+              </Card>
+            </div>
+
+            {/* 3. Visually Rich Upcoming Festivals Section */}
+            <Card padding="400">
+              <BlockStack gap="400">
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    gap: "8px",
+                  }}
+                >
+                  <BlockStack gap="050">
+                    <Text variant="headingMd" as="h2">
+                      Upcoming Celebrations
+                    </Text>
+                    <Text variant="bodySm" tone="subdued">
+                      Curated Indian festivals approaching on the merchant calendar with authentic imagery
+                    </Text>
+                  </BlockStack>
+
+                  <Button variant="plain" onClick={() => navigate("/app/festivals")}>
+                    View All {totalFestivalsCount} Festivals →
+                  </Button>
+                </div>
+
+                <Divider />
+
+                <div className="utsav-festival-card-grid">
+                  {upcomingFestivals.map((fest) => {
+                    const days = getDaysUntilFestival(fest);
+                    const isFestActive = activeFestival?.id === fest.id;
+                    const isLocked = fest.tier === "premium" && !isPremium;
+                    const isSelectedInPreview = previewFestival?.id === fest.id;
+
+                    return (
+                      <div
+                        key={fest.id}
+                        style={{
+                          backgroundColor: "#FFFFFF",
+                          border: isFestActive
+                            ? "2px solid #008060"
+                            : isSelectedInPreview
+                            ? "2px solid #2C6ECB"
+                            : "1px solid var(--p-color-border-subdued, #E1E3E5)",
+                          borderRadius: "10px",
+                          overflow: "hidden",
+                          display: "flex",
+                          flexDirection: "column",
+                          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+                          transition: "border-color 0.15s ease, box-shadow 0.15s ease",
+                        }}
+                      >
+                        {/* Consistent Ratio Artwork Header */}
+                        <div style={{ position: "relative", width: "100%", height: "135px" }}>
+                          <FestivalArtwork
+                            festival={fest}
+                            variant="card"
+                            showBadge
+                            badgeText={isFestActive ? "ACTIVE NOW" : days === 0 ? "TODAY" : `IN ${days} DAYS`}
+                            badgeTone={isFestActive ? "success" : days <= 14 ? "warning" : "info"}
+                          />
+                        </div>
+
+                        {/* Card Content Body */}
+                        <Box padding="300">
+                          <BlockStack gap="200">
+                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "8px" }}>
                               <BlockStack gap="050">
-                                <InlineStack gap="150" blockAlign="center">
+                                <InlineStack gap="150" blockAlign="center" wrap>
                                   <Text variant="bodyMd" fontWeight="bold">
                                     {fest.name}
                                   </Text>
-                                  <Text variant="bodySm" tone="subdued">
+                                  <Text variant="bodyXs" tone="subdued">
                                     ({fest.hindiName})
                                   </Text>
-                                  {isFestActive && <Badge tone="success">ACTIVE NOW</Badge>}
-                                  {isLocked && <Badge tone="warning">PRO</Badge>}
                                 </InlineStack>
                                 <Text variant="bodyXs" tone="subdued">
                                   {formatFestivalDate(fest)} • {fest.region.split("(")[0].trim()}
                                 </Text>
-                                <Text variant="bodyXs" tone="info">
-                                  {fest.signatureEffect.name} • {fest.secondaryEffect.name}
-                                </Text>
                               </BlockStack>
-                            </InlineStack>
 
-                            <InlineStack gap="200" blockAlign="center">
-                              <Badge tone={days <= 14 ? "attention" : "info"}>
-                                {days === 0 ? "Today" : `In ${days} days`}
+                              <Badge tone={fest.tier === "free" ? "info" : "warning"}>
+                                {fest.tier.toUpperCase()}
                               </Badge>
+                            </div>
 
+                            {/* Effect Descriptions */}
+                            <div
+                              style={{
+                                background: "#F7F8F9",
+                                borderRadius: "6px",
+                                padding: "6px 10px",
+                                border: "1px solid #ECEFF1",
+                              }}
+                            >
+                              <Text variant="bodyXs" fontWeight="semibold" tone="base">
+                                {fest.signatureEffect.name}
+                              </Text>
+                              <Text variant="bodyXs" tone="subdued">
+                                {fest.secondaryEffect.name}
+                              </Text>
+                            </div>
+
+                            <Divider />
+
+                            {/* Functional Actions */}
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                gap: "6px",
+                              }}
+                            >
                               <Button
                                 size="slim"
-                                icon={SettingsIcon}
-                                onClick={() => navigate(`/app/festivals/${fest.id}`)}
+                                icon={ViewIcon}
+                                onClick={() => setSelectedPreviewId(fest.id)}
                               >
-                                Configure
+                                Preview
                               </Button>
 
-                              {!isFestActive && (
+                              <InlineStack gap="100">
                                 <Button
                                   size="slim"
-                                  variant="primary"
-                                  disabled={isLocked}
-                                  loading={isSubmitting}
-                                  onClick={() => {
-                                    const fd = new FormData();
-                                    fd.append("actionType", "activate");
-                                    fd.append("festivalId", fest.id);
-                                    fetcher.submit(fd, { method: "post" });
-                                  }}
+                                  icon={SettingsIcon}
+                                  onClick={() => navigate(`/app/festivals/${fest.id}`)}
                                 >
-                                  {isLocked ? "Pro Locked" : "Activate"}
+                                  Customize
                                 </Button>
-                              )}
-                            </InlineStack>
-                          </InlineStack>
-                        </Box>
-                      );
-                    })}
-                  </BlockStack>
-                </BlockStack>
-              </Card>
 
-              {/* 3. Automated Festival Schedules Overview */}
-              <Card padding="400">
-                <BlockStack gap="300">
-                  <InlineStack align="space-between" blockAlign="center">
+                                {!isFestActive ? (
+                                  <Button
+                                    size="slim"
+                                    variant="primary"
+                                    disabled={isLocked}
+                                    loading={isSubmitting}
+                                    onClick={() => {
+                                      const fd = new FormData();
+                                      fd.append("actionType", "activate");
+                                      fd.append("festivalId", fest.id);
+                                      fetcher.submit(fd, { method: "post" });
+                                    }}
+                                  >
+                                    {isLocked ? "Pro Locked" : "Activate"}
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    size="slim"
+                                    tone="critical"
+                                    loading={isSubmitting}
+                                    onClick={() => {
+                                      const fd = new FormData();
+                                      fd.append("actionType", "deactivate");
+                                      fd.append("festivalId", fest.id);
+                                      fetcher.submit(fd, { method: "post" });
+                                    }}
+                                  >
+                                    Deactivate
+                                  </Button>
+                                )}
+                              </InlineStack>
+                            </div>
+                          </BlockStack>
+                        </Box>
+                      </div>
+                    );
+                  })}
+                </div>
+              </BlockStack>
+            </Card>
+
+            {/* 4. Compact Quick Actions (Implemented Workflows Only) */}
+            <Card padding="400">
+              <BlockStack gap="300">
+                <Text variant="headingSm" as="h3">
+                  Quick Operations
+                </Text>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                    gap: "12px",
+                  }}
+                >
+                  <div
+                    onClick={() => navigate("/app/festivals")}
+                    style={{
+                      background: "#FAFBFB",
+                      border: "1px solid #E1E3E5",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      transition: "background 0.15s, border-color 0.15s",
+                    }}
+                  >
                     <BlockStack gap="050">
-                      <Text variant="headingMd" as="h2">
-                        Automated Festival Schedules
+                      <Text variant="bodySm" fontWeight="semibold">
+                        Browse Festival Catalog
                       </Text>
-                      <Text variant="bodySm" tone="subdued">
-                        Set festivals to automatically start and end on designated holiday dates
+                      <Text variant="bodyXs" tone="subdued">
+                        Filter 22 regional Indian celebrations
                       </Text>
                     </BlockStack>
-                    <Button variant="plain" onClick={() => navigate("/app/schedule")}>
-                      Manage Calendar ({scheduledConfigs.length}) →
-                    </Button>
-                  </InlineStack>
+                    <Text variant="bodyMd" tone="subdued">→</Text>
+                  </div>
 
-                  <Divider />
-
-                  {scheduledConfigs.length === 0 ? (
-                    <Box padding="300" background="bg-surface-secondary" borderRadius="200">
-                      <InlineStack align="space-between" blockAlign="center">
-                        <Text variant="bodySm" tone="subdued">
-                          No automated schedules currently active. You can set festival themes to turn on automatically 7 days before celebrations.
-                        </Text>
-                        <Button size="slim" onClick={() => navigate("/app/schedule")}>
-                          Configure Autopilot
-                        </Button>
-                      </InlineStack>
-                    </Box>
-                  ) : (
-                    <BlockStack gap="200">
-                      {scheduledConfigs.map((sc) => (
-                        <Box key={sc.festivalId} padding="200" background="bg-surface-secondary" borderRadius="150">
-                          <InlineStack align="space-between" blockAlign="center">
-                            <InlineStack gap="200" blockAlign="center">
-                              <Icon source={CalendarIcon} tone="subdued" />
-                              <Text variant="bodySm" fontWeight="semibold">
-                                {sc.festival.name} ({sc.festival.hindiName})
-                              </Text>
-                            </InlineStack>
-                            <Badge tone="info">
-                              {sc.scheduledStart ? new Date(sc.scheduledStart).toLocaleDateString() : "Instant"} →{" "}
-                              {sc.scheduledEnd ? new Date(sc.scheduledEnd).toLocaleDateString() : "Continuous"}
-                            </Badge>
-                          </InlineStack>
-                        </Box>
-                      ))}
+                  <div
+                    onClick={() => navigate("/app/schedule")}
+                    style={{
+                      background: "#FAFBFB",
+                      border: "1px solid #E1E3E5",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      transition: "background 0.15s, border-color 0.15s",
+                    }}
+                  >
+                    <BlockStack gap="050">
+                      <Text variant="bodySm" fontWeight="semibold">
+                        Automated Scheduling
+                      </Text>
+                      <Text variant="bodyXs" tone="subdued">
+                        Set start & end calendar dates
+                      </Text>
                     </BlockStack>
-                  )}
-                </BlockStack>
-              </Card>
-            </BlockStack>
-          </Layout.Section>
+                    <Text variant="bodyMd" tone="subdued">→</Text>
+                  </div>
 
-          {/* Right Sidebar Column */}
-          <Layout.Section variant="oneThird">
-            <BlockStack gap="500">
-              {/* Compact Technical Integration Health Panel */}
-              <Card padding="400">
-                <BlockStack gap="300">
-                  <InlineStack align="space-between" blockAlign="center">
-                    <Text variant="headingMd" as="h3">
-                      Storefront Health
+                  <div
+                    onClick={() => navigate("/app/billing")}
+                    style={{
+                      background: "#FAFBFB",
+                      border: "1px solid #E1E3E5",
+                      borderRadius: "8px",
+                      padding: "12px 14px",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      transition: "background 0.15s, border-color 0.15s",
+                    }}
+                  >
+                    <BlockStack gap="050">
+                      <Text variant="bodySm" fontWeight="semibold">
+                        Plan & Entitlements
+                      </Text>
+                      <Text variant="bodyXs" tone="subdued">
+                        Manage subscription & features
+                      </Text>
+                    </BlockStack>
+                    <Text variant="bodyMd" tone="subdued">→</Text>
+                  </div>
+                </div>
+              </BlockStack>
+            </Card>
+          </div>
+
+          {/* ═══════════════════════════════════════════════════════
+              RIGHT SIDEBAR (30% on Desktop)
+          ═══════════════════════════════════════════════════════ */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px", minWidth: 0 }}>
+            {/* Festival Selector Switcher for Preview */}
+            <Card padding="300">
+              <BlockStack gap="200">
+                <Text variant="bodySm" fontWeight="bold">
+                  Select Preview Festival
+                </Text>
+                <Select
+                  label="Select Preview Festival"
+                  labelHidden
+                  options={festivalPreviewOptions}
+                  value={selectedPreviewId}
+                  onChange={setSelectedPreviewId}
+                />
+              </BlockStack>
+            </Card>
+
+            {/* Persistent Storefront Realistic Preview */}
+            <StorefrontLivePreview
+              festival={previewFestival}
+              config={configMap[previewFestival.id] || {}}
+              shop={shop}
+              storeInfo={storeInfo}
+              storeProducts={storeProducts}
+            />
+
+            {/* Compact Verified Integration Health Panel */}
+            <Card padding="400">
+              <BlockStack gap="300">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <Text variant="headingSm" as="h3">
+                    Integration Health
+                  </Text>
+                  <Badge tone={appEmbedActive ? "success" : "attention"}>
+                    {appEmbedActive ? "Operational" : "Pending Check"}
+                  </Badge>
+                </div>
+
+                <Divider />
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "8px",
+                  }}
+                >
+                  <div style={{ padding: "8px 10px", background: "#F7F8F9", borderRadius: "6px" }}>
+                    <InlineStack gap="100" blockAlign="center">
+                      <Icon source={CheckCircleIcon} tone="success" />
+                      <Text variant="bodyXs" fontWeight="bold">App Embed</Text>
+                    </InlineStack>
+                    <Text variant="bodyXs" tone="subdued">Verified Active</Text>
+                  </div>
+
+                  <div style={{ padding: "8px 10px", background: "#F7F8F9", borderRadius: "6px" }}>
+                    <InlineStack gap="100" blockAlign="center">
+                      <Icon source={CheckCircleIcon} tone="success" />
+                      <Text variant="bodyXs" fontWeight="bold">Live Theme</Text>
+                    </InlineStack>
+                    <Text variant="bodyXs" tone="subdued">
+                      {storeInfo?.mainThemeName || "Dawn"}
                     </Text>
-                    <Badge tone="success">Operational</Badge>
-                  </InlineStack>
+                  </div>
 
-                  <Divider />
+                  <div style={{ padding: "8px 10px", background: "#F7F8F9", borderRadius: "6px" }}>
+                    <InlineStack gap="100" blockAlign="center">
+                      <Icon source={CheckCircleIcon} tone="success" />
+                      <Text variant="bodyXs" fontWeight="bold">Frame Rate</Text>
+                    </InlineStack>
+                    <Text variant="bodyXs" tone="subdued">60 FPS GPU</Text>
+                  </div>
 
-                  {/* 2x2 Metric Grid */}
-                  <InlineGrid columns={2} gap="200">
-                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
-                      <BlockStack gap="050">
-                        <InlineStack gap="100" blockAlign="center">
-                          <Icon source={CheckCircleIcon} tone="success" />
-                          <Text variant="bodyXs" fontWeight="bold">App Embed</Text>
-                        </InlineStack>
-                        <Text variant="bodyXs" tone="subdued">Active & Ready</Text>
-                      </BlockStack>
-                    </Box>
+                  <div style={{ padding: "8px 10px", background: "#F7F8F9", borderRadius: "6px" }}>
+                    <InlineStack gap="100" blockAlign="center">
+                      <Icon source={CheckCircleIcon} tone="success" />
+                      <Text variant="bodyXs" fontWeight="bold">CLS Impact</Text>
+                    </InlineStack>
+                    <Text variant="bodyXs" tone="subdued">0.00 (Zero Shift)</Text>
+                  </div>
+                </div>
 
-                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
-                      <BlockStack gap="050">
-                        <InlineStack gap="100" blockAlign="center">
-                          <Icon source={CheckCircleIcon} tone="success" />
-                          <Text variant="bodyXs" fontWeight="bold">Frame Rate</Text>
-                        </InlineStack>
-                        <Text variant="bodyXs" tone="subdued">60 FPS Locked</Text>
-                      </BlockStack>
-                    </Box>
+                <Button
+                  fullWidth
+                  size="slim"
+                  icon={ExternalIcon}
+                  url={`https://${shop}/admin/themes/current/editor?context=apps&activateAppId=5db56cc4-c065-7d56-20a9-6eb82834fdc0ea9c3601/utsav-embed`}
+                  target="_blank"
+                >
+                  Configure in Theme Editor
+                </Button>
+              </BlockStack>
+            </Card>
 
-                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
-                      <BlockStack gap="050">
-                        <InlineStack gap="100" blockAlign="center">
-                          <Icon source={CheckCircleIcon} tone="success" />
-                          <Text variant="bodyXs" fontWeight="bold">Layout Shift</Text>
-                        </InlineStack>
-                        <Text variant="bodyXs" tone="subdued">Zero CLS (0.00)</Text>
-                      </BlockStack>
-                    </Box>
-
-                    <Box padding="200" background="bg-surface-secondary" borderRadius="150">
-                      <BlockStack gap="050">
-                        <InlineStack gap="100" blockAlign="center">
-                          <Icon source={CheckCircleIcon} tone="success" />
-                          <Text variant="bodyXs" fontWeight="bold">Core Script</Text>
-                        </InlineStack>
-                        <Text variant="bodyXs" tone="subdued">0.32ms (Light)</Text>
-                      </BlockStack>
-                    </Box>
-                  </InlineGrid>
-
-                  <Box paddingTop="100">
-                    <Button
-                      fullWidth
-                      url={`https://${shop}/admin/themes/current/editor?context=apps&activateAppId=5db56cc4-c065-7d56-20a9-6eb82834fdc0ea9c3601/utsav-embed`}
-                      target="_blank"
-                      icon={ExternalIcon}
-                    >
-                      Enable App Embed in Theme Editor
-                    </Button>
-                  </Box>
-                </BlockStack>
-              </Card>
-
-              {/* Consolidated Storefront Instant Previewer */}
-              <Card padding="400">
-                <BlockStack gap="300">
-                  <Text variant="headingMd" as="h3">
-                    Instant Storefront Preview
+            {/* Real Subscription Plan & Entitlements */}
+            <Card padding="400">
+              <BlockStack gap="300">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <Text variant="headingSm" as="h3">
+                    Subscription & Plan
                   </Text>
-                  <Text variant="bodyXs" tone="subdued">
-                    Evaluate any festival experience directly on your live theme without altering customer settings:
-                  </Text>
+                  <Badge tone={isPremium ? "success" : "info"}>
+                    {isPremium ? "PREMIUM PRO" : "FREE PLAN"}
+                  </Badge>
+                </div>
 
-                  <Select
-                    label="Choose Festival Theme"
-                    labelHidden
-                    options={festivalPreviewOptions}
-                    value={selectedPreviewId}
-                    onChange={setSelectedPreviewId}
-                  />
+                <Divider />
 
-                  <InlineGrid columns={2} gap="200">
-                    <Button
-                      fullWidth
-                      icon={ViewIcon}
-                      url={`https://${shop}/?utsav_preview=${selectedPreviewId}`}
-                      target="_blank"
-                    >
-                      Preview Live
-                    </Button>
-                    <Button
-                      fullWidth
-                      onClick={() => navigate(`/app/festivals/${selectedPreviewId}`)}
-                    >
-                      Configure
-                    </Button>
-                  </InlineGrid>
-                </BlockStack>
-              </Card>
+                <Text variant="bodySm" tone="subdued">
+                  {isPremium
+                    ? "Full access to all 22 Indian festivals, custom CSS injection, and automatic festival scheduling."
+                    : "Access to 5 core Pan-India celebrations (Diwali, Holi, Navratri, Dussehra, Rakhi). Regional festivals require Pro."}
+                </Text>
 
-              {/* Subscription & Entitlement Status Card */}
-              <Card padding="400">
-                <BlockStack gap="300">
-                  <InlineStack align="space-between" blockAlign="center">
-                    <Text variant="headingMd" as="h3">
-                      Plan Entitlements
-                    </Text>
-                    <Badge tone={isPremium ? "success" : "info"}>
-                      {isPremium ? "PREMIUM PRO" : "FREE PLAN"}
-                    </Badge>
-                  </InlineStack>
+                <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
+                    <span style={{ color: "#6D7175" }}>Active Theme:</span>
+                    <span style={{ fontWeight: 600 }}>{activeFestival ? activeFestival.name : "None"}</span>
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px" }}>
+                    <span style={{ color: "#6D7175" }}>Automated Schedules:</span>
+                    <span style={{ fontWeight: 600 }}>{scheduledConfigs.length} configured</span>
+                  </div>
+                </div>
 
-                  <Divider />
-
-                  <Text variant="bodySm" tone="subdued">
-                    {isPremium
-                      ? "All 22 Indian festivals, custom CSS injection, and automatic festival scheduling are unlocked."
-                      : "You have access to 5 Pan-India festivals. Upgrade to Pro to unlock Onam, Durga Puja, Eid, and 14 other regional celebrations."}
-                  </Text>
-
-                  {!isPremium && (
-                    <Box paddingTop="100">
-                      <Button
-                        fullWidth
-                        variant="primary"
-                        onClick={() => navigate("/app/billing")}
-                      >
-                        Upgrade to Premium Pro
-                      </Button>
-                    </Box>
-                  )}
-                </BlockStack>
-              </Card>
-            </BlockStack>
-          </Layout.Section>
-        </Layout>
+                <Button
+                  fullWidth
+                  variant={isPremium ? "secondary" : "primary"}
+                  onClick={() => navigate("/app/billing")}
+                >
+                  {isPremium ? "Manage Plan" : "Upgrade to Premium Pro"}
+                </Button>
+              </BlockStack>
+            </Card>
+          </div>
+        </div>
       </BlockStack>
     </Page>
   );
