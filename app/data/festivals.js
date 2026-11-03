@@ -1413,6 +1413,31 @@ export const FESTIVALS = [
   },
 ];
 
+// Helper: Get authentic default corner motif for any festival
+export function getDefaultFestivalCornerMotif(festivalId = "") {
+  const fest = (festivalId || "").toLowerCase();
+  if (fest.includes("halloween")) return "jack_o_lantern";
+  if (fest.includes("christmas")) return "star";
+  if (fest.includes("valentines")) return "heart";
+  if (fest.includes("lunar") || fest.includes("chinese")) return "lantern";
+  if (fest.includes("holi")) return "pichkari_bowl";
+  if (fest.includes("navratri")) return "garba_pot";
+  if (fest.includes("durga")) return "trishul";
+  if (fest.includes("ganesh")) return "modak";
+  if (fest.includes("onam")) return "pookkalam";
+  if (fest.includes("pongal")) return "pongal_pot";
+  if (fest.includes("raksha") || fest.includes("rakhi")) return "rakhi";
+  if (fest.includes("eid")) return "crescent_star";
+  if (fest.includes("thanksgiving")) return "cornucopia";
+  if (fest.includes("hanukkah")) return "menorah";
+  if (fest.includes("easter")) return "easter_egg";
+  if (fest.includes("new-year") || fest.includes("newyear")) return "champagne";
+  if (fest.includes("dussehra") || fest.includes("vijayadashami")) return "bow_arrow";
+  if (fest.includes("sankranti") || fest.includes("uttarayan")) return "kite";
+  if (fest.includes("vishu")) return "nilavilakku";
+  return "marigold_urli";
+}
+
 // Helper: Get festival by ID or Alias
 export function getFestivalById(id) {
   if (!id) return null;

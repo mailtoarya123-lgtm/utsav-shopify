@@ -29,6 +29,7 @@ import {
   getFestivalById,
   getFestivalGreetings,
   getDaysUntilFestival,
+  getDefaultFestivalCornerMotif,
 } from "../data/festivals";
 
 export const loader = async ({ request, params }) => {
@@ -458,11 +459,11 @@ function VisualPlacementSelector({ label, value, onChange, helpText }) {
 }
 
 // ─── Visual Selector Card: Corner Motif Size ────────────────────────────────
-function VisualSizeSelector({ label, value, onChange, helpText }) {
+function VisualSizeSelector({ label, value, onChange, helpText, festival, cornerMotif }) {
   const options = [
-    { value: "small", label: "Small", px: "56px", iconScale: 16, detail: "Subtle" },
-    { value: "medium", label: "Medium", px: "76px", iconScale: 22, detail: "Standard", badge: "Default" },
-    { value: "large", label: "Large", px: "96px", iconScale: 28, detail: "Majestic" },
+    { value: "small", label: "Small", px: "56px", iconScale: 16, previewSize: 20, detail: "Subtle" },
+    { value: "medium", label: "Medium", px: "76px", iconScale: 22, previewSize: 26, detail: "Standard", badge: "Default" },
+    { value: "large", label: "Large", px: "96px", iconScale: 28, previewSize: 32, detail: "Majestic" },
   ];
 
   return (
@@ -499,9 +500,14 @@ function VisualSizeSelector({ label, value, onChange, helpText }) {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  overflow: "hidden",
                 }}
               >
-                <span style={{ fontSize: `${opt.iconScale}px`, lineHeight: 1 }}>🪔</span>
+                {festival ? (
+                  <DynamicCornerWidget festival={festival} size={opt.previewSize} cornerMotif={cornerMotif} />
+                ) : (
+                  <span style={{ fontSize: `${opt.iconScale}px`, lineHeight: 1 }}>🪔</span>
+                )}
               </div>
               <div>
                 <div style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
@@ -2049,10 +2055,11 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
     );
   }
 
-  // 2. Christmas: Soft Falling Snowflakes
+  // 2. Christmas: Soft Falling Snowflakes & Ground Snowdrifts
   if (festId.includes("christmas")) {
     return (
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 18, opacity: intensity / 100, overflow: "hidden" }}>
+        {/* Soft Falling Snowflakes */}
         {[...Array(count)].map((_, i) => (
           <div
             key={`snow-${i}`}
@@ -2069,6 +2076,30 @@ function DynamicOverlayParticles({ festival, density = 16, intensity = 80, custo
             }}
           />
         ))}
+
+        {/* Responsive Pillowy Bottom Snow Pile / Ground Drifts */}
+        <div style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: "22px", pointerEvents: "none", zIndex: 19 }}>
+          <svg viewBox="0 0 1000 36" preserveAspectRatio="none" style={{ display: "block", width: "100%", height: "100%" }}>
+            <defs>
+              <linearGradient id="utsavStudioSnowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.96" />
+                <stop offset="45%" stopColor="#F0F8FF" stopOpacity="0.92" />
+                <stop offset="100%" stopColor="#D9ECFA" stopOpacity="0.98" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M 0 36 L 0 18 Q 80 6 160 16 Q 250 24 340 10 Q 440 2 530 14 Q 630 22 720 8 Q 820 4 910 16 Q 960 22 1000 14 L 1000 36 Z"
+              fill="url(#utsavStudioSnowGrad)"
+              style={{ filter: "drop-shadow(0 -2px 4px rgba(180, 210, 240, 0.45))" }}
+            />
+            <path
+              d="M 0 18 Q 80 6 160 16 Q 250 24 340 10 Q 440 2 530 14 Q 630 22 720 8 Q 820 4 910 16 Q 960 22 1000 14"
+              stroke="rgba(255, 255, 255, 0.9)"
+              strokeWidth="1.5"
+              fill="none"
+            />
+          </svg>
+        </div>
       </div>
     );
   }
@@ -2847,59 +2878,165 @@ function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
     );
   }
 
-  // 2. Christmas Motifs
+    // 2. Christmas Motifs (Premium Redesigned Vector Artwork)
   if (festId.includes("christmas")) {
     if (motif === "wreath") {
       return (
-        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 10px rgba(46, 125, 50, 0.7))" }}>
-          <circle cx="30" cy="30" r="22" fill="none" stroke="#2E7D32" strokeWidth="8" strokeDasharray="6 3" />
-          <circle cx="30" cy="30" r="14" fill="none" stroke="#1B5E20" strokeWidth="3" />
-          <circle cx="22" cy="18" r="2.5" fill="#D32F2F" />
-          <circle cx="38" cy="20" r="2.5" fill="#FFD700" />
-          <circle cx="42" cy="34" r="2.5" fill="#D32F2F" />
-          <circle cx="18" cy="36" r="2.5" fill="#FFD700" />
-          <path d="M 25 44 C 20 48 23 54 27 52 L 30 46 L 33 52 C 37 54 40 48 35 44 Z" fill="#D32F2F" />
-          <circle cx="30" cy="45" r="3" fill="#B71C1C" />
+        <svg width={size} height={size} viewBox="0 0 100 100" style={{ display: "block", filter: "drop-shadow(0 0 12px rgba(46,125,50,0.75)) drop-shadow(0 4px 8px rgba(0,0,0,0.35))" }}>
+          <defs>
+            <linearGradient id={`utsavStudioWreathBow_${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FF1744" />
+              <stop offset="50%" stopColor="#D50000" />
+              <stop offset="100%" stopColor="#8B0000" />
+            </linearGradient>
+          </defs>
+          <circle cx="50" cy="48" r="34" fill="none" stroke="#1B5E20" strokeWidth="18" strokeDasharray="8 4" />
+          <circle cx="50" cy="48" r="34" fill="none" stroke="#2E7D32" strokeWidth="12" strokeDasharray="5 3" />
+          <circle cx="50" cy="48" r="34" fill="none" stroke="#4CAF50" strokeWidth="6" strokeDasharray="3 5" />
+          <circle cx="50" cy="48" r="22" fill="none" stroke="#0D3B13" strokeWidth="2" />
+          <g>
+            <circle cx="28" cy="28" r="4" fill="#D50000" stroke="#8B0000" strokeWidth="0.8" />
+            <circle cx="33" cy="25" r="3.5" fill="#FF1744" />
+            <circle cx="34" cy="31" r="3" fill="#B71C1C" />
+            <circle cx="72" cy="30" r="4" fill="#D50000" stroke="#8B0000" strokeWidth="0.8" />
+            <circle cx="68" cy="26" r="3.5" fill="#FF1744" />
+            <circle cx="67" cy="33" r="3" fill="#B71C1C" />
+            <circle cx="24" cy="56" r="4" fill="#D50000" stroke="#8B0000" strokeWidth="0.8" />
+            <circle cx="28" cy="61" r="3.5" fill="#FF1744" />
+            <circle cx="76" cy="56" r="4" fill="#D50000" stroke="#8B0000" strokeWidth="0.8" />
+            <circle cx="72" cy="61" r="3.5" fill="#FF1744" />
+            <circle cx="50" cy="18" r="4.5" fill="#FFD700" stroke="#FFA000" strokeWidth="0.8" style={{ filter: "drop-shadow(0 0 4px #FFD700)" }} />
+            <circle cx="48" cy="16" r="1.2" fill="#FFFDE7" />
+          </g>
+          <g transform="translate(50, 78)">
+            <path d="M 0 -8 C -14 -22 -28 -8 -16 4 C -6 12 0 0 0 -4 Z" fill={`url(#utsavStudioWreathBow_${size})`} stroke="#8B0000" strokeWidth="0.8" />
+            <path d="M 0 -8 C 14 -22 28 -8 16 4 C 6 12 0 0 0 -4 Z" fill={`url(#utsavStudioWreathBow_${size})`} stroke="#8B0000" strokeWidth="0.8" />
+            <path d="M -5 0 Q -12 14 -18 20 L -12 21 Q -5 12 0 2 Z" fill={`url(#utsavStudioWreathBow_${size})`} />
+            <path d="M 5 0 Q 12 14 18 20 L 12 21 Q 5 12 0 2 Z" fill={`url(#utsavStudioWreathBow_${size})`} />
+            <circle cx="0" cy="-4" r="5" fill="#B71C1C" stroke="#7F0000" strokeWidth="0.8" />
+            <circle cx="-1.5" cy="-5.5" r="1.5" fill="#FF5252" />
+          </g>
         </svg>
       );
     }
     if (motif === "jingle_bell") {
       return (
-        <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.75))" }}>
-          <circle cx="30" cy="30" r="20" fill="rgba(255, 215, 0, 0.3)" />
-          <path d="M 20 38 C 20 20 40 20 40 38 Z" fill="#FFD700" />
-          <rect x="17" y="38" width="26" height="5" rx="2" fill="#FFA000" />
-          <circle cx="30" cy="46" r="3.5" fill="#FF8F00" />
-          <path d="M 24 18 C 24 14 36 14 36 18 Z" fill="#D32F2F" />
+        <svg width={size} height={size} viewBox="0 0 100 100" style={{ display: "block", filter: "drop-shadow(0 0 14px rgba(255,215,0,0.85)) drop-shadow(0 4px 8px rgba(0,0,0,0.35))" }}>
+          <defs>
+            <linearGradient id={`utsavStudioBellGold_${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FFF9C4" />
+              <stop offset="25%" stopColor="#FFD700" />
+              <stop offset="65%" stopColor="#FFA000" />
+              <stop offset="100%" stopColor="#B78103" />
+            </linearGradient>
+            <radialGradient id={`utsavStudioBellClapper_${size}`} cx="40%" cy="40%" r="60%">
+              <stop offset="0%" stopColor="#FFF59D" />
+              <stop offset="60%" stopColor="#FFB300" />
+              <stop offset="100%" stopColor="#8D6E63" />
+            </radialGradient>
+          </defs>
+          <path d="M 38 18 Q 30 6 42 12 Z M 62 18 Q 70 6 58 12 Z" fill="#2E7D32" />
+          <circle cx="50" cy="14" r="3.5" fill="#D50000" />
+          <path d="M 50 18 C 36 18 30 38 24 62 C 22 70 18 74 18 78 L 82 78 C 82 74 78 70 76 62 C 70 38 64 18 50 18 Z" fill={`url(#utsavStudioBellGold_${size})`} stroke="#B78103" strokeWidth="1.2" />
+          <rect x="15" y="76" width="70" height="9" rx="4.5" fill={`url(#utsavStudioBellGold_${size})`} stroke="#B78103" strokeWidth="1.2" />
+          <path d="M 40 24 C 34 32 30 46 28 66" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.75" />
+          <ellipse cx="50" cy="80.5" rx="28" ry="2.5" fill="#FFE082" opacity="0.6" />
+          <circle cx="50" cy="87" r="7" fill={`url(#utsavStudioBellClapper_${size})`} stroke="#B78103" strokeWidth="1" />
+          <circle cx="48" cy="85" r="2" fill="#FFFFFF" opacity="0.7" />
         </svg>
       );
     }
     if (motif === "tree") {
       return (
-        <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 10px rgba(46, 125, 50, 0.6))" }}>
-          <polygon points="30,8 18,24 42,24" fill="#2E7D32" />
-          <polygon points="30,18 14,36 46,36" fill="#1B5E20" />
-          <polygon points="30,28 10,50 50,50" fill="#0D3B13" />
-          <rect x="26" y="50" width="8" height="8" fill="#5D4037" />
-          <circle cx="30" cy="8" r="3" fill="#FFD700" />
-          <circle cx="24" cy="30" r="2" fill="#D32F2F" />
-          <circle cx="36" cy="42" r="2" fill="#FFD700" />
+        <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 100 110" style={{ display: "block", filter: "drop-shadow(0 0 12px rgba(46,125,50,0.7)) drop-shadow(0 4px 8px rgba(0,0,0,0.3))" }}>
+          <defs>
+            <linearGradient id={`utsavStudioTreeGrad_${size}`} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#2E7D32" />
+              <stop offset="50%" stopColor="#1B5E20" />
+              <stop offset="100%" stopColor="#0D3B13" />
+            </linearGradient>
+          </defs>
+          <polygon points="40,94 60,94 56,108 44,108" fill="#5D4037" stroke="#3E2723" strokeWidth="1" />
+          <rect x="38" y="92" width="24" height="4" rx="2" fill="#8D6E63" />
+          <path d="M 50 48 L 14 88 L 32 88 L 22 94 L 78 94 L 68 88 L 86 88 Z" fill={`url(#utsavStudioTreeGrad_${size})`} />
+          <path d="M 14 88 Q 50 96 86 88" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" fill="none" opacity="0.9" />
+          <path d="M 50 28 L 24 64 L 38 64 L 28 72 L 72 72 L 62 64 L 76 64 Z" fill={`url(#utsavStudioTreeGrad_${size})`} />
+          <path d="M 24 64 Q 50 72 76 64" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.9" />
+          <path d="M 50 12 L 32 44 L 42 44 L 34 50 L 66 50 L 58 44 L 68 44 Z" fill={`url(#utsavStudioTreeGrad_${size})`} />
+          <path d="M 32 44 Q 50 50 68 44" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.9" />
+          <circle cx="36" cy="78" r="3.5" fill="#D50000" style={{ filter: "drop-shadow(0 0 4px #FF1744)" }} />
+          <circle cx="64" cy="78" r="3.5" fill="#FFD700" style={{ filter: "drop-shadow(0 0 4px #FFD700)" }} />
+          <circle cx="50" cy="62" r="3.5" fill="#2979FF" style={{ filter: "drop-shadow(0 0 4px #2979FF)" }} />
+          <circle cx="38" cy="54" r="3" fill="#FFD700" />
+          <circle cx="62" cy="54" r="3" fill="#D50000" />
+          <circle cx="50" cy="36" r="2.8" fill="#FFD700" />
+          <polygon points="50,4 53,12 61,12 55,17 57,25 50,20 43,25 45,17 39,12 47,12" fill="#FFD700" stroke="#FFA000" strokeWidth="0.8" style={{ filter: "drop-shadow(0 0 8px #FFD700)" }} />
         </svg>
       );
     }
     if (motif === "candy_cane") {
       return (
-        <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 60 65" style={{ filter: "drop-shadow(0 0 10px rgba(211, 47, 47, 0.6))" }}>
-          <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round" fill="none" />
-          <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#D32F2F" strokeWidth="8" strokeDasharray="5 5" strokeLinecap="round" fill="none" />
+        <svg width={size} height={Math.round(size * 1.1)} viewBox="0 0 100 110" style={{ display: "block", filter: "drop-shadow(0 0 10px rgba(211,47,47,0.65)) drop-shadow(0 4px 8px rgba(0,0,0,0.3))" }}>
+          <defs>
+            <linearGradient id={`utsavStudioCaneWhite_${size}`} x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#ECEFF1" />
+              <stop offset="50%" stopColor="#FFFFFF" />
+              <stop offset="100%" stopColor="#CFD8DC" />
+            </linearGradient>
+          </defs>
+          <path d="M 64 100 L 64 42 C 64 20 36 20 36 38 L 36 44" stroke={`url(#utsavStudioCaneWhite_${size})`} strokeWidth="16" strokeLinecap="round" fill="none" />
+          <path d="M 64 100 L 64 42 C 64 20 36 20 36 38 L 36 44" stroke="#D50000" strokeWidth="16" strokeDasharray="10 10" strokeLinecap="round" fill="none" />
+          <path d="M 60 98 L 60 42 C 60 25 39 25 39 38" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0.85" />
+          <g transform="translate(64, 55)">
+            <path d="M 0 0 C 8 -12 18 -8 18 0 C 18 8 8 12 0 0 Z" fill="#2E7D32" />
+            <path d="M 0 0 C -8 -12 -18 -8 -18 0 C -18 8 -8 12 0 0 Z" fill="#1B5E20" />
+            <circle cx="-6" cy="-4" r="5" fill="#FFD700" stroke="#FFA000" strokeWidth="0.8" />
+            <circle cx="6" cy="-4" r="5" fill="#FFD700" stroke="#FFA000" strokeWidth="0.8" />
+            <circle cx="0" cy="-2" r="3" fill="#D50000" />
+          </g>
         </svg>
       );
     }
-    // Default: Bethlehem Star
+    // Default: 8-Point Faceted Radiant Bethlehem Star with Brilliant Highlights
     return (
-      <svg width={size} height={size} viewBox="0 0 60 60" style={{ filter: "drop-shadow(0 0 12px rgba(255, 215, 0, 0.8))" }}>
-        <polygon points="30,4 37,21 56,21 41,33 47,52 30,40 13,52 19,33 4,21 23,21" fill="#FFD700" opacity="0.9" />
-        <circle cx="30" cy="30" r="14" fill="rgba(255, 215, 0, 0.25)" />
+      <svg width={size} height={size} viewBox="0 0 100 100" style={{ display: "block", filter: "drop-shadow(0 0 14px rgba(255,215,0,0.88)) drop-shadow(0 2px 8px rgba(0,0,0,0.35))" }}>
+        <defs>
+          <radialGradient id={`utsavStudioBethStarGlow_${size}`} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#FFF9C4" stopOpacity="1" />
+            <stop offset="30%" stopColor="#FFD700" stopOpacity="0.85" />
+            <stop offset="70%" stopColor="#FFA000" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#FF6F00" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id={`utsavStudioBethStarGold1_${size}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#FFFDE7" />
+            <stop offset="40%" stopColor="#FFD700" />
+            <stop offset="100%" stopColor="#FF8F00" />
+          </linearGradient>
+          <linearGradient id={`utsavStudioBethStarGold2_${size}`} x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#FFE082" />
+            <stop offset="60%" stopColor="#FFA000" />
+            <stop offset="100%" stopColor="#E65100" />
+          </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="44" fill={`url(#utsavStudioBethStarGlow_${size})`} />
+        <polygon points="50,6 50,50 43,45" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="50,6 50,50 57,45" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="50,94 50,50 57,55" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="50,94 50,50 43,55" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="6,50 50,50 45,57" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="6,50 50,50 45,43" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="94,50 50,50 55,43" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="94,50 50,50 55,57" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="20,20 50,50 44,50" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="20,20 50,50 50,44" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="80,20 50,50 50,44" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="80,20 50,50 56,50" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="80,80 50,50 56,50" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="80,80 50,50 50,56" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="20,80 50,50 50,56" fill={`url(#utsavStudioBethStarGold1_${size})`} />
+        <polygon points="20,80 50,50 44,50" fill={`url(#utsavStudioBethStarGold2_${size})`} />
+        <polygon points="50,40 60,50 50,60 40,50" fill="#FFFFFF" style={{ filter: "drop-shadow(0 0 6px #FFF9C4)" }} />
+        <circle cx="50" cy="50" r="3.5" fill="#FFFDE7" />
       </svg>
     );
   }
@@ -3335,9 +3472,350 @@ function DynamicCornerWidget({ festival, size = 32, cornerMotif }) {
 }
 
 // ─── Dynamic Side Cascade Widget (Vertical Hanging Pillars) ────────────────
+function getCustomSideGarlandSVG(festId, garlandStyle, seriesLightsTheme, seriesLightsMode, enableSeriesLights, isLeft) {
+  const fest = (festId || "").toLowerCase();
+
+
+      // 1. Halloween: Rich Hanging Spiderweb Streamer with Carved Pumpkins & Spiders
+      if (fest.includes('halloween')) {
+        return `
+          <svg viewBox="0 0 48 480" width="48" height="480" xmlns="http://www.w3.org/2000/svg" style="display:block; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.45));">
+            <line x1="24" y1="0" x2="24" y2="470" stroke="#FF7518" stroke-width="2.4" opacity="0.9"/>
+            <line x1="24" y1="0" x2="24" y2="470" stroke="#1C1428" stroke-width="1.2" opacity="0.75"/>
+            ${[35, 95, 155, 215, 275, 335, 395, 455].map((y, i) => `
+              <g transform="translate(24, ${y})">
+                <path d="M ${i % 2 === 0 ? '-16' : '16'} -16 Q 0 0 ${i % 2 === 0 ? '16' : '-16'} 16" stroke="#2D1B4E" stroke-width="2" fill="none" opacity="0.9"/>
+                <path d="M ${i % 2 === 0 ? '-16' : '16'} -16 Q 0 0 ${i % 2 === 0 ? '16' : '-16'} 16" stroke="#FF7518" stroke-width="1.2" fill="none" opacity="0.8"/>
+                <circle cx="${i % 2 === 0 ? -14 : 14}" cy="0" r="3" fill="#FFD700" style="filter: drop-shadow(0 0 5px #FFD700);"/>
+                ${i % 2 === 0 ? `
+                  <circle cx="0" cy="0" r="6.5" fill="#FF7518" stroke="#1A1528" stroke-width="1" style="filter: drop-shadow(0 0 5px #FF7518);"/>
+                  <circle cx="-2" cy="-1" r="1" fill="#FFF59D"/>
+                  <circle cx="2" cy="-1" r="1" fill="#FFF59D"/>
+                  <path d="M -2 2 Q 0 4 2 2" stroke="#1A1528" stroke-width="0.8" fill="none"/>
+                ` : `
+                  <ellipse cx="0" cy="0" rx="4.5" ry="5.5" fill="#1C1428" stroke="#FF7518" stroke-width="0.9" style="filter: drop-shadow(0 0 4px #FF7518);"/>
+                  <path d="M -4 -3 Q -9 -6 -11 -4 M 4 -3 Q 9 -6 11 -4 M -4 3 Q -9 6 -11 4 M 4 3 Q 9 6 11 4" stroke="#FF7518" stroke-width="1" fill="none"/>
+                `}
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 2. Christmas: Vertical Pine & Holly Swag with Twinkling Holiday Bulbs
+      if (fest.includes('christmas')) {
+        const holidayColors = ['#FF1744', '#FFD700', '#00E676', '#2979FF'];
+        return `
+          <svg viewBox="-16 0 76 440" width="76" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block; overflow:visible;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#1B4D2E" stroke-width="3"/>
+            ${[20, 60, 100, 140, 180, 220, 260, 300, 340, 380].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <path d="M ${i % 2 === 0 ? '-12' : '12'} -8 L 0 0 L ${i % 2 === 0 ? '-12' : '12'} 8" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="0" cy="0" r="4" fill="${holidayColors[i % holidayColors.length]}" class="utsav-bulb-twinkle-1"/>
+                <circle cx="${i % 2 === 0 ? '6' : '-6'}" cy="4" r="2.2" fill="#D32F2F"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 3. Valentine's Day: Satin Ribbon Streamer with Hearts
+      if (fest.includes('valentines')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#C2185B" stroke-width="2"/>
+            ${[35, 95, 155, 215, 275, 335, 395].map((y) => `
+              <g transform="translate(22, ${y})">
+                <path d="M 0 0 C -6 -6 -12 2 0 12 C 12 2 6 -6 0 0 Z" fill="#E91E63"/>
+                <circle cx="0" cy="5" r="1.5" fill="#FFFDE7"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 4. Lunar New Year: Red Lantern Vertical Chain
+      if (fest.includes('lunar') || fest.includes('chinese')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#D32F2F" stroke-width="2"/>
+            ${[40, 110, 180, 250, 320, 390].map((y) => `
+              <g transform="translate(22, ${y})">
+                <rect x="-6" y="-10" width="12" height="18" rx="3.5" fill="#D32F2F" stroke="#FFD700" stroke-width="0.8"/>
+                <line x1="0" y1="8" x2="0" y2="16" stroke="#FFD700" stroke-width="1.2"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 5. Holi: Colorful Pom-Pom Vertical Streamers
+      if (fest.includes('holi')) {
+        const pomColors = ['#E91E63', '#FF9800', '#FFEB3B', '#00E5FF', '#76FF03'];
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#FF4081" stroke-width="1.6"/>
+            ${[25, 75, 125, 175, 225, 275, 325, 375].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <circle cx="0" cy="0" r="6" fill="${pomColors[i % pomColors.length]}"/>
+                <circle cx="0" cy="0" r="2.2" fill="#FFFFFF" opacity="0.6"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 6. Pongal: Sugarcane Stalks
+      if (fest.includes('pongal')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#4A148C" stroke-width="4.5"/>
+            ${[40, 100, 160, 220, 280, 340, 400].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <ellipse cx="0" cy="0" rx="3" ry="1.5" fill="#E1BEE7"/>
+                <path d="M 0 0 Q ${i % 2 === 0 ? '16' : '-16'} -8 ${i % 2 === 0 ? '14' : '-14'} 12" stroke="#2E7D32" stroke-width="2.2" fill="none"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 7. Onam: Palm Kuruthola Leaf Swags
+      if (fest.includes('onam')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#558B2F" stroke-width="2"/>
+            ${[20, 60, 100, 140, 180, 220, 260, 300, 340, 380].map((y, i) => `
+              <polygon points="22,${y - 12} ${i % 2 === 0 ? '10' : '34'},${y} 22,${y + 12}" fill="#7CB342"/>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 8. Vishu: Kanikonna Blossom Cascades
+      if (fest === 'vishu') {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#2E7D32" stroke-width="2.5"/>
+            ${[25, 65, 105, 145, 185, 225, 265, 305, 345, 385].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <circle cx="${i % 2 === 0 ? '-6' : '6'}" cy="-4" r="4" fill="#FFD700"/>
+                <circle cx="${i % 2 === 0 ? '6' : '-6'}" cy="4" r="4.5" fill="#FFFF00"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 9. Eid: Damascus Lantern Chain
+      if (fest.includes('eid')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#D4AF37" stroke-width="1.8"/>
+            ${[50, 130, 210, 290, 370].map((y) => `
+              <g transform="translate(22, ${y})">
+                <polygon points="0,-12 -8,0 8,0" fill="#D4AF37"/>
+                <rect x="-6" y="0" width="12" height="16" fill="#D4AF37" stroke="#996515" stroke-width="0.8"/>
+                <circle cx="0" cy="8" r="2" fill="#FFD700"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 10. Thanksgiving: Autumn Leaf Streamers
+      if (fest.includes('thanksgiving')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#795548" stroke-width="2"/>
+            ${[30, 80, 130, 180, 230, 280, 330, 380].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <path d="M 0 0 Q ${i % 2 === 0 ? '14' : '-14'} 10 0 20" stroke="#D84315" stroke-width="2" fill="none"/>
+                <circle cx="${i % 2 === 0 ? '8' : '-8'}" cy="10" r="3.5" fill="#E65100"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 11. Hanukkah: Cobalt & Silver Swags
+      if (fest.includes('hanukkah')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#1565C0" stroke-width="2"/>
+            ${[40, 110, 180, 250, 320, 390].map((y) => `
+              <g transform="translate(22, ${y})">
+                <polygon points="0,-8 6,4 -6,4" stroke="#90CAF9" stroke-width="1" fill="none"/>
+                <polygon points="0,6 6,-6 -6,-6" stroke="#90CAF9" stroke-width="1" fill="none"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 12. Easter: Spring Floral Sprigs
+      if (fest.includes('easter')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#81C784" stroke-width="2"/>
+            ${[35, 95, 155, 215, 275, 335, 395].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <ellipse cx="0" cy="0" rx="4.5" ry="6" fill="${i % 2 === 0 ? '#F8BBD0' : '#B2EBF2'}"/>
+                <circle cx="0" cy="0" r="1.8" fill="#FFF9C4"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 13. New Year: Cascading Gold Streamers
+      if (fest.includes('new-year') || fest.includes('newyear')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#FFD700" stroke-width="2"/>
+            ${[30, 80, 130, 180, 230, 280, 330, 380].map((y, i) => `
+              <path d="M 22 ${y - 15} Q ${i % 2 === 0 ? '34' : '10'} ${y} 22 ${y + 15}" stroke="#FFE082" stroke-width="1.8" fill="none"/>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 14. Mid-Autumn: Paper Lantern Strings
+      if (fest.includes('mid-autumn') || fest.includes('mooncake')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#8D6E63" stroke-width="1.8"/>
+            ${[45, 120, 195, 270, 345].map((y) => `
+              <g transform="translate(22, ${y})">
+                <circle cx="0" cy="0" r="7.5" fill="#FFB74D" stroke="#E65100" stroke-width="0.8"/>
+                <line x1="0" y1="7.5" x2="0" y2="16" stroke="#D81B60" stroke-width="1.2"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 15. Vesak: Bodhi Leaf & Jasmine Strands
+      if (fest.includes('vesak') || fest.includes('buddha')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#FB8C00" stroke-width="1.8"/>
+            ${[30, 80, 130, 180, 230, 280, 330, 380].map((y) => `
+              <g transform="translate(22, ${y})">
+                <path d="M 0 0 C -6 8 -7 16 0 24 C 7 16 6 8 0 0 Z" fill="#43A047"/>
+                <circle cx="0" cy="26" r="3" fill="#FFFFFF"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 16. Durga Puja: Kash Reeds
+      if (fest.includes('durga')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#C62828" stroke-width="2.5"/>
+            ${[35, 95, 155, 215, 275, 335, 395].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <line x1="0" y1="-10" x2="${i % 2 === 0 ? '-10' : '10'}" y2="10" stroke="#ECEFF1" stroke-width="1.8"/>
+                <circle cx="0" cy="0" r="3" fill="#B71C1C"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 17. Raksha Bandhan: Silk Kalawa Streamers
+      if (fest.includes('raksha') || fest.includes('rakhi')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#D32F2F" stroke-width="2.5"/>
+            ${[30, 80, 130, 180, 230, 280, 330, 380].map((y) => `
+              <circle cx="22" cy="${y}" r="4" fill="#FFD700"/>
+              <circle cx="22" cy="${y}" r="2" fill="#D32F2F"/>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 18. Navratri: Mirrored Bandhanwar Drops
+      if (fest.includes('navratri')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#FF4500" stroke-width="2.5"/>
+            ${[35, 95, 155, 215, 275, 335, 395].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <polygon points="-8,-6 8,-6 0,8" fill="${i % 2 === 0 ? '#C2185B' : '#FF6F00'}"/>
+                <circle cx="0" cy="0" r="3" fill="#E0E0E0" stroke="#FFD700" stroke-width="0.8"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 19. Ganesh Chaturthi: Hibiscus Flowers
+      if (fest.includes('ganesh')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#2E7D32" stroke-width="2.5"/>
+            ${[30, 80, 130, 180, 230, 280, 330, 380].map((y) => `
+              <g transform="translate(22, ${y})">
+                <circle cx="0" cy="0" r="6" fill="#D32F2F"/>
+                <circle cx="0" cy="0" r="2.5" fill="#FFEB3B"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 20. Makar Sankranti: Kite Streamers
+      if (fest.includes('sankranti') || fest.includes('uttarayan')) {
+        const kiteColors = ['#FF6D00', '#00B0FF', '#FFD700', '#FF1744'];
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#00B0FF" stroke-width="1.8"/>
+            ${[40, 110, 180, 250, 320, 390].map((y, i) => `
+              <polygon points="22,${y - 8} 30,${y} 22,${y + 8} 14,${y}" fill="${kiteColors[i % kiteColors.length]}"/>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+      // 21. Dussehra: Shami Leaf & Marigold Toran
+      if (fest.includes('dussehra') || fest.includes('vijayadashami')) {
+        return `
+          <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+            <line x1="22" y1="0" x2="22" y2="420" stroke="#1B5E20" stroke-width="2.5"/>
+            ${[35, 95, 155, 215, 275, 335, 395].map((y, i) => `
+              <g transform="translate(22, ${y})">
+                <circle cx="0" cy="0" r="5" fill="#E65100"/>
+                <ellipse cx="${i % 2 === 0 ? '-8' : '8'}" cy="0" rx="3" ry="6" fill="#2E7D32"/>
+              </g>
+            `).join('')}
+          </svg>
+        `;
+      }
+
+  return null;
+}
+
 function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft = true, withLights = true, lightsTheme = "warm_gold", garlandStyle = "real_blend" }) {
   const festId = (festival?.id || "").toLowerCase();
+  const customSvg = getCustomSideGarlandSVG(festId, garlandStyle, lightsTheme, "twinkle", withLights, isLeft);
+  if (customSvg) {
+    const styledSvg = customSvg
+      .replace(/width="\d+"/, `width="${width}"`)
+      .replace(/height="\d+"/, `height="${height}"`);
+    return (
+      <div
+        style={{ width: `${width}px`, height: `${height}px`, overflow: "hidden", pointerEvents: "none" }}
+        dangerouslySetInnerHTML={{ __html: styledSvg }}
+      />
+    );
+  }
+
   const isDiwali = festId.includes("diwali");
+
 
   return (
     <div style={{ width: `${width}px`, height: `${height}px`, overflow: "hidden", pointerEvents: "none" }}>
@@ -3414,7 +3892,7 @@ function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft =
         </defs>
 
         {/* 1. Vertical Sacred Hanging Cord (BEHIND FLOWERS) */}
-        <line x1="22" y1="0" x2="22" y2="400" stroke="#D32F2F" strokeWidth="2.5" />
+        <line x1="22" y1="0" x2="22" y2="390" stroke="#D32F2F" strokeWidth="2.5" />
 
         {/* 2. Series Lights Wire & Bulbs (BEHIND FLOWERS) */}
         {withLights && isDiwali && (
@@ -3461,9 +3939,9 @@ function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft =
         ))}
 
         {/* 5. Auspicious Brass Bell Finial connected directly to bottom flower */}
-        <line x1="22" y1="376" x2="22" y2="408" stroke="#D32F2F" strokeWidth="3" />
-        <circle cx="22" cy="402" r="3.2" fill="#D4AF37" stroke="#996515" strokeWidth="0.8" />
-        <g transform="translate(0, 4)">
+        <line x1="22" y1="376" x2="22" y2="389" stroke="#D32F2F" strokeWidth="2.5" />
+        <circle cx="22" cy="388" r="2.5" fill="#D4AF37" stroke="#996515" strokeWidth="0.8" />
+        <g transform="translate(0, -12)">
           <path d="M 15 401 C 16 408 13 413 13 415 L 31 415 C 31 413 28 408 29 401 Z" fill="#D4AF37" />
           <circle cx="22" cy="417" r="2.5" fill="#FFE082" />
           <line x1="22" y1="415" x2="22" y2="421" stroke="#D32F2F" strokeWidth="1.5" />
@@ -3607,7 +4085,7 @@ function DeviceStorefrontMock({
         {/* Storefront Header */}
 
         {/* Top-Fixed Garland (if selected) */}
-        {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && garlandLayout !== "off" && (
+        {!showOriginal && enableEffects && garlandPlacement === "top_fixed" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
           <div style={{ position: "relative", zIndex: 14, overflow: "visible", width: "100%", height: 0, flexShrink: 0, pointerEvents: "none" }}>
             <DynamicFestivalHeaderWidget
               festival={festival}
@@ -3666,7 +4144,7 @@ function DeviceStorefrontMock({
         <div style={{ flex: 1, minHeight: 0, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column" }}>
           <div style={{ flex: 1, overflowY: "auto", position: "relative", scrollbarWidth: "none" }}>
             {/* Below-Header Garland (Recommended) - Draped with 100% Transparency */}
-            {!showOriginal && enableEffects && garlandPlacement === "below_header" && garlandLayout !== "off" && (
+            {!showOriginal && enableEffects && garlandPlacement === "below_header" && (garlandLayout === "top_and_sides" || garlandLayout === "top_only") && (
               <div
                 style={{
                   position: "relative",
@@ -3937,8 +4415,9 @@ export default function FestivalStudio() {
   const [motionSensitivity, setMotionSensitivity] = useState(customSettings.motionSensitivity ?? true);
   const [diyaSize, setDiyaSize] = useState(config.diyaSize || "medium");
   const [diyaPosition, setDiyaPosition] = useState(config.diyaPosition || "bottom_corners");
+  const defaultFestivalMotif = getDefaultFestivalCornerMotif(festival.id);
   const [cornerMotif, setCornerMotif] = useState(
-    customSettings.cornerMotif || config.diyaStyle || "default"
+    customSettings.cornerMotif || (config.diyaStyle && config.diyaStyle !== "default" && config.diyaStyle !== "marigold_urli" ? config.diyaStyle : defaultFestivalMotif)
   );
 
   // Colors & Custom Styling
@@ -4055,7 +4534,7 @@ export default function FestivalStudio() {
     setEnableEffects(config.enableEffects ?? true);
     setDiyaSize(config.diyaSize || "medium");
     setDiyaPosition(config.diyaPosition || "bottom_corners");
-    setCornerMotif(customSettings.cornerMotif || config.diyaStyle || "default");
+    setCornerMotif(customSettings.cornerMotif || (config.diyaStyle && config.diyaStyle !== "default" && config.diyaStyle !== "marigold_urli" ? config.diyaStyle : defaultFestivalMotif));
     setBannerText(config.bannerText || festival.banner?.defaultText || "");
     setGarlandStyle(customSettings.garlandStyle || "real_blend");
     setHasUnsavedChanges(false);
@@ -4218,9 +4697,11 @@ export default function FestivalStudio() {
             <span style={{ fontSize: "15px", fontWeight: 700, color: "#202223" }}>
               {festival.name} Studio
             </span>
-            <span style={{ fontSize: "12px", color: "#6D7175" }}>
-              ({festival.hindiName})
-            </span>
+            {festival.hindiName && ["diwali", "holi", "navratri", "pongal", "onam", "raksha", "ganesh", "durga", "sankranti", "dussehra", "vishu"].some(f => (festival.id || "").toLowerCase().includes(f)) && (
+              <span style={{ fontSize: "12px", color: "#6D7175" }}>
+                ({festival.hindiName})
+              </span>
+            )}
             <Badge tone={isActive ? "success" : "subdued"}>
               {isActive ? "LIVE ON STORE" : "DRAFT"}
             </Badge>
@@ -4540,7 +5021,7 @@ export default function FestivalStudio() {
                     helpText="Choose how festive framing drapes across your storefront."
                   />
 
-                  {garlandLayout !== "off" && !["halloween", "christmas", "thanksgiving", "hanukkah"].some(f => (festival?.id || "").toLowerCase().includes(f)) && (
+                  {garlandLayout !== "off" && ["diwali", "dussehra", "navratri", "durga", "ganesh", "onam", "pongal", "vishu", "raksha"].some(f => (festival?.id || "").toLowerCase().includes(f)) && (
                     <VisualFlowerSelector
                       label={terminology.flowerStyleLabel || "Real Flower Style"}
                       value={garlandStyle}
@@ -4594,6 +5075,8 @@ export default function FestivalStudio() {
                   <VisualSizeSelector
                     label={terminology.cornerSizeLabel || "Corner Motif Size"}
                     value={diyaSize}
+                    festival={festival}
+                    cornerMotif={cornerMotif}
                     onChange={(val) => { 
                       setDiyaSize(val); 
                       markDirty(); 

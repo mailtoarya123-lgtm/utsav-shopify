@@ -1624,6 +1624,7 @@ function buildSpiderWeb() {
 
       return `
         <svg viewBox="0 0 44 440" width="44" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+          ${getFestiveDefs()}
           <defs>
             <linearGradient id="utsavSideKalawa_${isLeft ? 'L' : 'R'}" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="#D32F2F"/>
@@ -1633,7 +1634,7 @@ function buildSpiderWeb() {
           </defs>
 
           <!-- 1. Vertical Hanging Kalawa Sacred Cord (BEHIND FLOWERS) -->
-          <line x1="22" y1="0" x2="22" y2="408" stroke="url(#utsavSideKalawa_${isLeft ? 'L' : 'R'})" stroke-width="2.8"/>
+          <line x1="22" y1="0" x2="22" y2="390" stroke="url(#utsavSideKalawa_${isLeft ? 'L' : 'R'})" stroke-width="2.8"/>
 
           <!-- 2. Realistic Series Lights Wiring (BEHIND FLOWERS) -->
           ${hasSeriesLights ? `
@@ -1656,9 +1657,9 @@ function buildSpiderWeb() {
           `).join('')}
 
           <!-- 6. Auspicious Brass Bell Finial connected directly to bottom flower -->
-          <line x1="22" y1="376" x2="22" y2="408" stroke="#D32F2F" stroke-width="3"/>
-          <circle cx="22" cy="402" r="3.2" fill="#D4AF37" stroke="#996515" stroke-width="0.8"/>
-          <use href="#utsavBrassBell" x="22" y="405" transform="scale(1.2) translate(-3, -2)"/>
+          <line x1="22" y1="376" x2="22" y2="389" stroke="#D32F2F" stroke-width="2.5"/>
+          <circle cx="22" cy="388" r="2.5" fill="#D4AF37" stroke="#996515" stroke-width="0.8"/>
+          <use href="#utsavBrassBell" x="22" y="389" transform="scale(1.2) translate(-3, -2)"/>
         </svg>
       `;
     }
@@ -1696,9 +1697,34 @@ function buildSpiderWeb() {
     function getFestivalCornerSVG(festivalId, sizePx, config) {
       const fest = (festivalId || '').toLowerCase();
       const cfg = config || {};
-      const motif = ((cfg.cornerMotif && cfg.cornerMotif !== 'default') 
-        ? cfg.cornerMotif 
-        : (cfg.diyaStyle && cfg.diyaStyle !== 'default' ? cfg.diyaStyle : 'marigold_urli')).toLowerCase();
+      const isDiwali = fest.includes('diwali');
+      const fallbackMotif = fest.includes('christmas') ? 'star' :
+                            fest.includes('halloween') ? 'jack_o_lantern' :
+                            fest.includes('valentines') ? 'heart' :
+                            (fest.includes('lunar') || fest.includes('chinese')) ? 'lantern' :
+                            fest.includes('holi') ? 'pichkari_bowl' :
+                            fest.includes('navratri') ? 'garba_pot' :
+                            fest.includes('durga') ? 'trishul' :
+                            fest.includes('ganesh') ? 'modak' :
+                            fest.includes('onam') ? 'pookkalam' :
+                            fest.includes('pongal') ? 'pongal_pot' :
+                            (fest.includes('raksha') || fest.includes('rakhi')) ? 'rakhi' :
+                            fest.includes('eid') ? 'crescent_star' :
+                            fest.includes('thanksgiving') ? 'cornucopia' :
+                            fest.includes('hanukkah') ? 'menorah' :
+                            fest.includes('easter') ? 'easter_egg' :
+                            (fest.includes('new-year') || fest.includes('newyear')) ? 'champagne' :
+                            (fest.includes('dussehra') || fest.includes('vijayadashami')) ? 'bow_arrow' :
+                            (fest.includes('sankranti') || fest.includes('uttarayan')) ? 'kite' :
+                            fest.includes('vishu') ? 'nilavilakku' : 'marigold_urli';
+
+      let motif = (cfg.cornerMotif && cfg.cornerMotif !== 'default') ? cfg.cornerMotif : (cfg.diyaStyle && cfg.diyaStyle !== 'default' ? cfg.diyaStyle : '');
+      // If a non-Diwali festival still has Diwali diya defaults ('marigold_urli' or real diya names), force the festival default
+      if (!isDiwali && (!motif || motif === 'marigold_urli' || motif === 'royal_crimson' || motif === 'terracotta_clay' || motif === 'antique_copper' || motif === 'royal_brass')) {
+        motif = fallbackMotif;
+      }
+      if (!motif) motif = fallbackMotif;
+      motif = motif.toLowerCase();
       const width = sizePx;
         
 
@@ -1771,59 +1797,165 @@ function buildSpiderWeb() {
           `;
         }
 
-        // 2. Christmas Motifs
+                // 2. Christmas Motifs (Premium Redesigned Vector Artwork)
         if (fest.includes("christmas")) {
           if (motif === "wreath") {
             return `
-              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(46, 125, 50, 0.75));">
-                <circle cx="30" cy="30" r="22" fill="none" stroke="#2E7D32" stroke-width="8" stroke-dasharray="6 3"/>
-                <circle cx="30" cy="30" r="14" fill="none" stroke="#1B5E20" stroke-width="3"/>
-                <circle cx="22" cy="18" r="2.5" fill="#D32F2F"/>
-                <circle cx="38" cy="20" r="2.5" fill="#FFD700"/>
-                <circle cx="42" cy="34" r="2.5" fill="#D32F2F"/>
-                <circle cx="18" cy="36" r="2.5" fill="#FFD700"/>
-                <path d="M 25 44 C 20 48 23 54 27 52 L 30 46 L 33 52 C 37 54 40 48 35 44 Z" fill="#D32F2F"/>
-                <circle cx="30" cy="45" r="3" fill="#B71C1C"/>
+              <svg width="${width}" height="${width}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 0 12px rgba(46,125,50,0.75)) drop-shadow(0 4px 8px rgba(0,0,0,0.35));">
+                <defs>
+                  <linearGradient id="utsavWreathBow_${width}" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FF1744"/>
+                    <stop offset="50%" stop-color="#D50000"/>
+                    <stop offset="100%" stop-color="#8B0000"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="48" r="34" fill="none" stroke="#1B5E20" stroke-width="18" stroke-dasharray="8 4"/>
+                <circle cx="50" cy="48" r="34" fill="none" stroke="#2E7D32" stroke-width="12" stroke-dasharray="5 3"/>
+                <circle cx="50" cy="48" r="34" fill="none" stroke="#4CAF50" stroke-width="6" stroke-dasharray="3 5"/>
+                <circle cx="50" cy="48" r="22" fill="none" stroke="#0D3B13" stroke-width="2"/>
+                <g>
+                  <circle cx="28" cy="28" r="4" fill="#D50000" stroke="#8B0000" stroke-width="0.8"/>
+                  <circle cx="33" cy="25" r="3.5" fill="#FF1744"/>
+                  <circle cx="34" cy="31" r="3" fill="#B71C1C"/>
+                  <circle cx="72" cy="30" r="4" fill="#D50000" stroke="#8B0000" stroke-width="0.8"/>
+                  <circle cx="68" cy="26" r="3.5" fill="#FF1744"/>
+                  <circle cx="67" cy="33" r="3" fill="#B71C1C"/>
+                  <circle cx="24" cy="56" r="4" fill="#D50000" stroke="#8B0000" stroke-width="0.8"/>
+                  <circle cx="28" cy="61" r="3.5" fill="#FF1744"/>
+                  <circle cx="76" cy="56" r="4" fill="#D50000" stroke="#8B0000" stroke-width="0.8"/>
+                  <circle cx="72" cy="61" r="3.5" fill="#FF1744"/>
+                  <circle cx="50" cy="18" r="4.5" fill="#FFD700" stroke="#FFA000" stroke-width="0.8" style="filter:drop-shadow(0 0 4px #FFD700);"/>
+                  <circle cx="48" cy="16" r="1.2" fill="#FFFDE7"/>
+                </g>
+                <g transform="translate(50, 78)">
+                  <path d="M 0 -8 C -14 -22 -28 -8 -16 4 C -6 12 0 0 0 -4 Z" fill="url(#utsavWreathBow_${width})" stroke="#8B0000" stroke-width="0.8"/>
+                  <path d="M 0 -8 C 14 -22 28 -8 16 4 C 6 12 0 0 0 -4 Z" fill="url(#utsavWreathBow_${width})" stroke="#8B0000" stroke-width="0.8"/>
+                  <path d="M -5 0 Q -12 14 -18 20 L -12 21 Q -5 12 0 2 Z" fill="url(#utsavWreathBow_${width})"/>
+                  <path d="M 5 0 Q 12 14 18 20 L 12 21 Q 5 12 0 2 Z" fill="url(#utsavWreathBow_${width})"/>
+                  <circle cx="0" cy="-4" r="5" fill="#B71C1C" stroke="#7F0000" stroke-width="0.8"/>
+                  <circle cx="-1.5" cy="-5.5" r="1.5" fill="#FF5252"/>
+                </g>
               </svg>
             `;
           }
           if (motif === "jingle_bell") {
             return `
-              <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 14px rgba(255, 215, 0, 0.8));">
-                <circle cx="30" cy="30" r="20" fill="rgba(255, 215, 0, 0.35)"/>
-                <path d="M 20 38 C 20 20 40 20 40 38 Z" fill="#FFD700"/>
-                <rect x="17" y="38" width="26" height="5" rx="2" fill="#FFA000"/>
-                <circle cx="30" cy="46" r="3.5" fill="#FF8F00"/>
-                <path d="M 24 18 C 24 14 36 14 36 18 Z" fill="#D32F2F"/>
+              <svg width="${width}" height="${width}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 0 14px rgba(255,215,0,0.85)) drop-shadow(0 4px 8px rgba(0,0,0,0.35));">
+                <defs>
+                  <linearGradient id="utsavBellGold_${width}" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FFF9C4"/>
+                    <stop offset="25%" stop-color="#FFD700"/>
+                    <stop offset="65%" stop-color="#FFA000"/>
+                    <stop offset="100%" stop-color="#B78103"/>
+                  </linearGradient>
+                  <radialGradient id="utsavBellClapper_${width}" cx="40%" cy="40%" r="60%">
+                    <stop offset="0%" stop-color="#FFF59D"/>
+                    <stop offset="60%" stop-color="#FFB300"/>
+                    <stop offset="100%" stop-color="#8D6E63"/>
+                  </radialGradient>
+                </defs>
+                <path d="M 38 18 Q 30 6 42 12 Z M 62 18 Q 70 6 58 12 Z" fill="#2E7D32"/>
+                <circle cx="50" cy="14" r="3.5" fill="#D50000"/>
+                <path d="M 50 18 C 36 18 30 38 24 62 C 22 70 18 74 18 78 L 82 78 C 82 74 78 70 76 62 C 70 38 64 18 50 18 Z" fill="url(#utsavBellGold_${width})" stroke="#B78103" stroke-width="1.2"/>
+                <rect x="15" y="76" width="70" height="9" rx="4.5" fill="url(#utsavBellGold_${width})" stroke="#B78103" stroke-width="1.2"/>
+                <path d="M 40 24 C 34 32 30 46 28 66" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.75"/>
+                <ellipse cx="50" cy="80.5" rx="28" ry="2.5" fill="#FFE082" opacity="0.6"/>
+                <circle cx="50" cy="87" r="7" fill="url(#utsavBellClapper_${width})" stroke="#B78103" stroke-width="1"/>
+                <circle cx="48" cy="85" r="2" fill="#FFFFFF" opacity="0.7"/>
               </svg>
             `;
           }
           if (motif === "tree") {
             return `
-              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(46, 125, 50, 0.7));">
-                <polygon points="30,8 18,24 42,24" fill="#2E7D32"/>
-                <polygon points="30,18 14,36 46,36" fill="#1B5E20"/>
-                <polygon points="30,28 10,50 50,50" fill="#0D3B13"/>
-                <rect x="26" y="50" width="8" height="8" fill="#5D4037"/>
-                <circle cx="30" cy="8" r="3" fill="#FFD700"/>
-                <circle cx="24" cy="30" r="2" fill="#D32F2F"/>
-                <circle cx="36" cy="42" r="2" fill="#FFD700"/>
+              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 0 12px rgba(46,125,50,0.7)) drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+                <defs>
+                  <linearGradient id="utsavTreeGrad_${width}" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#2E7D32"/>
+                    <stop offset="50%" stop-color="#1B5E20"/>
+                    <stop offset="100%" stop-color="#0D3B13"/>
+                  </linearGradient>
+                </defs>
+                <polygon points="40,94 60,94 56,108 44,108" fill="#5D4037" stroke="#3E2723" stroke-width="1"/>
+                <rect x="38" y="92" width="24" height="4" rx="2" fill="#8D6E63"/>
+                <path d="M 50 48 L 14 88 L 32 88 L 22 94 L 78 94 L 68 88 L 86 88 Z" fill="url(#utsavTreeGrad_${width})"/>
+                <path d="M 14 88 Q 50 96 86 88" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.9"/>
+                <path d="M 50 28 L 24 64 L 38 64 L 28 72 L 72 72 L 62 64 L 76 64 Z" fill="url(#utsavTreeGrad_${width})"/>
+                <path d="M 24 64 Q 50 72 76 64" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.9"/>
+                <path d="M 50 12 L 32 44 L 42 44 L 34 50 L 66 50 L 58 44 L 68 44 Z" fill="url(#utsavTreeGrad_${width})"/>
+                <path d="M 32 44 Q 50 50 68 44" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9"/>
+                <circle cx="36" cy="78" r="3.5" fill="#D50000" style="filter:drop-shadow(0 0 4px #FF1744);"/>
+                <circle cx="64" cy="78" r="3.5" fill="#FFD700" style="filter:drop-shadow(0 0 4px #FFD700);"/>
+                <circle cx="50" cy="62" r="3.5" fill="#2979FF" style="filter:drop-shadow(0 0 4px #2979FF);"/>
+                <circle cx="38" cy="54" r="3" fill="#FFD700"/>
+                <circle cx="62" cy="54" r="3" fill="#D50000"/>
+                <circle cx="50" cy="36" r="2.8" fill="#FFD700"/>
+                <polygon points="50,4 53,12 61,12 55,17 57,25 50,20 43,25 45,17 39,12 47,12" fill="#FFD700" stroke="#FFA000" stroke-width="0.8" style="filter:drop-shadow(0 0 8px #FFD700);"/>
               </svg>
             `;
           }
           if (motif === "candy_cane") {
             return `
-              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 60 65" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(211, 47, 47, 0.7));">
-                <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none"/>
-                <path d="M 36 54 L 36 24 C 36 12 20 12 20 22 L 20 26" stroke="#D32F2F" stroke-width="8" stroke-dasharray="5 5" stroke-linecap="round" fill="none"/>
+              <svg width="${width}" height="${Math.round(width * 1.1)}" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 0 10px rgba(211,47,47,0.65)) drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+                <defs>
+                  <linearGradient id="utsavCaneWhite_${width}" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#ECEFF1"/>
+                    <stop offset="50%" stop-color="#FFFFFF"/>
+                    <stop offset="100%" stop-color="#CFD8DC"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 64 100 L 64 42 C 64 20 36 20 36 38 L 36 44" stroke="url(#utsavCaneWhite_${width})" stroke-width="16" stroke-linecap="round" fill="none"/>
+                <path d="M 64 100 L 64 42 C 64 20 36 20 36 38 L 36 44" stroke="#D50000" stroke-width="16" stroke-dasharray="10 10" stroke-linecap="round" fill="none"/>
+                <path d="M 60 98 L 60 42 C 60 25 39 25 39 38" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.85"/>
+                <g transform="translate(64, 55)">
+                  <path d="M 0 0 C 8 -12 18 -8 18 0 C 18 8 8 12 0 0 Z" fill="#2E7D32"/>
+                  <path d="M 0 0 C -8 -12 -18 -8 -18 0 C -18 8 -8 12 0 0 Z" fill="#1B5E20"/>
+                  <circle cx="-6" cy="-4" r="5" fill="#FFD700" stroke="#FFA000" stroke-width="0.8"/>
+                  <circle cx="6" cy="-4" r="5" fill="#FFD700" stroke="#FFA000" stroke-width="0.8"/>
+                  <circle cx="0" cy="-2" r="3" fill="#D50000"/>
+                </g>
               </svg>
             `;
           }
+          // Default: 8-Point Faceted Radiant Bethlehem Star with Brilliant Highlights
           return `
-            <svg width="${width}" height="${width}" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));">
-              <polygon points="30,4 37,21 56,21 41,33 47,52 30,40 13,52 19,33 4,21 23,21" fill="#FFD700"/>
-              <polygon points="30,12 35,23 47,23 37,30 41,42 30,35 19,42 23,30 13,23 25,23" fill="#FFFDE7"/>
-              <circle cx="30" cy="30" r="14" fill="rgba(255, 215, 0, 0.3)"/>
+            <svg width="${width}" height="${width}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display:block;filter:drop-shadow(0 0 14px rgba(255,215,0,0.88)) drop-shadow(0 2px 8px rgba(0,0,0,0.35));">
+              <defs>
+                <radialGradient id="utsavBethStarGlow_${width}" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#FFF9C4" stop-opacity="1"/>
+                  <stop offset="30%" stop-color="#FFD700" stop-opacity="0.85"/>
+                  <stop offset="70%" stop-color="#FFA000" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#FF6F00" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="utsavBethStarGold1_${width}" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FFFDE7"/>
+                  <stop offset="40%" stop-color="#FFD700"/>
+                  <stop offset="100%" stop-color="#FF8F00"/>
+                </linearGradient>
+                <linearGradient id="utsavBethStarGold2_${width}" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#FFE082"/>
+                  <stop offset="60%" stop-color="#FFA000"/>
+                  <stop offset="100%" stop-color="#E65100"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="50" r="44" fill="url(#utsavBethStarGlow_${width})"/>
+              <polygon points="50,6 50,50 43,45" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="50,6 50,50 57,45" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="50,94 50,50 57,55" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="50,94 50,50 43,55" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="6,50 50,50 45,57" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="6,50 50,50 45,43" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="94,50 50,50 55,43" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="94,50 50,50 55,57" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="20,20 50,50 44,50" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="20,20 50,50 50,44" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="80,20 50,50 50,44" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="80,20 50,50 56,50" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="80,80 50,50 56,50" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="80,80 50,50 50,56" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="20,80 50,50 50,56" fill="url(#utsavBethStarGold1_${width})"/>
+              <polygon points="20,80 50,50 44,50" fill="url(#utsavBethStarGold2_${width})"/>
+              <polygon points="50,40 60,50 50,60 40,50" fill="#FFFFFF" style="filter:drop-shadow(0 0 6px #FFF9C4);"/>
+              <circle cx="50" cy="50" r="3.5" fill="#FFFDE7"/>
             </svg>
           `;
         }
@@ -2311,9 +2443,12 @@ function buildSpiderWeb() {
       fireworkInterval = setInterval(() => triggerFirework(config), ms);
     }
 
-    // ─── 6.5 Christmas Snowfall Engine ───────────────────────────────────────
+    // ─── 6.5 Christmas Snowfall & Interactive Ground Snow Pile Engine ─────────
     let snowAnimId = null;
     let snowCanvas = null;
+    let snowPileCanvas = null;
+    let snowPilePoints = [];
+    let snowPileMaxH = 28;
 
     function stopSnowfall() {
       if (snowAnimId) {
@@ -2324,25 +2459,105 @@ function buildSpiderWeb() {
         snowCanvas.remove();
         snowCanvas = null;
       }
+      if (snowPileCanvas) {
+        snowPileCanvas.remove();
+        snowPileCanvas = null;
+      }
     }
 
     function startSnowfall() {
       stopSnowfall();
-      snowCanvas = document.createElement('canvas');
-      snowCanvas.id = 'utsav-snowfall-canvas';
-      snowCanvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9988;';
+
+      // Falling flakes canvas (pointer-events: none)
+      snowCanvas = document.createElement("canvas");
+      snowCanvas.id = "utsav-snowfall-canvas";
+      snowCanvas.style.cssText = "position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9988;";
       document.body.appendChild(snowCanvas);
 
-      const ctx = snowCanvas.getContext('2d');
+      // Interactive ground snow pile canvas (pointer-events: auto for swipe/wipe interactions)
+      snowPileCanvas = document.createElement("canvas");
+      snowPileCanvas.id = "utsav-snowpile-canvas";
+      snowPileCanvas.style.cssText = "position:fixed;bottom:0;left:0;width:100vw;height:45px;pointer-events:auto;touch-action:none;z-index:9989;cursor:grab;";
+      snowPileCanvas.title = "❄️ Swipe to wipe away the snow!";
+      document.body.appendChild(snowPileCanvas);
+
+      const ctx = snowCanvas.getContext("2d");
+      const pCtx = snowPileCanvas.getContext("2d");
+
+      function initSnowPile() {
+        if (!snowPileCanvas) return;
+        const w = window.innerWidth;
+        const isMobile = w < 600;
+        snowPileMaxH = isMobile ? 20 : 32;
+        snowPileCanvas.width = w;
+        snowPileCanvas.height = Math.round(snowPileMaxH * 1.4);
+        snowPileCanvas.style.height = (Math.round(snowPileMaxH * 1.4)) + "px";
+
+        // Segment pile along bottom screen width (step every 6-8px)
+        const step = isMobile ? 6 : 8;
+        const count = Math.ceil(w / step) + 1;
+        snowPilePoints = [];
+        for (let i = 0; i < count; i++) {
+          const x = i * step;
+          // Organic undulating snow drifts
+          const wave = Math.sin(i * 0.12) * (snowPileMaxH * 0.22) + Math.cos(i * 0.05) * (snowPileMaxH * 0.15);
+          snowPilePoints.push({
+            x: x,
+            h: snowPileMaxH * 0.75 + wave,
+            maxH: snowPileMaxH + (Math.sin(i * 0.18) * 3)
+          });
+        }
+      }
+
       function resize() {
         if (!snowCanvas) return;
         snowCanvas.width = window.innerWidth;
         snowCanvas.height = window.innerHeight;
+        initSnowPile();
       }
       resize();
-      window.addEventListener('resize', resize);
+      window.addEventListener("resize", resize);
 
-      const count = window.innerWidth < 600 ? 24 : 50;
+      // Swipe / Wipe Snow Pile interaction (Mouse drag & Touch wipe)
+      let isWiping = false;
+      function wipeAt(clientX) {
+        if (!snowPilePoints.length || !snowPileCanvas) return;
+        const wipeRadius = window.innerWidth < 600 ? 35 : 55;
+        let modified = false;
+        for (let i = 0; i < snowPilePoints.length; i++) {
+          const pt = snowPilePoints[i];
+          const dist = Math.abs(pt.x - clientX);
+          if (dist < wipeRadius) {
+            const factor = dist / wipeRadius;
+            const targetH = Math.min(pt.h, pt.h * factor * 0.35);
+            if (pt.h !== targetH) {
+              pt.h = targetH;
+              modified = true;
+            }
+          }
+        }
+        if (modified) renderPileOnly();
+      }
+
+      snowPileCanvas.addEventListener("pointerdown", function(e) {
+        isWiping = true;
+        snowPileCanvas.style.cursor = "grabbing";
+        wipeAt(e.clientX);
+      });
+      window.addEventListener("pointermove", function(e) {
+        if (isWiping) wipeAt(e.clientX);
+      });
+      window.addEventListener("pointerup", function() {
+        if (isWiping && snowPileCanvas) {
+          isWiping = false;
+          snowPileCanvas.style.cursor = "grab";
+        }
+      });
+      window.addEventListener("pointercancel", function() {
+        isWiping = false;
+      });
+
+      const count = window.innerWidth < 600 ? 25 : 50;
       const flakes = [];
       for (let i = 0; i < count; i++) {
         flakes.push({
@@ -2355,10 +2570,59 @@ function buildSpiderWeb() {
         });
       }
 
+      function renderPileOnly() {
+        if (!snowPileCanvas || !pCtx || !snowPilePoints.length) return;
+        const pw = snowPileCanvas.width;
+        const ph = snowPileCanvas.height;
+        pCtx.clearRect(0, 0, pw, ph);
+
+        // Draw pillowy soft gradient snow bank
+        pCtx.beginPath();
+        pCtx.moveTo(0, ph);
+        for (let i = 0; i < snowPilePoints.length; i++) {
+          const pt = snowPilePoints[i];
+          const curY = ph - pt.h;
+          if (i === 0) {
+            pCtx.lineTo(pt.x, curY);
+          } else {
+            const prev = snowPilePoints[i - 1];
+            const prevY = ph - prev.h;
+            const midX = (prev.x + pt.x) / 2;
+            const midY = (prevY + curY) / 2;
+            pCtx.quadraticCurveTo(prev.x, prevY, midX, midY);
+          }
+        }
+        pCtx.lineTo(pw, ph);
+        pCtx.closePath();
+
+        const grad = pCtx.createLinearGradient(0, ph - snowPileMaxH * 1.3, 0, ph);
+        grad.addColorStop(0, "rgba(255, 255, 255, 0.96)");
+        grad.addColorStop(0.35, "rgba(240, 248, 255, 0.94)");
+        grad.addColorStop(1, "rgba(215, 235, 250, 0.98)");
+        pCtx.fillStyle = grad;
+        pCtx.shadowColor = "rgba(180, 210, 240, 0.5)";
+        pCtx.shadowBlur = 8;
+        pCtx.fill();
+        pCtx.shadowBlur = 0;
+
+        // Subtle shimmering top crust highlight
+        pCtx.beginPath();
+        for (let i = 0; i < snowPilePoints.length; i++) {
+          const pt = snowPilePoints[i];
+          const curY = ph - pt.h;
+          if (i === 0) pCtx.moveTo(pt.x, curY);
+          else pCtx.lineTo(pt.x, curY);
+        }
+        pCtx.strokeStyle = "rgba(255, 255, 255, 0.9)";
+        pCtx.lineWidth = 1.5;
+        pCtx.stroke();
+      }
+
+      let frameCounter = 0;
       function renderSnow() {
         if (!snowCanvas) return;
         ctx.clearRect(0, 0, snowCanvas.width, snowCanvas.height);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
         ctx.beginPath();
         for (let i = 0; i < flakes.length; i++) {
           const f = flakes[i];
@@ -2370,12 +2634,28 @@ function buildSpiderWeb() {
           if (f.y > snowCanvas.height) {
             f.y = -10;
             f.x = Math.random() * snowCanvas.width;
+
+            // When a snowflake lands near the bottom, slowly replenish snow pile points
+            if (snowPilePoints.length) {
+              const segIdx = Math.floor(f.x / (window.innerWidth / (snowPilePoints.length - 1)));
+              if (snowPilePoints[segIdx] && snowPilePoints[segIdx].h < snowPilePoints[segIdx].maxH) {
+                snowPilePoints[segIdx].h += 0.25;
+              }
+            }
           }
         }
         ctx.fill();
+
+        // Re-render snow pile every 3 frames for silky smooth accumulation
+        frameCounter++;
+        if (frameCounter % 3 === 0) {
+          renderPileOnly();
+        }
+
         snowAnimId = requestAnimationFrame(renderSnow);
       }
       renderSnow();
+      renderPileOnly();
     }
 
     // ─── 7. Interactive Shopper Blessing (Diwali Diyas) ─────────────────────

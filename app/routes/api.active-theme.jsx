@@ -1,6 +1,6 @@
 import { json } from "@remix-run/node";
 import prisma from "../db.server";
-import { getFestivalById } from "../data/festivals";
+import { getFestivalById, getDefaultFestivalCornerMotif } from "../data/festivals";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
@@ -36,12 +36,14 @@ export const loader = async ({ request }) => {
       });
 
       const festival = getFestivalById(previewId);
+      const defaultMotif = getDefaultFestivalCornerMotif(previewId);
 
       if (previewConfig) {
         let custom = {};
         if (previewConfig.customColors) {
           try { custom = JSON.parse(previewConfig.customColors); } catch(e) {}
         }
+        const resolvedMotif = custom.cornerMotif || (custom.diyaStyle && custom.diyaStyle !== "marigold_urli" ? custom.diyaStyle : null) || (previewConfig.diyaStyle && previewConfig.diyaStyle !== "marigold_urli" ? previewConfig.diyaStyle : null) || defaultMotif;
         return json({
           active: true,
           isPreview: true,
@@ -49,8 +51,8 @@ export const loader = async ({ request }) => {
           config: {
             ...previewConfig,
             ...custom,
-            cornerMotif: custom.cornerMotif || custom.diyaStyle || previewConfig.diyaStyle || "marigold_urli",
-            diyaStyle: custom.cornerMotif || custom.diyaStyle || previewConfig.diyaStyle || "marigold_urli",
+            cornerMotif: resolvedMotif,
+            diyaStyle: resolvedMotif,
             festivalName: festival ? festival.name : undefined,
             festivalEmoji: festival ? festival.emoji : undefined,
             palette: festival ? festival.palette : undefined,
@@ -74,18 +76,18 @@ export const loader = async ({ request }) => {
         config: {
           festivalId: previewId,
           festivalName: festival ? festival.name : "Festival",
-          festivalEmoji: festival ? festival.emoji : "🪔",
+          festivalEmoji: festival ? festival.emoji : "✨",
           palette: festival ? festival.palette : undefined,
           enableEffects: true,
           enableBanner: false,
           garlandLayout: "top_and_sides",
           garlandPlacement: "below_header",
           garlandScrollMode: "natural_scroll",
-          enableSeriesLights: previewId.includes("diwali"),
-          seriesLightsTheme: "warm_gold",
+          enableSeriesLights: previewId.includes("diwali") || previewId.includes("christmas"),
+          seriesLightsTheme: previewId.includes("christmas") ? "festive_multicolor" : "warm_gold",
           seriesLightsMode: "twinkle",
-          cornerMotif: "marigold_urli",
-          diyaStyle: "marigold_urli",
+          cornerMotif: defaultMotif,
+          diyaStyle: defaultMotif,
           flameGlow: "sacred_flicker",
           diyaSize: "medium",
           diyaPosition: "bottom_corners",
@@ -150,6 +152,8 @@ export const loader = async ({ request }) => {
     }
 
     const festival = getFestivalById(activeConfig.festivalId);
+    const defaultMotif = getDefaultFestivalCornerMotif(activeConfig.festivalId);
+    const resolvedActiveMotif = custom.cornerMotif || (custom.diyaStyle && custom.diyaStyle !== "marigold_urli" ? custom.diyaStyle : null) || (activeConfig.diyaStyle && activeConfig.diyaStyle !== "marigold_urli" ? activeConfig.diyaStyle : null) || defaultMotif;
 
     return json({
       active: true,
@@ -157,8 +161,8 @@ export const loader = async ({ request }) => {
       config: {
         ...activeConfig,
         ...custom,
-        cornerMotif: custom.cornerMotif || custom.diyaStyle || activeConfig.diyaStyle || "marigold_urli",
-        diyaStyle: custom.cornerMotif || custom.diyaStyle || activeConfig.diyaStyle || "marigold_urli",
+        cornerMotif: resolvedActiveMotif,
+        diyaStyle: resolvedActiveMotif,
         festivalName: festival ? festival.name : undefined,
         festivalEmoji: festival ? festival.emoji : undefined,
         palette: festival ? festival.palette : undefined,
