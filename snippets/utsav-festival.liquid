@@ -35,7 +35,8 @@
     display: none;
     position: relative;
     width: 100%;
-    height: 0 !important;
+    height: auto;
+    min-height: 0;
     pointer-events: none !important;
     z-index: 10 !important;
     overflow: visible !important;
@@ -156,6 +157,20 @@
     }
   }
 
+  /* ─── Christmas Duplicating Seamless Garland ──────────────────────────── */
+  .utsav-christmas-top-garland-wrap {
+    position: relative;
+    width: 100%;
+    height: 90px;
+    pointer-events: none !important;
+    overflow: visible !important;
+    background: transparent !important;
+  }
+  @media (max-width: 640px) {
+    .utsav-christmas-top-garland-wrap {
+      height: 60px !important;
+    }
+  }
   /* ─── Halloween Responsive Cobweb & Active Arachnid Rig ──────────────────── */
   .utsav-spiderweb-wrapper {
     position: relative;
@@ -799,8 +814,8 @@ function buildSpiderWeb() {
       // 2. Christmas: Authentic Duplicating Seamless Pine, Poinsettia & Bauble Garland
       if (isChristmas) {
         return `
-          <div class="utsav-christmas-top-garland-wrap" style="position:relative; width:100%; height:90px; overflow:hidden; pointer-events:none;">
-            <div style="position:absolute; inset:0; background-image:url('https://utsav-shopify.onrender.com/christmas-garland-tile.webp'); background-repeat:repeat-x; background-size:auto 90px; background-position:top center; filter:drop-shadow(0 5px 12px rgba(0,0,0,0.35));"></div>
+          <div class="utsav-christmas-top-garland-wrap" style="position:relative; width:100%; height:90px; pointer-events:none;">
+            <div style="position:absolute; top:0; left:0; width:100%; height:90px; background-image:url('https://utsav-shopify.onrender.com/christmas-garland-tile.webp'); background-repeat:repeat-x; background-size:auto 90px; background-position:top center; filter:drop-shadow(0 5px 12px rgba(0,0,0,0.35));"></div>
           </div>
         `;
       }
