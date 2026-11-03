@@ -796,19 +796,12 @@ function buildSpiderWeb() {
         `;
       }
 
-      // 2. Christmas: Evergreen Pine Garland with Twinkling Holiday Bulbs
+      // 2. Christmas: Lush Evergreen Pine Garland with Red Velvet Bows, Baubles & Fairy Lights
       if (isChristmas) {
         return `
-          <svg width="100%" height="52" viewBox="0 0 1200 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:block; background: transparent;">
-            <path d="M 0 5 Q 600 32 1200 5" stroke="#1B4D2E" stroke-width="4" fill="none"/>
-            ${[40, 140, 240, 340, 440, 540, 640, 740, 840, 940, 1040, 1140].map((x, i) => `
-              <g transform="translate(${x}, 14)">
-                <circle cx="0" cy="0" r="4.5" fill="${i % 3 === 0 ? '#FF1744' : i % 3 === 1 ? '#FFD700' : '#00E676'}" class="utsav-bulb-twinkle-1" style="filter: drop-shadow(0 0 6px #FFD700);"/>
-                <circle cx="-5" cy="5" r="2.5" fill="#D32F2F"/>
-                <circle cx="5" cy="5" r="2.5" fill="#D32F2F"/>
-              </g>
-            `).join('')}
-          </svg>
+          <div style="width:100%; height:100%; position:relative; overflow:hidden; pointer-events:none; display:flex; align-items:flex-start;">
+            <img src="https://utsav-shopify.onrender.com/christmas-garland-top.webp" alt="Christmas Pine Garland" style="width:100%; height:100%; object-fit:fill; object-position:top center; display:block; filter:drop-shadow(0 4px 10px rgba(0,0,0,0.35));" />
+          </div>
         `;
       }
 
@@ -1287,20 +1280,12 @@ function buildSpiderWeb() {
         `;
       }
 
-      // 2. Christmas: Vertical Pine & Holly Swag with Twinkling Holiday Bulbs
+      // 2. Christmas: Lush Vertical Pine Swag with Red Velvet Bow, Hanging Glass Baubles & Gold Stars
       if (fest.includes('christmas')) {
-        const holidayColors = ['#FF1744', '#FFD700', '#00E676', '#2979FF'];
         return `
-          <svg viewBox="-16 0 76 440" width="76" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block; overflow:visible;">
-            <line x1="22" y1="0" x2="22" y2="420" stroke="#1B4D2E" stroke-width="3"/>
-            ${[20, 60, 100, 140, 180, 220, 260, 300, 340, 380].map((y, i) => `
-              <g transform="translate(22, ${y})">
-                <path d="M ${i % 2 === 0 ? '-12' : '12'} -8 L 0 0 L ${i % 2 === 0 ? '-12' : '12'} 8" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round"/>
-                <circle cx="0" cy="0" r="4" fill="${holidayColors[i % holidayColors.length]}" class="utsav-bulb-twinkle-1"/>
-                <circle cx="${i % 2 === 0 ? '6' : '-6'}" cy="4" r="2.2" fill="#D32F2F"/>
-              </g>
-            `).join('')}
-          </svg>
+          <div style="width:100%; height:100%; position:relative; overflow:hidden; pointer-events:none; display:flex; flex-direction:column; align-items:center; transform: ${isLeft ? 'none' : 'scaleX(-1)'};">
+            <img src="https://utsav-shopify.onrender.com/christmas-side-swag.webp" alt="Christmas Side Swag" style="width:100%; height:100%; object-fit:fill; display:block; filter:drop-shadow(${isLeft ? '2px' : '-2px'} 4px 8px rgba(0,0,0,0.3));" />
+          </div>
         `;
       }
 

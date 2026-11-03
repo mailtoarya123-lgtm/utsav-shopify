@@ -2335,26 +2335,14 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // 2. Christmas Pine & Holly
+  // 2. Christmas Lush Evergreen Pine Garland with Red Velvet Bows & Baubles
   if (festId.includes("christmas")) {
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent" }}>
-        <svg width="100%" height={height} viewBox="0 0 560 48" preserveAspectRatio="none">
-          {[0, 90, 180, 270, 360, 450].map((x, i) => (
-            <g key={i} transform={`translate(${x}, 0)`}>
-              <path d="M 0 0 Q 45 28 90 0" stroke="#1B4D2E" strokeWidth="3" fill="none" />
-              <path d="M 15 12 L 25 24 M 35 18 L 45 32 M 55 18 L 65 30 M 75 12 L 82 22" stroke="#2E7D32" strokeWidth="2" strokeLinecap="round" />
-              <circle cx="45" cy="33" r="2.8" fill="#D32F2F" />
-              {withLights && (
-                <>
-                  <circle cx="20" cy="14" r="3" fill={lightsTheme === "festive_multicolor" ? "#FF1744" : "#FFD700"} />
-                  <circle cx="50" cy="22" r="3" fill={lightsTheme === "festive_multicolor" ? "#00E676" : "#FFE082"} />
-                  <circle cx="70" cy="14" r="3" fill={lightsTheme === "festive_multicolor" ? "#2979FF" : "#FFD700"} />
-                </>
-              )}
-            </g>
-          ))}
-        </svg>
+      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent", pointerEvents: "none" }}>
+        <img
+          src="https://utsav-shopify.onrender.com/christmas-garland-top.webp" alt="Christmas Pine Garland"
+          style={{ width: "100%", height: "100%", objectFit: "fill", objectPosition: "top center", display: "block", filter: "drop-shadow(0 3px 8px rgba(0,0,0,0.35))" }}
+        />
       </div>
     );
   }
@@ -3438,20 +3426,12 @@ function getCustomSideGarlandSVG(festId, garlandStyle, seriesLightsTheme, series
         `;
       }
 
-      // 2. Christmas: Vertical Pine & Holly Swag with Twinkling Holiday Bulbs
+      // 2. Christmas: Lush Vertical Pine Swag with Red Velvet Bow & Hanging Baubles
       if (fest.includes('christmas')) {
-        const holidayColors = ['#FF1744', '#FFD700', '#00E676', '#2979FF'];
         return `
-          <svg viewBox="-16 0 76 440" width="76" height="440" xmlns="http://www.w3.org/2000/svg" style="display:block; overflow:visible;">
-            <line x1="22" y1="0" x2="22" y2="420" stroke="#1B4D2E" stroke-width="3"/>
-            ${[20, 60, 100, 140, 180, 220, 260, 300, 340, 380].map((y, i) => `
-              <g transform="translate(22, ${y})">
-                <path d="M ${i % 2 === 0 ? '-12' : '12'} -8 L 0 0 L ${i % 2 === 0 ? '-12' : '12'} 8" stroke="#2E7D32" stroke-width="2.5" stroke-linecap="round"/>
-                <circle cx="0" cy="0" r="4" fill="${holidayColors[i % holidayColors.length]}" class="utsav-bulb-twinkle-1"/>
-                <circle cx="${i % 2 === 0 ? '6' : '-6'}" cy="4" r="2.2" fill="#D32F2F"/>
-              </g>
-            `).join('')}
-          </svg>
+          <div style="width:100%; height:100%; position:relative; overflow:hidden; pointer-events:none; display:flex; flex-direction:column; align-items:center; transform: ${isLeft ? 'none' : 'scaleX(-1)'};">
+            <img src="https://utsav-shopify.onrender.com/christmas-side-swag.webp" alt="Christmas Side Swag" style="width:100%; height:100%; object-fit:fill; display:block; filter:drop-shadow(${isLeft ? '2px' : '-2px'} 3px 6px rgba(0,0,0,0.3));" />
+          </div>
         `;
       }
 
