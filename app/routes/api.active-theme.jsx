@@ -80,7 +80,7 @@ export const loader = async ({ request }) => {
           palette: festival ? festival.palette : undefined,
           enableEffects: true,
           enableBanner: false,
-          garlandLayout: "top_and_sides",
+          garlandLayout: (previewFest || "").includes("christmas") ? "top_only" : "top_and_sides",
           garlandPlacement: "below_header",
           garlandScrollMode: "natural_scroll",
           enableSeriesLights: previewId.includes("diwali") || previewId.includes("christmas"),

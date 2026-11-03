@@ -3434,13 +3434,9 @@ function getCustomSideGarlandSVG(festId, garlandStyle, seriesLightsTheme, series
         `;
       }
 
-      // 2. Christmas: Lush Vertical Pine Swag with Red Velvet Bow & Hanging Baubles
+      // 2. Christmas: Side cascades removed as requested
       if (fest.includes('christmas')) {
-        return `
-          <div style="width:100%; height:100%; position:relative; overflow:hidden; pointer-events:none; display:flex; flex-direction:column; align-items:center; transform: ${isLeft ? 'none' : 'scaleX(-1)'};">
-            <img src="https://utsav-shopify.onrender.com/christmas-side-swag.webp" alt="Christmas Side Swag" style="width:100%; height:100%; object-fit:fill; display:block; filter:drop-shadow(${isLeft ? '2px' : '-2px'} 3px 6px rgba(0,0,0,0.3));" />
-          </div>
-        `;
+        return '';
       }
 
       // 3. Valentine's Day: Satin Ribbon Streamer with Hearts
@@ -3725,6 +3721,7 @@ function getCustomSideGarlandSVG(festId, garlandStyle, seriesLightsTheme, series
 
 function DynamicSideCascadeWidget({ festival, height = 180, width = 20, isLeft = true, withLights = true, lightsTheme = "warm_gold", garlandStyle = "real_blend" }) {
   const festId = (festival?.id || "").toLowerCase();
+  if (festId.includes("christmas")) return null;
   const customSvg = getCustomSideGarlandSVG(festId, garlandStyle, lightsTheme, "twinkle", withLights, isLeft);
   if (customSvg) {
     const styledSvg = customSvg
