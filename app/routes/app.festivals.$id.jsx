@@ -2335,13 +2335,21 @@ function DynamicFestivalHeaderWidget({ festival, isMobile, height = 32, withLigh
     );
   }
 
-  // 2. Christmas Lush Evergreen Pine Garland with Red Velvet Bows & Baubles
+  // 2. Christmas Seamless Duplicating Pine, Poinsettia & Baubles Garland
   if (festId.includes("christmas")) {
+    const garlandH = isMobile ? Math.min(height, 58) : Math.max(height, 68);
     return (
-      <div style={{ width: "100%", height: `${height}px`, position: "relative", overflow: "hidden", background: "transparent", pointerEvents: "none" }}>
-        <img
-          src="https://utsav-shopify.onrender.com/christmas-garland-top.webp" alt="Christmas Pine Garland"
-          style={{ width: "100%", height: "100%", objectFit: "fill", objectPosition: "top center", display: "block", filter: "drop-shadow(0 3px 8px rgba(0,0,0,0.35))" }}
+      <div style={{ width: "100%", height: `${garlandH}px`, position: "relative", overflow: "hidden", background: "transparent", pointerEvents: "none" }}>
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url('https://utsav-shopify.onrender.com/christmas-garland-tile.webp')",
+            backgroundRepeat: "repeat-x",
+            backgroundSize: `auto ${garlandH}px`,
+            backgroundPosition: "top center",
+            filter: "drop-shadow(0 4px 10px rgba(0,0,0,0.35))",
+          }}
         />
       </div>
     );
