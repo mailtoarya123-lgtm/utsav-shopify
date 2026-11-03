@@ -815,7 +815,7 @@ function VisualDockingSelector({ label, value, onChange, helpText }) {
   );
 }
 
-// ─── Apple-Style Compact Icon Grid: Corner Motif Style ──────────────────────
+// ─── Apple-Style Ultra-Minimal Icon-Only Selector: Corner Motif Style ────────
 function VisualMotifSelector({ label, value, options = [], festival, onChange, helpText }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
@@ -823,11 +823,12 @@ function VisualMotifSelector({ label, value, options = [], festival, onChange, h
       <div
         style={{
           display: "flex",
-          flexWrap: "wrap",
-          gap: "6px",
-          background: "#F6F6F7",
-          padding: "6px",
+          alignItems: "center",
+          gap: "8px",
+          background: "#F1F2F4",
+          padding: "5px 6px",
           borderRadius: "10px",
+          overflowX: "auto",
         }}
       >
         {options.map((opt) => {
@@ -840,45 +841,48 @@ function VisualMotifSelector({ label, value, options = [], festival, onChange, h
               onClick={() => onChange(opt.value)}
               title={cleanName}
               style={{
+                width: "42px",
+                height: "42px",
+                borderRadius: "8px",
+                border: "none",
+                background: isSelected ? "#FFFFFF" : "transparent",
+                boxShadow: isSelected
+                  ? "0 1px 4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.06)"
+                  : "none",
                 display: "flex",
                 alignItems: "center",
-                gap: "7px",
-                padding: "6px 12px 6px 8px",
-                borderRadius: "8px",
-                border: isSelected ? "1.5px solid #008060" : "1px solid rgba(0,0,0,0.06)",
-                background: "#FFFFFF",
-                boxShadow: isSelected
-                  ? "0 2px 6px rgba(0, 128, 96, 0.16), 0 0 0 1px #008060"
-                  : "0 1px 2px rgba(0,0,0,0.04)",
+                justifyContent: "center",
                 cursor: "pointer",
                 transition: "all 0.15s ease",
+                flexShrink: 0,
+                position: "relative",
               }}
             >
               <div
                 style={{
-                  width: "28px",
-                  height: "28px",
-                  borderRadius: "6px",
-                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
+                  width: "30px",
+                  height: "30px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  flexShrink: 0,
-                  overflow: "hidden",
+                  transform: isSelected ? "scale(1.08)" : "scale(1)",
+                  transition: "transform 0.15s ease",
                 }}
               >
-                <DynamicCornerWidget festival={festival} size={22} cornerMotif={opt.value} />
+                <DynamicCornerWidget festival={festival} size={26} cornerMotif={opt.value} />
               </div>
-              <span
-                style={{
-                  fontSize: "11px",
-                  fontWeight: isSelected ? 600 : 500,
-                  color: isSelected ? "#008060" : "#202223",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {cleanName}
-              </span>
+              {isSelected && (
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "2px",
+                    width: "4px",
+                    height: "4px",
+                    borderRadius: "50%",
+                    background: "#008060",
+                  }}
+                />
+              )}
             </button>
           );
         })}
