@@ -326,36 +326,49 @@ function ToggleSwitch({ label, checked, onChange, helpText, disabled }) {
   );
 }
 
-// ─── Visual Selector Card: Corner Placement ─────────────────────────────────
+// ─── Apple-Style Compact Segmented Selector: Corner Placement ──────────────
 function VisualPlacementSelector({ label, value, onChange, helpText }) {
   const options = [
     {
       value: "bottom_corners",
-      title: "Both Bottom",
-      subtitle: "Left & Right",
-      badge: "Popular",
-      leftDot: true,
-      rightDot: true,
+      label: "Both Corners",
+      icon: (
+        <svg width="22" height="15" viewBox="0 0 22 15" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="14" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <circle cx="4" cy="11" r="2.2" fill="currentColor"/>
+          <circle cx="18" cy="11" r="2.2" fill="currentColor"/>
+        </svg>
+      ),
     },
     {
       value: "bottom_left",
-      title: "Left Corner",
-      subtitle: "Bottom-Left only",
-      leftDot: true,
-      rightDot: false,
+      label: "Left Only",
+      icon: (
+        <svg width="22" height="15" viewBox="0 0 22 15" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="14" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <circle cx="4" cy="11" r="2.2" fill="currentColor"/>
+        </svg>
+      ),
     },
     {
       value: "bottom_right",
-      title: "Right Corner",
-      subtitle: "Bottom-Right only",
-      leftDot: false,
-      rightDot: true,
+      label: "Right Only",
+      icon: (
+        <svg width="22" height="15" viewBox="0 0 22 15" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="14" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <circle cx="18" cy="11" r="2.2" fill="currentColor"/>
+        </svg>
+      ),
     },
     {
       value: "off",
-      title: "Off",
-      subtitle: "No corner motifs",
-      isOff: true,
+      label: "Off",
+      icon: (
+        <svg width="22" height="15" viewBox="0 0 22 15" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="14" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <line x1="5" y1="12" x2="17" y2="3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+        </svg>
+      ),
     },
   ];
 
@@ -364,168 +377,123 @@ function VisualPlacementSelector({ label, value, onChange, helpText }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          background: "#F1F2F4",
+          padding: "3px",
+          borderRadius: "9px",
+          gap: "3px",
+        }}
+      >
         {options.map((opt) => {
           const isSelected = value === opt.value;
           return (
-            <div
+            <button
               key={opt.value}
+              type="button"
               onClick={() => onChange(opt.value)}
+              title={opt.label}
               style={{
-                borderRadius: "8px",
-                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
-                background: isSelected ? "#F0FDF4" : "#FFFFFF",
-                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
-                padding: "8px 10px",
-                cursor: "pointer",
-                transition: "all 0.18s ease-in-out",
                 display: "flex",
                 flexDirection: "column",
-                gap: "6px",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px",
+                padding: "7px 4px",
+                borderRadius: "7px",
+                border: "none",
+                background: isSelected ? "#FFFFFF" : "transparent",
+                color: isSelected ? "#008060" : "#5C5F62",
+                boxShadow: isSelected ? "0 1px 3px rgba(0,0,0,0.1), 0 0 0 0.5px rgba(0,0,0,0.04)" : "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
               }}
             >
-              {/* Mini Browser Screen Schematic */}
-              <div
-                style={{
-                  height: "38px",
-                  borderRadius: "5px",
-                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
-                  border: isSelected ? "1px solid #A5D6A7" : "1px solid #E4E5E7",
-                  position: "relative",
-                  overflow: "hidden",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  padding: "3px 4px",
-                }}
-              >
-                <div style={{ height: "4px", background: "#D1D5DB", borderRadius: "2px", width: "100%", opacity: 0.7 }} />
-                {opt.isOff ? (
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#9CA3AF", fontSize: "14px", fontWeight: 700 }}>
-                    ⊘
-                  </div>
-                ) : (
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%", paddingBottom: "1px" }}>
-                    {opt.leftDot ? (
-                      <div
-                        style={{
-                          width: "8px",
-                          height: "8px",
-                          borderRadius: "50%",
-                          background: "#FF9800",
-                          boxShadow: "0 0 6px #FF9800, 0 0 10px #FFD54F",
-                          border: "1px solid #FFE082",
-                        }}
-                      />
-                    ) : <span />}
-                    {opt.rightDot ? (
-                      <div
-                        style={{
-                          width: "8px",
-                          height: "8px",
-                          borderRadius: "50%",
-                          background: "#FF9800",
-                          boxShadow: "0 0 6px #FF9800, 0 0 10px #FFD54F",
-                          border: "1px solid #FFE082",
-                        }}
-                      />
-                    ) : <span />}
-                  </div>
-                )}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {opt.icon}
               </div>
-
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
-                    {opt.title}
-                  </span>
-                  {opt.badge && (
-                    <span style={{ fontSize: "9px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
-                      {opt.badge}
-                    </span>
-                  )}
-                </div>
-                <span style={{ fontSize: "10px", color: "#6D7175" }}>{opt.subtitle}</span>
-              </div>
-            </div>
+              <span style={{ fontSize: "10px", fontWeight: isSelected ? 600 : 500, letterSpacing: "-0.2px", whiteSpace: "nowrap" }}>
+                {opt.label}
+              </span>
+            </button>
           );
         })}
       </div>
       {helpText && (
-        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+        <span style={{ fontSize: "11px", color: "#6D7175", lineHeight: "14px" }}>{helpText}</span>
       )}
     </div>
   );
 }
 
 // ─── Visual Selector Card: Corner Motif Size ────────────────────────────────
+// ─── Apple-Style Compact Segmented Selector: Corner Motif Size ──────────────
 function VisualSizeSelector({ label, value, onChange, helpText, festival, cornerMotif }) {
   const options = [
-    { value: "small", label: "Small", px: "56px", iconScale: 16, previewSize: 20, detail: "Subtle" },
-    { value: "medium", label: "Medium", px: "76px", iconScale: 22, previewSize: 26, detail: "Standard", badge: "Default" },
-    { value: "large", label: "Large", px: "96px", iconScale: 28, previewSize: 32, detail: "Majestic" },
+    { value: "small", label: "Small", sub: "56px", previewSize: 18 },
+    { value: "medium", label: "Medium", sub: "76px", previewSize: 22, badge: "Default" },
+    { value: "large", label: "Large", sub: "96px", previewSize: 26 },
   ];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
       <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          background: "#F1F2F4",
+          padding: "3px",
+          borderRadius: "9px",
+          gap: "3px",
+        }}
+      >
         {options.map((opt) => {
           const isSelected = value === opt.value;
           return (
-            <div
+            <button
               key={opt.value}
+              type="button"
               onClick={() => onChange(opt.value)}
               style={{
-                borderRadius: "8px",
-                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
-                background: isSelected ? "#F0FDF4" : "#FFFFFF",
-                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
-                padding: "8px 6px",
-                cursor: "pointer",
-                transition: "all 0.18s ease-in-out",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                textAlign: "center",
-                gap: "5px",
+                justifyContent: "center",
+                gap: "3px",
+                padding: "8px 6px",
+                borderRadius: "7px",
+                border: "none",
+                background: isSelected ? "#FFFFFF" : "transparent",
+                color: isSelected ? "#008060" : "#5C5F62",
+                boxShadow: isSelected ? "0 1px 3px rgba(0,0,0,0.1), 0 0 0 0.5px rgba(0,0,0,0.04)" : "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
               }}
             >
-              <div
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "50%",
-                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  overflow: "hidden",
-                }}
-              >
+              <div style={{ height: "26px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 {festival ? (
                   <DynamicCornerWidget festival={festival} size={opt.previewSize} cornerMotif={cornerMotif} />
                 ) : (
-                  <span style={{ fontSize: `${opt.iconScale}px`, lineHeight: 1 }}>🪔</span>
+                  <span style={{ fontSize: `${opt.previewSize}px`, lineHeight: 1 }}>⭐</span>
                 )}
               </div>
-              <div>
-                <div style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
+                <span style={{ fontSize: "11px", fontWeight: isSelected ? 600 : 500 }}>
                   {opt.label}
-                </div>
-                <div style={{ fontSize: "9.5px", color: "#6D7175" }}>{opt.px}</div>
-              </div>
-              {opt.badge && (
-                <span style={{ fontSize: "8.5px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
-                  {opt.badge}
                 </span>
-              )}
-            </div>
+                <span style={{ fontSize: "9px", color: isSelected ? "#008060" : "#8C9196" }}>
+                  {opt.sub}
+                </span>
+              </div>
+            </button>
           );
         })}
       </div>
       {helpText && (
-        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+        <span style={{ fontSize: "11px", color: "#6D7175", lineHeight: "14px" }}>{helpText}</span>
       )}
     </div>
   );
@@ -541,138 +509,103 @@ function getFlowerSrc(style, i) {
   return (i % 2 === 0) ? REAL_FLOWERS.real_marigold_orange : REAL_FLOWERS.real_marigold_yellow;
 }
 
-// ─── Visual Selector Card: Garland Architecture ────────────────────────────
+// ─── Apple-Style Compact Segmented Selector: Garland Architecture ────────────
 function VisualGarlandLayoutSelector({ label, value, onChange, helpText }) {
   const options = [
     {
       value: "top_and_sides",
-      title: "Top & Both Sides",
-      subtitle: "Full Framing",
-      badge: "Popular",
-      topGarland: true,
-      sideGarlands: true,
+      label: "Top & Sides",
+      icon: (
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="15" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <line x1="2" y1="3" x2="20" y2="3" stroke="#2E7D32" strokeWidth="2.4" strokeLinecap="round"/>
+          <line x1="3" y1="3" x2="3" y2="13" stroke="#2E7D32" strokeWidth="1.8" strokeLinecap="round"/>
+          <line x1="19" y1="3" x2="19" y2="13" stroke="#2E7D32" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
+      ),
     },
     {
       value: "top_only",
-      title: "Top Toran Only",
-      subtitle: "Header Arch",
-      topGarland: true,
-      sideGarlands: false,
+      label: "Top Only",
+      icon: (
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="15" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <line x1="2" y1="3" x2="20" y2="3" stroke="#2E7D32" strokeWidth="2.4" strokeLinecap="round"/>
+        </svg>
+      ),
     },
     {
       value: "sides_only",
-      title: "Side Cascades Only",
-      subtitle: "Screen Margins",
-      topGarland: false,
-      sideGarlands: true,
+      label: "Sides Only",
+      icon: (
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="15" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <line x1="3" y1="3" x2="3" y2="13" stroke="#2E7D32" strokeWidth="1.8" strokeLinecap="round"/>
+          <line x1="19" y1="3" x2="19" y2="13" stroke="#2E7D32" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
+      ),
     },
     {
       value: "off",
-      title: "Off",
-      subtitle: "No Framing",
-      isOff: true,
+      label: "Off",
+      icon: (
+        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="15" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <line x1="5" y1="13" x2="17" y2="3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+        </svg>
+      ),
     },
   ];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
       <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          background: "#F1F2F4",
+          padding: "3px",
+          borderRadius: "9px",
+          gap: "3px",
+        }}
+      >
         {options.map((opt) => {
           const isSelected = value === opt.value;
           return (
-            <div
+            <button
               key={opt.value}
+              type="button"
               onClick={() => onChange(opt.value)}
+              title={opt.label}
               style={{
-                borderRadius: "8px",
-                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
-                background: isSelected ? "#F0FDF4" : "#FFFFFF",
-                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
-                padding: "8px 10px",
-                cursor: "pointer",
-                transition: "all 0.18s ease-in-out",
                 display: "flex",
                 flexDirection: "column",
-                gap: "6px",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "4px",
+                padding: "7px 4px",
+                borderRadius: "7px",
+                border: "none",
+                background: isSelected ? "#FFFFFF" : "transparent",
+                color: isSelected ? "#008060" : "#5C5F62",
+                boxShadow: isSelected ? "0 1px 3px rgba(0,0,0,0.1), 0 0 0 0.5px rgba(0,0,0,0.04)" : "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
               }}
             >
-              {/* Mini Schematic */}
-              <div
-                style={{
-                  height: "38px",
-                  borderRadius: "5px",
-                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
-                  border: isSelected ? "1px solid #A5D6A7" : "1px solid #E4E5E7",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                {opt.topGarland && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "5px",
-                      background: "linear-gradient(90deg, #FF9800, #FFD54F, #FF9800)",
-                      boxShadow: "0 1px 3px rgba(255,152,0,0.5)",
-                    }}
-                  />
-                )}
-                {opt.sideGarlands && (
-                  <>
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "5px",
-                        left: "2px",
-                        width: "3px",
-                        bottom: "3px",
-                        background: "linear-gradient(180deg, #2E7D32, #FF9800, #2E7D32)",
-                        borderRadius: "1px",
-                      }}
-                    />
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "5px",
-                        right: "2px",
-                        width: "3px",
-                        bottom: "3px",
-                        background: "linear-gradient(180deg, #2E7D32, #FF9800, #2E7D32)",
-                        borderRadius: "1px",
-                      }}
-                    />
-                  </>
-                )}
-                {opt.isOff && (
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "#9CA3AF", fontSize: "14px", fontWeight: 700 }}>
-                    ⊘
-                  </div>
-                )}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {opt.icon}
               </div>
-
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
-                    {opt.title}
-                  </span>
-                  {opt.badge && (
-                    <span style={{ fontSize: "9px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
-                      {opt.badge}
-                    </span>
-                  )}
-                </div>
-                <span style={{ fontSize: "10px", color: "#6D7175" }}>{opt.subtitle}</span>
-              </div>
-            </div>
+              <span style={{ fontSize: "10px", fontWeight: isSelected ? 600 : 500, letterSpacing: "-0.2px", whiteSpace: "nowrap" }}>
+                {opt.label}
+              </span>
+            </button>
           );
         })}
       </div>
       {helpText && (
-        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+        <span style={{ fontSize: "11px", color: "#6D7175", lineHeight: "14px" }}>{helpText}</span>
       )}
     </div>
   );
@@ -798,128 +731,133 @@ function VisualFlowerSelector({ label, value, onChange, helpText }) {
   );
 }
 
-// ─── Visual Selector Card: Toran Docking Position ───────────────────────────
+// ─── Apple-Style Compact Segmented Selector: Garland Docking Position ────────
 function VisualDockingSelector({ label, value, onChange, helpText }) {
   const options = [
     {
       value: "below_header",
-      title: "Below Navigation",
-      subtitle: "Recommended — 100% Transparent",
-      badge: "Standard",
-      isBelow: true,
+      label: "Below Navigation",
+      sub: "Recommended",
+      icon: (
+        <svg width="22" height="15" viewBox="0 0 22 15" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="14" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <rect x="2" y="2" width="18" height="3" fill="#202223" rx="0.8"/>
+          <line x1="2" y1="7" x2="20" y2="7" stroke="#008060" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
+      ),
     },
     {
       value: "top_fixed",
-      title: "Top of Screen",
-      subtitle: "Fixed 0px Ceiling",
-      isBelow: false,
+      label: "Top of Screen",
+      sub: "Fixed Ceiling",
+      icon: (
+        <svg width="22" height="15" viewBox="0 0 22 15" fill="none">
+          <rect x="0.5" y="0.5" width="21" height="14" rx="2.5" stroke="currentColor" strokeWidth="1" opacity="0.45"/>
+          <line x1="2" y1="2.5" x2="20" y2="2.5" stroke="#008060" strokeWidth="2.2" strokeLinecap="round"/>
+          <rect x="2" y="5" width="18" height="3" fill="#202223" rx="0.8"/>
+        </svg>
+      ),
     },
   ];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
       <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          background: "#F1F2F4",
+          padding: "3px",
+          borderRadius: "9px",
+          gap: "3px",
+        }}
+      >
         {options.map((opt) => {
           const isSelected = value === opt.value;
           return (
-            <div
+            <button
               key={opt.value}
+              type="button"
               onClick={() => onChange(opt.value)}
               style={{
-                borderRadius: "8px",
-                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
-                background: isSelected ? "#F0FDF4" : "#FFFFFF",
-                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
-                padding: "8px 10px",
-                cursor: "pointer",
-                transition: "all 0.18s ease-in-out",
                 display: "flex",
-                flexDirection: "column",
-                gap: "6px",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                padding: "8px 10px",
+                borderRadius: "7px",
+                border: "none",
+                background: isSelected ? "#FFFFFF" : "transparent",
+                color: isSelected ? "#008060" : "#5C5F62",
+                boxShadow: isSelected ? "0 1px 3px rgba(0,0,0,0.1), 0 0 0 0.5px rgba(0,0,0,0.04)" : "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
               }}
             >
-              {/* Mini Schematic */}
-              <div
-                style={{
-                  height: "36px",
-                  borderRadius: "5px",
-                  background: isSelected ? "#E8F5E9" : "#F6F6F7",
-                  border: isSelected ? "1px solid #A5D6A7" : "1px solid #E4E5E7",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                {opt.isBelow ? (
-                  <>
-                    <div style={{ height: "12px", background: "#18181B", width: "100%", display: "flex", alignItems: "center", padding: "0 4px" }}>
-                      <div style={{ width: "12px", height: "3px", background: "#FFFFFF", borderRadius: "1px", opacity: 0.8 }} />
-                    </div>
-                    <div style={{ height: "4px", background: "linear-gradient(90deg, #FF9800, #FFD54F, #FF9800)", width: "100%" }} />
-                  </>
-                ) : (
-                  <>
-                    <div style={{ height: "4px", background: "linear-gradient(90deg, #FF9800, #FFD54F, #FF9800)", width: "100%" }} />
-                    <div style={{ height: "12px", background: "#18181B", width: "100%", display: "flex", alignItems: "center", padding: "0 4px" }}>
-                      <div style={{ width: "12px", height: "3px", background: "#FFFFFF", borderRadius: "1px", opacity: 0.8 }} />
-                    </div>
-                  </>
-                )}
+              {opt.icon}
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", textAlign: "left" }}>
+                <span style={{ fontSize: "11px", fontWeight: isSelected ? 600 : 500, lineHeight: 1.2 }}>
+                  {opt.label}
+                </span>
+                <span style={{ fontSize: "9px", color: isSelected ? "#008060" : "#8C9196" }}>
+                  {opt.sub}
+                </span>
               </div>
-
-              <div>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <span style={{ fontSize: "11.5px", fontWeight: isSelected ? 700 : 600, color: isSelected ? "#008060" : "#202223" }}>
-                    {opt.title}
-                  </span>
-                  {opt.badge && (
-                    <span style={{ fontSize: "9px", background: "#E3F1DF", color: "#008060", padding: "1px 4px", borderRadius: "3px", fontWeight: 700 }}>
-                      {opt.badge}
-                    </span>
-                  )}
-                </div>
-                <span style={{ fontSize: "10px", color: "#6D7175" }}>{opt.subtitle}</span>
-              </div>
-            </div>
+            </button>
           );
         })}
       </div>
       {helpText && (
-        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+        <span style={{ fontSize: "11px", color: "#6D7175", lineHeight: "14px" }}>{helpText}</span>
       )}
     </div>
   );
 }
 
-// ─── Visual Selector Card: Corner Motif Style ───────────────────────────────
+// ─── Apple-Style Compact Icon Grid: Corner Motif Style ──────────────────────
 function VisualMotifSelector({ label, value, options = [], festival, onChange, helpText }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px", margin: "4px 0" }}>
       <span style={{ fontSize: "12.5px", fontWeight: 600, color: "#202223" }}>{label}</span>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "6px",
+          background: "#F6F6F7",
+          padding: "6px",
+          borderRadius: "10px",
+        }}
+      >
         {options.map((opt) => {
           const isSelected = value === opt.value;
+          const cleanName = opt.label.replace(/^[^a-zA-Z0-9]+/, "").trim();
           return (
-            <div
+            <button
               key={opt.value}
+              type="button"
               onClick={() => onChange(opt.value)}
+              title={cleanName}
               style={{
-                borderRadius: "8px",
-                border: isSelected ? "2px solid #008060" : "1.5px solid #E1E3E5",
-                background: isSelected ? "#F0FDF4" : "#FFFFFF",
-                boxShadow: isSelected ? "0 0 0 1px #008060, 0 2px 6px rgba(0, 128, 96, 0.12)" : "0 1px 2px rgba(0,0,0,0.04)",
-                padding: "8px",
-                cursor: "pointer",
-                transition: "all 0.18s ease-in-out",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: "7px",
+                padding: "6px 12px 6px 8px",
+                borderRadius: "8px",
+                border: isSelected ? "1.5px solid #008060" : "1px solid rgba(0,0,0,0.06)",
+                background: "#FFFFFF",
+                boxShadow: isSelected
+                  ? "0 2px 6px rgba(0, 128, 96, 0.16), 0 0 0 1px #008060"
+                  : "0 1px 2px rgba(0,0,0,0.04)",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
               }}
             >
               <div
                 style={{
-                  width: "36px",
-                  height: "36px",
+                  width: "28px",
+                  height: "28px",
                   borderRadius: "6px",
                   background: isSelected ? "#E8F5E9" : "#F6F6F7",
                   display: "flex",
@@ -929,30 +867,24 @@ function VisualMotifSelector({ label, value, options = [], festival, onChange, h
                   overflow: "hidden",
                 }}
               >
-                <DynamicCornerWidget festival={festival} size={28} cornerMotif={opt.value} />
+                <DynamicCornerWidget festival={festival} size={22} cornerMotif={opt.value} />
               </div>
-              <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-                <span
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: isSelected ? 700 : 600,
-                    color: isSelected ? "#008060" : "#202223",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                  title={opt.label}
-                >
-                  {opt.label.replace(/^[^\s]+\s*/, "")}
-                </span>
-                <span style={{ fontSize: "9.5px", color: "#6D7175" }}>Authentic Symbol</span>
-              </div>
-            </div>
+              <span
+                style={{
+                  fontSize: "11px",
+                  fontWeight: isSelected ? 600 : 500,
+                  color: isSelected ? "#008060" : "#202223",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {cleanName}
+              </span>
+            </button>
           );
         })}
       </div>
       {helpText && (
-        <span style={{ fontSize: "11.5px", color: "#6D7175", lineHeight: "15px" }}>{helpText}</span>
+        <span style={{ fontSize: "11px", color: "#6D7175", lineHeight: "14px" }}>{helpText}</span>
       )}
     </div>
   );
